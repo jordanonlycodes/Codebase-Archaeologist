@@ -1,0 +1,15 @@
+{
+  "pdf_pages": 28,
+  "required_sections_including_cover": 19,
+  "figures": 9,
+  "docx_words": 5707,
+  "exact_saved_metrics_in_both_documents": true,
+  "shared_substantive_paragraphs_match": true,
+  "docx_xml_and_relationships_valid": true,
+  "student_identity_and_metadata_valid": true,
+  "pdf_text_outside_page": [],
+  "empty_pdf_pages": 0,
+  "evidence_and_output_checksums_valid": true,
+  "visual_checks": "Separate manual rendering review; not asserted by this script.",
+  "docx_pagination": "Not visually verified: LibreOffice conversion unavailable in sandbox."
+}

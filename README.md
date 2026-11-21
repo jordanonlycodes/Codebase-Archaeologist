@@ -227,4 +227,16 @@ Scores are **uncalibrated estimated model probabilities**, not confirmed vulnera
 
 Task 3A verification: **140 passed, 0 failed, 0 skipped** including all 120 earlier tests and 20 inference/integration cases. New tests only load saved artifacts or use explicit test doubles; they never fit a model or access the dataset. The preserved Task 2 regression tests still perform their two tiny authentic-subset Logistic Regression fits. No full model training or held-out evaluation was rerun. The real ZIP API smoke test scored two C functions alongside Python/C++ files. JavaScript syntax and dependency checks passed. Uvicorn startup succeeded but local port binding was blocked; Chromium also failed with a sandbox socket permission error, so visual/browser interaction verification remains outstanding.
 
-Next: Task 3B's academic report is **not implemented**. Future work includes independent-project evaluation, calibration, and the planned Task 5 visual redesign. No aggregate repository probability or invented feature attribution is provided.
+Task 3B's academic report is linked below. Future work includes independent-project evaluation, calibration, and the planned Task 5 visual redesign. No aggregate repository probability or invented feature attribution is provided.
+
+## Academic report (Task 3B)
+
+The [submission PDF](submission/Codebase_Archaeologist_Report.pdf) and [editable DOCX](submission/Codebase_Archaeologist_Report.docx) document Tasks 1, 2 and 3A for Bilal Malik (24P-3061), FAST-NUCES, Peshawar. The report covers dataset provenance, preprocessing, genuine EDA, exact recorded validation/test metrics, architecture, implementation, testing and limitations. Future features are explicitly identified as proposals; no academic-report generation step retrains or evaluates a model.
+
+Regenerate both formats from the same content source using the existing ML plotting dependencies:
+
+```bash
+.venv/bin/python tools/generate_report.py
+```
+
+The generator uses Matplotlib/Pillow and standard-library Office Open XML packaging; it requires no extra application dependencies or remote downloads. Saved evidence comes from `reports/ml/`; local artifact metadata is cross-checked when present. [Report manifest](submission/report_manifest.json) records source hashes and document metadata. See [submission notes](submission/README.md) for document validation and rendering limitations. The full premium README redesign remains future Task 5 work.
