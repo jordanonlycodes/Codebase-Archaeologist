@@ -20,7 +20,7 @@ function riskBars(id, entries) {
     row.append(title, bar);
     container.append(row);
   }
-  if (!entries.length) container.append(node('p', 'No analyzed functions.', 'muted'));
+  if (!entries.length) container.append(node('p', 'No analyzed functions to display.', 'risk-chart-empty'));
 }
 
 function renderDefectRisk(data) {
@@ -35,15 +35,15 @@ function renderDefectRisk(data) {
   $('risk-sort').value = 'score';
   for (const [id, value] of [['risk-analyzed', data.analyzed_functions], ['risk-positive', data.defect_related], ['risk-negative', data.non_defect_related], ['risk-skipped', data.skipped_functions]]) $(id).textContent = number(value);
   $('risk-coverage').textContent = `${data.eligible_files} eligible .c files · ${data.unsupported_source_files} source files outside C-only ML scope · ${data.file_issues.length} file issues. Unparsed or unprocessed functions are not counted as zero defects. Model: ${data.model_version || 'unavailable'}.`;
-  riskBars('risk-classes', [['Defect-related', data.defect_related], ['Non-defect-related', data.non_defect_related]]);
   const scored = data.functions.filter(f => f.status === 'analyzed');
+  riskBars('risk-classes', scored.length ? [['Defect-related', data.defect_related], ['Non-defect-related', data.non_defect_related]] : []);
   const bins = [0, 0, 0, 0, 0];
   const grouped = new Map();
   for (const f of scored) {
     bins[Math.min(4, Math.floor(f.model_probability * 5))]++;
     grouped.set(f.path, (grouped.get(f.path) || 0) + (f.predicted_class === 1 ? 1 : 0));
   }
-  riskBars('risk-histogram', bins.map((count, i) => [`${i * 20}–${(i + 1) * 20}%${i === 4 ? ' inclusive' : ' (upper excluded)'}`, count]));
+  riskBars('risk-histogram', scored.length ? bins.map((count, i) => [`${i * 20}–${(i + 1) * 20}%${i === 4 ? ' inclusive' : ' (upper excluded)'}`, count]) : []);
   riskBars('risk-files', [...grouped].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 8));
   $('risk-priority').replaceChildren();
   for (const f of [...scored].sort((a, b) => b.model_probability - a.model_probability).slice(0, 5)) {
@@ -54,7 +54,8 @@ function renderDefectRisk(data) {
     item.append(button);
     $('risk-priority').append(item);
   }
-  if (!scored.length) $('risk-priority').append(node('li', 'No scored functions to prioritize.'));
+  $('risk-priority').closest('.risk-review').classList.toggle('is-empty', !scored.length);
+  if (!scored.length) $('risk-priority').append(node('li', 'No scored functions to prioritize.', 'risk-empty-item'));
   $('risk-issues').hidden = !data.file_issues.length;
   $('risk-issue-list').replaceChildren(...data.file_issues.map(issue => node('li', `${issue.path}: ${issue.reason.replaceAll('_', ' ')}`)));
   renderRiskTable();
@@ -69,7 +70,15 @@ function renderRiskTable() {
     (filter === 'all' || (filter === 'skipped' ? f.status !== 'analyzed' : f.predicted_class !== null && String(f.predicted_class) === filter)));
   rows.sort((a, b) => (sort === 'score' ? (b.model_probability ?? -1) - (a.model_probability ?? -1) : sort === 'name' ? (a.name || '').localeCompare(b.name || '') : a.path.localeCompare(b.path)) || a.path.localeCompare(b.path) || a.start_line - b.start_line);
   riskPage = Math.min(riskPage, Math.max(0, Math.ceil(rows.length / riskPageSize) - 1));
+  $('risk-rows').closest('.risk-table-panel').classList.toggle('is-empty', !rows.length);
   $('risk-rows').replaceChildren();
+  if (!rows.length) {
+    const empty = node('tr', undefined, 'risk-table-empty');
+    const cell = node('td', riskData.functions.length ? 'No functions match these filters.' : 'No C functions were extracted for this upload.');
+    cell.colSpan = 6;
+    empty.append(cell);
+    $('risk-rows').append(empty);
+  }
   for (const f of rows.slice(riskPage * riskPageSize, (riskPage + 1) * riskPageSize)) {
     const row = node('tr');
     const name = node('td');
@@ -78,6 +87,7 @@ function renderRiskTable() {
     button.addEventListener('click', () => showRiskDetail(f));
     name.append(button);
     row.append(name, node('td', f.path), node('td', `${f.start_line}–${f.end_line}`), node('td', riskLabel(f)), node('td', riskScore(f)), node('td', f.status.replaceAll('_', ' ')));
+    for (const [index, cell] of [...row.cells].entries()) cell.dataset.label = ['Function', 'File', 'Lines', 'Predicted class', 'Model score', 'Status'][index];
     $('risk-rows').append(row);
   }
   $('risk-page-label').textContent = rows.length ? `${riskPage * riskPageSize + 1}–${Math.min((riskPage + 1) * riskPageSize, rows.length)} of ${rows.length} functions` : 'No functions match these filters.';
