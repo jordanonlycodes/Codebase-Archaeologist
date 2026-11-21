@@ -12,7 +12,7 @@ from app.middleware import UploadBoundary
 from app.routes import analysis, dashboard
 
 app = FastAPI(title="Codebase Archaeologist", version="0.1.0",
-              description="Safe ZIP ingestion and deterministic repository metrics. No trained risk model is configured.")
+              description="Safe ZIP ingestion and deterministic repository metrics. Optional trusted C-function defect-risk inference.")
 app.add_middleware(UploadBoundary)
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 app.include_router(dashboard.router)

@@ -2,7 +2,7 @@
 
 A local repository intelligence dashboard built with FastAPI, Jinja2, vanilla JavaScript and custom CSS. Upload a repository ZIP to inspect real file, language and line metrics. Uploaded code is **never executed**.
 
-Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Model predictions are **not integrated into the dashboard**. GitHub URL ingestion remains unavailable.
+Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Task 3A integrates that saved model into ZIP analysis and a C-only Defect Risk Intelligence dashboard. GitHub URL ingestion remains unavailable.
 
 ## Install on Ubuntu
 
@@ -18,7 +18,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Package installation requires access to PyPI. The dashboard needs no database, credentials, Node build, containers or ML packages. Dashboard assets are local; the optional Swagger API documentation uses FastAPI's default CDN assets. The optional training dependencies and commands are documented below.
+Package installation requires access to PyPI. Static analysis needs no database, credentials, Node build, containers or ML packages. C-function predictions require the optional ML dependencies and trusted local artifacts. Dashboard assets are local; the optional Swagger API documentation uses FastAPI's default CDN assets. The optional training dependencies and commands are documented below.
 
 ## Run
 
@@ -29,7 +29,7 @@ source .venv/bin/activate
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Open **http://127.0.0.1:8000**. Select or drop a ZIP; analysis starts immediately. Progress reflects bytes uploaded, followed by an indeterminate validation/scanning state. Results include searchable, sortable, paginated files and a JSON download. New failures retain the previous successful analysis with an explicit notice.
+Open **http://127.0.0.1:8000**. Select or drop a ZIP; analysis starts immediately. Progress reflects bytes uploaded, followed by an indeterminate validation/scanning/C-inference state. Results include searchable, sortable, paginated files and a JSON download. New failures retain the previous successful analysis with an explicit notice.
 
 Use this as a local, single-user application. Two analyses per process may run concurrently; additional requests receive `429`. Normal completion and handled failures remove uploaded/extracted temporary files. A process crash or forced termination may leave OS temporary files; normal OS temporary-directory cleanup still applies. Results are held in browser memory, not persisted.
 
@@ -202,8 +202,29 @@ Actual plots, descriptive statistics, comparisons and evaluation records are in 
 
 Verification: **120 tests passed** (73 existing application tests plus 47 targeted ML tests), including deterministic extraction, leakage prevention, actual model serialization/loading and reproducibility on 128 authentic training records. No synthetic labels were used to train or evaluate models. Cleaning/metric unit fixtures test mechanics only. One existing upstream Starlette/httpx deprecation warning remains. See [the pipeline guide](docs/ml_pipeline.md) for the sandbox test runner and failure recovery.
 
-## Task 3 integration seam
+## Task 3A: real C-function defect intelligence
 
-`app/ml/inference.py` preserves `RiskModel`, `RiskPrediction` and `UnavailableModel`, and adds `FunctionRiskModel.predict_function(source)`. `LocalCFunctionModel` in `app/ml/c_model.py` explicitly loads a trusted local artifact, checks schema/version/checksum compatibility and uses the same feature extractor. It abstains on missing, malformed or unparseable C input. Joblib files can execute code during loading; uploaded repositories must never supply model artifacts.
+The ZIP API now adds `defect_risk` while preserving existing inventory and static metrics. Eligible lowercase `.c` files are parsed with Tree-sitter. Genuine function definitions are scored with the unchanged Task 2 features and saved Random Forest pipeline. No training, dataset access, uploaded model loading or code execution occurs during analysis.
 
-The repository-level `predict(AnalysisResult)` remains unavailable because aggregate repository totals cannot supply C-function features. Task 3 needs function extraction with source locations, explicit model loading, abstention reporting and a justified aggregation policy. Calibration and independent-project evaluation remain necessary before production use. No FastAPI route or dashboard invokes a model in Task 2.
+The black-and-crimson dashboard includes actual analyzed/class/skipped counts, searchable and paginated function results, class and score distributions, findings grouped by file, review priorities, and a feature detail panel. Charts use accessible native progress bars; no Chart.js installation or CDN is needed. JSON export includes the full ML result. Searching, sorting, selecting and navigation reuse the response without inference requests.
+
+### Enable inference
+
+```bash
+source .venv/bin/activate
+# Install the recorded environment when using the existing model (Python 3.14.10).
+python -m pip install -r requirements-ml-frozen.txt
+# Optional: defaults to artifacts/devign-v1 relative to the project, not the shell cwd.
+export ARCHAEOLOGIST_MODEL_DIR=/absolute/path/to/trusted/devign-v1
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Open http://127.0.0.1:8000 and choose a repository ZIP containing `.c` files. The model loads once on the first eligible request in each server process. Package versions, feature schema/order, binary checksum, classifier type and class labels are validated. The operator-configured directory is trusted: **never point it at uploaded or untrusted content**. A failed load is cached until server restart. Missing, corrupt or incompatible artifacts produce a visible unavailable state; static results remain functional.
+
+Restore `pipeline.joblib`, `metadata.json` and `feature_schema.json` together from a trusted backup of `artifacts/devign-v1/`, install matching recorded package versions and restart. Git intentionally does not include model binaries; cloning alone does not enable predictions. Recovery does not require raw datasets. If no trusted artifact exists, reproducing Task 2 is a separate explicit offline operation; the application never trains automatically. See [the inference API guide](docs/inference_api.md) for limits, statuses and diagnostic commands.
+
+Scores are **uncalibrated estimated model probabilities**, not confirmed vulnerabilities, severity or repository risk. Python, C++, JavaScript and other languages receive static analysis only. Unknown function counts from unreadable/limited files are reported as file issues, not invented skipped-function totals. Live inference abstains on invalid functions; benchmark evaluation included parse failures with imputation, so its coverage differs. The existing modest held-out performance remains unchanged.
+
+Task 3A verification: **140 passed, 0 failed, 0 skipped** including all 120 earlier tests and 20 inference/integration cases. New tests only load saved artifacts or use explicit test doubles; they never fit a model or access the dataset. The preserved Task 2 regression tests still perform their two tiny authentic-subset Logistic Regression fits. No full model training or held-out evaluation was rerun. The real ZIP API smoke test scored two C functions alongside Python/C++ files. JavaScript syntax and dependency checks passed. Uvicorn startup succeeded but local port binding was blocked; Chromium also failed with a sandbox socket permission error, so visual/browser interaction verification remains outstanding.
+
+Next: Task 3B's academic report is **not implemented**. Future work includes independent-project evaluation, calibration, and the planned Task 5 visual redesign. No aggregate repository probability or invented feature attribution is provided.

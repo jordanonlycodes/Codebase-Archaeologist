@@ -1,4 +1,4 @@
-"""Explicit offline inference adapter, intentionally not registered in FastAPI."""
+"""Explicit single-function adapter. HTTP batch integration uses the same extractor and loader."""
 
 from pathlib import Path
 

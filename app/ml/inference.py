@@ -1,4 +1,4 @@
-"""Inference contracts. HTTP analysis does not invoke or load a model.
+"""Inference contracts. HTTP C-function integration lives in repository.py.
 
 Task 1's repository contract remains available. Function models use source text
 through a separate compatible contract and return the same RiskPrediction type.
@@ -20,7 +20,7 @@ class RiskPrediction:
 
 class RiskModel(Protocol):
     def predict(self, analysis: AnalysisResult) -> RiskPrediction:
-        """Return a calibrated prediction from a trained, validated model."""
+        """Return a model estimate; calibration must not be assumed."""
         ...
 
 

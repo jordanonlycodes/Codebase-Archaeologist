@@ -81,6 +81,6 @@ def scan_repository(root: Path, repository: str, ingestion: dict,
             "Comment-only lines are counted for tokenizable Python and standard JSON only. Inline comments remain code lines; Python docstrings remain code. Null means unavailable, not zero.",
             "Language percentages use included file counts. Directories exclude the extraction root and excluded paths; archive wrapper directories are retained.",
             "Binary, nested archive, non-UTF-8, dependency, environment, cache and build files are omitted. No repository code was executed.",
-            "These are descriptive metrics, not vulnerability findings. No trained model or risk prediction is available.",
+            "These static metrics are descriptive, not vulnerability findings. Optional C-function model results are reported separately.",
         ],
     )

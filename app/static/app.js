@@ -45,7 +45,8 @@ function upload(file) {
     }
   };
   request.upload.onload = () => {
-    $("status-text").textContent = `Analyzing ${file.name} · validating and scanning…`;
+    $("defect-risk").setAttribute("aria-busy", "true");
+    $("status-text").textContent = `Analyzing ${file.name} · validating, scanning and analyzing eligible C functions…`;
     $("upload-progress").removeAttribute("value");
     $("cancel-upload").hidden = true;
   };
@@ -64,6 +65,7 @@ function upload(file) {
   request.ontimeout = () => { showError("Analysis timed out. Try a smaller archive. The server will clean up its temporary files when processing finishes."); $("upload-status").hidden = true; };
   request.onabort = () => { $("upload-status").hidden = true; showError("Upload canceled. You can choose another ZIP."); };
   request.onloadend = () => {
+    $("defect-risk").setAttribute("aria-busy", "false");
     activeRequest = null;
     $("choose-file").disabled = false;
     $("drop-zone").classList.remove("busy");
@@ -76,6 +78,7 @@ function upload(file) {
 }
 
 function renderResult() {
+  renderDefectRisk(result.defect_risk);
   const s = result.summary;
   $("result-title").textContent = result.repository;
   $("result-badge").textContent = "Analysis complete";

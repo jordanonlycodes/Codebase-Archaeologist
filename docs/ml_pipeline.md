@@ -119,6 +119,8 @@ raise SystemExit(pytest.main(['-q']))
 PY
 ```
 
-## Next integration requirements
+## Task 3A integration
 
-Task 3 needs C function boundaries and file/line locations from repository files, the existing shared extractor, explicit model loading, parsing-abstention handling, and an honest description of uncalibrated function scores. A repository-level score needs a separate justified aggregation contract; `AnalysisResult` totals cannot substitute for C function source. Independent-project evaluation and calibration are still required before practical security claims. The current test ROC-AUC of 0.5874 and 635 false positives demonstrate this limitation.
+Task 3A now implements Tree-sitter C function boundaries and file/line locations, shared feature extraction, trusted cached Random Forest loading, parsing abstention and explicitly uncalibrated function scores. See [the inference API guide](inference_api.md). The selected model and benchmark results have not changed. A repository-level score needs a separate justified aggregation contract; `AnalysisResult` totals cannot substitute for C function source. Independent-project evaluation and calibration are still required before practical security claims. The current test ROC-AUC of 0.5874 and 635 false positives demonstrate this limitation.
+
+The repository service calls `extract_features` for each extracted definition and constructs float64 rows in `FEATURE_NAMES` order, identical to `feature_matrix`. It reuses the saved imputer and estimator without fitting. Only parseable functions are scored; individual valid functions can still be scored from a file containing other parse errors, with a file-level warning. Task 3B academic documentation is outside this implementation.

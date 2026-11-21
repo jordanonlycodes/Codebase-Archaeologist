@@ -1243,3 +1243,36 @@ footer {
   }
 
 }
+
+/* Defect intelligence: black and crimson, scoped to the ML workspace. */
+.risk-section { --risk-accent: #E54859; margin: 36px 0; padding: 30px; border: 1px solid #60313d; border-radius: 18px; background: linear-gradient(135deg, #30151D 0%, #0A0A0D 52%); color: #F8E8EA; scroll-margin-top: 24px; }
+.risk-section .eyebrow, .risk-section .text-button { color: #F28B97; }
+.risk-section h2 { font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -.035em; }
+.risk-section h3 { margin-bottom: 16px; }
+.risk-section .panel, .risk-section .stat-card { background: #0A0A0D; border-color: #42232c; }
+.risk-section .stat-card { padding: 22px; }
+.risk-section .stat-card strong { color: #F8E8EA; }
+.risk-section .muted, .risk-disclaimer { color: #c2aeb3; line-height: 1.7; }
+.risk-disclaimer { max-width: 88ch; font-size: .88rem; }
+.risk-section .risk-stats { margin: 24px 0 12px; }
+.risk-charts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+.risk-bar { margin: 14px 0; }
+.risk-bar > div { display: flex; justify-content: space-between; gap: 16px; font-size: .8rem; overflow-wrap: anywhere; }
+.risk-bar progress { display: block; width: 100%; height: 7px; margin-top: 8px; accent-color: #E54859; border: 0; border-radius: 5px; background: #30151D; }
+.risk-bar progress::-webkit-progress-bar { background: #30151D; border-radius: 5px; }
+.risk-bar progress::-webkit-progress-value { background: #E54859; border-radius: 5px; }
+.risk-bar progress::-moz-progress-bar { background: #E54859; }
+.risk-review, .risk-detail { margin: 20px 0; }
+.risk-review li { padding: 6px 0; overflow-wrap: anywhere; }
+.risk-section button { transition: color .15s, border-color .15s; }
+.risk-section button:hover { color: #F8E8EA; border-color: #E54859; }
+.risk-section :focus-visible { outline: 2px solid #E54859; outline-offset: 4px; }
+.risk-section .inventory-toolbar label { display: grid; gap: 8px; font-size: .8rem; }
+.risk-section input, .risk-section select { background: #0A0A0D; color: #F8E8EA; border-color: #60313d; }
+.risk-section td { overflow-wrap: anywhere; }
+.risk-section details { margin-top: 20px; }
+.risk-section details li { margin: 10px 0; overflow-wrap: anywhere; }
+.risk-section[aria-busy="true"] { opacity: .65; }
+@media (max-width: 1100px) { .risk-charts { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .risk-section { padding: 18px 12px; } .risk-section .section-heading { align-items: flex-start; flex-direction: column; gap: 12px; } }
+@media (prefers-reduced-motion: reduce) { .risk-section * { transition: none; scroll-behavior: auto; } }

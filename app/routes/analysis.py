@@ -8,6 +8,7 @@ from starlette.datastructures import UploadFile
 from app.analysis.models import AnalysisResult
 from app.analysis.scanner import scan_repository
 from app.config import LIMITS
+from app.ml.repository import analyze_functions
 from app.errors import AnalysisError
 from app.ingestion.archive import extract_repository
 
@@ -25,7 +26,9 @@ def analyze_upload(upload: UploadFile) -> AnalysisResult:
     with TemporaryDirectory(prefix="archaeologist-") as temporary:
         root = Path(temporary)
         ingestion = extract_repository(upload.file, root)
-        return scan_repository(root, filename, ingestion)
+        result = scan_repository(root, filename, ingestion)
+        result.defect_risk = analyze_functions(root, result.files)
+        return result
 
 
 @router.post("/analyze", response_model=AnalysisResult, openapi_extra={

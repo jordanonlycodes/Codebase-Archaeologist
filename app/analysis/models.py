@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from app.ml.schemas import DefectRisk
 
 
 @dataclass
@@ -51,3 +52,4 @@ class AnalysisResult:
     skipped: dict[str, int]
     notes: list[str]
     schema_version: str = "1.0"
+    defect_risk: DefectRisk | None = None

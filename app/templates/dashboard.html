@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
     <script src="{{ url_for('static', path='app.js') }}" defer>
     </script>
+    <script src="{{ url_for('static', path='risk.js') }}" defer></script>
   </head>
   <body>
     <aside class="sidebar">
@@ -21,6 +22,7 @@
       <nav aria-label="Main navigation">
         <a class="nav-link active" href="#overview">
           <span aria-hidden="true">▦</span> Overview</a>
+        <a class="nav-link" href="#defect-risk"><span aria-hidden="true">◈</span> Defect intelligence</a>
         <a class="nav-link" href="#inventory">
           <span aria-hidden="true">≡</span> File inventory</a>
         <a class="nav-link" href="#methodology">
@@ -175,6 +177,37 @@
             </article>
           </div>
         </section>
+        <section class="risk-section" id="defect-risk" aria-labelledby="risk-title">
+          <div class="section-heading"><div><p class="eyebrow">C SOURCE · RESEARCH MODEL</p><h2 id="risk-title">Defect Risk Intelligence</h2></div><span class="pill">Random Forest</span></div>
+          <p id="risk-state" role="status" aria-live="polite">Upload a repository to explore its C functions.</p>
+          <p class="risk-disclaimer">A signal for manual review, not a vulnerability verdict. Scores are estimated model probabilities, not calibrated certainty. Other languages receive static analysis only.</p>
+          <div id="risk-results" hidden>
+            <div class="stats-grid risk-stats">
+              <article class="stat-card"><span>Analyzed C functions</span><strong id="risk-analyzed">—</strong></article>
+              <article class="stat-card"><span>Predicted defect-related</span><strong id="risk-positive">—</strong></article>
+              <article class="stat-card"><span>Predicted non-defect-related</span><strong id="risk-negative">—</strong></article>
+              <article class="stat-card"><span>Known skipped functions</span><strong id="risk-skipped">—</strong></article>
+            </div>
+            <p id="risk-coverage" class="muted"></p>
+            <div class="risk-charts">
+              <article class="panel"><h3>Predicted classes</h3><div id="risk-classes"></div></article>
+              <article class="panel"><h3>Model-score distribution</h3><p class="muted">Estimated probability of label 1</p><div id="risk-histogram"></div></article>
+              <article class="panel"><h3>Findings by file</h3><p class="muted">Top 8 files by defect-related count</p><div id="risk-files"></div></article>
+            </div>
+            <article class="panel risk-review"><h3>Prioritize manual review</h3><p class="muted">Top 5 scored functions, ordered by model score. Ranking is not severity.</p><ol id="risk-priority"></ol></article>
+            <div class="panel">
+              <div class="inventory-toolbar">
+                <label>Search functions or paths<input id="risk-search" type="search" placeholder="Function or file…"></label>
+                <label>Filter<select id="risk-filter"><option value="all">All functions</option><option value="1">Defect-related</option><option value="0">Non-defect-related</option><option value="skipped">Skipped</option></select></label>
+                <label>Sort<select id="risk-sort"><option value="score">Highest score</option><option value="name">Function name</option><option value="path">File location</option></select></label>
+              </div>
+              <div class="table-wrap"><table><thead><tr><th>Function</th><th>File</th><th>Lines</th><th>Predicted class</th><th>Model score</th><th>Status</th></tr></thead><tbody id="risk-rows"></tbody></table></div>
+              <div class="pagination"><span id="risk-page-label"></span><div><button type="button" class="button secondary" id="risk-prev">Previous</button><button type="button" class="button secondary" id="risk-next">Next</button></div></div>
+            </div>
+            <article id="risk-detail" class="panel risk-detail" tabindex="-1" hidden aria-labelledby="risk-detail-title"><h3 id="risk-detail-title"></h3><p id="risk-detail-location"></p><p id="risk-detail-prediction"></p><dl id="risk-feature-list" class="metric-list"></dl><p class="risk-disclaimer">These are measured syntax features, not causal explanations or feature attribution. Label 1 reflects vulnerability-related patterns in Devign. Label 0 does not establish safety. Held-out F1: 0.526; ROC-AUC: 0.587. False positives and missed defects are expected; inspect source and use independent testing.</p></article>
+            <details id="risk-issues" hidden><summary>Extraction and coverage issues</summary><ul id="risk-issue-list"></ul></details>
+          </div>
+        </section>
         <section class="panel inventory" id="inventory" aria-labelledby="inventory-title">
           <div class="panel-heading">
             <div>
@@ -245,7 +278,7 @@
           <div>
             <p class="eyebrow">TRANSPARENT BY DESIGN</p>
             <h2 id="scope-title">Know what’s being measured.</h2>
-            <p>This foundation maps your repository. Vulnerability detection and model-based risk analysis are not available yet.</p>
+            <p>Repository metrics describe structure. Optional C-function predictions identify defect-related patterns for manual review; they do not confirm vulnerabilities.</p>
           </div>
           <div class="scope-details">
             <details>
