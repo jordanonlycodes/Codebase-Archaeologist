@@ -1,0 +1,79 @@
+{
+  "completed_at": "2026-11-21T17:51:25.990036+00:00",
+  "evaluations": 1,
+  "integrity": {
+    "test": {
+      "contradictory_groups": 1,
+      "contradictory_hashes": [
+        "0e31795ecf5f676e064887ffa4c048c1c1dd7fd8792f49544b43cd382156aa0e"
+      ],
+      "exact_duplicate_excess_rows": 1,
+      "invalid_labels": 0,
+      "labels": {
+        "0": 1477,
+        "1": 1255
+      },
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0,
+        "target": 0
+      },
+      "normalized_duplicate_excess_rows": 1,
+      "normalized_duplicate_groups": 1,
+      "projects": {
+        "FFmpeg": 976,
+        "qemu": 1756
+      },
+      "rows": 2732
+    },
+    "test_rows_modified": 0,
+    "test_rows_with_development_label_disagreement": 5,
+    "used_for_model_selection": false
+  },
+  "metrics": {
+    "accuracy": 0.5552708638360175,
+    "class_counts": {
+      "0": 1477,
+      "1": 1255
+    },
+    "confusion_matrix": [
+      [
+        842,
+        635
+      ],
+      [
+        580,
+        675
+      ]
+    ],
+    "confusion_matrix_order": [
+      [
+        "TN",
+        "FP"
+      ],
+      [
+        "FN",
+        "TP"
+      ]
+    ],
+    "f1": 0.5263157894736842,
+    "false_negatives": 580,
+    "false_positive_rate": 0.4299255247122546,
+    "false_positives": 635,
+    "precision": 0.5152671755725191,
+    "recall": 0.5378486055776892,
+    "roc_auc": 0.5873540367979673,
+    "rows": 2732,
+    "threshold": 0.5
+  },
+  "model": "random_forest",
+  "parse_status": {
+    "expected_one_function": 2,
+    "ok": 2237,
+    "parse_error": 493
+  },
+  "selected_before_test": true,
+  "test_rows_modified": 0
+}

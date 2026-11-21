@@ -1,0 +1,6 @@
+Cleaning retained 21750 training and 2723 validation rows; removed 113 development rows.
+Training label 1 fraction is 0.4581; this is a dataset prevalence, not repository risk.
+Tree-sitter parsed 17721 of 21750 training snippets without errors; structural failures are missing values, not zeros.
+Test labels and test feature distributions were not used for development EDA.
+Official splits share projects; identical-function removal does not establish project-, time- or commit-independent generalization.
+Strongest absolute training feature correlation: function_bytes / nonblank_lines, Pearson r=0.9853.

@@ -1,7 +1,8 @@
-"""Integration seam for a future independently validated model.
+"""Inference contracts. HTTP analysis does not invoke or load a model.
 
-No model is loaded, no training occurs, and current HTTP analysis does not invoke
-inference. A future provider consumes the versioned deterministic result.
+Task 1's repository contract remains available. Function models use source text
+through a separate compatible contract and return the same RiskPrediction type.
+Repository totals cannot substitute for function-level features.
 """
 
 from dataclasses import dataclass
@@ -26,3 +27,9 @@ class RiskModel(Protocol):
 class UnavailableModel:
     def predict(self, analysis: AnalysisResult) -> RiskPrediction:
         raise NotImplementedError("No trained risk model is configured.")
+
+
+class FunctionRiskModel(Protocol):
+    def predict_function(self, source: str) -> RiskPrediction:
+        """Score one parseable C function; no repository aggregation is implied."""
+        ...

@@ -2,7 +2,7 @@
 
 A local repository intelligence dashboard built with FastAPI, Jinja2, vanilla JavaScript and custom CSS. Upload a repository ZIP to inspect real file, language and line metrics. Uploaded code is **never executed**.
 
-This is the Task 1 foundation. No model is trained or bundled, no vulnerability score is fabricated, and GitHub URL ingestion is not implemented or presented as available.
+Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Model predictions are **not integrated into the dashboard**. GitHub URL ingestion remains unavailable.
 
 ## Install on Ubuntu
 
@@ -18,7 +18,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-Package installation requires access to PyPI. This project needs no database, credentials, Node build, containers or ML packages. Dashboard assets are local; the optional Swagger API documentation uses FastAPI's default CDN assets.
+Package installation requires access to PyPI. The dashboard needs no database, credentials, Node build, containers or ML packages. Dashboard assets are local; the optional Swagger API documentation uses FastAPI's default CDN assets. The optional training dependencies and commands are documented below.
 
 ## Run
 
@@ -110,7 +110,19 @@ codebase-archaeologist/
 │   │   ├── lines.py            # Physical line and comment metrics
 │   │   └── policy.py           # Directory and binary exclusions
 │   ├── ml/
-│   │   └── inference.py        # Future RiskModel protocol
+│   │   ├── inference.py        # Repository and C-function contracts
+│   │   ├── acquire.py          # Pinned official data and license snapshots
+│   │   ├── dataset.py          # Schema validation, auditing and cleaning
+│   │   ├── features.py         # Shared Tree-sitter C features
+│   │   ├── prepare.py          # Development features and EDA
+│   │   ├── eda.py              # Plots and machine-readable statistics
+│   │   ├── estimators.py       # Three fixed sklearn pipelines
+│   │   ├── evaluation.py       # Metrics and validation selection
+│   │   ├── train.py            # Checkpointed training and single test pass
+│   │   ├── model_store.py      # Artifact integrity and compatibility
+│   │   ├── c_model.py          # Explicit offline C-function inference
+│   │   ├── report.py           # Reports from saved results
+│   │   └── io.py               # Checksums and atomic JSON records
 │   ├── templates/dashboard.html
 │   └── static/{app.js,styles.css,mark.svg}
 ├── tests/
@@ -118,10 +130,17 @@ codebase-archaeologist/
 │   ├── test_archive.py
 │   ├── test_scanner.py
 │   ├── test_api.py
-│   └── test_middleware.py
+│   ├── test_middleware.py
+│   └── ml/                    # Features, leakage, metrics, artifacts
+├── docs/ml_pipeline.md
+├── reports/ml/                # Actual EDA, plots and model results
+├── data/                      # Ignored raw/processed data
+├── artifacts/                 # Ignored trained pipelines/checkpoints
 ├── .gitignore
 ├── pytest.ini
 ├── requirements.txt
+├── requirements-ml.txt
+├── requirements-ml-frozen.txt
 └── README.md
 ```
 
@@ -141,8 +160,50 @@ For a live smoke test, start Uvicorn, then upload a repository ZIP with the `cur
 
 Task 1 verification: **73 tests passed** on Python 3.14.10 with FastAPI 0.165.0. Dependency checks, Python compilation, Python 3.10 grammar checks, JavaScript syntax and template rendering also passed. The installed Starlette version emits one upstream deprecation warning for its httpx-based test client. In the restricted build sandbox, tests required bounded event-loop polling because socket-based thread wake-ups were blocked; no application behavior was patched. Uvicorn completed application startup, but the sandbox denied local port binding. A Chromium preview was also blocked by socket restrictions, so live HTTP and visual browser verification remain outstanding on a normal local terminal.
 
-## Future ML integration
+## Task 2: dataset, features and training
 
-`app/ml/inference.py` defines `RiskModel.predict(analysis: AnalysisResult) -> RiskPrediction` and `UnavailableModel`, which raises `NotImplementedError`. `app/analysis/models.py` supplies the typed, versioned deterministic input. Future feature engineering and model providers can use this seam without mixing inference with ZIP ingestion or routing.
+The source is [google/code_x_glue_cc_defect_detection](https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection), pinned to revision `69bd48c03223c2104342acd9a807caf61ac3efb8`. The actual Parquet schema is `id: int32`, `func: string`, `target: bool`, `project: string`, `commit_id: string`. The provider declares **C-UDA** for the dataset; its dataset card, agreement text and source checksums are preserved locally. The MIT license on CodeXGLUE's software is a separate declaration.
 
-There is no model loading, training, inference endpoint or displayed prediction in this phase. Training data, calibration, evaluation and model lifecycle work are deliberately deferred.
+| Split | Official rows | Rows used | Label 0 / Label 1 used |
+| --- | ---: | ---: | ---: |
+| Train | 21,854 | 21,750 | 11,786 / 9,964 |
+| Validation | 2,732 | 2,723 | 1,539 / 1,184 |
+| Test | 2,732 | 2,732 | 1,477 / 1,255 |
+
+No missing fields were found. Cleaning quarantined all records in 54 contradictory development function groups and excluded 5 development functions matching test functions: 113 development rows removed in total. Cross-split identical-function overlap is zero after cleaning. The test set retains its one contradictory duplicate group. Shared commits and possible near duplicates remain a generalization limitation. Every removal has a recorded ID, hash and reason; no label is invented or changed.
+
+The shared `c-function-v1` extractor measures 11 features: physical lines, nonblank lines, function bytes, parameter count, conditional count, loop count, return count, maximum control nesting depth, approximate decision complexity, pointer syntax count and call count. Tree-sitter C parses source without execution. Parse errors retain lexical metrics and set structural metrics to missing. The training pipelines fit median imputation on training rows only; Logistic Regression also uses scaling. Metadata is never a predictive input.
+
+Install and reproduce from the project directory:
+
+```bash
+source .venv/bin/activate
+python -m pip install -r requirements-ml.txt
+python -m app.ml.acquire
+python -m app.ml.prepare
+python -m app.ml.train
+python -m app.ml.report
+python -m pytest -q
+```
+
+The acquisition command resolves an immutable revision on first use, caches the three official Parquet files and licensing information, then verifies checksums on reuse. To reproduce the exact recorded dataset revision in a fresh checkout, follow the pinned-manifest procedure in [the pipeline guide](docs/ml_pipeline.md#reproducing-the-recorded-source). `requirements-ml-frozen.txt` records the successful Python 3.14.10 environment; on the same Python version, install that file for exact package versions. The broader optional requirements permit compatible local environments, but binary model loading requires the recorded versions.
+
+The complete experiment fits each of three fixed configurations once with seed 42 and threshold 0.5. Selection uses validation F1, with recall, false positives and training/validation gap as documented tie-breakers. The selected pipeline is not refitted on validation data. The test set is evaluated once after selection. Completed runs are verified and reused on repeated commands; interrupted test evaluation is never automatically repeated.
+
+| Model | Validation accuracy | Precision | Recall | F1 | ROC-AUC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Logistic Regression | 0.5454 | 0.4707 | 0.3657 | 0.4116 | 0.5372 |
+| Random Forest | 0.5685 | 0.5035 | 0.5397 | 0.5210 | 0.6068 |
+| HistGradientBoosting | 0.5487 | 0.4820 | 0.5093 | 0.4953 | 0.5746 |
+
+**Selected: Random Forest.** Its untouched-test accuracy is **0.5553**, precision **0.5153**, recall **0.5378**, F1 **0.5263** and ROC-AUC **0.5874**. Confusion matrix `[[TN, FP], [FN, TP]]`: `[[842, 635], [580, 675]]`. Training F1 was 0.7334 versus validation 0.5210, indicating overfitting. These modest results do not establish a practical vulnerability detector; test-label prevalence alone gives an always-negative accuracy of 0.5406, and an always-positive predictor has higher F1 at the cost of a 100% false-positive rate.
+
+Actual plots, descriptive statistics, comparisons and evaluation records are in [reports/ml](reports/ml/README.md). The selected pipeline is `artifacts/devign-v1/pipeline.joblib`; schema, package versions, parameters, checksums and selection records are stored beside it. Raw data, processed matrices and model binaries are ignored by Git. The six report plots and small JSON reports are tracked.
+
+Verification: **120 tests passed** (73 existing application tests plus 47 targeted ML tests), including deterministic extraction, leakage prevention, actual model serialization/loading and reproducibility on 128 authentic training records. No synthetic labels were used to train or evaluate models. Cleaning/metric unit fixtures test mechanics only. One existing upstream Starlette/httpx deprecation warning remains. See [the pipeline guide](docs/ml_pipeline.md) for the sandbox test runner and failure recovery.
+
+## Task 3 integration seam
+
+`app/ml/inference.py` preserves `RiskModel`, `RiskPrediction` and `UnavailableModel`, and adds `FunctionRiskModel.predict_function(source)`. `LocalCFunctionModel` in `app/ml/c_model.py` explicitly loads a trusted local artifact, checks schema/version/checksum compatibility and uses the same feature extractor. It abstains on missing, malformed or unparseable C input. Joblib files can execute code during loading; uploaded repositories must never supply model artifacts.
+
+The repository-level `predict(AnalysisResult)` remains unavailable because aggregate repository totals cannot supply C-function features. Task 3 needs function extraction with source locations, explicit model loading, abstention reporting and a justified aggregation policy. Calibration and independent-project evaluation remain necessary before production use. No FastAPI route or dashboard invokes a model in Task 2.

@@ -1,0 +1,75 @@
+{
+  "dtype": "float64",
+  "excluded_inputs": [
+    "target",
+    "project",
+    "commit_id",
+    "id"
+  ],
+  "features": [
+    {
+      "description": "Physical lines after universal-newline normalization and outer whitespace trimming.",
+      "name": "physical_lines"
+    },
+    {
+      "description": "Physical lines containing non-whitespace characters.",
+      "name": "nonblank_lines"
+    },
+    {
+      "description": "UTF-8 byte length of the normalized function snippet.",
+      "name": "function_bytes"
+    },
+    {
+      "description": "Declared parameters of the function; void and variadic ellipsis excluded.",
+      "name": "parameter_count"
+    },
+    {
+      "description": "if statements, switch statements and ternary expressions.",
+      "name": "conditional_count"
+    },
+    {
+      "description": "for, while and do statements.",
+      "name": "loop_count"
+    },
+    {
+      "description": "return statements.",
+      "name": "return_count"
+    },
+    {
+      "description": "Maximum nested if/switch/loop/ternary nodes; else-if adds a level.",
+      "name": "max_nesting_depth"
+    },
+    {
+      "description": "1 + if + loops + non-default case labels + ternaries + logical &&/|| operators.",
+      "name": "decision_complexity"
+    },
+    {
+      "description": "Pointer declarators, unary address/dereference expressions, and -> member accesses.",
+      "name": "pointer_syntax_count"
+    },
+    {
+      "description": "Call-expression syntax nodes; macros resembling calls may be included.",
+      "name": "call_count"
+    }
+  ],
+  "missing_values": "NaN; fit median imputation on training rows only, retaining all-empty columns.",
+  "names": [
+    "physical_lines",
+    "nonblank_lines",
+    "function_bytes",
+    "parameter_count",
+    "conditional_count",
+    "loop_count",
+    "return_count",
+    "max_nesting_depth",
+    "decision_complexity",
+    "pointer_syntax_count",
+    "call_count"
+  ],
+  "parser": {
+    "tree-sitter": "0.25.2",
+    "tree-sitter-c": "0.24.2"
+  },
+  "parsing_policy": "Exactly one function definition and no Tree-sitter errors; otherwise structural values are unavailable. Lexical values remain available for nonempty text.",
+  "version": "c-function-v1"
+}

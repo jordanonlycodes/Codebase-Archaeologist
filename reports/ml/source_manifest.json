@@ -1,0 +1,66 @@
+{
+  "acquired_at": "2026-11-21T17:47:07.690176+00:00",
+  "dataset": "google/code_x_glue_cc_defect_detection",
+  "expected_schema": {
+    "commit_id": "string",
+    "func": "string",
+    "id": "int32",
+    "project": "string",
+    "target": "bool"
+  },
+  "expected_sizes": {
+    "test": 2732,
+    "train": 21854,
+    "validation": 2732
+  },
+  "files": [
+    {
+      "bytes": 2227970,
+      "expected_sha256": "259c944eb4f8689e83895de476a00fe4cadf4839636769e725d3744fc36cfcd5",
+      "local": "test-00000-of-00001.parquet",
+      "sha256": "259c944eb4f8689e83895de476a00fe4cadf4839636769e725d3744fc36cfcd5",
+      "url": "https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection/resolve/69bd48c03223c2104342acd9a807caf61ac3efb8/data/test-00000-of-00001.parquet"
+    },
+    {
+      "bytes": 17847670,
+      "expected_sha256": "e319c83e2e816a10aeeebe78668aa95b757b04e555700bf5f826766b0e80bb06",
+      "local": "train-00000-of-00001.parquet",
+      "sha256": "e319c83e2e816a10aeeebe78668aa95b757b04e555700bf5f826766b0e80bb06",
+      "url": "https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection/resolve/69bd48c03223c2104342acd9a807caf61ac3efb8/data/train-00000-of-00001.parquet"
+    },
+    {
+      "bytes": 2214315,
+      "expected_sha256": "a17a76ed040d7f8657d1ff741f967b44704c008101ac958e2990ad468203cfa4",
+      "local": "validation-00000-of-00001.parquet",
+      "sha256": "a17a76ed040d7f8657d1ff741f967b44704c008101ac958e2990ad468203cfa4",
+      "url": "https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection/resolve/69bd48c03223c2104342acd9a807caf61ac3efb8/data/validation-00000-of-00001.parquet"
+    },
+    {
+      "bytes": 5600,
+      "local": "DATASET_CARD.md",
+      "sha256": "bde1091c7edda47c831dd5db7147e5b8db15af9be84f01acd054609929f6a7e9",
+      "url": "https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection/resolve/69bd48c03223c2104342acd9a807caf61ac3efb8/README.md"
+    },
+    {
+      "bytes": 3545,
+      "local": "C-UDA-1.0.md",
+      "sha256": "69aeb2c407f2ffce7f31c3aba0f1eeffac248009ec2070fcd989586ac8229c82",
+      "url": "https://raw.githubusercontent.com/microsoft/Computational-Use-of-Data-Agreement/master/C-UDA-1.0.md"
+    }
+  ],
+  "license": "c-uda",
+  "license_url": "https://raw.githubusercontent.com/microsoft/Computational-Use-of-Data-Agreement/master/C-UDA-1.0.md",
+  "revision": "69bd48c03223c2104342acd9a807caf61ac3efb8",
+  "source": "https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection",
+  "splits": {
+    "test": [
+      "test-00000-of-00001.parquet"
+    ],
+    "train": [
+      "train-00000-of-00001.parquet"
+    ],
+    "validation": [
+      "validation-00000-of-00001.parquet"
+    ]
+  }
+}

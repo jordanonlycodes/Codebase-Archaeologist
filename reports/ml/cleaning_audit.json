@@ -1,0 +1,218 @@
+{
+  "cleaned": {
+    "train": {
+      "contradictory_groups": 0,
+      "contradictory_hashes": [],
+      "exact_duplicate_excess_rows": 0,
+      "invalid_labels": 0,
+      "labels": {
+        "0": 11786,
+        "1": 9964
+      },
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0,
+        "target": 0
+      },
+      "normalized_duplicate_excess_rows": 0,
+      "normalized_duplicate_groups": 0,
+      "projects": {
+        "FFmpeg": 7748,
+        "qemu": 14002
+      },
+      "rows": 21750
+    },
+    "validation": {
+      "contradictory_groups": 0,
+      "contradictory_hashes": [],
+      "exact_duplicate_excess_rows": 0,
+      "invalid_labels": 0,
+      "labels": {
+        "0": 1539,
+        "1": 1184
+      },
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0,
+        "target": 0
+      },
+      "normalized_duplicate_excess_rows": 0,
+      "normalized_duplicate_groups": 0,
+      "projects": {
+        "FFmpeg": 964,
+        "qemu": 1759
+      },
+      "rows": 2723
+    }
+  },
+  "development_conflict_groups": 54,
+  "overlap_after": {
+    "train__test": {
+      "function_groups": 0,
+      "left_rows": 0,
+      "right_rows": 0,
+      "shared_project_commits": 1134
+    },
+    "train__validation": {
+      "function_groups": 0,
+      "left_rows": 0,
+      "right_rows": 0,
+      "shared_project_commits": 1132
+    },
+    "validation__test": {
+      "function_groups": 0,
+      "left_rows": 0,
+      "right_rows": 0,
+      "shared_project_commits": 446
+    }
+  },
+  "overlap_before": {
+    "train__test": {
+      "function_groups": 4,
+      "left_rows": 4,
+      "right_rows": 4,
+      "shared_project_commits": 1135
+    },
+    "train__validation": {
+      "function_groups": 8,
+      "left_rows": 8,
+      "right_rows": 8,
+      "shared_project_commits": 1137
+    },
+    "validation__test": {
+      "function_groups": 1,
+      "left_rows": 1,
+      "right_rows": 1,
+      "shared_project_commits": 446
+    }
+  },
+  "policy_version": "devign-clean-v1",
+  "raw": {
+    "test": {
+      "contradictory_groups": null,
+      "contradictory_hashes": null,
+      "exact_duplicate_excess_rows": 1,
+      "invalid_labels": null,
+      "labels": null,
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0
+      },
+      "normalized_duplicate_excess_rows": 1,
+      "normalized_duplicate_groups": 1,
+      "projects": {
+        "FFmpeg": 976,
+        "qemu": 1756
+      },
+      "rows": 2732
+    },
+    "train": {
+      "contradictory_groups": 46,
+      "contradictory_hashes": [
+        "ef28bc19e1aa874e4f608b069372acfbdf36449d44cebb250e8b415ef51a1c5c",
+        "843231ff90f0d6616eb8277b6d957281905a9d603ed59dfb498413cc4108c4d0",
+        "c0be66f7358490c944ab82edffca1aee9d3a0714878289709b203af6d5c86f93",
+        "37203d8a304dedadb386af5d845cf735918d13865512b19f7dcedee2d4d981fe",
+        "22fec904e6de6310d0023d5c1e64dc813b559dd757cd03e9bd911e7c1349865e",
+        "df7242b5e3607fc5a7bca832ddd924ab092cc96bd6dc124c908c5fa4948d1504",
+        "4d7c447b9c912d8632d7522facdbbd83c1f813b0376b410a35caaf77ec5f2c5a",
+        "4463a7c0985a6d169e86b6d5a24be090bbbd79f9447ff6bd496cb0f9f0e15238",
+        "0310f0084c0b0617da1200c739fb46baaf492340ff9f4bbb8cab4b8c2d75f266",
+        "2d7ed098d98257a9ce685c059d4bffdfa98aa968c3e38cecabc6e2d442f2ef35",
+        "8438231a3d689fa6c3d566b96d2d8f292a249067e0d067493e936101576aa1f2",
+        "c6f127848398d1e1163380fdc1e7b6aaaa341af4b071f80547826185b234d611",
+        "a66d2be9c48a3d178f751b3e61a3e5f45f79d19db91220fcce7445a066a89846",
+        "ce0c02e70c83b6c9203df32d48fe6e8c9500b498ccbf3a5c1dc3ca85bec89b1d",
+        "8c2a110b9d6d61601c6ac938c402ef819dbaff63cbc580d5ed11a640cd97a6ff",
+        "a490c633739c9799077b6520a46f5aa2085a4b0f72e626037d1987bc37262798",
+        "1f0477cfd4ec273e2dbd9dd83a06212e4390acd6870e645cc95d2b423bf4f8e3",
+        "7aecdfae7fb0f59fc3db653da1c07db3c3b3d001dca3798d74d3b2c598ef7d27",
+        "ba3dd85108c92e662b0b97a844c745cd844fa855a22e87d6306aa63244632333",
+        "4614531268aa5b75b23943117e891ff95143dec310bb79e4bb11dd757e9b59e0",
+        "3a2e22c74f036011250b57200be920ec337f6c4e884515b5c679ff530027c960",
+        "243ccf3cfd3afe7edc60968ca1716b4223fa210e8770742cb860bf0b346d837a",
+        "0eec66203ad9e5d2ee7bf0dc412b26bc70445d71a98ab0bd1974fda74c34348e",
+        "107d9adc933ee5e64044234f512416d28ed5c359ee271407aefc885d16b5c516",
+        "a81d11f274e654012149f3aef9b8df82527e00013ceaac24b5f5a4b35f5768fc",
+        "2884070e034c8dd9bc33c8a036570a0acefd2e6f60b9e92831cd2e93690a6c44",
+        "d01bcb0340d5575308ac8f5e0f51242aaf3bbc3b931eecdeba362c3fb9bf3050",
+        "21a064e21d9df080c0603fd127b2dbe21fd3ea99ae17c539ed401173ac282e4b",
+        "9f1d2450570f203ef4863ccb353d717a54ef4bab9f0b927bbb9b1caa78914b6f",
+        "3dba7e39eb583acc875b928a1675d54d17f003e74d98fa530982edab1a90e419",
+        "155518cc5451b54415f402704b7e994d5ad9dadb0461358a46223546e480d0d8",
+        "14b5c30b7c0d9117cdf10cbf02ccd5b34ac6c185e215a8cf61c773b9b98a28b0",
+        "5425551526ac0c52a04f52eb693f9522df833884ac60578b6aa0045a0d9c8e3d",
+        "957c7f74bd2a5d6be7d4a70b0a2e9c905ef788c957ec7bff1d7257af5ecd447e",
+        "14bbedd7899cbacc1602cd91deb42da667122572f42447e4cdd00ba22c3bd49f",
+        "eb232cf59d49c4348aef24e9f1791e44edc9ce407e8bbfafb5e3850f3436b608",
+        "2943b2c6bc6e5a4003babec637487c3b368c2cd5a5732faff00bf9a8d0f7aec9",
+        "da59ef1f6e7d0e1420effca3fe045abda93a6da75b97f51dfbe1d45d54c3bdef",
+        "a92635e80c38da29a3ed19a45475e73cd81b69344011e8e133d9567d3f397bbe",
+        "eec2b53dd871e89e463e14551dc43cdbed9de43110cb1e9170b936aad65e571a",
+        "658189bcbc1d2887969e3b609d9113c8f1fb8133adbde7d4a136c8b11d98f6a0",
+        "468e781c4d10d9f81fe5e337387d5649da787ba794249ccf2945f54d28d9cb23",
+        "4491e29ced5b2652d54b2f64a12a2dd179e55bd4cfbabf70efe2075381d2026a",
+        "f01429c0540c2181d3ea18750d276da4aa5889fb3e9cb6adcf61980f67bb6a35",
+        "13622e8081c76534b8d4c393e4147576f22bffc8ddaf29f06f42863a22349872",
+        "e405428eaf31d803de6f10606b0b210cdf4d8ea004f70965593db503dcde1cac"
+      ],
+      "exact_duplicate_excess_rows": 46,
+      "invalid_labels": 0,
+      "labels": {
+        "0": 11836,
+        "1": 10018
+      },
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0,
+        "target": 0
+      },
+      "normalized_duplicate_excess_rows": 46,
+      "normalized_duplicate_groups": 46,
+      "projects": {
+        "FFmpeg": 7822,
+        "qemu": 14032
+      },
+      "rows": 21854
+    },
+    "validation": {
+      "contradictory_groups": 0,
+      "contradictory_hashes": [],
+      "exact_duplicate_excess_rows": 0,
+      "invalid_labels": 0,
+      "labels": {
+        "0": 1545,
+        "1": 1187
+      },
+      "missing": {
+        "commit_id": 0,
+        "func": 0,
+        "id": 0,
+        "project": 0,
+        "target": 0
+      },
+      "normalized_duplicate_excess_rows": 0,
+      "normalized_duplicate_groups": 0,
+      "projects": {
+        "FFmpeg": 971,
+        "qemu": 1761
+      },
+      "rows": 2732
+    }
+  },
+  "removal_reason_counts": {
+    "contradictory_development_labels": 108,
+    "matches_test_function": 5
+  },
+  "removed_rows": 113,
+  "test_labels_used": false,
+  "test_rows_modified": 0
+}
