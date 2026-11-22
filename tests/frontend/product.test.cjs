@@ -1,6 +1,7 @@
 'use strict';
 // Browser-free document integration. This is not a visual layout or real WebGL test.
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),test=require('node:test');
+const {File}=require('node:buffer');
 const fixture=JSON.parse(fs.readFileSync(process.env.PRODUCT_FIXTURE,'utf8'));
 class Element{
  constructor(tag,doc){this.tag=tag;this.ownerDocument=doc;this.children=[];this.parentElement=null;this.attrs={};this.listeners=new Map();this.dataset={};this.style={};this._text='';this._value=undefined;this.clientWidth=950;this.clientHeight=500;this.checked=false;this.disabled=false;this.hidden=false;this.classList={contains:c=>this.className.split(' ').includes(c),add:(...c)=>this.className=[...new Set([...this.className.split(' ').filter(Boolean),...c])].join(' '),remove:(...c)=>this.className=this.className.split(' ').filter(x=>!c.includes(x)).join(' '),toggle:(c,on)=>{const active=on===undefined?!this.classList.contains(c):on;active?this.classList.add(c):this.classList.remove(c);return active;}};}

@@ -44,6 +44,14 @@
   24, architecture 10, impact 32, store 10 frontend cases. Firefox also failed before
   rendering (exit 139); real GPU/browser behavior remains unverified.
 
+- Stage G completed: signature README, original local SVG hero with path-outlined
+  licensed typography, warm layered mark, reproducible asset generator and authentic
+  screenshot checklist. Exact saved validation/test metrics and source licensing are
+  documented. **16 product checks passed**; SVG XML, deterministic regeneration and
+  local Markdown links passed. Brand artwork rendered with rsvg-convert and inspected.
+  No application screenshot was fabricated. Uvicorn reached application startup but
+  could not bind localhost in this sandbox.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
@@ -64,8 +72,10 @@
 3. Stage D completed.
 4. Stage E completed; proceed to F visualization refinement and second quality pass.
 5. Stage F completed; Stage G README brand assets/narrative now in progress.
-6. Stage G: branded README SVG and accurate narrative/research evidence/screenshots status.
-7. Stage H: complete tests, browser attempt, second quality pass, docs, final commit/push.
+6. Stage G completed.
+7. Stage H next: final design/lifecycle review, doc route updates, full tests, staged
+   security/large-file check, final commit and normal push. Browser attempts are complete
+   but blocked; preserve that limitation. Do not rerun training/evaluation or reports.
 
 Update this file and commit after each functional, verified stage. Do not regenerate
 academic reports, retrain the research model or commit user vendor assets.

@@ -115,3 +115,19 @@ CLS, FPS or visual smoothness claim is made. Firefox was also attempted and exit
 before rendering. Focused refinement verification: **27 Python checks passed**, including
 **21 document-journey cases**, graph (24), architecture (10), impact (32) and store (10)
 Node cases through their respective runners. A final full suite follows Stage H.
+
+## Signature README and assets
+
+`docs/assets/hero.svg` is original brand artwork, not an application screenshot. It
+shares the website's graphite/ivory, italic editorial typography and organic light motif.
+`tools/generate_brand_assets.py` converts the tracked OFL font outlines to SVG paths,
+so GitHub needs no remote fonts, scripts, foreign objects or raster assets. Local XML
+validation, deterministic regeneration and a real `rsvg-convert` render were checked;
+the resulting brand PNG was visually inspected. This verifies the brand asset only,
+not website rendering. The warm layered product mark replaces the original cyan icon.
+
+Authentic screenshots remain pending. `docs/screenshots/README.md` provides the exact
+capture workflow and prohibits substituting mockups. The redesigned README documents
+real routes, snapshot retention, installation, preserved capabilities and exact saved
+validation/test metrics, with scientific caveats and separate dataset/font/vendor licensing.
+Stage G checks: 16 product tests passed; brand XML, reproducibility and local links passed.

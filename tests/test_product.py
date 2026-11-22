@@ -119,3 +119,19 @@ def test_browser_404_preserves_api_errors_and_recovery_navigation():
         assert 'href="/workspace/overview"' in page.text
         api=client.get('/api/missing',headers={'accept':'text/html'})
         assert api.status_code==404 and api.json()['error']['code']=='invalid_request'
+
+
+def test_readme_brand_svg_is_local_and_github_safe():
+    import xml.etree.ElementTree as ET
+    hero=ROOT/'docs/assets/hero.svg'
+    tree=ET.parse(hero);source=hero.read_text()
+    assert tree.getroot().attrib['viewBox']=='0 0 1440 640'
+    assert '<script' not in source and '<foreignObject' not in source and '<image' not in source
+    assert '<text' not in source  # Font outlines avoid remote font dependencies.
+    assert 'not an application screenshot' in source
+    readme=(ROOT/'README.md').read_text()
+    assert 'docs/assets/hero.svg' in readme
+    assert 'Authentic application screenshots are still pending' in readme
+    for target in re.findall(r'\]\(([^)]+)\)',readme):
+        if '://' not in target and not target.startswith('#'):
+            assert (ROOT/target.split('#')[0]).exists(),target
