@@ -116,3 +116,51 @@ def test_network_errors_and_redirects_are_controlled(status,code):
     async def run():return await operation('https://github.com/owner/repo',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda _:httpx.Response(status,headers={'Location':'http://localhost/private'})))
     with pytest.raises(AnalysisError) as e:asyncio.run(run())
     assert e.value.code==code
+
+
+def test_history_api_scoped_identity_and_no_local_paths(monkeypatch,history_repo):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.routes import history as route
+    root,shas,_=history_repo
+    async def local(url,work):
+        assert url=='https://github.com/owner/repo'
+        return await work(LocalReader(root))
+    monkeypatch.setattr(route,'operation',local)
+    body={'url':'https://github.com/owner/repo','anchor':shas[-1]}
+    with TestClient(app) as client:
+        result=client.post('/api/history/load',json=body);assert result.status_code==200,result.text
+        assert len(result.json()['commits'])==7 and str(root) not in result.text
+        diff=client.post('/api/history/compare',json={**body,'base':shas[0],'head':shas[1]})
+        assert diff.status_code==200 and diff.json()['files'][0]['additions']==1
+        tree=client.post('/api/history/tree',json={**body,'revision':shas[0]})
+        assert tree.status_code==200 and tree.json()['files'][0]['path']=='a.py'
+        assert client.post('/api/history/tree',json={**body,'revision':'f'*40}).status_code==422
+        assert client.post('/api/history/load',json={**body,'root':str(root)}).status_code==422
+        assert client.post('/api/history/load',content=b'x'*4097,headers={'content-type':'application/json'}).status_code==413
+        assert client.post('/api/history/compare',json={**body,'base':'HEAD','head':shas[0]}).status_code==422
+
+
+@pytest.mark.parametrize('url',['http://github.com/a/b','https://github.com.evil/a/b','file:///tmp/repo','https://127.0.0.1/repo','https://github.com/a/b/../c'])
+def test_history_arbitrary_remote_rejected_before_network(url):
+    calls=[]
+    with pytest.raises(AnalysisError):
+        asyncio.run(operation(url,lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda request:calls.append(request))))
+    assert not calls
+
+
+def test_incomplete_tree_cannot_create_false_deletions(history_repo):
+    reader=LocalReader(history_repo[0]);original=reader.tree
+    async def tree(sha):
+        result=await original(sha);result.complete=False;return result
+    reader.tree=tree
+    with pytest.raises(AnalysisError) as e:asyncio.run(compare(reader,history_repo[1][0],history_repo[1][-1]))
+    assert e.value.code=='history_tree_limit'
+
+
+def test_response_budget_and_first_parent_merge_changes(history_repo):
+    root,shas,merge=history_repo;result=asyncio.run(collect(LocalReader(root),shas[-1],replace(LIMITS,response_bytes=4000)))
+    assert len(json.dumps(asdict(result),ensure_ascii=False).encode())<=4000
+    assert not result.coverage.complete_ancestry
+    full=asyncio.run(collect(LocalReader(root),merge))
+    current=full.commits[0];assert current.sha==merge and [f.path for f in current.files]==['side.txt']

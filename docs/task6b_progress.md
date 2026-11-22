@@ -34,3 +34,14 @@ detached/shallow histories, limits and reproducibility. The sandbox selector wor
 was needed for threaded Git reads; no application workaround was added.
 Default 24 commits balances REST fanout; file measurements are explicitly bounded.
 Next: C typed public history/tree/comparison API, request boundary and additional tests.
+
+## C complete — comparison/tree API and boundaries
+
+Added /api/history/load, /tree and /compare with explicit full-SHA URL/anchor contracts.
+Revisions must be in the pinned ancestor window. Exact tree comparison works for divergent
+revisions, unique identical-blob renames, text/binary/large-file gaps and bounded patches;
+incomplete trees cannot imply deletions. No source patch is stored in history.
+Shared admission bounds two repository operations, 4 KiB history requests and 10s upload
+read time. 24 history tests passed, including genuine two-direction/divergent comparisons,
+API contracts, no public filesystem paths, SSRF rejection and serialization bounds.
+Next D: per-snapshot bounded persistence and dedicated source-aware workspace.

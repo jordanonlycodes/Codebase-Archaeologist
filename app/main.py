@@ -9,7 +9,7 @@ from starlette.exceptions import HTTPException
 
 from app.errors import AnalysisError
 from app.middleware import UploadBoundary
-from app.routes import analysis, dashboard, jordan
+from app.routes import analysis, dashboard, jordan, history
 from app.jordan.boundary import JordanBoundary
 
 app = FastAPI(title="Codebase Archaeologist", version="0.1.0",
@@ -20,6 +20,7 @@ app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), na
 app.include_router(dashboard.router)
 app.include_router(analysis.router)
 app.include_router(jordan.router)
+app.include_router(history.router)
 
 
 @app.exception_handler(AnalysisError)
