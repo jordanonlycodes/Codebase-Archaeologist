@@ -30,3 +30,9 @@ def test_cinematic_landing_and_working_import_entry():
         assert "script-src 'self'" in response.headers['content-security-policy']
         assert client.get('/explore').status_code==200
         assert client.get('/static/product/landing.js').status_code==200
+
+
+def test_workspace_store_regressions():
+    import subprocess
+    run=subprocess.run(['node','tests/frontend/workspace.test.cjs'],cwd=ROOT,capture_output=True,text=True,timeout=30)
+    assert run.returncode==0,run.stdout+run.stderr

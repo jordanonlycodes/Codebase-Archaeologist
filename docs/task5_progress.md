@@ -20,6 +20,12 @@
   Chromium was attempted again: exit 133, `setsockopt: Operation not permitted`; no
   visual verification claimed. All HTML routes now receive existing CSP/no-store headers.
 
+- Stage D state core: implemented isolated per-tab active pointers, IndexedDB payload/
+  metadata stores, atomic bounded retention (3 snapshots, 24 MiB each), two-hour TTL,
+  replacement/forget, bounded UI state and consumed ID handoffs. **10 Node tests passed**,
+  including expiry, isolation, quota errors and pointer-write rollback. Import UI and
+  route integration follow together in the next functional migration commit.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
