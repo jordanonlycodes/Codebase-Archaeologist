@@ -1,4 +1,4 @@
-# Repository knowledge graph engine (Task 4B.1)
+# Repository knowledge graph engine and explorer
 
 The shared ZIP/GitHub analysis pipeline returns `knowledge_graph` (schema `1.0`).
 The backend infrastructure now feeds the Task 4B.2 client-side explorer described below.
@@ -262,248 +262,302 @@ above. Uvicorn completed application startup but the environment denied binding
 
 ## Interactive explorer (Task 4B.2)
 
-The dashboard now consumes the existing `knowledge_graph` response entirely on the
-client. No extraction or ML changes, storage or additional API endpoints were needed.
-`app/static/graph/data.js` owns indexes, canonical IDs, filtering, search, bounded
-neighborhoods and overlay mappings. `explorer.js` owns shared interaction state and a
-text-only inspector. `svg.js` and `three.js` are interchangeable rendering adapters.
-The canonical response is never mutated; the 3D library receives disposable copies.
+The explorer consumes the existing analysis response locally. It adds no graph API,
+persistent repository storage or external data service. The backend retains its
+original semantics and resource limits documented above.
 
-### Modes, controls and interpretation
+| Frontend module | Responsibility |
+| --- | --- |
+| `data.js` | Canonical IDs, indexes, filters, full-retained-node search, bounded traversal |
+| `layouts.js` | Deterministic positions, collision checks, directional emphasis and label selection |
+| `explorer.js` | Shared state, controls, counts, coverage, text-only inspector and renderer lifecycle |
+| `svg.js` | Retained SVG scene, pointer/keyboard controls and scheduled updates |
+| `three.js` | Optional local WebGL adapter, fixed spatial positions and bounded graphics work |
 
-- **Knowledge:** retained repository/directory/file/function entities and chosen edges.
-- **Function Calls:** function entities with resolved CALLS relationships.
-- **Dependencies:** file entities with resolved IMPORTS/INCLUDES relationships.
+Canonical backend objects are never handed to the mutating 3D library directly.
+Both adapters share selected ID, perspective, layout choice, query, filters, overlay,
+branch/neighborhood focus and direction. Switching renderers does not submit another
+analysis. Camera and dragged positions are adapter-local; a renderer switch may arrange
+nodes again. Repository replacement disposes the old renderer and resets interaction state.
 
-Zoom, pan, fit, reset, select, drag, focus, fullscreen (or expanded CSS fallback),
-search, node/relationship/language filters and one/two-hop neighborhoods operate on
-actual graph results. Perspective changes do not submit another analysis. Search
-spans all retained nodes even outside current filters; choosing a result opens its
-bounded neighborhood, clearing incompatible type/language filters and switching to
-the knowledge perspective if needed. Remaining active relationship filters still apply.
-Search results and related-node buttons are the keyboard-accessible selection path in
-both adapters; 2D nodes additionally support Tab/Enter/Space and arrow-key canvas pan.
+### Perspectives and directions
 
-Selecting a node shows applicable source location, structural metrics, hotspot reasons,
-real ML metadata, incoming/outgoing relationships, evidence and unresolved references.
-Missing values say Unavailable. Panel relationship/reference lists retain at most 40
-entries; the rest remain in the original JSON export. Unresolved references never
-become confirmed graph edges. Neither overlays nor connectivity imply vulnerabilities.
+| Perspective | Visible entities | Directed relationships |
+| --- | --- | --- |
+| Knowledge | Repository, directories, files, functions | Chosen retained edge types; hierarchy follows CONTAINS and DEFINES |
+| Function Calls | Functions | CALLS from caller to callee |
+| Dependencies | Files | IMPORTS/INCLUDES from importing/including file to dependency |
 
-Entity visuals are fixed by type: repository diamond / size 14, directory square / 10,
-file rectangle / 8, function circle / 6 in 2D; 3D uses spheres whose relative volumes
-follow these size values. Sizes describe entity type, not importance. Selected nodes
-are emphasized, unrelated nodes dimmed; outgoing relationships are crimson, incoming
-amber. A self-loop belongs to both directions and uses outgoing color when both apply.
+A selected caller's outgoing links identify callees; incoming links identify callers.
+For dependencies, outgoing links identify files depended on, and incoming links identify
+dependent files. Direct links, plus relevant indirect links in a focused one/two-hop
+subset, are highlighted in the requested direction. Self-recursion and cyclic calls or
+dependencies remain actual edges. Repeated-call occurrence counts are preserved.
+Positions and highlighting do not establish a runtime execution order.
 
-Complexity colors use existing bands: green 1–5, amber 6–10, crimson 11–20,
-magenta ≥21; gray means unavailable. Hotspot outlines in 2D and a 1.4× volume factor
-in 3D mark actual existing threshold reasons. ML colors require a genuine analyzed
-C-function prediction: crimson for class 1, green for class 0, gray for unscored.
-Estimated model probability appears in the inspector, with the research/uncalibrated
-qualification. Python and nonfunction entities are never assigned ML predictions.
-
-### 2D and 3D dependencies and availability
-
-The network environment could not resolve `cdn.jsdelivr.net` or `registry.npmjs.org`.
-To keep analysis usable offline, 2D uses a focused first-party SVG adapter with a
-deterministic layouts and draggable positions; no force simulation or package dependency.
-This is a compatibility adapter, not a custom physics engine. It makes disconnected
-components visible, supports directional curved edges/self-loops and hides labels
-when zoomed out. Dense graphs may still have overlapping edges; search and bounded
-neighborhood focus provide the analytical path.
-
-The real 3D adapter expects the upstream UMD bundle from **3d-force-graph 1.73.3**,
-which includes its Three.js renderer and force/control dependencies. Its contract is
-based on the [upstream API](https://github.com/vasturiano/3d-force-graph) and
-[pinned MIT license](https://github.com/vasturiano/3d-force-graph/blob/v1.73.3/LICENSE).
-There is no runtime CDN or external data service. Install explicitly from project root:
-
-```bash
-source .venv/bin/activate
-python tools/install_graph_assets.py
-```
-
-The standard-library installer downloads the exact versioned npm archive, validates
-its package identity, reads only bounded named members, preserves LICENSE and writes
-`app/static/vendor/graph-assets.json` with source URL, hashes and bundled dependency
-declarations. No npm package scripts run. The frozen prebuilt bundle needs no build
-pipeline or dependency installation. Preserve license comments and the license/receipt
-when redistributing assets. The receipt records downloaded bytes; it is not an independent
-signature or a preverified digest. `app/static/vendor/README.md` documents attribution.
-
-**Initial Task 4B.2 blocker:** the bundle download was blocked. At the start of the
-layout/performance refinement, local 1.73.3 assets were present and their bundle hash
-matched the existing receipt. They were preserved unchanged and remain untracked user
-files. Actual GPU rendering is still unverified because browser startup is blocked. Missing local assets or WebGL failures report a clear
-notice and fall back to functional 2D, never to a simulated 3D picture.
-
-Capable desktop devices (fine pointer, width ≥1000px, WebGL, no reduced-motion preference)
-prefer 3D on first exploration when the local dependency is available. Other devices
-start in 2D; 3D remains selectable when WebGL exists. Each adapter initializes lazily
-when the explorer becomes visible or is requested. Switching modes preserves selected
-ID, query, perspective, filters, overlay, direction and neighborhood. Camera/drag layout
-positions are adapter-local; resetting a camera/layout does not clear shared filters.
-
-3D supplies orbit controls, right-drag camera pan, scrolling zoom, node dragging and
-camera focus. The refinement uses shared, fixed deterministic spatial positions without a physics
-simulation; reduced-motion mode also uses immediate camera transitions. The spatial
-view uses a near-black backdrop, type-sized spheres, arrows, selected-node emphasis,
-hover names and at most 31 projected labels, hidden at distance. No decorative particles
-or perpetual camera motion are enabled.
-
-### Performance and lifecycle
-
-Rendering retains at most **180 nodes and 420 edges** at once. Initial selection is
-deterministic, with selected entities retained inside the current matching subset.
-Search scans the full bounded backend graph and lists up to 40 results after a 160ms
-debounce. Neighborhoods are cycle-safe, one or two hops, bounded at 180 nodes and
-6,000 relationship visits. Summary text distinguishes displayed, matching and total
-retained counts. Backend coverage, skipped files and truncation indicators remain
-visible; a displayed subset is never claimed to cover all source.
-
-Only one rendering adapter exists at a time. Stale asynchronous library loads cannot
-attach after a repository/mode switch. Repository replacement disposes the previous
-adapter and resets interaction state. 2D removes pointer/keyboard/wheel listeners;
-3D pauses animation, detaches controls/callbacks, releases geometry/materials/textures,
-disposes renderer/context and calls the pinned component teardown. The refined adapter runs no force simulation and pauses rendering while idle/offscreen.
-Canvas interaction wakes a short rendering window, and camera transitions extend that
-window until completion. Only one adapter runs at once. No GPU
-execution or browser performance measurement was possible in this environment.
-
-### Verification and remaining manual checks
-
-Automated tests exercise conversion, all filters, full-index search, cyclic/bounded
-traversal, overlays/unscored values, inspector-safe text, state preservation, stale-load
-cancellation, repository replacement, missing-asset/WebGL fallback, SVG listener removal,
-3D disposal contracts and installer license/receipt behavior. Browser-free adapter tests
-use DOM/renderer mocks and do not establish actual WebGL compatibility or visual quality.
-
-```bash
-node tests/frontend/graph.test.cjs   # Node 18+, no npm packages
-pytest tests/test_graph_explorer.py -q
-pytest -q
-uvicorn app.main:app --reload
-```
-
-Visit `http://127.0.0.1:8000`, analyze a small mixed C/Python ZIP or public GitHub repo,
-then scroll to Knowledge Graph Explorer. Check all three perspectives, filters and
-search; select a hidden search result; inspect source metrics, related nodes and
-unresolved references; try one/two-hop neighborhoods and overlays. In 2D verify drag,
-zoom, keyboard selection and pan. After installing local assets, switch to 3D and
-verify orbit, right-drag pan, node dragging, arrows, labels, camera focus, fit and
-fullscreen. Confirm shared state survives mode switching and a new repository clears
-old selection. Check narrow/tablet/desktop widths, reduced-motion settings, a device
-without WebGL and JSON export. Existing structural and ML sections remain available.
-
-Browser verification was attempted: Chromium exited with `setsockopt: Operation not
-permitted`; Uvicorn port binding has also been blocked in this environment. No visual,
-responsive or real 3D interaction success is claimed. Live GitHub verification is likewise
-unavailable under the network restrictions. Architecture reconstruction, impact analysis
-and assistant features remain future work.
-
-Task 4B.2 automated verification: **354 Python tests passed, 0 failed, 0 skipped**;
-the suite includes a runner for **13 passing Node frontend cases**. JavaScript syntax
-checks passed. One existing Starlette TestClient deprecation warning remains. Restricted
-Python test execution used the previously documented process-local selector polling
-workaround. These outcomes do not replace the blocked real-browser/3D checks above.
-
+Unresolved, ambiguous and dynamic references stay in the inspector, with no fabricated
+internal targets. A filtered, collapsed or bounded view is not the complete retained
+graph; JSON export still contains the backend result independently of UI state.
 
 ## Layout and rendering refinement
 
-This focused patch covers the six combinations of 2D/3D × Knowledge/Calls/Dependencies.
-The graph extraction engine, ML, JSON response and export semantics are unchanged.
-`layouts.js` is the shared deterministic layout/presentation module:
+### Perspective-specific algorithms
 
-| Perspective | Automatic layout | Meaning |
-|---|---|---|
-| Knowledge | Packed hierarchy subtrees | Actual CONTAINS / DEFINES ancestry, separate sibling groups |
-| Calls | Directed layers with strongly connected components | Upstream caller → downstream callee; recursion shares a component |
-| Dependencies | Directory clusters | Actual parent paths; IMPORTS/INCLUDES arrows preserve direction |
+| Layout setting | Knowledge | Calls | Dependencies |
+| --- | --- | --- | --- |
+| Automatic | Packed containment subtrees | Directed SCC layers | Directory clusters |
+| Hierarchical | Packed containment subtrees | Directed SCC layers | Directed SCC layers |
+| Radial | Concentric rings | Concentric rings | Concentric rings |
 
-The compact selector offers Automatic, Hierarchical and Radial. Explicit Hierarchical
-uses containment for Knowledge and cycle-safe directed layers for semantic perspectives.
-Radial uses concentric rings with minimum spacing. There is no new force-layout engine.
-These are arrangements of static evidence, not inferred runtime execution sequences.
-Layout changes preserve selection, filters and overlays and never reanalyze a repository.
-Cycles and disconnected components remain present.
+- **Packed hierarchy:** uses actual CONTAINS/DEFINES ancestry. Subtree bounds are computed
+  bottom-up; child subtrees are packed into at most four columns with explicit gaps.
+  Repository roots, directory groups, files and their definitions stay associated.
+  When filters hide a container, positioning may use the nearest evidenced visible
+  ancestor; no replacement edge is invented.
+- **Directed layers:** iterative Kosaraju traversal finds strongly connected components.
+  The component graph is layered from upstream sources toward downstream targets.
+  Mutually recursive functions or circular dependencies share a component/layer and
+  retain their individual nodes and edges. Disconnected components are retained.
+- **Directory clusters:** dependency files are grouped by their normalized parent
+  directory, then placed in spaced grids. Grouping describes actual paths, not inferred
+  Python runtime import roots or architecture components.
+- **Radial:** deterministic concentric rings use increasing radius and bounded capacity
+  to leave room between entities. This arrangement does not imply semantic proximity.
 
-Initial knowledge graphs larger than the 180-node rendering bound collapse file groups.
-`Collapse group` / `Expand group` controls work for selected directories and files;
-`Focus branch` limits the view to actual descendants within the same bounds. A counter
-reports nodes hidden by collapsed groups, independently of backend truncation. Search
-ignores collapsed groups; selecting a hit opens its neighborhood. Changing perspective
-explicitly resets entity/relationship/language filters and drops incompatible focus or
-selection, with a visible notice; query, layout and overlay remain available.
+A neighboring-cell collision check separates positions that are too close in the
+bounded layout. Selection and overlay changes preserve positions. Membership changes
+reuse cached positions where possible; adding entities can cause collision adjustments.
+A perspective/strategy change or Reset may recompute the layout. Users can intentionally
+drag nodes into overlap, and no layout guarantees crossing-free edges.
 
-Both adapters cache positions. Selection and overlay changes do not relayout entities;
-subsets preserve known positions and place only newly encountered nodes. Automatic
-layout changes when the perspective changes; Reset reapplies the current deterministic
-layout and fits the view. Hierarchical subtrees use packed rows/columns with explicit
-spacing, and a bounded neighboring-cell collision check separates overlapping positions.
-Users can still intentionally drag nodes into overlapping positions.
+### Hierarchy groups and focused exploration
 
-SVG keeps keyed node/edge elements and reconciles only changed membership. Geometry,
-style and viewport updates are separated; pointer motion is coalesced through one
-requestAnimationFrame callback. Wheel zoom uses the pointer as anchor and aspect-aware
-fit/pan coordinates. Hover/title and keyboard inspection retain complete source names.
+Knowledge views with more than 180 retained entities initially collapse file groups.
+Select a directory, file or repository and use **Collapse group / Expand group**;
+**Focus branch** follows actual descendants within the visualization bound. Collapsing
+a group clears query/neighborhood focus so the change takes effect. Hidden-by-group
+counts remain visible. Functions can still be found through full-index search.
 
-3D uses the same layout coordinates with modest type-based plane separation; no force
-simulation runs. Graph data is resubmitted only when displayed topology/layout changes.
-Selection/overlay changes update presentation while retaining graph objects and fixed
-positions. Pixel density is capped at 1.5, node mesh resolution is reduced, and edges
-use thin lines instead of per-edge cylinders. Rendering wakes on canvas interaction,
-selection or camera movement and sleeps after its short interaction/transition window.
-Only up to 40 label candidates are projected, at most every 50 ms while awake; collision
-checks retain up to 24 ordinary labels plus relevant selected/hovered labels. Resize,
-mode/repository changes and destruction clean up scheduled frames, timers, observers,
-listeners, simulation/render loops and WebGL resources.
+Typing a query searches names and relative paths after a 160ms debounce and fits the
+matching view. The accessible browser lists up to 40 retained hits independently of
+active view filters. Selecting a hit clears incompatible type/language restrictions,
+opens its neighborhood and focuses it; existing relationship filters still apply.
+Related-node inspector buttons use the same selection path.
 
-Contextual labels prioritize selected/hovered nodes and relevant neighbors, suppress
-collisions and reveal more 2D names at higher zoom. Full names remain accessible in
-hover content and the inspector. Relationship base colors distinguish containment
-(gray dashed), definitions (mauve dashed), calls (pale crimson), imports (green) and
-includes (amber dashed in 2D; amber lines in 3D). Direct and bounded indirect outgoing
-relationships are crimson; incoming are amber. Unrelated edges dim without being
-removed. Curves distinguish repeated/opposite edges and self-recursion; occurrence
-counts and all bounded retained evidence are available in the inspector. No unresolved
-reference is promoted to a confirmed edge. Structural/ML overlays retain their original
-meaning, including explicit unscored C/Python states.
+One/two-hop traversal is cycle-safe and direction-aware. Perspective changes explicitly
+reset entity, relationship and language filters, clear incompatible selection/focus and
+show a notice; query, layout and overlay remain. Layout changes do not clear these
+controls. Clear selection/filters resets shared interaction state except rendering mode.
 
-The inspector groups identity, source, structural information, relationship direction,
-source evidence, unresolved references and applicable ML information. Repository and
-directory panels no longer display irrelevant function metrics or ML sections. Long
-IDs use their own horizontally scrollable field; names/paths remain accessible without
-forcing character-by-character wrapping. Only IDs use monospace.
+### Node, edge and overlay legends
 
-Verification: the browser-free frontend suite exercises all six adapter/perspective
-combinations, keyed SVG reuse, topology-only 3D submissions, deterministic hierarchy and
-SCC layouts, collision checks, recursive/cyclic links, contextual labels, preserved
-layout state, explicit filter resets, large collapsed views, bounded search, timers and
-resource cleanup. These are deterministic unit/adapter checks, not GPU benchmarks.
-No FPS claim is made.
+2D uses repository diamonds, directory squares, file rectangles and function circles.
+Their relative size values are 14 / 10 / 8 / 6; 3D uses type-sized spheres, not those
+four 2D shapes. Sphere volumes derive from the same type values, with a 1.4× factor
+for actual structural hotspots. Size is not an importance, centrality or quality score.
 
-Manual checks on an unrestricted machine:
+| Relationship | Neutral color | 2D line style |
+| --- | --- | --- |
+| CONTAINS | Gray | Dashed |
+| DEFINES | Mauve | Dashed |
+| CALLS | Pale crimson | Solid |
+| IMPORTS | Green | Solid |
+| INCLUDES | Amber | Dashed |
+
+3D uses thin colored lines and directional arrows rather than per-edge cylinders;
+dash patterns are a 2D distinction. Selected outgoing edges are crimson, incoming
+amber, and unrelated edges are dimmed. Self-loops belong to both directions and use
+outgoing color when both are active. Curves distinguish self-recursion and parallel or
+opposite-direction relationships where practical. Hover content includes relationship
+type, reference and occurrence count. Inspector relationship entries expose all retained,
+bounded evidence locations, including path, line and column.
+
+Overlays retain the existing interpretation:
+
+- **Entity:** colors/shapes or relative sphere volumes distinguish node types.
+- **Complexity:** measured low/moderate/high/very-high bands use green/amber/crimson/
+  magenta; missing measurements are gray. Hotspot markers use existing threshold reasons.
+- **ML:** only genuinely analyzed C functions receive class colors: crimson for predicted
+  defect-related, green for predicted non-defect-related. Gray means unscored. The
+  inspector labels model probability as an estimated, uncalibrated research output.
+
+Python, directories, files and repositories receive no fabricated ML probability.
+Neither graph connectivity nor structural thresholds nor model estimates prove a defect
+or vulnerability. No feature attribution or aggregate repository defect score is invented.
+
+### Contextual labels and inspector
+
+Selected and hovered entities receive label priority; nearby relevant entities are
+preferred over unrelated ones. Ordinary labels are collision-suppressed, additional
+2D labels appear as zoom increases, and long names are abbreviated visually. Complete
+names remain available through native titles/3D hover content and the inspector.
+Forced relevant labels can still overlap; camera focus and neighborhoods help.
+
+Inspector groups depend on entity type: identity/source for repositories and directories,
+file structural summaries for files, and function metrics/hotspots/ML for functions.
+Incoming and outgoing relationships and unresolved callable/dependency references are
+separate groups. Full source code is not available. Missing metrics say Unavailable;
+zero measurements remain zero. IDs have their own horizontally scrollable monospace
+field; ordinary content uses the application typeface, and long paths remain accessible.
+All repository-controlled values are inserted as text.
+
+### Rendering optimizations and graphics preferences
+
+SVG reconciles keyed node/edge elements when membership changes. Geometry, styles and
+viewport updates are separate. Selection/overlay changes do not rebuild the scene;
+pointer-driven geometry and viewport work are coalesced through requestAnimationFrame.
+Wheel zoom anchors at the pointer, panning uses viewport coordinates, and fit/reset
+respect the viewport aspect ratio.
+
+3D extends shared layout coordinates into modest type-separated planes and fixes
+coordinates; force simulation warmup/cooldown are zero. A topology/layout signature
+prevents unchanged graph submissions. Selection/overlay changes retain graph objects
+and positions while updating presentation. Labels are reused, projected only while
+awake and throttled to at most one pass per 50ms.
+
+The graphics profile is **fixed in code**, not a user-selectable quality preset:
+
+| Setting | Implemented value / behavior |
+| --- | --- |
+| WebGL pixel ratio | `min(devicePixelRatio, 1.5)` |
+| Renderer antialiasing | Disabled |
+| Power preference | Requests `low-power`; a browser hint, not a hardware guarantee |
+| Sphere mesh resolution | 6 |
+| Edge geometry | Thin lines; directional arrows of length 3 |
+| Force simulation / damping | Disabled |
+| 3D label pool | At most 40 candidates; normal visible budget 24, with selected/hover priority |
+| 2D label budget | Normally 32; 70 above scale 1; contextual collision suppression |
+| Normal render wake window | 220ms after interaction; extended for fit/focus transitions |
+
+Canvas interaction, selection, resize and camera controls wake rendering. The adapter
+pauses its rendering/label loop after the wake window and while offscreen. Focus and
+fit use short camera transitions unless reduced motion is requested. No bloom, custom
+shaders, particles, cinematic animation or automatic hardware quality tuning is implemented.
+These choices bound work; they are not measured FPS, latency, battery or memory improvements.
+
+### Lifecycle and resource limits
+
+Adapters initialize lazily when needed. Only one renderer exists at a time; stale async
+asset loads cannot attach after a mode/repository switch. SVG destruction cancels its
+scheduled frame and removes listeners and retained elements. 3D destruction cancels
+wake timers/label frames, disconnects its observer, removes canvas listeners/callbacks,
+disposes controls, geometry/materials/textures, renderer/context and the pinned component.
+Controller-level observers remain attached to the persistent explorer container.
+
+| Frontend bound | Value |
+| --- | --- |
+| Displayed nodes / edges | 180 / 420 |
+| Search results / inspector links or references per group | 40 / 40 |
+| Neighborhood | 1 or 2 hops; 180 nodes; 6,000 relationship visits |
+| Search debounce | 160ms |
+
+Displayed, matching, retained and collapsed-group counts have distinct meanings.
+Backend truncation and skipped/unsupported-file coverage remain visible. Limits can
+omit relationships from the visualization; retained backend counts and JSON export
+must be consulted for the larger result. No result completeness or speed percentage
+is derived from these counters.
+
+### Setup, dependency and browser compatibility
+
+2D uses local SVG/JavaScript with no new package. 3D expects the local UMD bundle for
+**3d-force-graph 1.73.3**, including Three.js. Install once with network access:
 
 ```bash
 source .venv/bin/activate
-# Only if the local bundle is absent:
 python tools/install_graph_assets.py
-uvicorn app.main:app --reload
-node tests/frontend/graph.test.cjs
-pytest -q
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Analyze a small repository containing nested directories, repeated calls, recursion,
-Python imports and C includes. In both 2D and 3D, check Knowledge, Calls and Dependencies;
-try every layout, overlays, directed one/two-hop focus, group collapse/expand, branch
-focus and hidden-function search. Confirm selection does not reposition nodes, camera
-fit/reset, call-site evidence, responsive controls and resource cleanup when replacing
-the repository. Chromium was attempted again and failed with `setsockopt: Operation not
-permitted`; actual browser, responsiveness and GPU interactions remain unverified here.
+The installer validates package identity, reads bounded named archive members, preserves
+LICENSE and writes a hash/dependency receipt in `app/static/vendor/`. No npm scripts
+or build step run. Preserve license notices and the receipt when redistributing assets.
+The receipt documents downloaded bytes; it is not an independent signature. See the
+[local asset notes](../app/static/vendor/README.md),
+[upstream API](https://github.com/vasturiano/3d-force-graph) and
+[pinned license](https://github.com/vasturiano/3d-force-graph/blob/v1.73.3/LICENSE).
+The application fetches local assets only and sends no repository data to a graph service.
 
-Final refinement checks: **354 Python tests passed, 0 failed, 0 skipped**, including
-the frontend runner; **21 Node frontend cases passed**. JavaScript syntax and dependency
-consistency checks passed. One existing Starlette TestClient deprecation warning remains.
-The locally installed 3D bundle was checked against its existing receipt but was neither
-modified nor staged. No FPS, GPU or real-browser interaction measurement was possible.
+Fine-pointer desktops at least 1000px wide prefer 3D when WebGL is detected and reduced
+motion is off. Other devices start in 2D. Missing bundles, failed WebGL detection or
+renderer initialization errors produce an explicit 2D fallback. Feature detection alone
+does not establish compatibility with the bundled renderer. Reduced motion disables
+camera transitions, and accessible search/related-node buttons support selection in
+both modes. 2D additionally supports Tab/Enter/Space node selection and arrow-key pan.
+
+The frontend targets browsers providing SVG, Pointer Events, ResizeObserver,
+IntersectionObserver, matchMedia and modern JavaScript; 3D additionally needs a working
+WebGL renderer. No tested browser/version matrix is available. A custom 3D layout is a
+static arrangement, not a force simulation. Dense graphs can still cross edges or hide
+labels. Responsive CSS, orbit/drag behavior, real GPU operation and low-power behavior
+remain unverified in this environment.
+
+Initial dependency downloads were blocked by DNS. During refinement, local 1.73.3
+assets were present and the bundle matched its receipt; those untracked user files
+were preserved unchanged. Chromium startup failed with `setsockopt: Operation not
+permitted`; localhost port binding was also blocked. No successful visual, live-GitHub
+or real-WebGL verification is claimed. Graph semantics retain all static-analysis
+limitations described earlier. Architecture reconstruction and impact analysis remain
+future work.
+
+### Local functional and performance verification
+
+Run on an unrestricted local machine. Use a small known mixed-language repository
+and a larger fixture within the ingestion limits. Keep the same ZIP, browser version,
+viewport, device-pixel ratio and hardware when comparing observations.
+
+```bash
+source .venv/bin/activate
+node tests/frontend/graph.test.cjs    # Node.js 18+, no npm packages
+pytest tests/test_graph_explorer.py -q
+pytest -q
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+1. Open `http://127.0.0.1:8000` and analyze the fixture. Exercise all six combinations:
+   2D/3D × Knowledge/Calls/Dependencies. Record retained and displayed counts for each.
+2. Check containment groups, collapse/expand, branch focus and search for hidden functions.
+   Verify caller/callee and dependency arrows against source. Inspect recursion, cycles,
+   occurrence counts and unresolved references without assuming runtime execution.
+3. Try every layout and overlay; confirm selection/overlay changes preserve positions.
+   Check pointer-anchored 2D zoom/pan, dragging, fit/reset, 3D orbit/pan, keyboard selection,
+   narrow viewports, reduced motion and missing-WebGL/asset fallback.
+4. Use browser developer tools Performance recording during a fixed sequence of selection,
+   overlay, pan, zoom and dragging. Compare layout/DOM work, frame timing and long tasks
+   on the same fixture; distinguish initial layout cost from steady interaction.
+5. Before and after a **selection/overlay-only** change, inspect the existing development
+   counters in the console:
+
+   ```javascript
+   const a = window.graphExplorer.adapter;
+   ({layoutRuns: a?.layoutRuns, graphDataUpdates: a?.dataUpdates,
+     displayedNodes: window.graphExplorer.view.nodes.length,
+     displayedEdges: window.graphExplorer.view.edges.length});
+   ```
+
+   Layout runs should remain unchanged; 3D graph-data updates should remain unchanged.
+   SVG has no graph-data counter. Layout/perspective/membership changes or a new adapter
+   can legitimately change/reset counters. They are diagnostics, not FPS measurements.
+6. Check 3D idle/offscreen behavior and repeated repository/mode switches with the browser's
+   performance/memory tools. Separate retained graph data, renderer allocations and browser
+   caches. Confirm old selection is cleared on a new repository and only one canvas/adapter
+   remains. Export JSON and compare the retained graph independently of UI filters.
+7. Record measured values, test conditions and any failures; do not infer a speedup from
+   the existence of caps or optimizations. No such measurements have been collected here.
+
+### Recorded regression evidence and development history
+
+The implementation verification at `ff0ea45305c6bd1ecb24372f6afb969c412f8140` recorded
+**354 Python tests passed, 0 failed, 0 skipped**. The Python suite includes a runner for
+**21 passing Node frontend cases**, not 21 additional Python tests. Syntax and dependency
+checks passed; one existing Starlette TestClient deprecation warning remained. Tests use
+DOM/renderer mocks for graphics; they verify contracts, not actual GPU output.
+
+Coverage includes all six adapter/perspective combinations, deterministic layouts,
+SCC/cyclic relationships, hierarchy grouping, contextual labels, bounded search/traversal,
+SVG element reuse, unchanged 3D graph submissions for presentation-only updates, state
+preservation, perspective filter resets and lifecycle cleanup. See
+[development history](development_history.md) for the original problems, solutions,
+commit references and verification boundaries.
+
+The academic PDF/DOCX report has not been regenerated. These improvements are reserved
+for the comprehensive Task 7 report update.

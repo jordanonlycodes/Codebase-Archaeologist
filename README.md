@@ -2,7 +2,7 @@
 
 A local repository intelligence dashboard built with FastAPI, Jinja2, vanilla JavaScript and custom CSS. Upload a repository ZIP or import a public GitHub URL to inspect real file, language and line metrics. Uploaded code is **never executed**.
 
-Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Task 3A integrates that saved model into ZIP analysis and a C-only Defect Risk Intelligence dashboard. Task 4A.1 adds public GitHub default-branch snapshot imports through the same analysis pipeline.
+Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Task 3A integrates that saved model into ZIP analysis and a C-only Defect Risk Intelligence dashboard. Task 4A.1 adds public GitHub default-branch snapshot imports through the same analysis pipeline. Tasks 4A.2–4B.2 add structural metrics, a repository knowledge graph and a shared 2D/3D explorer.
 
 ## Install on Ubuntu
 
@@ -17,6 +17,11 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
+
+The 2D graph explorer needs no additional packages. For optional locally served 3D
+assets, run `python tools/install_graph_assets.py` once with network access; see
+[explorer setup](#interactive-knowledge-graph-explorer-task-4b2). Node.js 18+ is needed
+only for the frontend tests, not to run the application.
 
 Package installation requires access to PyPI. Static analysis needs no database, credentials, Node build, containers or ML packages. C-function predictions require the optional ML dependencies and trusted local artifacts. Dashboard assets are local; the optional Swagger API documentation uses FastAPI's default CDN assets. The optional training dependencies and commands are documented below.
 
@@ -281,44 +286,70 @@ The Task 4B.2 explorer below consumes these retained results.
 
 ### Interactive Knowledge Graph Explorer (Task 4B.2)
 
-The dashboard provides Knowledge, Function Calls and Dependency perspectives,
-search across all retained entities, filters, source/metric inspection, incoming/outgoing
-highlighting and bounded one/two-hop focus. Entity, complexity/hotspot and genuine
-C-only ML overlays share one state across the 2D and 3D adapters. JSON export keeps
-the complete retained backend graph, independent of visualization filters.
+The explorer uses actual `knowledge_graph` results from ZIP and GitHub analyses.
+Search spans all retained entities, including hidden functions; selecting a result
+opens a bounded neighborhood. Node inspection includes identity/source details,
+applicable structural metrics, hotspot reasons, genuine C-only ML estimates,
+incoming/outgoing links, call-site evidence and unresolved references. JSON export
+retains the backend graph independently of visualization filters.
 
-**2D works offline immediately** using a small native SVG adapter with deterministic
-layout, zoom, pan, dragging and keyboard selection. The genuine WebGL 3D adapter uses
-**3d-force-graph 1.73.3**, including Three.js, served locally after:
+| Perspective | Automatic layout | Relationships |
+| --- | --- | --- |
+| Repository Knowledge Graph | Packed containment hierarchy | Repository → directory → file → function |
+| Function Call Graph | Directed layers; recursive groups share a layer | Resolved caller → callee |
+| Dependency Graph | Clusters by actual directory path | Importing/including file → dependency |
+
+Choose **Automatic**, **Hierarchical** or **Radial** layouts. Explicit Hierarchical
+uses containment in Knowledge and directed layers in Calls/Dependencies. Collapse or
+expand selected directory/file groups, focus a branch, or explore one/two hops with
+incoming/outgoing highlighting. Perspective changes explicitly reset incompatible
+entity/relationship/language filters. Layout, overlay and selection are shared across
+renderers where applicable; switching renderers never reanalyzes the repository.
+
+- **2D:** dependency-free SVG with retained elements, collision-aware spacing,
+  contextual labels, pointer-anchored zoom, panning, dragging and keyboard selection.
+- **3D:** locally served **3d-force-graph 1.73.3**, including Three.js, with fixed spatial
+  layouts, orbit/pan/zoom, dragging, camera focus and idle/offscreen rendering pauses.
+- **Overlays:** entity type, measured structural complexity/hotspots and actual C-only
+  ML predictions. Unavailable values remain unscored; neither metrics nor model scores
+  establish confirmed defects or vulnerabilities.
+
+Both modes provide fit/reset, fullscreen or expanded view, filters and the same
+inspector. Rendering is bounded to **180 nodes / 420 edges**, with displayed/retained
+counts, collapsed-group counts and backend coverage. Large knowledge views initially
+collapse file groups. SVG updates are batched; 3D avoids unchanged graph submissions
+and uses a fixed conservative graphics profile. There is no quality-preset selector.
+
+#### Explorer setup and rendering preferences
+
+2D works immediately with local assets. To install the optional 3D bundle:
 
 ```bash
+source .venv/bin/activate
 python tools/install_graph_assets.py
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Asset retrieval was blocked by DNS in the development sandbox. Until this command
-succeeds, 3D reports the missing asset and falls back to 2D. Real 3D rendering remains
-unverified here. There is no CDN fallback. The installer preserves the upstream MIT
-license and records hashes/version. See [explorer documentation](docs/knowledge_graph.md#interactive-explorer-task-4b2)
-for controls, limits, dependency details and manual verification.
+The installer pins the package version, preserves its MIT license and writes a hash
+receipt. No npm build or runtime CDN request is required. If the bundle is missing,
+WebGL is unavailable or renderer initialization fails, the explorer reports the issue
+and falls back to 2D. Fine-pointer desktops at least 1000px wide prefer 3D when WebGL
+is detected and reduced motion is off; other devices start in 2D. Users can switch
+modes. Reduced motion disables camera transitions.
 
-Run `node tests/frontend/graph.test.cjs` for browser-free interaction/adapter tests
-(Node.js 18+; no npm install), and `pytest -q` for application regressions.
+Initial asset acquisition was blocked by sandbox DNS. During refinement, a local
+bundle was present and matched its receipt; it was preserved unchanged. Browser/GPU
+operation remains unverified here because Chromium startup was blocked. The latest
+implementation verification recorded **354 Python tests and 21 frontend cases passing**
+(0 failed, 0 skipped; the Python suite includes the frontend runner). These results
+verify contracts and mocked adapters, not measured FPS, latency or visual quality.
 
-### Graph explorer layout and performance refinement
+```bash
+node tests/frontend/graph.test.cjs  # Node.js 18+, no npm packages
+pytest -q
+```
 
-Both 2D and 3D now share perspective-specific deterministic layouts: containment
-hierarchy, cycle-safe caller/callee layers and directory-grouped dependencies. The
-layout control also offers hierarchical and radial arrangements. File/directory
-collapse and branch focus follow actual containment; search still reaches hidden
-functions. Large initial knowledge views collapse file groups with explicit counts.
-
-SVG nodes/edges are retained between interactions, and drag updates use animation-frame
-batching. The 3D adapter uses fixed layout positions, resubmits graph data only for
-topology changes, caps pixel density and pauses rendering while idle/offscreen.
-Contextual labels, distinct relationship styles and an entity-specific inspector
-improve readability. No FPS improvement is claimed: browser startup remains blocked
-by this environment. Locally installed 3D assets were preserved unchanged.
-
-Run `node tests/frontend/graph.test.cjs` and `pytest -q`. See the
-[graph documentation](docs/knowledge_graph.md#layout-and-rendering-refinement) for
-controls, coverage and remaining manual checks.
+See [graph algorithms, limits and local performance checks](docs/knowledge_graph.md#interactive-explorer-task-4b2)
+and [development history](docs/development_history.md) for the original problems,
+implemented solutions, regression coverage and verification boundaries. The academic
+PDF/Word report is unchanged; these improvements are reserved for the Task 7 report update.
