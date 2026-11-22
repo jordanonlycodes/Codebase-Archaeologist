@@ -35,7 +35,18 @@
           .onNodeHover(n=>{this.hover=n?.id||null;this.updateArrows();this.syncLabels();this.wake();})
           .onNodeDragEnd(n=>{n.fx=n.x;n.fy=n.y;n.fz=n.z;this.positions.set(n.id,{x:n.x/.45,y:-n.y/.45,z:0,spatialZ:n.z});this.wake();})
           .warmupTicks(0).cooldownTicks(0).cooldownTime(0);
-        this.graph.controls().enableDamping=false;
+        const controls=this.graph.controls();
+        controls.enableDamping=false;controls.enablePan=true;controls.enableRotate=true;controls.enableZoom=true;controls.screenSpacePanning=true;
+        this.rotateButton=controls.mouseButtons?.LEFT;
+        this.host.tabIndex=0;
+        // Scope keyboard navigation and control events to this viewport, never window.
+        controls.listenToKeyEvents?.(host);
+        this.clean.push(()=>controls.stopListenToKeyEvents?.());
+        for(const event of ['start','change','end']){
+          const listener=()=>{if(event==='start')this.autoFit=false;this.wake();};
+          controls.addEventListener?.(event,listener);
+          this.clean.push(()=>controls.removeEventListener?.(event,listener));
+        }
         this.contextAntialias=this.graph.renderer().getContext?.()?.getContextAttributes?.()?.antialias;
         this.graph.linkDirectionalArrowResolution?.(3);
         this.labelLayer=document.createElement('div');this.labelLayer.className='graph-spatial-labels';host.append(this.labelLayer);
@@ -125,11 +136,35 @@
       const tick=time=>{this.frame=null;if(this.destroyed||!this.visible)return;if(document.hidden){this.pause();return;}if(this.quality.frame(time))this.applyQuality();if(!this.lastLabelTime||time-this.lastLabelTime>=this.quality.profile.labelMs){this.placeLabels();this.lastLabelTime=time;}this.frame=requestAnimationFrame(tick);};this.frame=requestAnimationFrame(tick);
     }
     pause(){clearTimeout(this.sleep);cancelAnimationFrame(this.frame);this.frame=null;this.awake=false;this.quality?.pause();this.graph?.pauseAnimation();}
-    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.graph.cameraPosition({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,this.reduced?0:300);this.wake(450);}
-    fit(){this.graph.zoomToFit(this.reduced?0:250,45);this.wake(400);}
-    zoom(factor){const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.graph.cameraPosition(next,target,0);this.wake();}
-    reset(){this.signature=null;this.strategy=null;this.set(this.view,this.ix,this.state);this.graph.cameraPosition({x:0,y:0,z:650},{x:0,y:0,z:0},0);this.fit();}
-    resize(){this.graph.width(this.host.clientWidth||800).height(this.host.clientHeight||580);this.labelDirty=true;this.wake();}
+    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;this.autoFit=false;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.graph.cameraPosition({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,this.reduced?0:300);this.wake(450);}
+    fit(){
+      // Use retained coordinates, not scene meshes: graphData updates meshes on a
+      // later library tick, so immediate zoomToFit could see empty/stale bounds.
+      const nodes=(this.data?.nodes||[]).filter(n=>[n.x,n.y,n.z].every(Number.isFinite));
+      if(!nodes.length||!this.width||!this.height)return;
+      const bounds=['x','y','z'].map(axis=>{
+        const values=nodes.map(n=>n[axis]);return [Math.min(...values),Math.max(...values)];
+      }),target=Object.fromEntries(bounds.map(([lo,hi],i)=>[['x','y','z'][i],(lo+hi)/2]));
+      const camera=this.graph.camera(),vertical=Math.tan((camera.fov||50)*Math.PI/360),aspect=this.width/this.height;
+      // Fit a bounding sphere from any orbit direction, including a single node.
+      const radius=Math.max(25,Math.hypot(...bounds.map(([lo,hi])=>(hi-lo)/2))+15);
+      const distance=radius/Math.sin(Math.atan(Math.min(vertical,vertical*aspect)))*1.12;
+      const delta=camera.position.clone().sub(this.graph.controls().target);
+      if(delta.lengthSq()===0)delta.set(0,0,1);
+      delta.normalize().multiplyScalar(distance);
+      this.graph.cameraPosition({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,this.reduced?0:250);
+      this.autoFit=true;this.wake(400);
+    }
+    panMode(enabled){const controls=this.graph.controls();if(controls.mouseButtons)controls.mouseButtons.LEFT=enabled?controls.mouseButtons.RIGHT:this.rotateButton;this.host.style.cursor=enabled?'move':'';}
+    zoom(factor){this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.graph.cameraPosition(next,target,0);this.wake();}
+    reset(){if(!this.data?.nodes.length)return;const center=this.graph.controls().target;this.graph.cameraPosition({x:center.x,y:center.y,z:center.z+650},center,0);this.fit();}
+    resize(){
+      const width=this.host.clientWidth,height=this.host.clientHeight;
+      // Hidden documents/containers have no useful viewport; defer to ResizeObserver.
+      if(!width||!height||width===this.width&&height===this.height)return;
+      this.width=width;this.height=height;this.graph.width(width).height(height);
+      this.labelDirty=true;if(this.autoFit)this.fit();this.wake();
+    }
     destroy(){
       if(this.destroyed)return;this.pause();this.destroyed=true;this.observer?.disconnect();this.clean.forEach(fn=>fn());this.clean=[];
       const g=this.graph;if(!g){this.host.replaceChildren();return;}

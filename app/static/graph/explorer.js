@@ -27,6 +27,7 @@
       $('graph-clear').addEventListener('click',()=>this.clear());
       $('graph-fit').addEventListener('click',()=>this.adapter?.fit());
       $('graph-reset').addEventListener('click',()=>this.adapter?.reset());
+      $('graph-pan').addEventListener('click',()=>{this.panEnabled=!this.panEnabled;$('graph-pan').setAttribute('aria-pressed',String(this.panEnabled));this.adapter?.panMode?.(this.panEnabled);});
       $('graph-in').addEventListener('click',()=>this.adapter?.zoom(1.3));
       $('graph-out').addEventListener('click',()=>this.adapter?.zoom(1/1.3));
       $('graph-fullscreen').addEventListener('click',()=>this.fullscreen());
@@ -65,12 +66,12 @@
       for(const key of ['types','relations'])for(const input of $('graph-'+key).querySelectorAll('input'))input.checked=this.state[key].includes(input.value);
       this.modeButtons();
     }
-    modeButtons(){for(const mode of ['2d','3d'])$('graph-'+mode).setAttribute('aria-pressed',String(this.state.mode===mode));}
+    modeButtons(){for(const mode of ['2d','3d'])$('graph-'+mode).setAttribute('aria-pressed',String(this.state.mode===mode));$('graph-pan').hidden=this.state.mode!=='3d';$('graph-pan').setAttribute('aria-pressed',String(!!this.panEnabled));}
     async switchMode(mode){
       if(this.suspended)return;
       if(mode==='3d'&&!this.supports3D){mode='2d';this.notice='WebGL unavailable; using 2D.';}
       const token=++this.epoch;
-      this.adapter?.destroy();this.adapter=null;this.state.mode=mode;this.modeButtons();
+      this.adapter?.destroy();this.adapter=null;this.panEnabled=false;this.state.mode=mode;this.modeButtons();
       this.host.replaceChildren(text('p',mode==='3d'?'Loading local WebGL renderer…':'Preparing graph…','graph-canvas-message'));
       try{
         if(mode==='3d'){

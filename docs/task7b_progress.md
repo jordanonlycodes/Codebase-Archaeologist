@@ -18,3 +18,21 @@ Do not stage the three untracked vendor assets: redistribution review remains op
 
 The user subsequently supplied a three-concept logo reference and selected the
 left-hand Minimalist Relic. Branding follows that explicit direction.
+
+## Checkpoint 2 — camera fixes
+
+`graph/three.js`: coordinate-based bounding-sphere fit replaces a race-prone immediate
+scene bbox query; real width/height only, aspect-aware fit, no fabricated hidden sizes.
+Fitted resize reframes; user camera navigation is retained after manual interaction.
+Reset restores orientation and fits without relayout. Explicit supported OrbitControls
+pan/rotate/zoom/screen-space settings, scoped keyboard listeners, control-event wakeups
+and complete cleanup. `graph/explorer.js` and graph template add a pressed-state left
+pan toggle, focusable viewport and clearer gesture/reset instructions. No source-analysis
+or ML changes. MSAA-off, bounded DPR, geometry reuse and idle rendering remain.
+
+Extended the actual 3D adapter harness for translated/disconnected/single/empty bounds,
+aspect resize, hidden hosts, navigation preservation, reset stability and listener
+cleanup; added a pan-toggle lifecycle case. New harness against original adapter fails
+at coordinate fitting; patched harness **25/25 passes**. Focused Python graph/product
+suite **25 passed, 0 failed/skipped in38.47s**, one existing warning. These are browser-free
+checks, not physical camera/visual acceptance. See knowledge_graph.md for usage.

@@ -122,7 +122,7 @@ test('WebGL detection handles failures without throwing',()=>{
 
 test('real 3D adapter uses isolated data, safe labels, bounded simulation and resource cleanup',()=>{
  let raf=0,cancelled=0,disconnected=0,disposed=0,contextLost=0,destructed=0;
- let updates=0;const options=[];const calls={},host=new Element(),controls={target:{x:0,y:0,z:0},dispose(){disposed++;}};
+ let updates=0;const options=[];const calls={},host=new Element(),controlEvents=new Map(),controls={target:{x:0,y:0,z:0},mouseButtons:{LEFT:0,RIGHT:2},listenToKeyEvents(el){calls.keyHost=el;},stopListenToKeyEvents(){calls.keysStopped=true;},addEventListener(type,fn){controlEvents.set(type,fn);},removeEventListener(type){controlEvents.delete(type);},dispose(){disposed++;}};
  const graph={};
  const methods=['backgroundColor','showNavInfo','nodeId','nodeResolution','nodeLabel','linkLabel','linkDirectionalArrowLength','linkDirectionalArrowRelPos','linkOpacity','linkCurvature','enableNodeDrag','onNodeClick','onBackgroundClick','onNodeDragEnd','onNodeHover','warmupTicks','cooldownTicks','cooldownTime','nodeVal','nodeColor','linkColor','linkWidth','width','height','cameraPosition','zoomToFit'];
  for(const method of methods)graph[method]=(...args)=>{calls[method]=args;return graph;};
@@ -130,6 +130,8 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  graph.pauseAnimation=()=>{calls.paused=true;};graph.resumeAnimation=()=>{};
  const material={color:{},emissive:{copy(){}},dispose(){disposed++;}};graph.scene=()=>({traverse:fn=>fn({geometry:{type:'SphereGeometry',dispose(){disposed++;}},material})});
  graph.renderer=()=>({renderLists:{dispose(){disposed++;}},dispose(){disposed++;},forceContextLoss(){contextLost++;},setPixelRatio(value){calls.pixelRatio=value;},getContext(){return {getContextAttributes:()=>({antialias:false})};}});
+ class Vector{constructor(x=0,y=0,z=650){Object.assign(this,{x,y,z});}clone(){return new Vector(this.x,this.y,this.z);}sub(v){this.x-=v.x;this.y-=v.y;this.z-=v.z;return this;}lengthSq(){return this.x**2+this.y**2+this.z**2;}set(x,y,z){Object.assign(this,{x,y,z});return this;}normalize(){return this.multiplyScalar(1/(Math.sqrt(this.lengthSq())||1));}multiplyScalar(s){this.x*=s;this.y*=s;this.z*=s;return this;}add(v){this.x+=v.x;this.y+=v.y;this.z+=v.z;return this;}}
+ graph.camera=()=>({fov:50,position:new Vector()});
  graph._destructor=()=>{destructed++;};
  const document={createElement:tag=>new Element(tag)};
  const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,ArchaeologistQuality:Q,setTimeout,clearTimeout,document,ForceGraph3D:config=>{options.push(config);return ()=>graph;},requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{cancelled++;},IntersectionObserver:class{observe(){}disconnect(){disconnected++;}}};
@@ -147,6 +149,19 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
   assert.equal(updates,count,`3D ${view}: style-only updates must not resubmit graph data`);assert.equal(adapter.layoutRuns,runs);
   assert.equal(adapter.data.nodes[0],first);if(first)assert.deepEqual({x:first.x,y:first.y,z:first.z},location);
  }
+ // Fit must work before library meshes exist, and include translated/disconnected nodes.
+ adapter.data.nodes=[{x:1000,y:200,z:50},{x:1400,y:800,z:150}];adapter.fit();
+ assert.deepEqual(JSON.parse(JSON.stringify(calls.cameraPosition[1])),{x:1200,y:500,z:100});
+ assert(calls.cameraPosition[0].z>calls.cameraPosition[1].z);assert.equal(calls.keyHost,host);
+ assert.equal(controls.enablePan,true);assert.equal(controls.screenSpacePanning,true);
+ adapter.panMode(true);assert.equal(controls.mouseButtons.LEFT,2);adapter.panMode(false);assert.equal(controls.mouseButtons.LEFT,0);
+ const firstDistance=calls.cameraPosition[0].z;host.clientWidth=400;adapter.resize();assert.equal(calls.width[0],400);assert(calls.cameraPosition[0].z>firstDistance);
+ controlEvents.get('start')();assert.equal(adapter.autoFit,false);
+ const previous=calls.cameraPosition;host.clientWidth=600;adapter.resize();assert.equal(calls.cameraPosition,previous,'resizing after panning must preserve camera');
+ host.clientWidth=0;adapter.resize();assert.equal(calls.width[0],600,'hidden hosts must not get a fabricated width');
+ host.clientWidth=900;adapter.resize();adapter.data.nodes=[{x:20,y:30,z:40}];adapter.reset();assert.deepEqual(JSON.parse(JSON.stringify(calls.cameraPosition[1])),{x:20,y:30,z:40});
+ const layoutRuns=adapter.layoutRuns;adapter.reset();assert.equal(adapter.layoutRuns,layoutRuns,'reset camera must preserve node arrangement');
+ adapter.data.nodes=[];const emptyPosition=calls.cameraPosition;adapter.fit();adapter.reset();assert.equal(calls.cameraPosition,emptyPosition);
  const count=updates,runs=adapter.layoutRuns;
  s.quality='performance';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],4);assert.equal(material.emissiveIntensity,0);assert.equal(calls.pixelRatio,1);assert.equal(updates,count);assert.equal(adapter.layoutRuns,runs);
  assert.match(adapter.qualityDescription(),/context antialias: off/);
@@ -154,7 +169,7 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  s.quality='balanced';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],6);assert.equal(updates,count);
  adapter.pause();assert(calls.paused);assert.equal(calls.cooldownTime[0],0);
 
- adapter.destroy();adapter.destroy();assert.equal(destructed,1);assert.equal(contextLost,1);assert.equal(Object.keys(host.listeners).length,0);assert(cancelled>=1);assert.equal(disconnected,1);assert(disposed>=4);
+ adapter.destroy();adapter.destroy();assert.equal(destructed,1);assert.equal(contextLost,1);assert.equal(controlEvents.size,0);assert.equal(calls.keysStopped,true);assert.equal(Object.keys(host.listeners).length,0);assert(cancelled>=1);assert.equal(disconnected,1);assert(disposed>=4);
 });
 
 function hierarchyFixture(){return {nodes:[n('root','repository'),n('dir','directory'),n('file','file'),n('a'),n('b'),n('otherDir','directory'),n('otherFile','file')],edges:[e('rd','root','dir','CONTAINS'),e('df','dir','file','CONTAINS'),e('fa','file','a','DEFINES'),e('fb','file','b','DEFINES'),e('ro','root','otherDir','CONTAINS'),e('of','otherDir','otherFile','CONTAINS'),e('ab','a','b')]};}
@@ -262,4 +277,14 @@ test('WebGL probe explicitly avoids requesting antialiasing and releases its con
  const context={document:{createElement:()=>({getContext:(kind,options)=>{requests.push({kind,options});return {getExtension:()=>({loseContext(){lost++;}})};}})}};
  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
  assert.equal(context.ArchaeologistThree.webgl(),true);assert.equal(requests[0].options.antialias,false);assert.equal(lost,1);
+});
+
+test('3D pan control exposes pressed state and resets on renderer replacement',async()=>{
+ const h=controller();h.explorer.setGraph(fixture());
+ const switching=h.explorer.switchMode('3d');h.loads[0].resolve();await switching;
+ const modes=[];h.explorer.adapter.panMode=value=>modes.push(value);
+ const pan=h.elements.get('graph-pan');assert.equal(pan.hidden,false);
+ pan.listeners.click();assert.equal(pan.getAttribute('aria-pressed'),'true');assert.equal(modes[0],true);
+ h.explorer.syncControls();assert.equal(pan.getAttribute('aria-pressed'),'true');
+ await h.explorer.switchMode('2d');assert.equal(pan.hidden,true);assert.equal(pan.getAttribute('aria-pressed'),'false');
 });

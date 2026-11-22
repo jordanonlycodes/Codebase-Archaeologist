@@ -688,3 +688,25 @@ only on explicit request. Current/historical navigation requires matching URL, p
 SHA and unique path evidence; deleted/renamed historical paths are not guessed onto
 current files. Current complexity and C-only model estimates are never relabeled as
 historical measurements. See [Time Machine methodology and workflow](time_machine.md).
+
+### Task7B camera correction
+
+3D Fit now frames a bounding sphere derived from retained node coordinates and the
+actual viewport aspect/FOV. It does not wait for asynchronous scene-mesh construction.
+Zero-sized hidden hosts defer sizing until ResizeObserver supplies real dimensions.
+An automatically fitted view reframes on resize; manual pan/zoom/focus preserves its
+camera target through resizing. Reset View restores a frontal camera direction and fits
+without rebuilding layout or discarding dragged node positions.
+
+OrbitControls explicitly enables pan, rotate, zoom and screen-space translation.
+Right-drag or Ctrl+drag pans; the optional **Pan with left drag** toggle maps the left
+button to the existing library PAN action. On the focused viewport, arrow keys pan;
+keyboard listeners are scoped to that viewport and removed at teardown. Two-finger
+panning follows the library touch controls. Control start/change/end events wake the
+idle renderer; no perpetual simulation or global keyboard listener was introduced.
+
+These use documented OrbitControls properties/events and the pinned bundle's actual
+API (including listenToKeyEvents/stopListenToKeyEvents). Reference:
+https://threejs.org/docs/pages/OrbitControls.html . Source and Node harness validation
+are complete; real GPU/camera acceptance remains a local Task7B manual check because
+Chromium cannot start in the execution sandbox. No FPS or smoothness claim is made.

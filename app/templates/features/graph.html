@@ -32,12 +32,12 @@
                 <div class="graph-stage">
                   <div class="graph-camera-controls" role="group" aria-label="Graph camera and neighborhood controls">
                     <button type="button" id="graph-in" aria-label="Zoom in">+</button><button type="button" id="graph-out" aria-label="Zoom out">−</button>
-                    <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset layout / camera</button>
+                    <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset View</button><button type="button" id="graph-pan" aria-pressed="false" hidden>Pan with left drag</button>
                     <button type="button" id="graph-focus" disabled>Focus selected</button><button type="button" id="graph-hop-1" disabled>1 hop</button><button type="button" id="graph-hop-2" disabled>2 hops</button><button type="button" id="graph-group" disabled>Collapse group</button><button type="button" id="graph-branch" disabled>Focus branch</button>
                   </div>
-                  <div id="graph-canvas" class="graph-canvas" aria-label="Repository graph viewport"></div>
+                  <div id="graph-canvas" class="graph-canvas" aria-label="Repository graph viewport" aria-describedby="graph-gestures"></div>
                   <p id="graph-empty" class="graph-empty" hidden>No retained entities match this view. Clear filters or choose a different perspective.</p>
-                  <p class="graph-gestures">2D: drag canvas to pan, drag nodes to arrange, scroll to zoom; Tab + Enter to select. 3D: drag to orbit, right-drag to pan, scroll to zoom, drag nodes to move. Search and related-node buttons provide keyboard selection in both modes.</p>
+                  <p class="graph-gestures" id="graph-gestures">2D: drag canvas to pan, drag nodes to arrange, scroll to zoom; Tab + Enter to select. 3D: drag empty space to orbit; right-drag, Ctrl + drag or enable Pan with left drag to translate. Scroll to zoom; two fingers pan on touch. Focus the viewport and use arrow keys to pan. Drag nodes to arrange. Fit recenters; Reset View restores the viewing direction without moving nodes. Search and related-node buttons provide keyboard selection in both modes.</p>
                 </div>
                 <aside id="graph-inspection" class="graph-inspection" aria-label="Selected graph entity details"></aside>
               </div>
