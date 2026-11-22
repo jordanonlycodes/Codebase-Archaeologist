@@ -14,3 +14,13 @@ window.WorkspaceNavigation.component=id=>workspaceEntities.fileComponents.get(wo
 window.WorkspaceNavigation.file=id=>workspaceEntities.owners.get(id);
 
 window.workspaceStoreForJordan=workspaceStore;
+
+window.WorkspaceNavigation.askJordan=(id,options={})=>{
+ if(id&&(!workspaceEntities.nodes.has(id)&&!window.activeAnalysis?.structural?.functions.some(f=>f.id===id)&&!window.activeAnalysis?.architecture?.components.some(c=>c.id===id)))return false;
+ const from=document.body.dataset.page,question=typeof options.question==='string'?options.question.slice(0,1600):'Explain this selected entity.';
+ const handoff={page:'jordan',id:id||null,from:workspacePages.has(from)?from:'overview',question};
+ if([1,2,3].includes(options.depth))handoff.depth=options.depth;
+ if(['upstream','downstream','both'].includes(options.direction))handoff.direction=options.direction;
+ if(options.target_id&&workspaceEntities.nodes.has(options.target_id))handoff.target_id=options.target_id;
+ workspaceStore.handoff(handoff);location.assign('/workspace/jordan');return true;
+};

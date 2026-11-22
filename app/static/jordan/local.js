@@ -13,6 +13,7 @@
   if(/relationships? (exist )?between/i.test(q))return 'between';
   if(/who calls|which components depend on|callers|calls (it|this)|what imports|what includes|depend on (this|it)|depends on|dependents/i.test(q))return 'incoming';
   if(/what.*call|callees|what.*import|what.*include|dependencies|depend on/i.test(q))return 'outgoing';
+  if(/architecture|cycles|component (overview|summary)|largest.*components|connected components/i.test(q))return 'architecture';
   if(/languages?/i.test(q))return 'languages';
   if(/how many.*function|function (count|total)/i.test(q))return 'functions';
   if(/summari[sz]e|overview|inventory|how many.*file/i.test(q))return 'overview';
@@ -22,7 +23,7 @@
  function answer(ix,question,context={}){
   if(typeof question!=='string'||!question.trim()||question.length>R.LIMITS.question)throw new Error('Enter a question of 1–1600 characters.');
   const q=question.trim(),kind=intent(q),records=[],lines=[],actions=[];let entityId=null,candidates=[];
-  const add=n=>{if(n)records.push(R.entityEvidence(n));};
+  const add=n=>{if(n){const record=R.entityEvidence(n);for(const r of (ix.impact.hotspots.get(n.id)?.reasons||[]).slice(0,4))record.facts.push(R.fact('Structural hotspot',`${r.explanation}; threshold ${r.threshold}; measured ${r.value}`));records.push(record);}};
   const reply={intent:kind,answer:'',entity_id:null,evidence:[],candidates:[],limitations:[NOTE],actions};
   const finish=()=>{reply.answer=lines.join('\n').slice(0,6000);reply.entity_id=entityId;reply.evidence=R.packet(records);reply.candidates=candidates.slice(0,R.LIMITS.candidates).map(n=>({id:n.id,name:n.name,path:n.path||'',type:n.type}));if(ix.data.knowledge_graph?.coverage?.complete!==true)reply.limitations.push('Graph coverage is partial or unavailable; absence of a relationship is not proof of independence.');return reply;};
   const functions=ix.ordered.filter(n=>n.type==='function'),scored=n=>n.metadata?.language==='C'&&n.metadata?.ml?.status==='analyzed'&&Number.isFinite(n.metadata.ml.model_probability);
@@ -44,6 +45,13 @@
    for(const n of list.slice(0,6)){add(n);let detail=kind==='risk'?`uncalibrated C model estimate ${n.metadata.ml.model_probability.toFixed(3)}`:kind==='unscored'?'unscored':`complexity ${n.metadata?.cyclomatic_complexity??'unavailable'}`;const h=ix.impact.hotspots.get(n.id);if(h)detail+='; '+h.reasons.map(r=>r.explanation).join('; ');lines.push(`${n.name} — ${n.path||'path unavailable'}: ${detail}`);}
    if(!list.length)lines.push(kind==='risk'?'No genuine C-function scores are available. The model may be unavailable, or no eligible C functions were scored.':'No matching retained measurements are available.');
    if(list.length){entityId=list[0].id;candidates=list.slice(0,6);actions.push({label:'Who calls it?',question:'Who calls it?'},{label:'Potential impact',question:'What could be affected if I change it?'});}return finish();
+  }
+  if(kind==='architecture'){
+   const components=[...ix.impact.components.values()].sort((a,b)=>(b.incoming_components+b.outgoing_components)-(a.incoming_components+a.outgoing_components)||a.id.localeCompare(b.id));
+   lines.push(`${components.length} retained directory-based components; ${ix.data.architecture?.edges?.length??'unavailable'} aggregated directed relationships. These are observed static groupings, not inferred runtime services.`);
+   for(const c of components.slice(0,5)){add(c);lines.push(`${c.name} (${c.path||'.'}): ${c.metrics?.files??'unavailable'} files, ${c.metrics?.functions??'unavailable'} functions, ${c.incoming_components??'unavailable'} incoming / ${c.outgoing_components??'unavailable'} outgoing component neighbors.`);}
+   for(const cycle of (ix.data.architecture?.dependency_cycles||[]).slice(0,4))lines.push('Observed component dependency cycle: '+cycle.map(id=>ix.entities.get(id)?.name||id).join(' ↔ '));
+   reply.limitations.push(ix.data.architecture?.coverage?.truncated?'Architecture output is truncated.':'Cycle groups are static dependency evidence, not runtime execution paths.');return finish();
   }
   if(kind==='coverage'){
    const g=ix.data.knowledge_graph?.coverage,st=ix.data.structural?.coverage,m=ix.data.defect_risk;
@@ -78,8 +86,9 @@
   if(kind==='impact'){
    const depth=Number(q.match(/\b([123])\s*(?:hop|step)/i)?.[1]||context.depth||1),direction=context.direction||'both',p=E.query(ix.impact,n.id,{depth,direction});
    lines.push(`Potential impact within ${p.depth} hop(s): ${p.summary.direct_upstream} direct and ${p.summary.transitive_upstream} transitive upstream dependents; ${p.summary.direct_downstream+p.summary.transitive_downstream} downstream dependencies. These are statically reachable entities, not predicted breakages.`);
-   for(const r of p.records.slice(0,5)){const chain=r.node_path.map(id=>ix.entities.get(id)?.name||id);lines.push(`${r.side}, ${r.distance} hop(s): ${chain.join(r.side==='upstream'?' ← ':' → ')}${r.other_paths_observed?' (additional paths observed)':''}`);for(const id of r.edge_path)records.push(R.edgeEvidence(ix,ix.impact.edges.get(id)));}
+   for(const r of (context.target_id?p.records.filter(r=>r.id===context.target_id):p.records).slice(0,5)){const chain=r.node_path.map(id=>ix.entities.get(id)?.name||id);lines.push(`${r.side}, ${r.distance} hop(s): ${chain.join(r.side==='upstream'?' ← ':' → ')}${r.other_paths_observed?' (additional paths observed)':''}`);for(const id of r.edge_path)records.push(R.edgeEvidence(ix,ix.impact.edges.get(id)));}
    reply.limitations.push(`Impact coverage: ${p.coverage.graph_complete?'supported graph complete':'partial graph'}; traversal ${p.coverage.truncated?'truncated: '+p.coverage.issues.join(', '):'within limits'}. Membership edges select seeds only; they do not propagate change.`);
+   if(context.target_id&&!p.records.some(r=>r.id===context.target_id))lines.push('The requested path target is not reachable within the current retained query limits.');
    actions.push({label:'Open exact impact investigation',page:'blast-radius',id:n.id});
   }
   for(const [label,question]of [['Callers / dependents','Who calls it?'],['Callees / dependencies','What does it call?']])actions.push({label,question});

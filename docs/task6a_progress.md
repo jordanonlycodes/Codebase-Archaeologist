@@ -65,6 +65,19 @@ are required for each request. Withdraw/mode-change/pagehide abort client reques
 clear pending disclosure. Local answer remains available on provider failure. Cloud
 answers are memory-only. Existing shared lifecycle restores local conversation and
 cleans up requests on navigation; no source payload or second repository cache.
-19 focused Python checks (18 product, 1 retrieval runner) passed after correcting a
-case-sensitive preview assertion; the real-document harness now has 38 passing cases.
+The initial focused run passed 18 Python checks and exposed one case-sensitive
+preview assertion error. After correcting it, the real-document harness passed all
+38 cases directly. The final full Python run will verify the complete runner again.
 This is browser-free integration, not visual verification. No landing styles changed.
+
+## Stage F complete — contextual investigations
+
+Added exact-ID Ask Jordan handoffs from structure, risk, graph, architecture/heatmaps
+and impact inspectors, plus Overview entry. Handoffs contain only validated identities,
+origin page, a bounded suggested question and optional impact depth/direction/target.
+The selected path is retrieved again from the existing engine, not trusted as supplied
+source evidence. Jordan can return to the originating page and navigate evidence to
+structure, graph, architecture and impact without reanalysis. Architecture summaries
+include actual directory grouping and recorded dependency cycles.
+Verified: 41 real-document cases, 24 graph, 10 architecture, 32 impact Node cases passed.
+No source parser, trained model, academic artifact or landing design was modified.

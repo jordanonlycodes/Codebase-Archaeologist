@@ -32,6 +32,7 @@ function renderOverviewContext(){
   ['graph','Source relationships',g?number(g.summary.edges):'Unavailable','Retained hierarchy, call, import and include relationships.'],
   ['architecture','Architecture components',a?number(a.components.length):'Unavailable','Directory groups, based on actual direct-member files.'],
   ['risk','C-function research scores',m?number(m.analyzed_functions):'Unavailable',m?.message||'Optional trusted model unavailable.'],
+  ['jordan','Jordan engineering companion','Ask','Investigate this snapshot through traceable local evidence or consent-based AI explanations.'],
   ['blast-radius','Potential change impact','Explore','Trace resolved relationships; reachability is not guaranteed breakage.']]){
   const link=node('a',undefined,'overview-pathway');link.href='/workspace/'+page;link.append(node('span',label),node('strong',measure),node('p',detail),node('b','↗'));container.append(link);
  }
