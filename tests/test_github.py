@@ -253,12 +253,13 @@ def test_missing_model_github_still_analyzes(client,make_zip,mock_download,tmp_p
 
 def test_dashboard_contract(client):
     html=client.get('/explore').text
-    for id in ['mode-zip','mode-github','github-form','github-url','analyze-github','source-meta','choose-file']:
+    for id in ['mode-zip','mode-github','github-form','github-url','analyze-github','choose-file']:
         assert f'id="{id}"' in html
-    js=client.get('/static/app.js').text
-    assert "request.open('POST', '/api/analyze/github')" in js
+    assert 'id="source-meta"' in client.get('/workspace/overview').text
+    js=client.get('/static/product/workspace.js').text
+    assert "'/api/analyze/github'" in client.get('/static/product/import.js').text
     assert 'JSON.stringify(result, null, 2)' in js
-    assert "link.rel = 'noopener noreferrer'" in js
+    assert "link.rel = 'noopener noreferrer'" in client.get('/static/product/overview.js').text
 
 
 def test_read_deadline_even_with_stream_progress():

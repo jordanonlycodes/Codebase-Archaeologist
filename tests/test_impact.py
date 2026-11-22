@@ -32,7 +32,7 @@ def test_impact_engine_controller_and_syntax():
 
 def test_dashboard_handoffs_and_safe_assets():
     with TestClient(app) as client:
-        page=client.get('/explore').text
+        page=client.get('/workspace/blast-radius').text
         ids=re.findall(r'\bid="([^"]+)"',page)
         assert len(ids)==len(set(ids))
         for name in ['engine.js','explorer.js','explorer.css']:
@@ -43,9 +43,9 @@ def test_dashboard_handoffs_and_safe_assets():
         script=client.get('/static/impact/explorer.js').text
         for identity in re.findall(r"\$\('(impact-[^']+)'\)",script):
             assert identity in ids,identity
-        app_script=client.get('/static/app.js').text
+        app_script=client.get('/static/product/workspace.js').text
         assert 'renderImpact(result.knowledge_graph, result.architecture, result.structural)' in app_script
-        assert 'result.blast_radius = window.impactExplorer.result' in app_script
+        assert 'result.blast_radius=query' in app_script
         assert 'root.impactExplorer?.open(n.id)' in client.get('/static/graph/explorer.js').text
         assert 'root.impactExplorer?.open(impactId)' in client.get('/static/architecture/explorer.js').text
 

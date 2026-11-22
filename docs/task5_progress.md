@@ -27,6 +27,15 @@
   false positive matched a comment; corrected and reran all ten cases before integration. Import UI and
   route integration follow together in the next functional migration commit.
 
+- Stages D/E integrated: premium ZIP/GitHub import, actual upload vs indeterminate
+  processing feedback, persistent snapshot handoff, seven real workspace routes and
+  page-specific controllers/templates. Overview, risk, structure, graph, architecture,
+  heatmaps and impact preserve all analytical capabilities. Existing selectors and
+  regression assertions migrated to their correct routes. Superseded massive dashboard
+  HTML/CSS/controller removed. **399 Python tests passed**, including 19 real-document
+  integration cases and 10 store cases. No renderer or analysis request duplication
+  in the tested history/navigation lifecycle. Details: `docs/frontend.md`.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
@@ -44,9 +53,8 @@
 
 1. Stage B completed; activate the tested design foundation in new page templates.
 2. Stage C completed; replace temporary explore dashboard during D/E migration.
-3. Stage D: shared snapshot store, import controller, real route shell.
-4. Stage E: migrate feature templates and initialize only the active feature; cross-page
-   ID handoffs and export; regression contract migration to their proper pages.
+3. Stage D completed.
+4. Stage E completed; proceed to F visualization refinement and second quality pass.
 5. Stage F: visualization and responsive refinement; teardown checks.
 6. Stage G: branded README SVG and accurate narrative/research evidence/screenshots status.
 7. Stage H: complete tests, browser attempt, second quality pass, docs, final commit/push.

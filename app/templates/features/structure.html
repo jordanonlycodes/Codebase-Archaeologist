@@ -1,0 +1,31 @@
+<section class="risk-section structural-section" id="structural-intelligence" aria-labelledby="structural-title">
+          <h2 id="structural-title" class="sr-only">Structural Intelligence</h2>
+          <p id="structural-state" role="status" aria-live="polite">Analyze a repository to explore its function structure.</p>
+          <p class="risk-disclaimer">Structural review indicators describe complexity and size. They do not establish defects, vulnerabilities or an ML probability.</p>
+          <div id="structural-results" hidden>
+            <div class="stats-grid risk-stats">
+              <article class="stat-card"><span>Analyzed functions</span><strong id="structure-count">—</strong></article>
+              <article class="stat-card"><span>Average complexity</span><strong id="structure-average">—</strong></article>
+              <article class="stat-card"><span>Structural hotspots</span><strong id="structure-hotspots">—</strong></article>
+              <article class="stat-card"><span>Maximum nesting</span><strong id="structure-nesting">—</strong></article>
+            </div>
+            <p id="structural-coverage" class="muted"></p>
+            <div class="risk-charts">
+              <article class="panel"><div class="risk-chart-heading"><h3>Complexity bands</h3><p class="muted">Heuristic bands · Valid functions only</p></div><div id="structure-bands"></div></article>
+              <article class="panel"><div class="risk-chart-heading"><h3>Code composition</h3><p class="muted" id="structure-composition-note">Covered files only</p></div><div id="structure-composition"></div></article>
+              <article class="panel"><div class="risk-chart-heading"><h3>File complexity ranking</h3><p class="muted">Top 8 by total function complexity</p></div><div id="structure-files"></div></article>
+            </div>
+            <article class="panel risk-review"><h3>Structural review priorities</h3><p class="muted">Up to 8 hotspots, ordered by complexity, nesting, span and source location. Thresholds are review heuristics.</p><ol id="structure-priority"></ol></article>
+            <div class="panel risk-table-panel structural-table">
+              <div class="inventory-toolbar">
+                <label>Search functions or paths<input id="structure-search" type="search" placeholder="Function or file…"></label>
+                <label>Language<select id="structure-language"><option value="">All supported</option><option>C</option><option>Python</option></select></label>
+                <label>Sort<select id="structure-sort"><option value="cyclomatic_complexity">Highest complexity</option><option value="max_nesting_depth">Deepest nesting</option><option value="span_lines">Longest span</option><option value="path">File location</option></select></label>
+              </div>
+              <div class="table-wrap"><table><thead><tr><th scope="col">Function / language</th><th scope="col">File / lines</th><th scope="col">Complexity</th><th scope="col">Nesting</th><th scope="col">Span</th><th scope="col">Parameters</th><th scope="col">Review / status</th><th scope="col">ML status</th></tr></thead><tbody id="structure-rows"></tbody></table></div>
+              <div class="pagination"><span id="structure-page-label"></span><div><button type="button" class="button secondary" id="structure-prev">Previous</button><button type="button" class="button secondary" id="structure-next">Next</button></div></div>
+            </div>
+            <details id="structure-issues"><summary>Coverage and analysis issues</summary><ul id="structure-issue-list"></ul></details>
+            <details><summary>Metric definitions and thresholds</summary><dl id="structure-definitions" class="structure-definitions"></dl></details>
+          </div>
+        </section>

@@ -5,24 +5,6 @@ const riskPageSize = 25;
 const riskLabel = f => f.predicted_class === null ? 'Unavailable' : f.predicted_class === 1 ? 'Defect-related' : 'Non-defect-related';
 const riskScore = f => f.model_probability === null ? '—' : `${(f.model_probability * 100).toFixed(1)}%`;
 
-function riskBars(id, entries) {
-  const container = $(id);
-  container.replaceChildren();
-  const maximum = Math.max(1, ...entries.map(e => e[1]));
-  for (const [label, count] of entries) {
-    const row = node('div', undefined, 'risk-bar');
-    const title = node('div');
-    title.append(node('span', label), node('strong', number(count)));
-    const bar = node('progress');
-    bar.max = maximum;
-    bar.value = count;
-    bar.setAttribute('aria-label', `${label}: ${count}`);
-    row.append(title, bar);
-    container.append(row);
-  }
-  if (!entries.length) container.append(node('p', 'No analyzed functions to display.', 'risk-chart-empty'));
-}
-
 function renderDefectRisk(data) {
   riskData = data;
   riskPage = 0;
@@ -106,8 +88,9 @@ function showRiskDetail(f) {
     row.append(node('dt', name.replaceAll('_', ' ')), node('dd', value === null ? 'Unavailable' : number(value)));
     $('risk-feature-list').append(row);
   }
+  let links=$('risk-navigation');if(!links){links=node('div');links.id='risk-navigation';$('risk-detail').append(links);}links.replaceChildren();const index=riskData.functions.indexOf(f),structure=window.activeAnalysis?.structural?.functions.find(n=>n.ml_result_index===index&&n.path===f.path&&n.start_line===f.start_line&&n.end_line===f.end_line);if(structure)for(const [page,label]of [['structure','Inspect source structure'],['graph','Inspect graph relationships'],['blast-radius','Explore potential impact']]){const button=node('button',label,'text-button');button.type='button';button.addEventListener('click',()=>WorkspaceNavigation.open(page,structure.id));links.append(button);}
   $('risk-detail').focus({preventScroll: true});
-  $('risk-detail').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  $('risk-detail').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block: 'nearest'});
 }
 for (const id of ['risk-search', 'risk-filter', 'risk-sort']) $(id).addEventListener(id === 'risk-search' ? 'input' : 'change', () => { riskPage = 0; renderRiskTable(); });
 $('risk-prev').addEventListener('click', () => { riskPage--; renderRiskTable(); });

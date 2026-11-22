@@ -26,7 +26,7 @@ def test_cinematic_landing_and_working_import_entry():
         assert response.status_code==200
         assert 'hero-light' in response.text and 'UNCOVER THE UNSEEN' in response.text
         assert 'href="/explore"' in response.text
-        assert 'graph-canvas' not in response.text and '/static/app.js' not in response.text
+        assert 'graph-canvas' not in response.text and '/static/product/workspace.js' not in response.text
         assert "script-src 'self'" in response.headers['content-security-policy']
         assert client.get('/explore').status_code==200
         assert client.get('/static/product/landing.js').status_code==200
@@ -36,3 +36,77 @@ def test_workspace_store_regressions():
     import subprocess
     run=subprocess.run(['node','tests/frontend/workspace.test.cjs'],cwd=ROOT,capture_output=True,text=True,timeout=30)
     assert run.returncode==0,run.stdout+run.stderr
+
+
+import pytest
+from html.parser import HTMLParser
+import json
+import os
+import subprocess
+
+PAGES=['overview','risk','structure','graph','architecture','heatmaps','blast-radius']
+
+
+@pytest.mark.parametrize('page',PAGES)
+def test_real_workspace_routes_and_lazy_feature_assets(page):
+    from app.routes.dashboard import ASSETS
+    with TestClient(app) as client:
+        response=client.get('/workspace/'+page)
+        assert response.status_code==200
+        assert f'data-page="{page}"' in response.text
+        assert f'href="/workspace/{page}" aria-current="page"' in response.text
+        ids=re.findall(r'\bid="([^"]+)"',response.text)
+        assert len(ids)==len(set(ids))
+        for source in re.findall(r'(?:src|href)="(/static/[^\"]+)"',response.text):
+            assert client.get(source).status_code==200,source
+        assert '/static/app.js' not in response.text and '/static/styles.css' not in response.text
+        assert '3d-force-graph-1.73.3.min.js' not in response.text
+        if page!='graph':assert '/static/graph/three.js' not in response.text
+        assert 'no-store' in response.headers['cache-control']
+        assert "frame-ancestors 'none'" in response.headers['content-security-policy']
+        feature_ids={'graph':'graph-canvas','architecture':'ai-canvas','heatmaps':'ai-canvas','blast-radius':'impact-canvas','risk':'risk-rows','structure':'structure-rows','overview':'file-table-body'}
+        assert feature_ids[page] in ids
+        for other,id in feature_ids.items():
+            if other!=page and id!=feature_ids[page]:assert id not in ids
+
+
+@pytest.mark.parametrize('route',['/workspace/unknown','/workspace/../missing','/not-a-page'])
+def test_invalid_workspace_routes_are_not_fake_dashboards(route):
+    with TestClient(app) as client:
+        assert client.get(route).status_code==404
+
+
+class DOM(HTMLParser):
+    void={'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
+    def __init__(self):
+        super().__init__();self.root={'tag':'document','attrs':{},'children':[]};self.stack=[self.root]
+    def handle_starttag(self,tag,attrs):
+        item={'tag':tag,'attrs':dict(attrs),'children':[]};self.stack[-1]['children'].append(item)
+        if tag not in self.void:self.stack.append(item)
+    def handle_endtag(self,tag):
+        for index in range(len(self.stack)-1,0,-1):
+            if self.stack[index]['tag']==tag:self.stack=self.stack[:index];break
+    def handle_data(self,text):
+        if text:self.stack[-1]['children'].append(text)
+
+
+def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_path,make_zip):
+    with TestClient(app) as client:
+        response=client.post('/api/analyze',files={'file':('journey.zip',make_zip({
+            'README.md':'Journey fixture\n','app/__init__.py':'','lib/__init__.py':'',
+            'app/main.py':'from lib.util import util\ndef entry(x): return util(x)\n',
+            'lib/util.py':'def util(x): return x\n',
+            'native/main.c':'#include "../include/api.h"\nint caller(int x){return helper(x);}\n',
+            'native/util.c':'int helper(int x){return x+1;}\n',
+            'include/api.h':'int helper(int x);\n',
+        }))})
+        assert response.status_code==200,response.text
+        fixture={'analysis':response.json(),'pages':{},'scripts':{}}
+        for page in [*PAGES,'explore']:
+            html=client.get('/explore' if page=='explore' else '/workspace/'+page).text
+            parser=DOM();parser.feed(html);fixture['pages'][page]=parser.root
+            fixture['scripts'][page]=re.findall(r'<script src="(/static/[^\"]+)"',html)
+        path=tmp_path/'product-fixture.json';path.write_text(json.dumps(fixture))
+        run=subprocess.run(['node','tests/frontend/product.test.cjs'],cwd=ROOT,env={**os.environ,'PRODUCT_FIXTURE':str(path)},capture_output=True,text=True,timeout=40)
+        assert run.returncode==0,run.stdout+run.stderr
+        print(run.stdout)

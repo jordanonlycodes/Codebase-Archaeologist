@@ -1,0 +1,49 @@
+<section class="risk-section graph-section" id="knowledge-explorer" aria-labelledby="graph-title">
+          <h2 id="graph-title" class="sr-only">Knowledge Graph Explorer</h2>
+          <p id="graph-state" role="status">Analyze a repository to explore its extracted graph.</p>
+          <div id="graph-content" hidden>
+            <div class="stats-grid risk-stats">
+              <article class="stat-card"><span>Retained entities</span><strong id="graph-stat-nodes">—</strong></article>
+              <article class="stat-card"><span>Relationships</span><strong id="graph-stat-edges">—</strong></article>
+              <article class="stat-card"><span>Resolved call edges</span><strong id="graph-stat-calls">—</strong></article>
+              <article class="stat-card"><span>Internal dependencies</span><strong id="graph-stat-dependencies">—</strong></article>
+            </div>
+            <div class="graph-workspace" id="graph-workspace">
+              <div class="graph-toolbar">
+                <div class="source-modes" role="group" aria-label="Graph rendering mode"><button id="graph-2d" type="button" aria-pressed="true">2D Graph</button><button id="graph-3d" type="button" aria-pressed="false">3D Graph</button></div>
+                <label>Perspective<select id="graph-view"><option value="knowledge">Knowledge graph</option><option value="calls">Function calls</option><option value="dependencies">Dependencies</option></select></label>
+                <label>Layout<select id="graph-layout"><option value="auto">Automatic · perspective default</option><option value="hierarchy">Hierarchical</option><option value="radial">Radial</option></select></label>
+                <label>3D quality<select id="graph-quality" aria-describedby="graph-quality-status"><option value="auto">Auto · adaptive</option><option value="performance">Performance</option><option value="balanced">Balanced</option></select></label>
+                <label>Overlay<select id="graph-overlay"><option value="entity">Entity type</option><option value="complexity">Structural complexity</option><option value="ml">ML defect risk</option></select></label>
+                <button type="button" id="graph-fullscreen" aria-expanded="false">Expand / fullscreen</button>
+                <button type="button" id="graph-close-expanded">Close expanded view</button>
+              </div>
+              <div class="graph-filter-row">
+                <label>Search all retained entities<input id="graph-search" type="search" maxlength="256" placeholder="Function, filename or relative path"></label>
+                <label>Language<select id="graph-language"><option value="">All languages</option></select></label>
+                <label>Direction<select id="graph-direction"><option value="both">Incoming + outgoing</option><option value="in">Incoming only</option><option value="out">Outgoing only</option></select></label>
+                <button type="button" id="graph-clear">Clear selection &amp; filters</button>
+              </div>
+              <details class="graph-filter-details"><summary>Entity and relationship filters</summary><fieldset id="graph-types"><legend>Entity types</legend></fieldset><fieldset id="graph-relations"><legend>Relationship types</legend></fieldset></details>
+              <p id="graph-quality-status" class="graph-coverage" role="status"></p>
+              <p id="graph-counts" class="graph-counts" role="status" aria-live="polite"></p>
+              <p id="graph-coverage" class="graph-coverage"></p>
+              <div class="graph-main">
+                <div class="graph-stage">
+                  <div class="graph-camera-controls" role="group" aria-label="Graph camera and neighborhood controls">
+                    <button type="button" id="graph-in" aria-label="Zoom in">+</button><button type="button" id="graph-out" aria-label="Zoom out">−</button>
+                    <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset layout / camera</button>
+                    <button type="button" id="graph-focus" disabled>Focus selected</button><button type="button" id="graph-hop-1" disabled>1 hop</button><button type="button" id="graph-hop-2" disabled>2 hops</button><button type="button" id="graph-group" disabled>Collapse group</button><button type="button" id="graph-branch" disabled>Focus branch</button>
+                  </div>
+                  <div id="graph-canvas" class="graph-canvas" aria-label="Repository graph viewport"></div>
+                  <p id="graph-empty" class="graph-empty" hidden>No retained entities match this view. Clear filters or choose a different perspective.</p>
+                  <p class="graph-gestures">2D: drag canvas to pan, drag nodes to arrange, scroll to zoom; Tab + Enter to select. 3D: drag to orbit, right-drag to pan, scroll to zoom, drag nodes to move. Search and related-node buttons provide keyboard selection in both modes.</p>
+                </div>
+                <aside id="graph-inspection" class="graph-inspection" aria-label="Selected graph entity details"></aside>
+              </div>
+              <p id="graph-legend" class="graph-legend"></p>
+              <details class="graph-node-browser"><summary>Search results / accessible entity browser</summary><p id="graph-search-count"></p><div id="graph-search-results"></div></details>
+              <p class="graph-caution">Relationships represent retained static evidence. Unresolved references appear in entity details, without invented internal edges. Structural complexity and C-only ML scores are separate research indicators.</p>
+            </div>
+          </div>
+        </section>

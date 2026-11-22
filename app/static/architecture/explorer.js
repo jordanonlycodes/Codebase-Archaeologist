@@ -8,7 +8,7 @@
  class Explorer{
   constructor(){
    this.state=A.initial();this.ix=A.index(null);this.scene=null;this.key=null;this.items=new Map();this.edgeItems=new Map();this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-   for(const mode of ['architecture','heatmap'])$('ai-'+mode).addEventListener('click',()=>{this.state.view=mode;this.key=null;this.draw();});
+   for(const mode of ['architecture','heatmap'])$('ai-'+mode).addEventListener('click',()=>{if(root.WorkspaceNavigation){root.WorkspaceNavigation.open(mode==='heatmap'?'heatmaps':'architecture',this.state.directory);return;}this.state.view=mode;this.key=null;this.draw();});
    for(const [id,key]of [['ai-metric','metric'],['ai-area','area'],['ai-relationships','relationship']])$(id).addEventListener('change',()=>{this.state[key]=$(id).value;if(key!=='metric')this.key=null;this.draw();});
    let timer;this.cancelSearch=()=>clearTimeout(timer);$('ai-search').addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{this.state.query=$('ai-search').value;this.search();if(this.state.view==='architecture'){this.key=null;this.draw();}},150);});
    $('ai-fit').addEventListener('click',()=>this.scene?.reset());$('ai-zoom-in').addEventListener('click',()=>this.scene?.zoom(1.25));$('ai-zoom-out').addEventListener('click',()=>this.scene?.zoom(1/1.25));
@@ -28,8 +28,8 @@
    this.findings();this.search();this.draw();
   }
   selectComponent(id){this.state.component=id;this.state.selected=id;this.state.page=0;this.draw();}
-  openDirectory(id){const n=this.ix.nodes.get(id);if(!n)return;this.state.directory=n.type==='directory'?id:n.parent_id;this.state.selected=id;this.state.component=n.component_id||[...this.ix.components.values()].find(c=>c.path===n.path)?.id||null;this.state.page=0;this.state.view='heatmap';this.key=null;this.draw();}
-  graph(id){if(!id||!root.graphExplorer?.ix.nodes.has(id))return;root.graphExplorer.choose(id);$('knowledge-explorer').scrollIntoView({behavior:this.reduced?'auto':'smooth',block:'start'});}
+  openDirectory(id){if(root.WorkspaceNavigation&&document.body.dataset.page==='architecture'){root.WorkspaceNavigation.open('heatmaps',id);return;}const n=this.ix.nodes.get(id);if(!n)return;this.state.directory=n.type==='directory'?id:n.parent_id;this.state.selected=id;this.state.component=n.component_id||[...this.ix.components.values()].find(c=>c.path===n.path)?.id||null;this.state.page=0;this.state.view='heatmap';this.key=null;this.draw();}
+  graph(id){if(root.WorkspaceNavigation){root.WorkspaceNavigation.open('graph',id);return;}if(!id||!root.graphExplorer?.ix.nodes.has(id))return;root.graphExplorer.choose(id);$('knowledge-explorer').scrollIntoView({behavior:this.reduced?'auto':'smooth',block:'start'});}
   draw(){
    if(!this.ix.data)return;
    for(const mode of ['architecture','heatmap'])$('ai-'+mode).setAttribute('aria-pressed',String(this.state.view===mode));
@@ -83,7 +83,7 @@
    if(!component&&!node){panel.append(el('p','FOLLOW THE EVIDENCE','ai-kicker'),el('h3','Start with a component.'),el('p','Select a directory component or a heatmap region. Inspect its members, measured structure and observed relationships.','ai-note'));return;}
    const selected=component||node,m=selected.metrics,path=selected.path;panel.append(el('p',component?'DIRECTORY COMPONENT':node.type.toUpperCase(),'ai-kicker'),el('h3',selected.name),el('p',path,'ai-source-path'));
    const dl=el('dl');for(const [key,v]of Object.entries({'Files':m.files,'Observed functions':m.functions,'Physical lines':m.physical_lines,'Bytes':m.bytes,'Maximum function complexity':m.max_complexity,'Observed hotspot functions':m.hotspots,'Function-measured files':`${m.measured_files.functions||0}/${m.files}`,'Max C-function score':m.max_c_function_score==null?'Unscored':m.max_c_function_score.toFixed(3),'Scored C functions':m.scored_functions}))dl.append(el('dt',key),el('dd',value(v)));panel.append(dl,el('p','Max complexity and max C-function score are maxima of observed functions. Coverage may be partial. Neither is a confirmed defect or a directory defect probability.','ai-note'));
-   const impactId=component?.id||node?.graph_id;if(impactId)panel.append(button('Explore potential change impact',()=>root.impactExplorer?.open(impactId),'ai-link'));
+   const impactId=component?.id||node?.graph_id;if(impactId)panel.append(button('Explore potential change impact',()=>root.WorkspaceNavigation?root.WorkspaceNavigation.open('blast-radius',impactId):root.impactExplorer?.open(impactId),'ai-link'));
    if(selected.graph_id){const b=button('Inspect in Knowledge Graph',()=>this.graph(selected.graph_id),'ai-link');b.disabled=!this.ix.graphNodes.has(selected.graph_id);panel.append(b);}
    if(component){
     const dir=this.ix.paths.get(path);if(dir)panel.append(button('Explore directory heatmap →',()=>this.openDirectory(dir.id),'ai-link'));

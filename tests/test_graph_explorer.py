@@ -23,7 +23,7 @@ def test_frontend_graph_utilities_and_lifecycle():
 
 def test_graph_dashboard_integration_and_static_assets():
     with TestClient(app) as client:
-        html = client.get('/explore').text
+        html = client.get('/workspace/graph').text
         ids = re.findall(r'\bid="([^"]+)"', html)
         assert len(ids) == len(set(ids))
         for required in ['knowledge-explorer', 'graph-2d', 'graph-3d', 'graph-view',
@@ -34,8 +34,8 @@ def test_graph_dashboard_integration_and_static_assets():
         for filename in ['data.js', 'layouts.js', 'quality.js', 'svg.js', 'three.js', 'explorer.js', 'explorer.css']:
             response = client.get('/static/graph/' + filename)
             assert response.status_code == 200
-        assert "script-src 'self'" in client.get('/explore').headers['content-security-policy']
-        assert 'renderKnowledgeGraph(result.knowledge_graph)' in client.get('/static/app.js').text
+        assert "script-src 'self'" in client.get('/workspace/graph').headers['content-security-policy']
+        assert 'renderKnowledgeGraph(result.knowledge_graph)' in client.get('/static/product/workspace.js').text
         for script in ['svg.js', 'three.js', 'explorer.js']:
             source = client.get('/static/graph/' + script).text
             assert '.innerHTML' not in source and 'insertAdjacentHTML' not in source
@@ -43,7 +43,7 @@ def test_graph_dashboard_integration_and_static_assets():
 
 
 def test_graph_controls_have_unique_existing_selectors():
-    template = (ROOT/'app/templates/dashboard.html').read_text()
+    template = (ROOT/'app/templates/features/graph.html').read_text()
     ids = set(re.findall(r'\bid="([^"]+)"', template))
     source = (ROOT/'app/static/graph/explorer.js').read_text()
     for element_id in re.findall(r"\$\('(graph-[^']+)'\)", source):
@@ -54,7 +54,7 @@ def test_javascript_syntax():
     executable = shutil.which('node')
     if executable is None:
         pytest.skip('Node.js required for JavaScript syntax verification')
-    for source in [* (ROOT/'app/static/graph').glob('*.js'), ROOT/'app/static/app.js']:
+    for source in [* (ROOT/'app/static/graph').glob('*.js'), ROOT/'app/static/product/workspace.js']:
         result = subprocess.run([executable, '--check', str(source)], capture_output=True, text=True, timeout=10)
         assert result.returncode == 0, result.stderr
 

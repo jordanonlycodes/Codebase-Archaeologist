@@ -23,7 +23,7 @@ def test_architecture_frontend_suite_and_syntax():
 
 def test_architecture_dashboard_contract_and_source_safety():
     with TestClient(app) as client:
-        response=client.get('/explore')
+        response=client.get('/workspace/architecture')
         ids=re.findall(r'\bid="([^"]+)"',response.text)
         assert len(ids)==len(set(ids))
         for id in ['architecture-intelligence','ai-architecture','ai-heatmap','ai-metric','ai-area','ai-inspector','ai-canvas','ai-breadcrumbs','ai-focus']:
@@ -34,6 +34,6 @@ def test_architecture_dashboard_contract_and_source_safety():
             assert '.innerHTML' not in response.text and 'insertAdjacentHTML' not in response.text
         script=client.get('/static/architecture/explorer.js').text
         assert 'XMLHttpRequest' not in script and 'fetch(' not in script
-        assert 'renderArchitecture(result.architecture, result.knowledge_graph, result.structural)' in client.get('/static/app.js').text
+        assert 'renderArchitecture(result.architecture, result.knowledge_graph, result.structural)' in client.get('/static/product/workspace.js').text
         for id in re.findall(r"\$\('(ai-[^']+)'\)",script):
             assert id in ids,id

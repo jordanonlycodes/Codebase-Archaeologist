@@ -62,7 +62,7 @@ function renderStructureTable() {
     const row=node('tr');
     const values=[`${f.qualified_name || f.name || '(unnamed)'} · ${f.language}`,`${f.path}:${f.start_line}–${f.end_line}`,measured(f.cyclomatic_complexity),measured(f.max_nesting_depth),number(f.span_lines),measured(f.parameter_count),hot.get(f.id) || f.status,f.language==='C' ? f.ml_status : 'Unavailable (C-only)'];
     const labels=['Function / language','File / lines','Complexity','Nesting','Span','Parameters','Review / status','ML status'];
-    values.forEach((value,i)=>{const cell=node('td',value);cell.dataset.label=labels[i];row.append(cell);});
+    values.forEach((value,i)=>{const cell=node('td',i===0?undefined:value);if(i===0){const inspect=node('button',value,'text-button');inspect.type='button';inspect.addEventListener('click',()=>showStructureDetail(f));cell.append(inspect);}cell.dataset.label=labels[i];row.append(cell);});
     $('structure-rows').append(row);
   }
   $('structure-page-label').textContent=rows.length ? `${structurePage*structurePageSize+1}–${Math.min((structurePage+1)*structurePageSize,rows.length)} of ${rows.length} functions` : 'No function rows';
@@ -72,3 +72,11 @@ function renderStructureTable() {
 for (const id of ['structure-search','structure-language','structure-sort']) $(id).addEventListener(id==='structure-search' ? 'input' : 'change',()=>{structurePage=0;renderStructureTable();});
 $('structure-prev').addEventListener('click',()=>{structurePage--;renderStructureTable();});
 $('structure-next').addEventListener('click',()=>{structurePage++;renderStructureTable();});
+
+function showStructureDetail(f){
+ let panel=$('structure-detail');if(!panel){panel=node('article',undefined,'panel structure-function-detail');panel.id='structure-detail';panel.tabIndex=-1;$('structural-results').append(panel);}panel.replaceChildren(node('h3',f.qualified_name||f.name||'(unnamed)'),node('p',`${f.path}:${f.start_line}–${f.end_line}`,'evidence-path'));
+ const dl=node('dl');for(const [label,value]of Object.entries({'Language':f.language,'Parse status':f.status,'Cyclomatic complexity':f.cyclomatic_complexity,'Maximum nesting':f.max_nesting_depth,'Function span':f.span_lines,'Parameters':f.parameter_count,'Decision points':f.decision_points,'Loops':f.loop_count,'Conditionals':f.conditional_count}))dl.append(node('dt',label),node('dd',value==null?'Unavailable':String(value)));panel.append(dl);
+ const hotspot=structureData.hotspots.find(h=>h.function_id===f.id);for(const reason of hotspot?.reasons||[])panel.append(node('p',reason.explanation));
+ if(window.activeAnalysis?.knowledge_graph?.nodes.some(n=>n.id===f.id))for(const [page,label]of [['graph','Inspect graph relationships'],['blast-radius','Explore potential change impact']]){const link=node('button',label,'text-button');link.type='button';link.addEventListener('click',()=>WorkspaceNavigation.open(page,f.id));panel.append(link);}
+ panel.focus({preventScroll:true});panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+}

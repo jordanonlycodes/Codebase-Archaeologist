@@ -18,10 +18,10 @@ def client():
 def test_dashboard_and_assets(client):
     response = client.get("/explore")
     assert response.status_code == 200
-    assert "Every codebase has a story" in response.text
-    assert "Awaiting repository" in response.text
+    assert "Bring the source." in response.text
+    assert 'id="analyze-zip"' in response.text and 'id="github-url"' in response.text
     assert response.headers["cache-control"] == "no-store"
-    for path in ["/static/styles.css", "/static/app.js", "/static/mark.svg", "/docs", "/openapi.json", "/api/health"]:
+    for path in ["/static/product/design.css", "/static/product/workspace.js", "/static/mark.svg", "/docs", "/openapi.json", "/api/health"]:
         assert client.get(path).status_code == 200
 
 

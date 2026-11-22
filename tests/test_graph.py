@@ -350,7 +350,7 @@ def test_api_graph_and_json_export_contract(make_zip):
         assert {'structural','source','defect_risk','summary','files','knowledge_graph'}<=data.keys()
         assert data['knowledge_graph']['summary']['resolved_call_edges']==1
         assert data['knowledge_graph']['schema_version']=='1.0'
-        assert 'JSON.stringify(result, null, 2)' in client.get('/static/app.js').text
+        assert 'JSON.stringify(result, null, 2)' in client.get('/static/product/workspace.js').text
         schema=client.get('/openapi.json').json()
         assert 'knowledge_graph' in schema['components']['schemas']['AnalysisResult']['properties']
 

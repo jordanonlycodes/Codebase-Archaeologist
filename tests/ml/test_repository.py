@@ -179,9 +179,9 @@ def test_api_real_zip_and_export_contract(artifacts, monkeypatch, make_zip):
         assert '/tmp/' not in response.text
         schema = client.get('/openapi.json').json()
         assert 'defect_risk' in schema['components']['schemas']['AnalysisResult']['properties']
-        html = client.get('/explore').text
+        html = client.get('/workspace/risk').text
         assert 'Defect Risk Intelligence' in html and 'risk-detail' in html
-        script = client.get('/static/app.js').text
+        script = client.get('/static/product/workspace.js').text
         assert 'JSON.stringify(result, null, 2)' in script  # Export includes entire API response.
         assert 'renderDefectRisk(result.defect_risk)' in script
         assert client.get('/static/risk.js').status_code == 200

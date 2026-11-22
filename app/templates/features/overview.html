@@ -1,0 +1,178 @@
+<section class="overview-intro"><p class="kicker">THE EVIDENCE IN CONTEXT</p><h2>Read the repository.<br><em>Choose your next question.</em></h2><div id="overview-pathways" class="overview-pathways"></div></section>
+<section class="results" aria-labelledby="result-title">
+          <div class="section-heading">
+            <div class="result-title-wrap">
+              <h2 id="result-title">Repository overview</h2>
+              <span class="pill" id="result-badge">Awaiting repository</span>
+            </div>
+            
+          </div>
+          <p class="result-meta" id="result-meta">Your analysis will appear here after a ZIP upload or GitHub import.</p>
+          <p class="result-meta" id="source-meta" hidden></p>
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-label">Included files <span aria-hidden="true">▤</span>
+              </div>
+              <strong id="stat-files">—</strong>
+              <span id="stat-files-note">Source, configuration & documentation</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Source lines <span aria-hidden="true">⌘</span>
+              </div>
+              <strong id="stat-lines">—</strong>
+              <span id="stat-lines-note">Physical lines in source files</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Languages & formats <span aria-hidden="true">{ }</span>
+              </div>
+              <strong id="stat-languages">—</strong>
+              <span id="stat-languages-note">Identified from included files</span>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">Directories <span aria-hidden="true">▱</span>
+              </div>
+              <strong id="stat-directories">—</strong>
+              <span id="stat-directories-note">Included repository folders</span>
+            </article>
+          </div>
+          <div class="insight-grid">
+            <article class="panel language-panel">
+              <div class="panel-heading">
+                <h3>Language composition</h3>
+                <span class="muted">By file count</span>
+              </div>
+              <div id="language-empty" class="empty-state">
+                <div class="empty-bars" aria-hidden="true">
+                  <i>
+                  </i>
+                  <i>
+                  </i>
+                  <i>
+                  </i>
+                  <i>
+                  </i>
+                  <i>
+                  </i>
+                </div>
+                <strong>A clearer view of your stack</strong>
+                <p>Your repository’s language breakdown will appear here.</p>
+              </div>
+              <div id="language-content" hidden>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Under the surface</h3>
+                <span class="muted">Line metrics</span>
+              </div>
+              <dl class="metric-list">
+                <div>
+                  <dt>Total text lines</dt>
+                  <dd id="metric-total">—</dd>
+                </div>
+                <div>
+                  <dt>Blank lines</dt>
+                  <dd id="metric-blank">—</dd>
+                </div>
+                <div>
+                  <dt>Known comment lines</dt>
+                  <dd id="metric-comments">—</dd>
+                </div>
+                <div>
+                  <dt>Included text size</dt>
+                  <dd id="metric-size">—</dd>
+                </div>
+                <div>
+                  <dt>Skipped files</dt>
+                  <dd id="metric-skipped">—</dd>
+                </div>
+              </dl>
+              <p class="panel-note" id="comment-coverage">Comment counts are available for Python and standard JSON. Other formats remain uncounted.</p>
+            </article>
+          </div>
+        </section><section class="panel inventory" id="inventory" aria-labelledby="inventory-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="inventory-title">File inventory</h2>
+              <p class="muted" id="inventory-count">A map of your repository, one file at a time.</p>
+            </div>
+          </div>
+          <div class="inventory-toolbar" id="inventory-toolbar" hidden>
+            <label class="search-label">
+              <span class="sr-only">Search file paths</span>
+              <input type="search" id="file-search" placeholder="Search file paths…">
+            </label>
+            <label>
+              <span class="sr-only">Filter language</span>
+              <select id="language-filter">
+                <option value="">All languages</option>
+              </select>
+            </label>
+            <label>
+              <span class="sr-only">Sort files</span>
+              <select id="file-sort">
+                <option value="path">Path A–Z</option>
+                <option value="bytes">Largest first</option>
+                <option value="lines">Most lines</option>
+              </select>
+            </label>
+          </div>
+          <div id="inventory-empty" class="empty-state inventory-empty">
+            <div class="empty-file" aria-hidden="true">≡</div>
+            <strong>No repository explored yet</strong>
+            <p>Upload your first ZIP to see a searchable inventory of actual files.</p>
+          </div>
+          <div class="table-wrap" id="file-table-wrap" hidden>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">File path</th>
+                  <th scope="col">Language</th>
+                  <th scope="col" class="number">Lines</th>
+                  <th scope="col" class="number">Blank</th>
+                  <th scope="col" class="number">Comments</th>
+                  <th scope="col" class="number">Size</th>
+                </tr>
+              </thead>
+              <tbody id="file-table-body">
+              </tbody>
+            </table>
+          </div>
+          <p class="no-matches" id="no-matches" hidden>No files match these filters. Try another path or language.</p>
+          <div class="pagination" id="pagination" hidden>
+            <span id="page-label">
+            </span>
+            <div>
+              <button class="button secondary" type="button" id="previous-page">Previous</button>
+              <button class="button secondary" type="button" id="next-page">Next</button>
+            </div>
+          </div>
+        </section><section class="panel largest-panel" id="largest-panel" hidden>
+          <div class="panel-heading">
+            <h3>Largest included files</h3>
+            <span class="muted">Top 5 by size</span>
+          </div>
+          <ol id="largest-files">
+          </ol>
+        </section><section class="methodology" id="methodology" aria-labelledby="scope-title">
+          <div>
+            <p class="eyebrow">TRANSPARENT BY DESIGN</p>
+            <h2 id="scope-title">Know what’s being measured.</h2>
+            <p>Repository metrics describe structure. Optional C-function predictions identify defect-related patterns for manual review; they do not confirm vulnerabilities.</p>
+          </div>
+          <div class="scope-details">
+            <details>
+              <summary>What’s included and excluded?</summary>
+              <p>UTF-8 text files are scanned recursively. Git internals, dependencies, virtual environments, caches, build outputs, binaries and nested archives are excluded. Empty included directories count; the temporary extraction root does not. ZIP wrapper folders are retained.</p>
+              <p id="skip-details">Excluded file counts will appear after analysis.</p>
+            </details>
+            <details>
+              <summary>How are lines counted?</summary>
+              <p>Total lines are physical text lines, including blanks. Source lines include only recognized source languages, including their blanks and comments. Comment-only lines are measured using Python tokens; inline comments and docstrings remain code. Standard JSON has no comments. Other languages show unavailable counts, not zero.</p>
+            </details>
+            <details>
+              <summary>How is the upload handled?</summary>
+              <p>ZIP files are checked for unsafe paths, links, conflicting entries, excessive expansion and unsupported compression. Limits: 25 MiB uploaded, 100 MiB expanded, 2 MiB per entry, 5,000 entries, 30 path levels and a 200:1 compression ratio. Uploaded code is never executed. Temporary files are deleted after success or failure; results remain in this browser tab until replaced or refreshed.</p>
+            </details>
+          </div>
+        </section>

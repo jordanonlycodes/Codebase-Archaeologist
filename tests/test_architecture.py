@@ -218,7 +218,7 @@ def test_api_export_and_real_inference(make_zip):
         c=next(n for n in data['architecture']['heatmap'] if n['path']=='a.c')
         assert c['metrics']['max_c_function_score']==data['defect_risk']['functions'][0]['model_probability']
         assert 'architecture' in client.get('/openapi.json').json()['components']['schemas']['AnalysisResult']['properties']
-        assert 'JSON.stringify(result, null, 2)' in client.get('/static/app.js').text
+        assert 'JSON.stringify(result, null, 2)' in client.get('/static/product/workspace.js').text
 
 
 def test_invalid_limits_and_reused_file_identity(tmp_path):
