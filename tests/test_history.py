@@ -165,3 +165,106 @@ def test_response_budget_and_first_parent_merge_changes(history_repo):
     assert not result.coverage.complete_ancestry
     full=asyncio.run(collect(LocalReader(root),merge))
     current=full.commits[0];assert current.sha==merge and [f.path for f in current.files]==['side.txt']
+
+
+def test_http_revision_tree_and_blob_adapter_matches_real_git_objects(history_repo):
+    import base64
+    root,shas,_=history_repo;local=LocalReader(root)
+    async def facts():
+        commits={sha:await local.commit(sha) for sha in shas};trees={c.tree:await local.tree(c.sha) for c in commits.values()};blobs={}
+        for tree in trees.values():
+            for f in tree.files:
+                if f.mode in {'100644','100755'}:blobs[f.sha]=await local.blob(f.sha,65536)
+        expected=await compare(local,shas[2],shas[3]);return commits,trees,blobs,expected
+    commits,trees,blobs,expected=asyncio.run(facts());seen=[]
+    def handler(request):
+        seen.append(request.url);p=request.url.path
+        if p=='/repos/owner/repo':body={'private':False}
+        elif '/git/commits/' in p:
+            sha=p.rsplit('/',1)[-1];body={'sha':sha,'tree':{'sha':commits[sha].tree}}
+        elif '/git/trees/' in p:
+            sha=p.rsplit('/',1)[-1];body={'sha':sha,'truncated':False,'tree':[{'path':f.path,'sha':f.sha,'mode':f.mode,'size':f.size,'type':'blob'} for f in trees[sha].files]}
+        elif '/git/blobs/' in p:
+            sha=p.rsplit('/',1)[-1];body={'sha':sha,'size':len(blobs[sha]),'encoding':'base64','content':base64.b64encode(blobs[sha]).decode()}
+        else:raise AssertionError(p)
+        return httpx.Response(200,stream=httpx.ByteStream(json.dumps(body).encode()))
+    async def run():return await operation('https://github.com/owner/repo',lambda r:compare(r,shas[2],shas[3]),transport=httpx.MockTransport(handler))
+    actual=asyncio.run(run());assert [(f.path,f.status,f.additions,f.deletions,f.patch) for f in actual.files]==[(f.path,f.status,f.additions,f.deletions,f.patch) for f in expected.files]
+    assert all(u.host=='api.github.com' and u.scheme=='https' for u in seen)
+
+
+def test_genuine_git_special_entries_are_never_followed(history_repo):
+    root,shas,_=history_repo;os.symlink('/etc/passwd',root/'outside-link')
+    git(root,'update-index','--add','--cacheinfo','160000,'+shas[0]+',submodule');git(root,'add','outside-link');git(root,'commit','-m','Metadata only special entries')
+    sha=git(root,'rev-parse','HEAD');reader=LocalReader(root);tree=asyncio.run(reader.tree(sha));assert next(f for f in tree.files if f.path=='outside-link').mode=='120000';assert next(f for f in tree.files if f.path=='submodule').mode=='160000'
+    result=asyncio.run(compare(reader,shas[-1],sha));assert all(f.additions is None for f in result.files)
+
+
+def test_actual_month_gaps_are_zero_only_in_retained_activity(history_repo,tmp_path):
+    root,shas,_=history_repo;(root/'april.txt').write_text('new month\n');git(root,'add','april.txt');git(root,'commit','-m','April evidence',env={'GIT_AUTHOR_DATE':'2025-04-01T00:30:00+1400','GIT_COMMITTER_DATE':'2025-04-01T00:30:00+1400'})
+    history=asyncio.run(collect(LocalReader(root),git(root,'rev-parse','HEAD')))
+    assert any(d['date']=='2025-03-31' for d in history.activity)  # Correct UTC day, not local author date.
+    file=tmp_path/'activity.json';file.write_text(json.dumps(asdict(history)))
+    run=subprocess.run(['node','-e',"const d=require('./app/static/time_machine/data.js'),h=JSON.parse(require('fs').readFileSync(process.argv[1]));const m=d.months(h.commits);require('assert').equal(m.find(x=>x.month==='2025-02').count,0);require('assert').equal(m.find(x=>x.month==='2025-03').count,1);",str(file)],capture_output=True,text=True)
+    assert run.returncode==0,run.stderr
+
+
+@pytest.mark.parametrize('failure,code',[(httpx.ReadTimeout('private error'),'history_timeout'),(httpx.ConnectError('private error'),'history_network')])
+def test_history_network_exceptions_do_not_leak_details(failure,code):
+    def handler(request):raise failure
+    with pytest.raises(AnalysisError) as e:asyncio.run(operation('https://github.com/a/b',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(handler)))
+    assert e.value.code==code and 'private error' not in e.value.message
+
+
+def test_transfer_and_request_budgets_are_enforced_before_parsing():
+    response=lambda _:httpx.Response(200,stream=httpx.ByteStream(b'x'*1000))
+    with pytest.raises(AnalysisError) as e:asyncio.run(operation('https://github.com/a/b',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(response),limits=replace(LIMITS,transfer_bytes=50)))
+    assert e.value.code=='github_size_limit'
+    public=lambda _:httpx.Response(200,stream=httpx.ByteStream(b'{"private":false}'))
+    with pytest.raises(AnalysisError) as e:asyncio.run(operation('https://github.com/a/b',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(public),limits=replace(LIMITS,requests=1)))
+    assert e.value.code=='history_request_limit'
+
+
+def test_local_git_output_bound_and_cross_repository_object_isolation(history_repo,tmp_path):
+    root,shas,_=history_repo;reader=LocalReader(root)
+    with pytest.raises(AnalysisError):reader._run('cat-file','commit',shas[0],maximum=2)
+    other=tmp_path/'other';other.mkdir();git(other,'init')
+    with pytest.raises(AnalysisError):asyncio.run(LocalReader(other).tree(shas[0]))
+
+
+def test_ambiguous_identical_blob_renames_are_not_arbitrarily_paired(history_repo):
+    root,_,_=history_repo
+    for name in ['old-one.txt','old-two.txt']:(root/name).write_text('shared exact blob\n')
+    git(root,'add','--all');git(root,'commit','-m','Duplicate blobs');base=git(root,'rev-parse','HEAD')
+    git(root,'mv','old-one.txt','new-one.txt');git(root,'mv','old-two.txt','new-two.txt');git(root,'commit','-m','Ambiguous rename identities');head=git(root,'rev-parse','HEAD')
+    result=asyncio.run(compare(LocalReader(root),base,head));assert len(result.files)==4 and all(f.status!='renamed' for f in result.files)
+
+
+def test_partial_tree_limit_and_midstream_rate_limit_are_explicit(history_repo,monkeypatch):
+    from app.history import local
+    root,shas,_=history_repo
+    monkeypatch.setattr(local,'LIMITS',replace(LIMITS,tree_files=1));reader=LocalReader(root)
+    tree=asyncio.run(reader.tree(shas[0]));assert not tree.complete and tree.issues==['tree_file_limit']
+    monkeypatch.setattr(local,'LIMITS',LIMITS);reader=LocalReader(root);original=reader.commit;count=0
+    async def commit(sha):
+        nonlocal count
+        count+=1
+        if count>2:raise AnalysisError('rate limited','github_rate_limit',429)
+        return await original(sha)
+    reader.commit=commit;result=asyncio.run(collect(reader,shas[-1]));assert len(result.commits)==2
+    assert 'github_rate_limit' in result.coverage.issues and not result.coverage.complete_ancestry
+
+
+def test_history_transport_shares_two_operation_admission_and_releases_capacity():
+    from app.middleware import UploadBoundary
+    async def check():
+        release=asyncio.Event();started=asyncio.Event();sent=[]
+        async def inner(scope,receive,send):await receive();started.set();await release.wait()
+        middleware=UploadBoundary(inner)
+        scope={'type':'http','method':'POST','path':'/api/history/load','headers':[]}
+        async def receive():return {'type':'http.request','body':b'{}','more_body':False}
+        async def send(message):sent.append(message)
+        first=asyncio.create_task(middleware(scope,receive,send));await started.wait();second=asyncio.create_task(middleware(scope,receive,send));await asyncio.sleep(0)
+        await middleware(scope,receive,send);assert sent[0]['status']==429
+        release.set();await asyncio.gather(first,second);assert middleware.active==0
+    asyncio.run(check())

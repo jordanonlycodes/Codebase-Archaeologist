@@ -678,3 +678,13 @@ The selected-node inspector can launch Jordan with its exact retained ID and a d
 question. Jordan reuses the same graph/impact index; no graph is re-extracted and no
 unresolved reference becomes a confirmed edge. Evidence links return to the graph with
 stable selection. See [Jordan modes, disclosure and limitations](jordan.md).
+
+
+## Current-file history navigation — Task 6B
+
+Applicable file inspectors offer a Time Machine action for public GitHub snapshots,
+using the actual retained file ID. History opens without reanalysis and fetches commits
+only on explicit request. Current/historical navigation requires matching URL, pinned
+SHA and unique path evidence; deleted/renamed historical paths are not guessed onto
+current files. Current complexity and C-only model estimates are never relabeled as
+historical measurements. See [Time Machine methodology and workflow](time_machine.md).

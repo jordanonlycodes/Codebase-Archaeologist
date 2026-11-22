@@ -120,3 +120,18 @@ runs over browser snapshots. Optional `GET /api/jordan/capabilities` and consent
 as authorization or whole analyses. Responses include validated evidence citations and
 limitations. No local/cloud conversation is added to analysis export. See
 [Jordan API and privacy contracts](jordan.md#configuration-and-api) and OpenAPI.
+
+
+## Time Machine — additive Task 6B API
+
+Existing ZIP/GitHub analysis responses and ML fields are unchanged. Explicit public
+history retrieval uses `POST /api/history/load` (`url`, full `anchor` SHA),
+`POST /api/history/tree` (plus `revision`) and `POST /api/history/compare` (plus `base`,
+`head`). Revision IDs must belong to the pinned retained history window. These stateless
+operations use fixed public GitHub REST endpoints, shared admission limits and bounded
+requests; no browser-supplied filesystem path or server snapshot cache exists.
+
+Source-matched browser history/tree metadata can be exported under optional `history`.
+Transient comparison source patches are not persisted or exported. Exact base/head
+comparison is distinct from merge-base comparison; unavailable line metrics remain null.
+See [history data contracts, coverage, limits and errors](time_machine.md).

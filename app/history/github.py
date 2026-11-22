@@ -2,6 +2,7 @@
 import asyncio
 import base64
 import json
+import hashlib
 from app.errors import AnalysisError
 from app.ingestion.github import parse_github_url,upstream_error,read_limited
 import httpx
@@ -16,7 +17,7 @@ class GitHubReader:
     def __init__(self,client,url,limits=LIMITS):
         self.client=client;self.repo=parse_github_url(url);self.url=self.repo.url
         self.base=f'https://api.github.com/repos/{self.repo.owner}/{self.repo.name}'
-        self.limits=limits;self.requests=0;self.bytes=0;self.trees={}
+        self.limits=limits;self.requests=0;self.bytes=0;self.trees={};self.blobs={}
 
     async def get(self,suffix,params=None,maximum=None):
         self.requests+=1
@@ -37,7 +38,7 @@ class GitHubReader:
         raw=await self.get('/commits',{'sha':revision(anchor),'per_page':min(count,100),'page':1})
         if not isinstance(raw,list):raise ValueError('Invalid commit list')
         ids=[revision(c['sha']) for c in raw]
-        if not ids or ids[0]!=anchor:raise ValueError('Pinned history mismatch')
+        if not ids or ids[0]!=anchor or len(ids)!=len(set(ids)):raise ValueError('Pinned history mismatch')
         return ids
 
     async def commit(self,sha):
@@ -60,10 +61,13 @@ class GitHubReader:
         if sha in self.trees:return self.trees[sha]
         commit=await self.get('/git/commits/'+sha,maximum=256*1024)
         if commit['sha']!=sha:raise ValueError('Revision mismatch')
-        raw=await self.get('/git/trees/'+revision(commit['tree']['sha']),{'recursive':'1'})
+        tree_sha=revision(commit['tree']['sha'])
+        raw=await self.get('/git/trees/'+tree_sha,{'recursive':'1'})
+        if raw.get('sha')!=tree_sha or type(raw.get('truncated')) is not bool:raise ValueError('Tree identity mismatch')
         files=[];issues=['upstream_tree_truncated'] if raw.get('truncated') else []
         for f in raw['tree']:
             if f['type']=='tree':continue
+            if (f['type'],f['mode']) not in {('blob','100644'),('blob','100755'),('blob','120000'),('commit','160000')}:raise ValueError('Unsupported tree mode')
             if len(files)>=self.limits.tree_files:issues.append('tree_file_limit');break
             name=path(f['path']);size=f.get('size')
             if size is not None and (type(size)!=int or size<0):raise ValueError('Invalid size')
@@ -71,10 +75,15 @@ class GitHubReader:
         result=RevisionTree(sha,sorted(files,key=lambda f:f.path),not issues,issues);self.trees[sha]=result;return result
 
     async def blob(self,sha,maximum):
+        revision(sha)
+        if sha in self.blobs:return self.blobs[sha] if len(self.blobs[sha])<=maximum else None
         raw=await self.get('/git/blobs/'+revision(sha),maximum=maximum*2+2048)
         if raw['sha']!=sha or raw.get('encoding')!='base64' or raw['size']>maximum:return None
         data=base64.b64decode(raw['content'],validate=False)
-        return data if len(data)<=maximum else None
+        if len(data)>maximum:return None
+        if hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()!=sha:raise ValueError('Blob identity mismatch')
+        self.blobs[sha]=data
+        return data
 
 
 async def operation(url,work,*,transport=None,limits=LIMITS):

@@ -3,8 +3,8 @@
 ## Real pages, shared evidence
 
 FastAPI/Jinja renders a public landing (`/`), repository import (`/explore`), and
-eight independent `/workspace/` documents: `overview`, `risk`, `structure`, `graph`,
-`architecture`, `heatmaps`, `blast-radius`, `jordan`. Unknown workspace names return 404.
+nine independent `/workspace/` documents: `overview`, `risk`, `structure`, `graph`,
+`architecture`, `heatmaps`, `blast-radius`, `jordan`, `time-machine`. Unknown workspace names return 404.
 `workspace_base.html` owns one navigation/context shell; validated feature includes
 contain only that page's relevant controls and content. Architecture and heatmaps
 share an engine/template but initialize different actual views. They do not load a
@@ -182,7 +182,7 @@ UIs need network, while `/openapi.json` and installed product assets remain loca
 1. Follow README setup and start Uvicorn on localhost. Open `/` at 1366×768; inspect the
    still composition, motion, scroll narrative and immediate import access. Repeat with
    reduced motion and narrow widths (390×844, tablet and large desktop).
-2. Import a known mixed C/Python ZIP, then navigate all eight workspaces without a
+2. Import a known mixed C/Python ZIP, then navigate all nine workspaces without a
    second upload. Refresh each and exercise browser back/forward. Open a new tab to
    verify its context behavior; remember browser tab duplication may copy sessionStorage.
 3. Inspect overview provenance and inventory filters; select actual functions in structure
@@ -233,3 +233,17 @@ predictions; verified local caller and impact answers. Uvicorn reached applicati
 startup but could not bind localhost. Chromium again exited 133 at setsockopt; Firefox
 exited 139 before rendering. Jordan visual/responsive acceptance and live cloud testing
 remain local manual checks in jordan.md; no measured FPS or screenshots are claimed.
+
+
+## Time Machine extension — Task 6B
+
+The dedicated `/workspace/time-machine` document lazily loads only its SVG/view-model,
+landscape, studio and lifecycle modules. Explicit public REST retrieval uses the active
+canonical GitHub URL and pinned SHA; ZIPs never acquire invented history. `saveHistory`
+updates the same source-matched snapshot row without changing its ID or expiry, under a
+2 MiB history limit inside the existing 24 MiB bound. Up to three metadata-only trees
+persist; source patches stay in page memory. Shared repository replacement/expiry,
+AbortController cancellation and epoch checks reject stale responses. Playback stops
+on hiding, view change or teardown. Stable file-ID handoffs from structure, graph and
+heatmaps require verified provenance/path evidence before linking current context.
+See [Time Machine](time_machine.md) for metrics, API, coverage and browser acceptance.

@@ -107,3 +107,46 @@ for misleading defaults. Jordan historical question integration remains intentio
 unimplemented: its existing local/provider behavior is preserved, with no cloud changes.
 Next I: expanded Git/HTTP security tests, final responsive/source review, browser/network
 attempts, complete regression suite and documentation.
+
+## I complete — verification, safeguards and documentation
+
+Final suite: **475 passed, 0 failed, 0 skipped** in 84.94 seconds; one pre-existing
+Starlette/httpx deprecation warning. Baseline was 440 passing. History tests now include
+special Git entries, ambiguous identical-blob rename candidates, tree/output/transfer
+limits, partial rate-limit retention, public admission release, object isolation and
+malformed upstream failures. Blob SHA verification and request-local blob reuse were
+added; duplicate upstream commit IDs and mismatched trees are rejected.
+
+Browser-free frontend results: **67 actual-document journey cases**, **8 dedicated
+Time Machine view-model cases**, **16 snapshot/store cases**, plus preserved **24 graph,
+10 architecture, 32 impact and 30 Jordan** cases. These are exercised through Python
+runners and are not added to the 475 Python total. Genuine Git fixture smoke: **7 commits,
+2 author display names, 1 merge, 7 historical changed paths**. The first-to-last exact
+comparison retained five added/removed paths; separate fixture checks verified exact
+rename, modified, reverse and divergent-tree semantics, binary/unavailable measurements,
+shallow/detached history and explicit limits. Real mixed-language ZIP ingestion and
+history/export continuity passed without retraining or held-out evaluation.
+
+Final source/integration review covered provenance-matched history, persistent snapshot
+ID/TTL, exact revision selection, meaningful null/zero legends, nested directory previews,
+accessible overflow, cancellation/retry controls, late-response rejection, keyboard
+controls, screen-unit timeline labels, literal malicious metadata, transient patches,
+reduced-motion playback and renderer teardown. Selected commits outside filters are
+labeled; exact-tree and comparison-base inspector actions connect the views. Restrained
+hover transitions use the existing motion tokens. This is **not a rendered visual review**.
+
+JS syntax, Python 3.10 grammar, `pip check`, changed-document links, CSS block balance,
+`git diff --check`, changed-file path/size and credential-pattern checks passed. Existing
+ML/provider/academic assets and user-owned untracked vendor files were not changed.
+README, frontend/API/graph/architecture docs and dedicated `docs/time_machine.md` describe
+implemented behavior, limits, metrics, lifecycle and exact local acceptance steps.
+
+Browser/network attempts: Chromium exited **133** before rendering with `setsockopt:
+Operation not permitted`; Uvicorn completed application startup but could not bind
+127.0.0.1:8000; the direct public GitHub probe failed DNS resolution for api.github.com
+(curl exit **6**). No live history success, screenshots, real responsive/GPU acceptance
+or FPS measurement is claimed. Those manual checks remain in `docs/time_machine.md`.
+Jordan historical query support is intentionally not implemented; optional provider
+configuration remains deferred to Task 7. All implementation stages A–I are preserved
+in nine incremental commits including this final stage. Do not restart or regenerate
+reports; future work begins from current Git status and this record.

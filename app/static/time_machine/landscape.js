@@ -11,7 +11,7 @@
     if(width>65&&height>28){const chars=Math.max(4,Math.floor((width-20)/7)),label=tile.name.length>chars?tile.name.slice(0,chars-1)+'…':tile.name;g.append(make('text',{x:tile.x+gap+10,y:tile.y+gap+21,'class':tile.directory?'tm-directory-label':'tm-map-label'},label));if(height>57&&width>90)g.append(make('text',{x:tile.x+gap+10,y:tile.y+gap+42,'class':'tm-map-value'},tile.value==null?'unmeasured':`${tile.value.toLocaleString()} ${metric}`));}
     const act=()=>{if(tile.more)more(omitted);else if(tile.directory)open(tile.path);else{for(const n of this.nodes.values())n.classList.remove('is-selected');g.classList.add('is-selected');inspect(tile.path);}};
     g.addEventListener('click',e=>{e.stopPropagation?.();act();});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation?.();act();}});this.nodes.set(tile.path||'@more',g);canvas.append(g);
-    if(!nested&&tile.directory&&width>190&&height>135){const children=D.groups(rows,tile.path,metric).slice(0,8);draw(children,tile.x+gap+6,tile.y+gap+62,width-12,height-68,true);}
+    if(!nested&&tile.directory&&width>190&&height>135){const allChildren=D.groups(rows,tile.path,metric),children=allChildren.slice(0,8);g.append(make('title',{},`Nested preview: ${children.length}/${allChildren.length} groups; drill down for all retained entries.`));draw(children,tile.x+gap+6,tile.y+gap+62,width-12,height-68,true);}
    }};
    draw(visible,0,0,1000,480);this.host.append(canvas);if(!groups.length){const p=document.createElement('p');p.textContent='No historical paths match this directory and range.';this.host.append(p);}return {shown:visible.length,total:groups.length,max:observed};
   }

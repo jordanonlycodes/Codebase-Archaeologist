@@ -30,7 +30,7 @@ def text(value, maximum=512):
         raise ValueError('Invalid text metadata')
     # Preserve readable evidence without terminal controls / bidi spoofing.
     clean=''.join(c if ord(c)>=32 and ord(c)!=127 and c not in '\u202a\u202b\u202c\u202d\u202e\u2066\u2067\u2068\u2069' else f'\\u{ord(c):04x}' for c in value)
-    return clean[:maximum]
+    return clean if len(clean)<=maximum else clean[:maximum-1]+'…'
 
 
 def timestamp(value):

@@ -29,6 +29,7 @@ research-model scores remain distinct, with explicit coverage and limitations.
 | **Architecture atlas** | Real directory components, directed call/import/include aggregates and observed dependency-cycle groups. |
 | **Repository heatmaps** | Nested source landscapes colored by six verified metrics, with drill-down, breadcrumbs and honest unscored states. |
 | **Jordan** | Offline, deterministic engineering investigations with source references; optional consent-gated AI explanations of selected evidence. |
+| **Time Machine** | Authentic pinned Git history: interactive timeline, UTC activity, nested churn, exact revision comparison and tracked-tree evolution. |
 | **Blast radius** | Bounded 1–3 hop potential upstream dependents and downstream dependencies, with actual representative paths. |
 
 The public homepage has an original procedural light composition and editorial typography.
@@ -57,6 +58,7 @@ preview. No fake screenshots or analytics are presented.
 /workspace/heatmaps            Nested metric exploration
 /workspace/blast-radius        Evidence-based potential impact
 /workspace/jordan              Evidence-grounded engineering companion
+/workspace/time-machine        Authentic Git history and revision exploration
 ```
 
 These are separate Jinja documents with page-specific initialization—not one giant
@@ -88,6 +90,24 @@ storage. `store:false` is not a guarantee of zero provider retention. Local answ
 available when the provider fails. Keys never enter browser assets or snapshots.
 
 [Supported investigations, configuration, privacy and verification →](docs/jordan.md)
+
+## Time Machine. Follow the changes.
+
+A dedicated historical workspace retrieves real public GitHub history anchored to the
+analyzed snapshot. Explore a zoomable commit timeline, UTC activity, nested file-churn
+landscape, exact base-to-head revision comparisons and actual tracked-tree evolution.
+Inspect parent evidence, reported renames, bounded literal patches and historical paths;
+playback visits only loaded real revisions. Current-file links preserve exact identity
+and keep current metrics separate from historical evidence.
+
+Retrieval is explicit and bounded to **24 commits**, the first **100 changed files per
+commit**, and **5,000 tree entries**. It uses fixed-host public GitHub REST requests,
+not cloning; unauthenticated quotas and partial coverage are visible. ZIP imports have
+an informative no-history state. No fabricated history, historical ML scores or provider
+requests are introduced. Metadata shares the existing two-hour snapshot lifecycle;
+comparison source patches remain transient and are never saved in browser snapshots.
+
+[Methodology, limits, local browser acceptance and API →](docs/time_machine.md)
 
 ## Inside the instrument
 
@@ -148,7 +168,7 @@ repository's default-branch snapshot. The existing API also accepts trailing `/`
 
 Upload percentages represent actual transferred bytes. Processing is indeterminate;
 there is no fabricated server progress. Errors preserve the previous active snapshot.
-After success, explore all eight workspaces and export the current analysis as JSON.
+After success, explore all nine workspaces and export the current analysis as JSON.
 Impact export additionally includes the selected bounded query.
 
 A minimal static-analysis installation can use `requirements.txt`; missing optional
@@ -244,6 +264,14 @@ the preserved graph/architecture/impact suites. A real mixed ZIP smoke test anal
 potential-impact evidence. All cloud provider tests used mocked responses; no live
 provider success is claimed. [Jordan implementation and recovery record](docs/task6a_progress.md).
 
+**Task 6B verification: 475 Python tests passed, 0 failed, 0 skipped**, with the same
+existing deprecation warning. Genuine Git fixtures exercise seven commits, two author
+display names, a merge, rename, deletion, binary data, shallow ancestry and exact revision
+comparisons. Browser-free checks include 67 real-document journeys, eight Time Machine
+view-model cases and 16 snapshot cases, alongside the preserved feature suites. No
+live GitHub history or browser rendering is claimed in the socket/DNS-restricted sandbox.
+[History methodology and acceptance](docs/time_machine.md) · [Task 6B progress](docs/task6b_progress.md).
+
 Real browser verification is **outstanding**: Chromium exited 133 with a sandbox socket
 error; Firefox exited 139 before rendering. No visual, responsive, genuine-WebGL or FPS
 measurements are fabricated. [Frontend design and verification](docs/frontend.md) ·
@@ -251,6 +279,7 @@ measurements are fabricated. [Frontend design and verification](docs/frontend.md
 
 ## Field notes
 
+- [Time Machine: authentic history, churn, comparison, evolution and coverage](docs/time_machine.md)
 - [Jordan: local investigations, optional AI provider, explicit consent and limits](docs/jordan.md)
 - [Secure GitHub ingestion](docs/github_ingestion.md)
 - [Structural metrics and limitations](docs/structural_intelligence.md)
@@ -267,7 +296,7 @@ Academic submission: **Bilal Malik · 24P-3061 · Software Engineering (SE), Cla
 FAST-NUCES, Peshawar · 2026**. Individual project with instructor-approved solo participation,
 as supplied by the student. No instructor identity is inferred.
 
-Future work includes history exploration and Repository DNA. They are **not
+Future work includes Repository DNA. They are **not
 implemented** or shown as working navigation. Existing static-analysis limitations and
 research caveats remain part of the product.
 
