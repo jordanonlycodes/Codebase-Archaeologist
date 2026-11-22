@@ -2,6 +2,7 @@
 const assert=require('node:assert/strict'),test=require('node:test');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const D=require('../../app/static/graph/data.js');
+const L=require('../../app/static/graph/layouts.js');
 const n=(id,type='function',metadata={})=>({id,type,name:id,path:`src/${id}.c`,metadata});
 const e=(id,source,target,type='CALLS')=>({id,source,target,type,status:'resolved_internal',occurrences:1,evidence:[]});
 const fixture=()=>({nodes:[n('repo','repository'),n('file','file'),n('a'),n('b'),n('c'),n('other')],edges:[e('d','file','a','DEFINES'),e('ab','a','b'),e('ba','b','a'),e('bc','b','c')],references:[{source:'a',reference:'external',type:'CALLS',status:'unresolved',evidence:{path:'src/a.c',line:1}}]});
@@ -85,10 +86,10 @@ function controller(){
 
 test('renderer switching preserves shared state; stale asynchronous loads do not attach',async()=>{
  const h=controller(),x=h.explorer;x.setGraph(fixture());
- Object.assign(x.state,{selected:'a',query:'a',view:'calls',overlay:'complexity',focus:'a',hops:2,direction:'out',language:'C'});
+ Object.assign(x.state,{selected:'a',query:'a',view:'calls',overlay:'complexity',focus:'a',hops:2,direction:'out',language:'C',layout:'radial'});
  const state=x.state;await x.switchMode('2d');const p=x.switchMode('3d');await x.switchMode('2d');h.loads[0].resolve();await p;
  assert.equal(x.state,state);assert.equal(x.state.selected,'a');assert.equal(x.state.overlay,'complexity');assert.equal(x.state.hops,2);assert.equal(x.state.mode,'2d');
- const next=x.switchMode('3d');h.loads[1].resolve();await next;assert.equal(x.state.mode,'3d');assert.equal(x.state.query,'a');
+ const next=x.switchMode('3d');h.loads[1].resolve();await next;assert.equal(x.state.mode,'3d');assert.equal(x.state.query,'a');assert.equal(x.state.layout,'radial');
  assert.equal(h.counts().created,3);assert.equal(h.counts().destroyed,2);
 });
 
@@ -107,7 +108,7 @@ test('WebGL fallback, search selection beyond filters, and safe labels',async()=
 
 test('real SVG adapter creates text safely and removes handlers on disposal',()=>{
  const nodes=[];const document={activeElement:null,createElementNS:(ns,tag)=>{const el=new Element(tag);el.closest=()=>null;nodes.push(el);return el;}};
- const context={ArchaeologistGraph:D,document};vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/svg.js'),'utf8'),context);
+ const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,document,requestAnimationFrame:()=>1,cancelAnimationFrame:()=>{}};vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/svg.js'),'utf8'),context);
  const host=new Element(),adapter=new context.ArchaeologistSVG(host,()=>{}),graph=fixture();graph.nodes[2].name='<script>alert(1)</script>';
  const ix=D.index(graph);adapter.set(D.subset(ix,D.initial()),ix,D.initial());assert(nodes.some(n=>n.tagName==='text'&&n.textContent.includes('<script>')));
  const svg=adapter.svg;adapter.zoom(1.2);adapter.focus('a');assert(Number.isFinite(adapter.box.w));adapter.destroy();assert.equal(Object.keys(svg.listeners).length,0);assert.equal(host.children.length,0);
@@ -120,22 +121,111 @@ test('WebGL detection handles failures without throwing',()=>{
 
 test('real 3D adapter uses isolated data, safe labels, bounded simulation and resource cleanup',()=>{
  let raf=0,cancelled=0,disconnected=0,disposed=0,contextLost=0,destructed=0;
- const calls={},host=new Element(),controls={target:{x:0,y:0,z:0},dispose(){disposed++;}};
+ let updates=0;const calls={},host=new Element(),controls={target:{x:0,y:0,z:0},dispose(){disposed++;}};
  const graph={};
- const methods=['backgroundColor','showNavInfo','nodeId','nodeResolution','nodeLabel','linkLabel','linkDirectionalArrowLength','linkDirectionalArrowRelPos','linkOpacity','linkCurvature','enableNodeDrag','onNodeClick','onBackgroundClick','onNodeDragEnd','warmupTicks','cooldownTicks','cooldownTime','nodeVal','nodeColor','linkColor','linkWidth','width','height','cameraPosition','zoomToFit'];
+ const methods=['backgroundColor','showNavInfo','nodeId','nodeResolution','nodeLabel','linkLabel','linkDirectionalArrowLength','linkDirectionalArrowRelPos','linkOpacity','linkCurvature','enableNodeDrag','onNodeClick','onBackgroundClick','onNodeDragEnd','onNodeHover','warmupTicks','cooldownTicks','cooldownTime','nodeVal','nodeColor','linkColor','linkWidth','width','height','cameraPosition','zoomToFit'];
  for(const method of methods)graph[method]=(...args)=>{calls[method]=args;return graph;};
- graph.controls=()=>controls;graph.graphData=data=>{calls.graphData=data;return graph;};
+ graph.controls=()=>controls;graph.graphData=data=>{updates++;calls.graphData=data;return graph;};
  graph.pauseAnimation=()=>{calls.paused=true;};graph.resumeAnimation=()=>{};
  graph.scene=()=>({traverse:fn=>fn({geometry:{dispose(){disposed++;}},material:{dispose(){disposed++;}}})});
  graph.renderer=()=>({renderLists:{dispose(){disposed++;}},dispose(){disposed++;},forceContextLoss(){contextLost++;}});
  graph._destructor=()=>{destructed++;};
  const document={createElement:tag=>new Element(tag)};
- const context={ArchaeologistGraph:D,document,ForceGraph3D:()=>()=>graph,requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{cancelled++;},IntersectionObserver:class{observe(){}disconnect(){disconnected++;}}};
+ const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,setTimeout,clearTimeout,document,ForceGraph3D:()=>()=>graph,requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{cancelled++;},IntersectionObserver:class{observe(){}disconnect(){disconnected++;}}};
  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
- const adapter=new context.ArchaeologistThree.Adapter(host,()=>{},true),fixtureGraph=fixture();fixtureGraph.nodes[2].name='<img onerror=alert(1)>';
+ const adapter=new context.ArchaeologistThree.Adapter(host,()=>{},true),fixtureGraph=fixture();fixtureGraph.nodes[2].name='<img onerror=alert(1)>';fixtureGraph.nodes.push(n('dependency','file'));fixtureGraph.edges.push(e('import','file','dependency','IMPORTS'),e('include','dependency','file','INCLUDES'));
  const ix=D.index(fixtureGraph),s=D.initial();s.selected='a';adapter.set(D.subset(ix,s),ix,s);
  assert.equal(calls.cooldownTicks[0],0);assert.equal(calls.warmupTicks[0],0);assert.equal(controls.enableDamping,false);
  assert.equal(calls.nodeLabel[0]({record:fixtureGraph.nodes[2]}).textContent,'<img onerror=alert(1)> · src/a.c');
  assert.equal(calls.graphData.nodes[0].record.id,D.subset(ix,s).nodes[0].id);
- adapter.destroy();adapter.destroy();assert.equal(destructed,1);assert.equal(contextLost,1);assert.equal(cancelled,1);assert.equal(disconnected,1);assert(disposed>=4);
+ for(const view of ['knowledge','calls','dependencies']){
+  s.view=view;s.selected=null;const subset=D.subset(ix,s);adapter.set(subset,ix,s);
+  const count=updates,runs=adapter.layoutRuns,first=adapter.data.nodes[0],location=first?{x:first.x,y:first.y,z:first.z}:null;
+  for(const overlay of ['entity','complexity','ml']){s.overlay=overlay;s.selected=first?.id;adapter.set(subset,ix,s);}
+  assert.equal(updates,count,`3D ${view}: style-only updates must not resubmit graph data`);assert.equal(adapter.layoutRuns,runs);
+  assert.equal(adapter.data.nodes[0],first);if(first)assert.deepEqual({x:first.x,y:first.y,z:first.z},location);
+ }
+ adapter.pause();assert(calls.paused);assert.equal(calls.cooldownTime[0],0);
+
+ adapter.destroy();adapter.destroy();assert.equal(destructed,1);assert.equal(contextLost,1);assert.equal(Object.keys(host.listeners).length,0);assert(cancelled>=1);assert.equal(disconnected,1);assert(disposed>=4);
+});
+
+function hierarchyFixture(){return {nodes:[n('root','repository'),n('dir','directory'),n('file','file'),n('a'),n('b'),n('otherDir','directory'),n('otherFile','file')],edges:[e('rd','root','dir','CONTAINS'),e('df','dir','file','CONTAINS'),e('fa','file','a','DEFINES'),e('fb','file','b','DEFINES'),e('ro','root','otherDir','CONTAINS'),e('of','otherDir','otherFile','CONTAINS'),e('ab','a','b')]};}
+
+test('automatic strategy is perspective-specific; layouts are deterministic and collision-aware',()=>{
+ const ix=D.index(hierarchyFixture());
+ assert.equal(L.strategy({...D.initial(),view:'knowledge'}),'hierarchy');assert.equal(L.strategy({...D.initial(),view:'calls'}),'directed');assert.equal(L.strategy({...D.initial(),view:'dependencies'}),'clusters');
+ for(const view of ['knowledge','calls','dependencies'])for(const layout of ['auto','hierarchy','radial']){
+  const state={...D.initial(),view,layout},subset=D.subset(ix,state),positions=L.layout(subset,ix,state);
+  assert.deepEqual([...positions],[...L.layout(subset,ix,state)]);
+  assert.equal(positions.size,subset.nodes.length);
+  const values=[...positions.values()];assert(values.every(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)));
+  for(let i=0;i<values.length;i++)for(let j=i+1;j<values.length;j++)assert(Math.abs(values[i].x-values[j].x)>50||Math.abs(values[i].y-values[j].y)>50);
+ }
+});
+
+test('hierarchy grouping, group collapse and branch focus use actual containment',()=>{
+ const ix=D.index(hierarchyFixture()),state=D.initial();
+ assert.equal(ix.hierarchy.parent.get('a'),'file');assert.deepEqual([...L.descendants(ix,'file').ids].sort(),['a','b','file']);
+ state.collapsed=['file'];const collapsed=D.subset(ix,state);assert.equal(collapsed.groupHidden,2);assert(!collapsed.nodes.some(n=>n.id==='a'));
+ state.query='a';assert(D.subset(ix,state).nodes.some(n=>n.id==='a'));state.query='';state.collapsed=[];state.branch='dir';
+ assert.deepEqual(D.subset(ix,state).nodes.map(n=>n.id).sort(),['a','b','dir','file']);
+ state.branch=null;const positions=L.layout(D.subset(ix,state),ix,state);
+ assert(positions.get('root').y<positions.get('dir').y);assert(positions.get('file').y<positions.get('a').y);
+});
+
+test('directed SCC layers retain recursion and upstream/downstream order',()=>{
+ const graph={nodes:[n('up'),n('a'),n('b'),n('down')],edges:[e('up-a','up','a'),e('ab','a','b'),e('ba','b','a'),e('self','a','a'),e('b-down','b','down')]};
+ const ix=D.index(graph),s={...D.initial(),view:'calls'},v=D.subset(ix,s),positions=L.layout(v,ix,s);
+ assert(positions.get('up').x<positions.get('a').x);assert.equal(positions.get('a').x,positions.get('b').x);assert(positions.get('down').x>positions.get('b').x);assert.equal(v.edges.length,5);
+ s.selected='up';s.focus='up';s.hops=2;const em=L.emphasis(v,s);assert.equal(em.get('a'),'outgoing');assert.equal(em.get('b'),'outgoing');
+ s.selected='down';s.focus='down';const incoming=L.emphasis(v,s);assert.equal(incoming.get('b'),'incoming');assert.equal(incoming.get('a'),'incoming');
+});
+
+test('dependency direction and edge kinds remain distinct with cycles and occurrence counts',()=>{
+ const graph={nodes:[n('py','file'),n('c','file')],edges:[e('imports','py','c','IMPORTS'),{...e('includes','c','py','INCLUDES'),occurrences:3}]};
+ const ix=D.index(graph),s={...D.initial(),view:'dependencies',selected:'py'},v=D.subset(ix,s),em=L.emphasis(v,s);
+ const outgoing=L.edgeStyle(v.edges[0],s,em),incoming=L.edgeStyle(v.edges[1],s,em);assert.notEqual(outgoing.color,incoming.color);assert.equal(v.edges[1].occurrences,3);
+ const neutral={...s,selected:null};assert.notEqual(L.edgeStyle(v.edges[0],neutral,em).color,L.edgeStyle(v.edges[1],neutral,em).color);
+ assert(L.edgeStyle(v.edges[1],neutral,em).dash);assert.equal(L.layout(v,ix,s).size,2);
+});
+
+test('contextual labels prioritize selected and hovered nodes without overlapping ordinary labels',()=>{
+ const nodes=[n('selected'),n('hover'),n('near'),n('unrelated')],positions=new Map(nodes.map((n,i)=>[n.id,{x:i<3?0:200,y:0}])),em=new Map([['selected','selected'],['near','outgoing'],['unrelated','dim']]);
+ const small=L.labels(nodes,positions,'selected','hover',em,.1,2);assert(small.has('selected'));assert(small.has('hover'));assert(!small.has('unrelated'));
+ const larger=L.labels(nodes,positions,'selected',null,em,2,20);assert(larger.has('unrelated'));assert(!larger.has('near'));
+});
+
+test('perspective switching clears incompatible filters explicitly but preserves layout/overlay',()=>{
+ const h=controller(),x=h.explorer;x.setGraph(hierarchyFixture());Object.assign(x.state,{selected:'a',focus:'a',layout:'radial',overlay:'ml',types:['function'],relations:['CALLS'],language:'C'});
+ x.changeView('dependencies');assert.equal(x.state.selected,null);assert.equal(x.state.focus,null);assert.deepEqual([...x.state.types],D.TYPES);assert.equal(x.state.language,'');assert.equal(x.state.layout,'radial');assert.equal(x.state.overlay,'ml');assert.match(x.notice,/filters reset/);
+ const panel=h.elements.get('graph-inspection');x.choose('dir');assert(!panel.textContent.includes('Cyclomatic complexity'));assert(!panel.textContent.includes('ML defect risk'));assert(panel.textContent.includes('Relative directory'));
+});
+
+test('SVG reuses keyed elements and positions through selection/overlay and batches pointer work',()=>{
+ const queue=new Map();let next=0,cancelled=0;
+ const document={createElementNS:(ns,tag)=>{const el=new Element(tag);el.closest=()=>null;return el;}};
+ const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,document,requestAnimationFrame:fn=>{queue.set(++next,fn);return next;},cancelAnimationFrame:id=>{queue.delete(id);cancelled++;}};
+ vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/svg.js'),'utf8'),context);
+ const adapter=new context.ArchaeologistSVG(new Element(),()=>{}),ix=D.index(hierarchyFixture()),s=D.initial(),view=D.subset(ix,s);
+ const flush=()=>{const callbacks=[...queue.values()];queue.clear();for(const callback of callbacks)callback();};
+ adapter.set(view,ix,s);flush();const node=adapter.nodes.get('a'),edge=adapter.edges.get('fa'),position={...adapter.positions.get('a')},runs=adapter.layoutRuns;
+ s.selected='a';s.overlay='ml';adapter.set(view,ix,s);adapter.schedule();adapter.schedule();assert.equal(queue.size,1);flush();
+ assert.equal(adapter.nodes.get('a'),node);assert.equal(adapter.edges.get('fa'),edge);assert.deepEqual(adapter.positions.get('a'),position);assert.equal(adapter.layoutRuns,runs);
+ adapter.reset();assert.equal(adapter.layoutRuns,runs+1);
+ for(const perspective of ['knowledge','calls','dependencies']){
+  s.view=perspective;const subset=D.subset(ix,s);adapter.set(subset,ix,s);flush();
+  const runs=adapter.layoutRuns,groups=[...adapter.nodes.values()].map(n=>n.group);
+  s.overlay='complexity';s.selected=subset.nodes[0]?.id;adapter.set(subset,ix,s);flush();
+  assert.equal(adapter.layoutRuns,runs,`2D ${perspective}: selection preserves layout`);assert.deepEqual([...adapter.nodes.values()].map(n=>n.group),groups);
+ }
+ adapter.destroy();assert(cancelled>=1);
+});
+
+test('collision spacing checks neighboring cells and large collapsed overviews remain searchable',()=>{
+ const nodes=[n('left'),n('right')],positions=new Map([['left',{x:86,y:0}],['right',{x:88,y:0}]]);L.separate(positions,nodes);
+ assert(Math.abs(positions.get('left').y-positions.get('right').y)>=78);
+ const graph=hierarchyFixture();for(let i=0;i<250;i++){graph.nodes.push(n('func'+i));graph.edges.push(e('def'+i,'file','func'+i,'DEFINES'));}
+ const h=controller();h.explorer.setGraph(graph);assert(h.explorer.state.collapsed.includes('file'));assert(h.explorer.view.groupHidden>=252);
+ assert.equal(D.search(h.explorer.ix,'func249').total,1);h.explorer.choose('func249');assert(h.explorer.view.nodes.some(n=>n.id==='func249'));assert(h.explorer.view.nodes.length<=D.LIMITS.nodes);
 });

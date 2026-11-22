@@ -307,7 +307,7 @@ qualification. Python and nonfunction entities are never assigned ML predictions
 
 The network environment could not resolve `cdn.jsdelivr.net` or `registry.npmjs.org`.
 To keep analysis usable offline, 2D uses a focused first-party SVG adapter with a
-deterministic grid and draggable positions; no force simulation or package dependency.
+deterministic layouts and draggable positions; no force simulation or package dependency.
 This is a compatibility adapter, not a custom physics engine. It makes disconnected
 components visible, supports directional curved edges/self-loops and hides labels
 when zoomed out. Dense graphs may still have overlapping edges; search and bounded
@@ -332,9 +332,10 @@ pipeline or dependency installation. Preserve license comments and the license/r
 when redistributing assets. The receipt records downloaded bytes; it is not an independent
 signature or a preverified digest. `app/static/vendor/README.md` documents attribution.
 
-**Current blocker:** no 3D bundle could be downloaded in this sandbox. The adapter is
-implemented and mock-tested but actual GPU rendering is unverified until installation
-and browser checks succeed. Missing local assets or WebGL failures report a clear
+**Initial Task 4B.2 blocker:** the bundle download was blocked. At the start of the
+layout/performance refinement, local 1.73.3 assets were present and their bundle hash
+matched the existing receipt. They were preserved unchanged and remain untracked user
+files. Actual GPU rendering is still unverified because browser startup is blocked. Missing local assets or WebGL failures report a clear
 notice and fall back to functional 2D, never to a simulated 3D picture.
 
 Capable desktop devices (fine pointer, width ≥1000px, WebGL, no reduced-motion preference)
@@ -345,8 +346,8 @@ ID, query, perspective, filters, overlay, direction and neighborhood. Camera/dra
 positions are adapter-local; resetting a camera/layout does not clear shared filters.
 
 3D supplies orbit controls, right-drag camera pan, scrolling zoom, node dragging and
-camera focus. A bounded force simulation starts from deterministic spatial positions;
-reduced-motion mode uses static positions and immediate camera transitions. The spatial
+camera focus. The refinement uses shared, fixed deterministic spatial positions without a physics
+simulation; reduced-motion mode also uses immediate camera transitions. The spatial
 view uses a near-black backdrop, type-sized spheres, arrows, selected-node emphasis,
 hover names and at most 31 projected labels, hidden at distance. No decorative particles
 or perpetual camera motion are enabled.
@@ -365,9 +366,9 @@ Only one rendering adapter exists at a time. Stale asynchronous library loads ca
 attach after a repository/mode switch. Repository replacement disposes the previous
 adapter and resets interaction state. 2D removes pointer/keyboard/wheel listeners;
 3D pauses animation, detaches controls/callbacks, releases geometry/materials/textures,
-disposes renderer/context and calls the pinned component teardown. Its simulation runs
-at most 80 ticks / 2.2 seconds (zero with reduced motion); rendering pauses offscreen.
-WebGL still renders for interactive orbit/drag after simulation cooldown. No GPU
+disposes renderer/context and calls the pinned component teardown. The refined adapter runs no force simulation and pauses rendering while idle/offscreen.
+Canvas interaction wakes a short rendering window, and camera transitions extend that
+window until completion. Only one adapter runs at once. No GPU
 execution or browser performance measurement was possible in this environment.
 
 ### Verification and remaining manual checks
@@ -406,3 +407,103 @@ the suite includes a runner for **13 passing Node frontend cases**. JavaScript s
 checks passed. One existing Starlette TestClient deprecation warning remains. Restricted
 Python test execution used the previously documented process-local selector polling
 workaround. These outcomes do not replace the blocked real-browser/3D checks above.
+
+
+## Layout and rendering refinement
+
+This focused patch covers the six combinations of 2D/3D × Knowledge/Calls/Dependencies.
+The graph extraction engine, ML, JSON response and export semantics are unchanged.
+`layouts.js` is the shared deterministic layout/presentation module:
+
+| Perspective | Automatic layout | Meaning |
+|---|---|---|
+| Knowledge | Packed hierarchy subtrees | Actual CONTAINS / DEFINES ancestry, separate sibling groups |
+| Calls | Directed layers with strongly connected components | Upstream caller → downstream callee; recursion shares a component |
+| Dependencies | Directory clusters | Actual parent paths; IMPORTS/INCLUDES arrows preserve direction |
+
+The compact selector offers Automatic, Hierarchical and Radial. Explicit Hierarchical
+uses containment for Knowledge and cycle-safe directed layers for semantic perspectives.
+Radial uses concentric rings with minimum spacing. There is no new force-layout engine.
+These are arrangements of static evidence, not inferred runtime execution sequences.
+Layout changes preserve selection, filters and overlays and never reanalyze a repository.
+Cycles and disconnected components remain present.
+
+Initial knowledge graphs larger than the 180-node rendering bound collapse file groups.
+`Collapse group` / `Expand group` controls work for selected directories and files;
+`Focus branch` limits the view to actual descendants within the same bounds. A counter
+reports nodes hidden by collapsed groups, independently of backend truncation. Search
+ignores collapsed groups; selecting a hit opens its neighborhood. Changing perspective
+explicitly resets entity/relationship/language filters and drops incompatible focus or
+selection, with a visible notice; query, layout and overlay remain available.
+
+Both adapters cache positions. Selection and overlay changes do not relayout entities;
+subsets preserve known positions and place only newly encountered nodes. Automatic
+layout changes when the perspective changes; Reset reapplies the current deterministic
+layout and fits the view. Hierarchical subtrees use packed rows/columns with explicit
+spacing, and a bounded neighboring-cell collision check separates overlapping positions.
+Users can still intentionally drag nodes into overlapping positions.
+
+SVG keeps keyed node/edge elements and reconciles only changed membership. Geometry,
+style and viewport updates are separated; pointer motion is coalesced through one
+requestAnimationFrame callback. Wheel zoom uses the pointer as anchor and aspect-aware
+fit/pan coordinates. Hover/title and keyboard inspection retain complete source names.
+
+3D uses the same layout coordinates with modest type-based plane separation; no force
+simulation runs. Graph data is resubmitted only when displayed topology/layout changes.
+Selection/overlay changes update presentation while retaining graph objects and fixed
+positions. Pixel density is capped at 1.5, node mesh resolution is reduced, and edges
+use thin lines instead of per-edge cylinders. Rendering wakes on canvas interaction,
+selection or camera movement and sleeps after its short interaction/transition window.
+Only up to 40 label candidates are projected, at most every 50 ms while awake; collision
+checks retain up to 24 ordinary labels plus relevant selected/hovered labels. Resize,
+mode/repository changes and destruction clean up scheduled frames, timers, observers,
+listeners, simulation/render loops and WebGL resources.
+
+Contextual labels prioritize selected/hovered nodes and relevant neighbors, suppress
+collisions and reveal more 2D names at higher zoom. Full names remain accessible in
+hover content and the inspector. Relationship base colors distinguish containment
+(gray dashed), definitions (mauve dashed), calls (pale crimson), imports (green) and
+includes (amber dashed in 2D; amber lines in 3D). Direct and bounded indirect outgoing
+relationships are crimson; incoming are amber. Unrelated edges dim without being
+removed. Curves distinguish repeated/opposite edges and self-recursion; occurrence
+counts and all bounded retained evidence are available in the inspector. No unresolved
+reference is promoted to a confirmed edge. Structural/ML overlays retain their original
+meaning, including explicit unscored C/Python states.
+
+The inspector groups identity, source, structural information, relationship direction,
+source evidence, unresolved references and applicable ML information. Repository and
+directory panels no longer display irrelevant function metrics or ML sections. Long
+IDs use their own horizontally scrollable field; names/paths remain accessible without
+forcing character-by-character wrapping. Only IDs use monospace.
+
+Verification: the browser-free frontend suite exercises all six adapter/perspective
+combinations, keyed SVG reuse, topology-only 3D submissions, deterministic hierarchy and
+SCC layouts, collision checks, recursive/cyclic links, contextual labels, preserved
+layout state, explicit filter resets, large collapsed views, bounded search, timers and
+resource cleanup. These are deterministic unit/adapter checks, not GPU benchmarks.
+No FPS claim is made.
+
+Manual checks on an unrestricted machine:
+
+```bash
+source .venv/bin/activate
+# Only if the local bundle is absent:
+python tools/install_graph_assets.py
+uvicorn app.main:app --reload
+node tests/frontend/graph.test.cjs
+pytest -q
+```
+
+Analyze a small repository containing nested directories, repeated calls, recursion,
+Python imports and C includes. In both 2D and 3D, check Knowledge, Calls and Dependencies;
+try every layout, overlays, directed one/two-hop focus, group collapse/expand, branch
+focus and hidden-function search. Confirm selection does not reposition nodes, camera
+fit/reset, call-site evidence, responsive controls and resource cleanup when replacing
+the repository. Chromium was attempted again and failed with `setsockopt: Operation not
+permitted`; actual browser, responsiveness and GPU interactions remain unverified here.
+
+Final refinement checks: **354 Python tests passed, 0 failed, 0 skipped**, including
+the frontend runner; **21 Node frontend cases passed**. JavaScript syntax and dependency
+consistency checks passed. One existing Starlette TestClient deprecation warning remains.
+The locally installed 3D bundle was checked against its existing receipt but was neither
+modified nor staged. No FPS, GPU or real-browser interaction measurement was possible.

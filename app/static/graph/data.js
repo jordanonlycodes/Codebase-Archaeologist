@@ -6,7 +6,7 @@
   const LIMITS = Object.freeze({nodes:180, edges:420, search:40, details:40, traversal:6000});
   const language = n => n.metadata?.language || '';
   const initial = () => ({mode:'2d', view:'knowledge', overlay:'entity', query:'', types:[...TYPES],
-    relations:[...RELATIONS], language:'', selected:null, focus:null, hops:1, direction:'both'});
+    relations:[...RELATIONS], language:'', selected:null, focus:null, branch:null, collapsed:[], layout:'auto', hops:1, direction:'both'});
   function index(graph) {
     const nodes = new Map((graph?.nodes || []).map(n => [n.id,n]));
     const edges = (graph?.edges || []).filter(e => nodes.has(e.source) && nodes.has(e.target) && e.status === 'resolved_internal');
@@ -21,7 +21,9 @@
       references.get(ref.source).push(ref);
     }
     const ordered = [...nodes.values()].sort((a,b) => TYPES.indexOf(a.type)-TYPES.indexOf(b.type) || (a.path || '').localeCompare(b.path || '') || a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
-    return {graph, nodes, ordered, edges, incoming, outgoing, references};
+    const parent=new Map(),children=new Map();
+    for(const e of edges)if(['CONTAINS','DEFINES'].includes(e.type)){parent.set(e.target,e.source);if(!children.has(e.source))children.set(e.source,[]);children.get(e.source).push(e.target);}
+    return {graph, nodes, ordered, edges, incoming, outgoing, references, hierarchy:{parent,children}};
   }
   function allowedNode(n,s) {
     return s.types.includes(n.type) && (!s.language || language(n) === s.language) &&
@@ -59,7 +61,16 @@
   function subset(ix,s) {
     let eligible=ix.ordered.filter(n=>allowedNode(n,s));
     const eligibleCount=eligible.length;
-    let truncated=false;
+    let truncated=false,groupHidden=0;
+    if(s.branch){
+      const branch=new Set(),queue=[s.branch];let cursor=0;
+      while(cursor<queue.length){const id=queue[cursor++];if(branch.has(id))continue;if(branch.size>=LIMITS.nodes){truncated=true;break;}branch.add(id);for(const child of ix.hierarchy.children.get(id)||[])queue.push(child);}
+      eligible=eligible.filter(n=>branch.has(n.id));
+    }
+    if(!s.focus&&!s.query.trim()&&s.view==='knowledge'){
+      const collapsed=new Set(s.collapsed||[]);
+      eligible=eligible.filter(n=>{let id=ix.hierarchy.parent.get(n.id);const seen=new Set();while(id&&!seen.has(id)){if(collapsed.has(id)){groupHidden++;return false;}seen.add(id);id=ix.hierarchy.parent.get(id);}return true;});
+    }
     if (s.focus) {
       const near=neighborhood(ix,s.focus,s.hops,s.direction,s);
       eligible=eligible.filter(n=>near.ids.has(n.id)); truncated=near.truncated;
@@ -74,7 +85,7 @@
     const ids=new Set(shown.map(n=>n.id));
     const allEdges=ix.edges.filter(e=>ids.has(e.source)&&ids.has(e.target)&&allowedEdge(e,s));
     return {nodes:shown, edges:allEdges.slice(0,LIMITS.edges), eligible:eligibleCount, matching:eligible.length,
-      truncated:truncated || eligible.length>shown.length || allEdges.length>LIMITS.edges, matchingEdges:allEdges.length};
+      truncated:truncated || eligible.length>shown.length || allEdges.length>LIMITS.edges, matchingEdges:allEdges.length, groupHidden};
   }
   function overlay(n,mode='entity') {
     const m=n.metadata || {};
@@ -104,7 +115,7 @@
     // 3d-force-graph mutates its inputs. Never pass canonical backend objects.
     return {nodes:view.nodes.map(n=>({id:n.id, record:n})), links:view.edges.map(e=>({...e}))};
   }
-  const api={TYPES,RELATIONS,LIMITS,language,initial,index,search,neighborhood,subset,overlay,emphasis,forceData};
+  const api={TYPES,RELATIONS,LIMITS,language,initial,index,allowedNode,search,neighborhood,subset,overlay,emphasis,forceData};
   if(typeof module!=='undefined' && module.exports) module.exports=api;
   root.ArchaeologistGraph=api;
 })(globalThis);

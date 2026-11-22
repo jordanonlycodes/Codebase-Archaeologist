@@ -303,3 +303,22 @@ for controls, limits, dependency details and manual verification.
 
 Run `node tests/frontend/graph.test.cjs` for browser-free interaction/adapter tests
 (Node.js 18+; no npm install), and `pytest -q` for application regressions.
+
+### Graph explorer layout and performance refinement
+
+Both 2D and 3D now share perspective-specific deterministic layouts: containment
+hierarchy, cycle-safe caller/callee layers and directory-grouped dependencies. The
+layout control also offers hierarchical and radial arrangements. File/directory
+collapse and branch focus follow actual containment; search still reaches hidden
+functions. Large initial knowledge views collapse file groups with explicit counts.
+
+SVG nodes/edges are retained between interactions, and drag updates use animation-frame
+batching. The 3D adapter uses fixed layout positions, resubmits graph data only for
+topology changes, caps pixel density and pauses rendering while idle/offscreen.
+Contextual labels, distinct relationship styles and an entity-specific inspector
+improve readability. No FPS improvement is claimed: browser startup remains blocked
+by this environment. Locally installed 3D assets were preserved unchanged.
+
+Run `node tests/frontend/graph.test.cjs` and `pytest -q`. See the
+[graph documentation](docs/knowledge_graph.md#layout-and-rendering-refinement) for
+controls, coverage and remaining manual checks.

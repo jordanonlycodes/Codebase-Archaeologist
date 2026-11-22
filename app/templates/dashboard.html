@@ -13,6 +13,7 @@
     <script src="{{ url_for('static', path='structural.js') }}" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', path='graph/explorer.css') }}">
     <script src="{{ url_for('static', path='graph/data.js') }}" defer></script>
+    <script src="{{ url_for('static', path='graph/layouts.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/svg.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/three.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/explorer.js') }}" defer></script>
@@ -213,6 +214,7 @@
               <div class="graph-toolbar">
                 <div class="source-modes" role="group" aria-label="Graph rendering mode"><button id="graph-2d" type="button" aria-pressed="true">2D Graph</button><button id="graph-3d" type="button" aria-pressed="false">3D Graph</button></div>
                 <label>Perspective<select id="graph-view"><option value="knowledge">Knowledge graph</option><option value="calls">Function calls</option><option value="dependencies">Dependencies</option></select></label>
+                <label>Layout<select id="graph-layout"><option value="auto">Automatic · perspective default</option><option value="hierarchy">Hierarchical</option><option value="radial">Radial</option></select></label>
                 <label>Overlay<select id="graph-overlay"><option value="entity">Entity type</option><option value="complexity">Structural complexity</option><option value="ml">ML defect risk</option></select></label>
                 <button type="button" id="graph-fullscreen" aria-expanded="false">Expand / fullscreen</button>
                 <button type="button" id="graph-close-expanded">Close expanded view</button>
@@ -231,7 +233,7 @@
                   <div class="graph-camera-controls" role="group" aria-label="Graph camera and neighborhood controls">
                     <button type="button" id="graph-in" aria-label="Zoom in">+</button><button type="button" id="graph-out" aria-label="Zoom out">−</button>
                     <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset layout / camera</button>
-                    <button type="button" id="graph-focus" disabled>Focus selected</button><button type="button" id="graph-hop-1" disabled>1 hop</button><button type="button" id="graph-hop-2" disabled>2 hops</button>
+                    <button type="button" id="graph-focus" disabled>Focus selected</button><button type="button" id="graph-hop-1" disabled>1 hop</button><button type="button" id="graph-hop-2" disabled>2 hops</button><button type="button" id="graph-group" disabled>Collapse group</button><button type="button" id="graph-branch" disabled>Focus branch</button>
                   </div>
                   <div id="graph-canvas" class="graph-canvas" aria-label="Repository graph viewport"></div>
                   <p id="graph-empty" class="graph-empty" hidden>No retained entities match this view. Clear filters or choose a different perspective.</p>
