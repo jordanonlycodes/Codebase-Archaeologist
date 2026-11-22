@@ -34,7 +34,9 @@ Malformed files report file issues. Independently parseable function definitions
 
 ## Runtime and resource policy
 
-The static scanner first determines eligible included text files. Inference runs before the extracted temporary directory is removed. Tree-sitter discovers definitions and declarator-based names. Each function uses unchanged `extract_features`; rows preserve `FEATURE_NAMES` ordering and float64 dtype. The persisted sklearn pipeline supplies the original imputer and Random Forest. Model `predict` provides classes and `predict_proba` supplies label-1 scores. Output shape, classes and finite probability range are checked before exposing results.
+The static scanner first determines eligible included text files. Inference runs before the extracted temporary directory is removed. Tree-sitter discovers definitions and declarator-based names. Each function uses unchanged `extract_features`; rows preserve `FEATURE_NAMES` ordering and float64 dtype. The persisted sklearn pipeline supplies the original imputer and Random Forest. Model `predict` output is checked for shape/classes; the shared evaluation rule
+`predict_proba[:, 1] >= 0.5` supplies displayed binary labels, including exact ties.
+`predict_proba` supplies label-1 model scores. Output shape, classes and finite probability range are checked before exposing results.
 
 Per analysis: at most 1,000 definitions, 512 KiB per C file, 8 MiB of C source parsed, and 128 KiB per scored function. Counts and byte limits bound workload; this is not a hard CPU deadline. Remaining files/functions receive explicit limit issues, and no total is guessed. Existing upload admission limits allow two analyses per process. One lazily loaded model is shared per process, with a lock around first initialization; the model is not fitted or mutated during requests. Workers each load their own model. UI interactions reuse results.
 

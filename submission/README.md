@@ -29,3 +29,11 @@ All 28 PDF pages were rendered with Poppler and reviewed in contact sheets; figu
 DOCX ZIP/XML/image relationships and editable text were validated. LibreOffice is present but its headless conversion exited unsuccessfully in this sandbox; therefore **DOCX visual rendering and actual Word pagination were not verified**. Its contents page intentionally states that page references follow the submission PDF. Open the DOCX in Word/LibreOffice before editing or submitting that format, and check repagination after edits. The PDF is the fixed-layout submission copy.
 
 Previously verified application outcomes (73 / 120 / 140 tests by task) are cited as historical implementation evidence, not a newly executed test run. No application files or training artifacts were changed for Task 3B. The report explicitly states uncertainty, noisy labels, remaining shared commits, C-only inference, parser abstention, uncalibrated probabilities and missing-model behavior.
+
+## Current team correction — Task7B
+
+The project is a permitted two-member group: **Bilal Malik — 24P-3061** and
+**Aun Anis — 24P-3017**, as confirmed by the team. The individual-participation
+wording above describes the old report snapshot, not current project identity.
+Update cover/body/metadata and regenerate honestly in Task7C; no binary report
+was regenerated for Task7B. No individual roles or contribution percentages are assigned.

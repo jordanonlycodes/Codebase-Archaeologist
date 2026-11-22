@@ -304,9 +304,10 @@ measurements are fabricated. [Frontend design and verification](docs/frontend.md
 The academic report covers its recorded Tasks 1–3A evidence; it was **not regenerated**
 for this redesign. A comprehensive final report update is planned for Task 7.
 
-Academic submission: **Bilal Malik · 24P-3061 · Software Engineering (SE), Class 5A ·
-FAST-NUCES, Peshawar · 2026**. Individual project with instructor-approved solo participation,
-as supplied by the student. No instructor identity is inferred.
+Academic team: **Bilal Malik · 24P-3061** and **Aun Anis · 24P-3017**,
+Software Engineering (SE), Class 5A · FAST-NUCES, Peshawar · 2026.
+Two-member participation is instructor-permitted, as confirmed by the team.
+The earlier report cover will be updated during Task 7C; no individual roles are inferred.
 
 Future work includes Repository DNA. They are **not
 implemented** or shown as working navigation. Existing static-analysis limitations and

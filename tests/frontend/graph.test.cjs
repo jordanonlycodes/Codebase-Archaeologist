@@ -161,6 +161,7 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  host.clientWidth=0;adapter.resize();assert.equal(calls.width[0],600,'hidden hosts must not get a fabricated width');
  host.clientWidth=900;adapter.resize();adapter.data.nodes=[{x:20,y:30,z:40}];adapter.reset();assert.deepEqual(JSON.parse(JSON.stringify(calls.cameraPosition[1])),{x:20,y:30,z:40});
  const layoutRuns=adapter.layoutRuns;adapter.reset();assert.equal(adapter.layoutRuns,layoutRuns,'reset camera must preserve node arrangement');
+ adapter.width=0;adapter.fit();assert.equal(adapter.autoFit,true,'fit requested while hidden must resume when measured');host.clientWidth=800;adapter.resize();assert.equal(adapter.width,800);
  adapter.data.nodes=[];const emptyPosition=calls.cameraPosition;adapter.fit();adapter.reset();assert.equal(calls.cameraPosition,emptyPosition);
  const count=updates,runs=adapter.layoutRuns;
  s.quality='performance';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],4);assert.equal(material.emissiveIntensity,0);assert.equal(calls.pixelRatio,1);assert.equal(updates,count);assert.equal(adapter.layoutRuns,runs);

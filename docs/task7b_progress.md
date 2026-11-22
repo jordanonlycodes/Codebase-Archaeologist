@@ -36,3 +36,24 @@ cleanup; added a pan-toggle lifecycle case. New harness against original adapter
 at coordinate fitting; patched harness **25/25 passes**. Focused Python graph/product
 suite **25 passed, 0 failed/skipped in38.47s**, one existing warning. These are browser-free
 checks, not physical camera/visual acceptance. See knowledge_graph.md for usage.
+
+## Checkpoint 3 — Minimalist Relic branding
+
+Received the actual user reference and explicit Minimalist Relic preference. Authored
+editable geometry and local OFL serif outlines via tools/generate_relic_assets.py;
+dark/light symbols and wordmarks, simplified mark, favicon and touch icon. Integrated
+public/workspace navigation and favicon metadata; retained previous mark.svg URL.
+Rendered/inspected actual vector assets with librsvg (dark/light,16/32/64px), not a
+website screenshot. Two asset/shell regressions plus existing product suite:
+**21 passed, 0 failed/skipped in43.37s**, one existing warning. No new runtime dependency.
+
+README now names both confirmed members; submission README explicitly labels its old
+individual wording historical and defers the real report correction to7C. Brand/legal
+notes document reference use, OFL attribution and limited name research: other products
+use this name, so no name/logo exclusivity or trademark clearance is asserted.
+
+Small source review correction: mobile repository action row did not wrap (three real
+actions could exceed narrow screens); add wrap and compact <=420px workspace lockup.
+These CSS safeguards are inspected/testable source changes, not visually certified
+responsive layouts. A fit requested on a hidden 3D host now persists until measurement;
+the new assertion passes. Inference API text now reflects7A's inclusive0.5 convention.

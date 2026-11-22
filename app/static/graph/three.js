@@ -138,6 +138,7 @@
     pause(){clearTimeout(this.sleep);cancelAnimationFrame(this.frame);this.frame=null;this.awake=false;this.quality?.pause();this.graph?.pauseAnimation();}
     focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;this.autoFit=false;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.graph.cameraPosition({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,this.reduced?0:300);this.wake(450);}
     fit(){
+      this.autoFit=true;
       // Use retained coordinates, not scene meshes: graphData updates meshes on a
       // later library tick, so immediate zoomToFit could see empty/stale bounds.
       const nodes=(this.data?.nodes||[]).filter(n=>[n.x,n.y,n.z].every(Number.isFinite));
@@ -153,7 +154,7 @@
       if(delta.lengthSq()===0)delta.set(0,0,1);
       delta.normalize().multiplyScalar(distance);
       this.graph.cameraPosition({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,this.reduced?0:250);
-      this.autoFit=true;this.wake(400);
+      this.wake(400);
     }
     panMode(enabled){const controls=this.graph.controls();if(controls.mouseButtons)controls.mouseButtons.LEFT=enabled?controls.mouseButtons.RIGHT:this.rotateButton;this.host.style.cursor=enabled?'move':'';}
     zoom(factor){this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.graph.cameraPosition(next,target,0);this.wake();}
