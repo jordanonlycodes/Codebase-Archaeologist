@@ -221,3 +221,13 @@ counts independently of visualization bounds. Record measurements before making 
 performance claim.
 
 The academic PDF/DOCX report remains unchanged for the planned Task 7 update.
+
+
+## Blast Radius handoff (Task 4C.2)
+
+Component, file and directory inspection can launch the [Blast Radius Explorer](blast_radius.md)
+using stable component/graph IDs. Component origins expand immediate member files;
+directory origins expand retained descendants. Impact inspection can return to the
+corresponding component canvas or file heatmap without reanalysis. Reached function
+owners map to existing files/components; containment is not an impact propagation edge.
+No architecture grouping, metric definitions, trained model or heatmap aggregation changed.

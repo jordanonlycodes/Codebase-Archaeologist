@@ -22,6 +22,9 @@
     <script src="{{ url_for('static', path='architecture/data.js') }}" defer></script>
     <script src="{{ url_for('static', path='architecture/scene.js') }}" defer></script>
     <script src="{{ url_for('static', path='architecture/explorer.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='impact/explorer.css') }}">
+    <script src="{{ url_for('static', path='impact/engine.js') }}" defer></script>
+    <script src="{{ url_for('static', path='impact/explorer.js') }}" defer></script>
   </head>
   <body>
     <aside class="sidebar">
@@ -34,6 +37,7 @@
       <nav aria-label="Main navigation">
         <a class="nav-link active" href="#overview">
           <span aria-hidden="true">▦</span> Overview</a>
+        <a class="nav-link" href="#blast-radius"><span aria-hidden="true">◎</span> Blast radius</a>
         <a class="nav-link" href="#architecture-intelligence"><span aria-hidden="true">⌬</span> Architecture intelligence</a>
         <a class="nav-link" href="#knowledge-explorer"><span aria-hidden="true">◉</span> Knowledge explorer</a>
         <a class="nav-link" href="#structural-intelligence"><span aria-hidden="true">⌘</span> Structural intelligence</a>
@@ -204,6 +208,22 @@
               </dl>
               <p class="panel-note" id="comment-coverage">Comment counts are available for Python and standard JSON. Other formats remain uncounted.</p>
             </article>
+          </div>
+        </section>
+        <section id="blast-radius" class="impact-feature" aria-labelledby="impact-title">
+          <header class="impact-heading"><div><p class="impact-kicker">CHANGE-IMPACT INTELLIGENCE / STATIC EVIDENCE</p><h2 id="impact-title">Trace the <em>consequences.</em></h2><p>Not a prediction of breakage. A precise view of who depends on what.</p></div><span class="impact-insignia" aria-hidden="true">← ◎ →</span></header>
+          <p id="impact-state" role="status">Analyze a repository, then choose a function, file or directory to begin.</p>
+          <div id="impact-content" hidden>
+            <div class="impact-workspace">
+              <div class="impact-toolbar"><label class="impact-search">Impact origin<input id="impact-search" type="search" maxlength="240" placeholder="Find a function, file or component…" aria-controls="impact-results"></label><label>Entity<select id="impact-type"><option value="all">All entities</option><option value="function">Functions</option><option value="file">Files</option><option value="component">Components · direct members</option><option value="directory">Directories · descendants</option></select></label><label>Reach<select id="impact-depth"><option value="1">1 hop · direct</option><option value="2">2 hops</option><option value="3">3 hops</option></select></label><label>Direction<select id="impact-direction"><option value="both">Both directions</option><option value="upstream">Upstream dependents</option><option value="downstream">Downstream dependencies</option></select></label><button id="impact-clear" type="button">Clear focus</button></div>
+              <div id="impact-results" class="impact-results"></div>
+              <div id="impact-summary" class="impact-summary" aria-live="polite"></div>
+              <div class="impact-directions"><span>UPSTREAM <small>Potential dependents</small></span><strong>SELECTED ORIGIN</strong><span>DOWNSTREAM <small>Observed dependencies</small></span></div>
+              <div class="impact-main"><div class="impact-stage"><div class="impact-tools"><button id="impact-in" type="button" aria-label="Zoom impact in">+</button><button id="impact-out" type="button" aria-label="Zoom impact out">−</button><button id="impact-fit" type="button">Fit / reset view</button><span>Drag to pan · Scroll to zoom</span></div><div id="impact-canvas" class="impact-canvas"></div><p id="impact-view" class="impact-caption" role="status"></p></div><aside id="impact-inspector" class="impact-inspector" aria-label="Change-impact evidence"></aside></div>
+              <div class="impact-footer"><p><b>← Upstream reach</b> follows reversed relationships. <b>Downstream reach →</b> follows forward relationships. Arrowheads preserve the original caller/importer → dependency direction.</p><p>Function / file seeds are joined only at the origin. Containment does not propagate impact. A displayed connection is a resolved static relationship, never proof of runtime breakage.</p></div>
+            </div>
+            <div class="impact-trails"><div><p class="impact-kicker">WHY THIS ENTITY?</p><h3>Follow the evidence.</h3><p>Inspect a reachable entity to see its representative chain. All retained results remain searchable here, even outside the canvas.</p></div><div><label>Filter reached entities<input id="impact-reached-filter" type="search" maxlength="240" placeholder="Name or relative path…"></label><div id="impact-reached" class="impact-reached"></div><div class="impact-paging"><button id="impact-previous" type="button">Previous</button><span id="impact-page"></span><button id="impact-next" type="button">Next</button></div></div></div>
+            <details class="impact-method"><summary>Coverage, bounds &amp; interpretation</summary><p id="impact-coverage"></p><p>Rule-based hotspots, structural complexity and uncalibrated C-function model scores provide separate engineering context. Missing scores are not low risk. No value establishes a confirmed defect or vulnerability. JSON export includes the current bounded query and original evidence.</p></details>
           </div>
         </section>
         <section class="architecture-feature" id="architecture-intelligence" aria-labelledby="ai-title">

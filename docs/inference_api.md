@@ -89,3 +89,15 @@ and `measured_files` distinguish missing coverage from zero. `max_c_function_sco
 only the maximum existing C-function estimate, never a file/directory defect probability.
 Aggregate graph-edge counts differ from source occurrences; bounded edge-ID samples
 link to original knowledge-graph evidence. See [architecture contracts and limits](architecture_heatmaps.md).
+
+
+### Optional browser impact export (Task 4C.2)
+
+Analysis endpoints remain unchanged. Blast Radius queries run locally over the retained
+`knowledge_graph`, `architecture` and `structural` data using the shared JavaScript
+engine. Browser JSON export preserves every API field and adds `blast_radius` (schema
+`1.0`) only when an impact origin is selected. It contains origin/depth/direction,
+bounded seeds, direction-specific reachability/path records, original edge evidence,
+internal seed relationships, attributable uncertain references, summary, coverage and
+limits. Clearing focus omits it on the next export. There is no persistent impact
+store or new server endpoint. See [contract, examples and limits](blast_radius.md).

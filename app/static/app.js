@@ -25,6 +25,7 @@ function setInputBusy(busy) {
   $('github-form').setAttribute('aria-busy', String(busy));
   $('knowledge-explorer').setAttribute('aria-busy', String(busy));
   $('architecture-intelligence').setAttribute('aria-busy', String(busy));
+  $('blast-radius').setAttribute('aria-busy', String(busy));
   if(busy) $('ai-state').textContent='Repository analysis in progress. The last completed atlas remains available.';
   else if(result) $('ai-state').textContent=result.architecture?'Exploring evidence from the last completed analysis.':'Architecture intelligence is unavailable for this analysis.';
   if (busy) $('graph-state').textContent = 'Repository analysis in progress. Previous graph, if any, remains available.';
@@ -89,6 +90,7 @@ function upload(file) {
 }
 
 function renderResult() {
+  renderImpact(result.knowledge_graph, result.architecture, result.structural);
   renderKnowledgeGraph(result.knowledge_graph);
   renderArchitecture(result.architecture, result.knowledge_graph, result.structural);
   renderStructure(result.structural);
@@ -196,6 +198,8 @@ $("previous-page").addEventListener("click", () => { page--; renderInventory(); 
 $("next-page").addEventListener("click", () => { page++; renderInventory(); });
 $("download-json").addEventListener("click", () => {
   if (!result) return;
+  if (window.impactExplorer?.result) result.blast_radius = window.impactExplorer.result;
+  else delete result.blast_radius;
   const url = URL.createObjectURL(new Blob([JSON.stringify(result, null, 2)], {type: "application/json"}));
   const link = node("a");
   link.href = url;

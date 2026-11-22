@@ -4,11 +4,11 @@
  const NS='http://www.w3.org/2000/svg';
  function svg(tag,attrs={},value){const el=document.createElementNS(NS,tag);for(const [key,v]of Object.entries(attrs))el.setAttribute(key,String(v));if(value!==undefined)el.textContent=String(value);return el;}
  class Scene{
-  constructor(host,onPick,onEdge){
+  constructor(host,onPick,onEdge,namespace='architecture'){
    this.host=host;this.onPick=onPick;this.box={x:-30,y:-30,w:1100,h:650};this.frame=null;this.clean=[];
    this.svg=svg('svg',{class:'architecture-svg',role:'group',tabindex:0,'aria-label':'Architecture canvas. Use Tab and Enter to inspect, arrow keys to pan, plus/minus to zoom.'});
-   const defs=svg('defs'),marker=svg('marker',{id:'architecture-arrow',viewBox:'0 0 10 10',refX:10,refY:5,markerWidth:6,markerHeight:6,orient:'auto'});marker.append(svg('path',{d:'M0,0 L10,5 L0,10 Z',fill:'#b58f9c'}));
-   const pattern=svg('pattern',{id:'architecture-unscored',width:9,height:9,patternUnits:'userSpaceOnUse'});pattern.append(svg('rect',{width:9,height:9,fill:'#26212b'}),svg('path',{d:'M-2,2 L2,-2 M0,9 L9,0 M7,11 L11,7',stroke:'#51404c','stroke-width':1}));defs.append(marker,pattern);
+   const defs=svg('defs'),marker=svg('marker',{id:namespace+'-arrow',viewBox:'0 0 10 10',refX:10,refY:5,markerWidth:6,markerHeight:6,orient:'auto'});marker.append(svg('path',{d:'M0,0 L10,5 L0,10 Z',fill:'#b58f9c'}));
+   const pattern=svg('pattern',{id:namespace+'-unscored',width:9,height:9,patternUnits:'userSpaceOnUse'});pattern.append(svg('rect',{width:9,height:9,fill:'#26212b'}),svg('path',{d:'M-2,2 L2,-2 M0,9 L9,0 M7,11 L11,7',stroke:'#51404c','stroke-width':1}));defs.append(marker,pattern);
    this.content=svg('g');this.svg.append(defs,this.content);host.replaceChildren(this.svg);
    const listen=(name,fn,options)=>{this.svg.addEventListener(name,fn,options);this.clean.push(()=>this.svg.removeEventListener(name,fn,options));};
    listen('wheel',e=>{e.preventDefault();const r=this.svg.getBoundingClientRect();this.zoom(e.deltaY<0?1.12:1/1.12,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height);},{passive:false});

@@ -645,3 +645,14 @@ edge/reference IDs. The SVG canvas and nested heatmap link back into the existin
 inspector. Unresolved references never become dependencies; directory components are not
 invented semantic layers. The dedicated document defines maxima, nullable coverage,
 visualization bounds and verification (381 passing Python tests; browser execution blocked).
+
+
+## Blast Radius consumer (Task 4C.2)
+
+The [Blast Radius Explorer](blast_radius.md) indexes the retained resolved CALLS,
+IMPORTS and INCLUDES edges for bounded upstream/downstream queries. It uses existing
+CONTAINS/DEFINES only for origin membership, never as propagation evidence. Graph node
+inspection can launch impact queries with the actual node ID. Representative paths
+preserve original edge IDs, direction and source locations; unresolved records stay
+explicit and do not become dependencies. No graph extraction or model changes are made.
+The existing 2D/3D explorer retains its own state and rendering lifecycle.

@@ -383,3 +383,21 @@ partial coverage and evidence limits are shown. **381 Python tests passed**, inc
 9 architecture frontend cases through its runner; real browser verification remains
 blocked by sandbox socket restrictions. See [methodology, metrics, limits and local
 checks](docs/architecture_heatmaps.md). The academic report remains unchanged for Task 7.
+
+
+### Blast Radius Explorer (Task 4C.2)
+
+Select a function, file, direct-member architecture component or recursive directory to
+trace **potential upstream dependents** and **observed downstream dependencies** at one,
+two or three hops. The directional SVG workspace anchors the origin between both sides;
+search, pan/zoom, path selection and source evidence inspection use the retained snapshot
+without another network request or source parse. Graph and architecture/heatmap panels
+can launch queries by stable ID; the impact panel links back to those views.
+
+Calls, imports and includes retain their actual direction. Membership creates bounded
+origin seeds, never invented propagation. Reachability is not predicted breakage, and
+unscored nodes are not low risk. The existing JSON export adds the current bounded
+`blast_radius` query when selected; API analysis responses remain unchanged. No new
+packages or continuous simulations are introduced. See [semantics, limits, evidence,
+verification and local checks](docs/blast_radius.md). Browser execution remains blocked
+by sandbox socket permissions; no visual or measured FPS claim is made.
