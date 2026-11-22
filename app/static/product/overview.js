@@ -58,6 +58,10 @@ function renderOverview(data){result=data;heatIds=new Map((data.architecture?.he
   }
   $("skip-details").textContent = Object.entries(result.skipped).length ? `Skipped files: ${Object.entries(result.skipped).map(([reason, count]) => `${reason.replaceAll("_", " ")}: ${number(count)}`).join("; ")}.` : "No files were skipped in this archive.";
   renderInventory();
+  const motion=root.WorkspaceMotion;
+  motion?.watch(document.querySelectorAll('.stat-card'),{key:'overview-cards'});
+  for(const [id,value]of Object.entries({'stat-files':s.files,'stat-lines':s.source_lines,'stat-languages':s.languages,'stat-directories':s.directories}))motion?.count($(id),value,{key:'count:'+id,format:number});
+  motion?.reveal($('result-badge'),{key:'analysis-ready',kind:'fade'});
 }
 
 function renderInventory() {

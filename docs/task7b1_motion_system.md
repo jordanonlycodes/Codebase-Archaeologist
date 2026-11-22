@@ -47,3 +47,15 @@ Primitive tests:11Node cases pass for final values, reduced motion (including li
 change), hiding, cancellation, observer release, repetition, bounds, safe fallback,
 focus and genuine busy flags. Browser appearance/performance acceptance remains separate.
 Integration results and final matrix are in the accompanying7B.1 documents.
+
+## Shell / overview integration checkpoint
+
+Public/workspace shells load the small shared CSS; only workspace loads the JS.
+workspace.js begins motion with the restored snapshot ID/expiry, destroys on pagehide,
+and begins a fresh lifecycle on BFCache resume. The old whole-workspace CSS animation
+is removed to avoid double entrances; headings/nav receive finite CSS emphasis.
+Overview observes at most12actual summary cards and visually counts four genuine integer
+metrics once per retained tab/snapshot. Completion badge reveal is not a loading state.
+No result or provenance is fabricated. The existing landing composition is preserved.
+Focused primitive+actual-document integration: **21Python tests passed,0failed/skipped,
+41.33s**, one existing deprecation warning. Browser-free verification only.
