@@ -13,7 +13,7 @@
       $('graph-3d').disabled=!this.supports3D;
       $('graph-3d').title=this.supports3D?'Orbit, pan and inspect in WebGL':'WebGL is unavailable on this device. 2D remains available.';
       for(const mode of ['2d','3d'])$('graph-'+mode).addEventListener('click',()=>this.switchMode(mode));
-      const bindings={'graph-view':'view','graph-overlay':'overlay','graph-language':'language','graph-direction':'direction','graph-layout':'layout'};
+      const bindings={'graph-view':'view','graph-overlay':'overlay','graph-language':'language','graph-direction':'direction','graph-layout':'layout','graph-quality':'quality'};
       for(const [id,key]of Object.entries(bindings))$(id).addEventListener('change',()=>{if(key==='view')this.changeView($(id).value);else{this.state[key]=$(id).value;this.refresh();}});
       for(const [kind,values]of [['types',D.TYPES],['relations',D.RELATIONS]]){
         const container=$('graph-'+kind);
@@ -42,7 +42,7 @@
     }
     setGraph(graph){
       this.epoch++;clearTimeout(this.timer);this.adapter?.destroy();this.adapter=null;this.notice='';
-      this.ix=D.index(graph);this.state=D.initial();this.searchKey=null;this.inspectKey=null;
+      const quality=this.state.quality;this.ix=D.index(graph);this.state=D.initial();this.state.quality=quality;this.searchKey=null;this.inspectKey=null;
       if(this.ix.nodes.size>D.LIMITS.nodes)this.state.collapsed=this.ix.ordered.filter(n=>n.type==='file').map(n=>n.id);
       if(this.supports3D&&matchMedia('(min-width: 1000px) and (pointer: fine)').matches&&!this.reduced)this.state.mode='3d';
       this.syncControls();
@@ -52,7 +52,7 @@
       if(this.visible&&this.ix.nodes.size)this.switchMode(this.state.mode);
     }
     syncControls(){
-      for(const [id,key]of Object.entries({'graph-view':'view','graph-overlay':'overlay','graph-direction':'direction','graph-search':'query','graph-layout':'layout'}))$(id).value=this.state[key];
+      for(const [id,key]of Object.entries({'graph-view':'view','graph-overlay':'overlay','graph-direction':'direction','graph-search':'query','graph-layout':'layout','graph-quality':'quality'}))$(id).value=this.state[key];
       const languages=[...new Set(this.ix.ordered.map(D.language).filter(Boolean))].sort();
       $('graph-language').replaceChildren(new Option('All languages',''),...languages.map(l=>new Option(l,l)));$('graph-language').value=this.state.language;
       for(const key of ['types','relations'])for(const input of $('graph-'+key).querySelectorAll('input'))input.checked=this.state[key].includes(input.value);
@@ -68,7 +68,7 @@
         if(mode==='3d'){
           await root.ArchaeologistThree.load();
           if(token!==this.epoch)return;
-          this.adapter=new root.ArchaeologistThree.Adapter(this.host,id=>this.select(id),this.reduced);
+          this.adapter=new root.ArchaeologistThree.Adapter(this.host,id=>this.select(id),this.reduced,()=>this.qualityStatus());
           this.notice='';
         }else this.adapter=new root.ArchaeologistSVG(this.host,id=>this.select(id));
         this.refresh();this.adapter.fit();
@@ -99,11 +99,12 @@
       if(!D.subset(this.ix,this.state).nodes.some(item=>item.id===id))this.state.view='knowledge';
       this.syncControls();this.refresh();this.adapter?.focus(id);
     }
-    clear(){const mode=this.state.mode;this.state=D.initial();this.state.mode=mode;clearTimeout(this.timer);this.syncControls();this.refresh();this.adapter?.fit();}
+    clear(){const {mode,quality}=this.state;this.state=D.initial();this.state.mode=mode;this.state.quality=quality;clearTimeout(this.timer);this.syncControls();this.refresh();this.adapter?.fit();}
     refresh(){
       if(!this.ix.graph)return;
       const view=D.subset(this.ix,this.state);this.view=view;
       if(this.adapter)this.adapter.set(view,this.ix,this.state);
+      this.qualityStatus();
       const coverage=this.ix.graph.coverage||{};
       $('graph-counts').textContent=`${view.nodes.length} / ${this.ix.nodes.size} retained nodes · ${view.edges.length} / ${this.ix.edges.length} retained relationships · ${view.matching} nodes match the current view · ${view.groupHidden} hidden by collapsed groups`;
       $('graph-coverage').textContent=`${coverage.analyzed_files??'Unavailable'} analyzed files · ${coverage.skipped_files??'Unavailable'} skipped · ${coverage.unsupported_source_files??'Unavailable'} unsupported source files. ${coverage.complete?'Defined extraction coverage complete.':'Partial or unavailable extraction coverage.'} ${coverage.truncated?'Backend extraction limits reached. ':''}${view.truncated?'Visualization bounded; explore search results or a focused neighborhood. ':''}${(coverage.issues||[]).join(', ')} ${this.state.focus?'Focused on '+(this.ix.nodes.get(this.state.focus)?.name||'selected node')+'. ':''}${this.state.branch?'Branch: '+(this.ix.nodes.get(this.state.branch)?.name||'')+'. ':''}${this.notice}`;
@@ -117,6 +118,9 @@
       $('graph-group').disabled=!group;$('graph-branch').disabled=!group;
       $('graph-group').textContent=this.state.collapsed.includes(this.state.selected)?'Expand group':'Collapse group';
       for(const id of ['graph-hop-1','graph-hop-2','graph-focus'])$(id).disabled=!this.state.selected;
+    }
+    qualityStatus(){
+      $('graph-quality-status').textContent=this.adapter?.qualityDescription?.()||`3D quality preference: ${this.state.quality}. 2D uses SVG; the graphics profile applies when 3D is active. MSAA is not requested by the 3D renderer.`;
     }
     searchResults(){
       const result=D.search(this.ix,this.state.query);

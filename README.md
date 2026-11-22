@@ -318,7 +318,9 @@ Both modes provide fit/reset, fullscreen or expanded view, filters and the same
 inspector. Rendering is bounded to **180 nodes / 420 edges**, with displayed/retained
 counts, collapsed-group counts and backend coverage. Large knowledge views initially
 collapse file groups. SVG updates are batched; 3D avoids unchanged graph submissions
-and uses a fixed conservative graphics profile. There is no quality-preset selector.
+and provides Auto, Performance and Balanced 3D quality profiles. MSAA is not requested
+in any profile; Performance reduces geometry, pixel density and labels. Auto can step
+down based on sustained slow active frame intervals without changing graph semantics.
 
 #### Explorer setup and rendering preferences
 
@@ -335,12 +337,13 @@ receipt. No npm build or runtime CDN request is required. If the bundle is missi
 WebGL is unavailable or renderer initialization fails, the explorer reports the issue
 and falls back to 2D. Fine-pointer desktops at least 1000px wide prefer 3D when WebGL
 is detected and reduced motion is off; other devices start in 2D. Users can switch
-modes. Reduced motion disables camera transitions.
+modes. Reduced motion disables camera transitions. The 3D quality preference survives
+renderer/repository switches and clearing filters for the current page session.
 
 Initial asset acquisition was blocked by sandbox DNS. During refinement, a local
 bundle was present and matched its receipt; it was preserved unchanged. Browser/GPU
 operation remains unverified here because Chromium startup was blocked. The latest
-implementation verification recorded **354 Python tests and 21 frontend cases passing**
+implementation verification recorded **354 Python tests and 24 frontend cases passing**
 (0 failed, 0 skipped; the Python suite includes the frontend runner). These results
 verify contracts and mocked adapters, not measured FPS, latency or visual quality.
 
@@ -353,3 +356,9 @@ See [graph algorithms, limits and local performance checks](docs/knowledge_graph
 and [development history](docs/development_history.md) for the original problems,
 implemented solutions, regression coverage and verification boundaries. The academic
 PDF/Word report is unchanged; these improvements are reserved for the Task 7 report update.
+
+Hardware feedback from an Intel HD Graphics 620 / Arch Linux / Hyprland Wayland /
+Mesa 26.2.7 / Chrome 155 ANGLE/OpenGL installation is recorded in the
+[graphics-quality and hardware notes](docs/knowledge_graph.md#hardware-feedback-and-adaptive-quality).
+The reported `msaa_is_slow` workarounds are a profiling clue, not proof that MSAA caused
+stuttering. No GPU-specific hardcoding, browser flags or security changes are required.

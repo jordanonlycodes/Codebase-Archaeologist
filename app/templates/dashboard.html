@@ -15,6 +15,7 @@
     <script src="{{ url_for('static', path='graph/data.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/layouts.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/svg.js') }}" defer></script>
+    <script src="{{ url_for('static', path='graph/quality.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/three.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/explorer.js') }}" defer></script>
   </head>
@@ -215,6 +216,7 @@
                 <div class="source-modes" role="group" aria-label="Graph rendering mode"><button id="graph-2d" type="button" aria-pressed="true">2D Graph</button><button id="graph-3d" type="button" aria-pressed="false">3D Graph</button></div>
                 <label>Perspective<select id="graph-view"><option value="knowledge">Knowledge graph</option><option value="calls">Function calls</option><option value="dependencies">Dependencies</option></select></label>
                 <label>Layout<select id="graph-layout"><option value="auto">Automatic · perspective default</option><option value="hierarchy">Hierarchical</option><option value="radial">Radial</option></select></label>
+                <label>3D quality<select id="graph-quality" aria-describedby="graph-quality-status"><option value="auto">Auto · adaptive</option><option value="performance">Performance</option><option value="balanced">Balanced</option></select></label>
                 <label>Overlay<select id="graph-overlay"><option value="entity">Entity type</option><option value="complexity">Structural complexity</option><option value="ml">ML defect risk</option></select></label>
                 <button type="button" id="graph-fullscreen" aria-expanded="false">Expand / fullscreen</button>
                 <button type="button" id="graph-close-expanded">Close expanded view</button>
@@ -226,6 +228,7 @@
                 <button type="button" id="graph-clear">Clear selection &amp; filters</button>
               </div>
               <details class="graph-filter-details"><summary>Entity and relationship filters</summary><fieldset id="graph-types"><legend>Entity types</legend></fieldset><fieldset id="graph-relations"><legend>Relationship types</legend></fieldset></details>
+              <p id="graph-quality-status" class="graph-coverage" role="status"></p>
               <p id="graph-counts" class="graph-counts" role="status" aria-live="polite"></p>
               <p id="graph-coverage" class="graph-coverage"></p>
               <div class="graph-main">

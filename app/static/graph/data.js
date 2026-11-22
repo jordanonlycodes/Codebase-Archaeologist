@@ -6,7 +6,7 @@
   const LIMITS = Object.freeze({nodes:180, edges:420, search:40, details:40, traversal:6000});
   const language = n => n.metadata?.language || '';
   const initial = () => ({mode:'2d', view:'knowledge', overlay:'entity', query:'', types:[...TYPES],
-    relations:[...RELATIONS], language:'', selected:null, focus:null, branch:null, collapsed:[], layout:'auto', hops:1, direction:'both'});
+    relations:[...RELATIONS], language:'', selected:null, focus:null, branch:null, collapsed:[], layout:'auto', quality:'auto', hops:1, direction:'both'});
   function index(graph) {
     const nodes = new Map((graph?.nodes || []).map(n => [n.id,n]));
     const edges = (graph?.edges || []).filter(e => nodes.has(e.source) && nodes.has(e.target) && e.status === 'resolved_internal');

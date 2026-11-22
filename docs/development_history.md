@@ -88,3 +88,29 @@ Documentation-follow-up checks: 21 frontend cases passed again; all 17 local Mar
 links/anchors across the three updated documents resolved, code fences were balanced,
 and `git diff --check` passed. The recorded 354-test application regression result is
 from the implementation verification, not a new full-suite run for this prose-only change.
+
+
+## Hardware-informed quality controls — continuation of the performance patch
+
+User feedback reports Intel HD Graphics 620, Arch Linux/Hyprland/Wayland, Mesa 26.2.7,
+Chrome 155 ANGLE/OpenGL, 1366 × 768, hardware acceleration and zero GPU-process crashes.
+The reported `msaa_is_slow` / `msaa_is_slow_2` workarounds prompted inspection; they
+are not a diagnosis of this application's stuttering.
+
+Inspection confirmed the existing renderer already used `antialias: false`; its WebGL
+capability probe did not explicitly set that attribute. The probe now also requests no
+antialiasing. Added shared Auto/Performance/Balanced quality controls preserve the
+previous 2D/3D layouts, perspectives and overlays. Performance caps pixel ratio at 1,
+uses resolution-4 spheres, reduces label work and requests arrowheads only for relevant
+relationships. Balanced caps ratio at 1.5 with resolution 6. Auto starts conservatively
+and can step down after two sustained slow active-interval windows. No GPU-specific
+rules, browser flags or security changes are used. Frame sampling is a heuristic;
+actual GPU cause and quantitative benefit remain unmeasured.
+
+Recorded follow-up checks: **354 Python tests passed, 0 failed, 0 skipped**, including
+the frontend runner; **24 Node cases passed**. Regression coverage includes disabled
+antialias requests, profile/state preservation, topology/position reuse, arrowhead policy,
+idle-gap exclusion and non-oscillating adaptation. One existing Starlette deprecation
+warning remains. The academic reports and local untracked vendor assets are unchanged.
+See [hardware/quality details](knowledge_graph.md#hardware-feedback-and-adaptive-quality)
+for the exact settings and local comparative verification procedure.

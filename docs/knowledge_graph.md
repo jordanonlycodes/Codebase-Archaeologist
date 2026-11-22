@@ -347,7 +347,8 @@ Related-node inspector buttons use the same selection path.
 One/two-hop traversal is cycle-safe and direction-aware. Perspective changes explicitly
 reset entity, relationship and language filters, clear incompatible selection/focus and
 show a notice; query, layout and overlay remain. Layout changes do not clear these
-controls. Clear selection/filters resets shared interaction state except rendering mode.
+controls. Clear selection/filters resets shared interaction state except rendering mode and
+3D quality preference.
 
 ### Node, edge and overlay legends
 
@@ -415,25 +416,74 @@ prevents unchanged graph submissions. Selection/overlay changes retain graph obj
 and positions while updating presentation. Labels are reused, projected only while
 awake and throttled to at most one pass per 50ms.
 
-The graphics profile is **fixed in code**, not a user-selectable quality preset:
+The **3D quality** selector offers Auto (default), Performance and Balanced. Its
+settings apply across Knowledge, Calls and Dependencies without changing 2D SVG,
+selection, layout, filtering or source relationships. The preference survives renderer
+and repository switches and filter clearing for the page session; reload defaults to Auto.
 
-| Setting | Implemented value / behavior |
-| --- | --- |
-| WebGL pixel ratio | `min(devicePixelRatio, 1.5)` |
-| Renderer antialiasing | Disabled |
-| Power preference | Requests `low-power`; a browser hint, not a hardware guarantee |
-| Sphere mesh resolution | 6 |
-| Edge geometry | Thin lines; directional arrows of length 3 |
-| Force simulation / damping | Disabled |
-| 3D label pool | At most 40 candidates; normal visible budget 24, with selected/hover priority |
-| 2D label budget | Normally 32; 70 above scale 1; contextual collision suppression |
-| Normal render wake window | 220ms after interaction; extended for fit/focus transitions |
+| Setting | Auto initial | Performance | Balanced |
+| --- | --- | --- | --- |
+| Pixel-ratio cap | 1.25 | 1 | 1.5 |
+| Sphere mesh resolution | 6 | 4 | 6 |
+| Label candidates / normal budget | 28 / 16 | 20 / 12 | 40 / 24 |
+| Minimum label projection interval | 75ms | 100ms | 50ms |
+| Arrowheads | All displayed edges | Selected/hovered/focused relationships | All displayed edges |
+| MSAA request | Off | Off | Off |
 
-Canvas interaction, selection, resize and camera controls wake rendering. The adapter
-pauses its rendering/label loop after the wake window and while offscreen. Focus and
-fit use short camera transitions unless reduced motion is requested. No bloom, custom
-shaders, particles, cinematic animation or automatic hardware quality tuning is implemented.
-These choices bound work; they are not measured FPS, latency, battery or memory improvements.
+Pixel ratio is the lesser of device pixel ratio and the profile cap. Performance
+requests fewer arrowheads to reduce geometric work; **all displayed edges remain**,
+and direction/reference information stays available in hover and inspection. Focused
+incoming/outgoing relationships retain arrows. Node types, overlays and hotspot meanings
+do not change. Switching quality changes resolution/geometry only when the effective
+profile changes; it does not replace graph data, recalculate layout or recreate the
+WebGL context. Auto can downgrade to the Performance row as described below.
+
+Common settings: `antialias: false` in both the renderer and capability probe,
+`low-power` renderer preference (a browser hint), thin edge lines, arrowhead resolution
+3, arrow length 3 where enabled, zero force simulation and no camera damping. The status
+line reports effective settings and the actual context antialias attribute when available;
+requesting antialias off is not a claim about every driver/compositor stage.
+
+SVG labels use the existing contextual budgets (normally 32, 70 above scale 1), with
+collision suppression. The 2D adapter does not create a WebGL context. Canvas interaction,
+selection, resize and camera controls wake 3D rendering for a normal 220ms window;
+focus/fit extend it for their transitions. Resume is requested once per awake period.
+Idle/offscreen rendering pauses, and hidden documents stop the sampling/render loop.
+Reduced motion makes camera transitions immediate. No bloom, custom shaders, particles
+or browser-security changes are involved.
+
+### Hardware feedback and adaptive quality
+
+The user reported manually testing the application on:
+
+- Intel HD Graphics 620 (Kaby Lake GT2).
+- Arch Linux, Hyprland and Wayland; Mesa 26.2.7.
+- Chrome 155 using ANGLE/OpenGL, at 1366 × 768.
+- Hardware-accelerated WebGL, WebGPU, canvas, compositing and rasterization.
+- Zero reported GPU process crashes.
+- Chrome GPU diagnostics containing `msaa_is_slow` and `msaa_is_slow_2` workarounds.
+
+These are **user-reported observations**, not an independently reproduced benchmark.
+The workarounds identify a reason to inspect multisampling requests. They do not show
+that this graph was multisampled, quantify a cost or establish the cause of stuttering.
+Zero crashes and acceleration availability do not establish smooth frame delivery.
+The renderer already requested antialias off before this follow-up; the capability
+probe previously used default attributes and now explicitly requests it off as well.
+No vendor string, GPU model or operating-system rule is used to choose quality.
+
+Auto samples browser animation-frame callback intervals only while the adapter is
+awake. Each window contains 24 intervals; if the median exceeds 28ms in two consecutive
+windows, the profile steps down to Performance. Pausing resets the previous timestamp,
+so idle gaps are not sampled. Normal windows reset the slow-window streak; isolated
+outliers do not dominate the median. Auto does not step back up during that renderer
+session, avoiding quality oscillation. Choose Balanced explicitly, or change away from
+and back to Auto, to retry; a new renderer starts sampling afresh.
+
+This is a coarse responsiveness heuristic, **not GPU profiling or a measured FPS
+improvement**. CPU work, scheduling, browser behavior or other load can also produce
+slow intervals. Manual Performance/Balanced choices are not overridden. No browser
+flags, disabled security features, OS configuration changes or new dependencies are
+required. Real behavior on the reported hardware still needs comparative profiling.
 
 ### Lifecycle and resource limits
 
@@ -548,7 +598,9 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 
 The implementation verification at `ff0ea45305c6bd1ecb24372f6afb969c412f8140` recorded
 **354 Python tests passed, 0 failed, 0 skipped**. The Python suite includes a runner for
-**21 passing Node frontend cases**, not 21 additional Python tests. Syntax and dependency
+**21 passing Node frontend cases**, not 21 additional Python tests. That result
+belongs to the pre-quality-controls refinement; the follow-up below records the newer
+24-case frontend verification. Syntax and dependency
 checks passed; one existing Starlette TestClient deprecation warning remained. Tests use
 DOM/renderer mocks for graphics; they verify contracts, not actual GPU output.
 
@@ -561,3 +613,21 @@ commit references and verification boundaries.
 
 The academic PDF/DOCX report has not been regenerated. These improvements are reserved
 for the comprehensive Task 7 report update.
+
+
+Quality-control follow-up verification: **354 Python tests passed, 0 failed, 0 skipped**,
+including the runner for **24 passing Node frontend cases**. Added checks cover renderer
+and probe antialias requests, profile changes without topology/layout replacement,
+focused Performance arrowheads, sustained/isolated slow intervals, idle-gap exclusion,
+manual overrides and quality preference preservation. These are mocked/policy checks;
+no new GPU/browser measurements were collected in the restricted environment.
+
+For local comparison on the reported system, record the same fixture, perspective,
+overlay, viewport, display scaling and active browser workload. Compare Performance,
+Balanced and Auto in each of the three 3D perspectives; repeat 2D checks to confirm
+existing behavior. Record the quality status/context antialias attribute and, in browser
+Performance tools, active frame timings, long tasks and graphics/memory observations.
+Check idle pauses, node dragging, camera focus, labels and geometry changes. Force only
+explicit profile choices through the application controls, without changing browser flags.
+Separate cold layout/loading from steady interaction. A trace or controlled comparison
+is needed before assigning a cause to stuttering; none is claimed here.

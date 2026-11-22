@@ -29,9 +29,9 @@ def test_graph_dashboard_integration_and_static_assets():
         for required in ['knowledge-explorer', 'graph-2d', 'graph-3d', 'graph-view',
                          'graph-inspection', 'graph-canvas', 'graph-overlay',
                          'graph-hop-1', 'graph-hop-2', 'graph-search-results',
-                         'graph-layout', 'graph-group', 'graph-branch']:
+                         'graph-layout', 'graph-group', 'graph-branch', 'graph-quality', 'graph-quality-status']:
             assert required in ids
-        for filename in ['data.js', 'layouts.js', 'svg.js', 'three.js', 'explorer.js', 'explorer.css']:
+        for filename in ['data.js', 'layouts.js', 'quality.js', 'svg.js', 'three.js', 'explorer.js', 'explorer.css']:
             response = client.get('/static/graph/' + filename)
             assert response.status_code == 200
         assert "script-src 'self'" in client.get('/').headers['content-security-policy']

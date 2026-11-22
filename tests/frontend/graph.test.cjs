@@ -3,6 +3,7 @@ const assert=require('node:assert/strict'),test=require('node:test');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const D=require('../../app/static/graph/data.js');
 const L=require('../../app/static/graph/layouts.js');
+const Q=require('../../app/static/graph/quality.js');
 const n=(id,type='function',metadata={})=>({id,type,name:id,path:`src/${id}.c`,metadata});
 const e=(id,source,target,type='CALLS')=>({id,source,target,type,status:'resolved_internal',occurrences:1,evidence:[]});
 const fixture=()=>({nodes:[n('repo','repository'),n('file','file'),n('a'),n('b'),n('c'),n('other')],edges:[e('d','file','a','DEFINES'),e('ab','a','b'),e('ba','b','a'),e('bc','b','c')],references:[{source:'a',reference:'external',type:'CALLS',status:'unresolved',evidence:{path:'src/a.c',line:1}}]});
@@ -86,10 +87,10 @@ function controller(){
 
 test('renderer switching preserves shared state; stale asynchronous loads do not attach',async()=>{
  const h=controller(),x=h.explorer;x.setGraph(fixture());
- Object.assign(x.state,{selected:'a',query:'a',view:'calls',overlay:'complexity',focus:'a',hops:2,direction:'out',language:'C',layout:'radial'});
+ Object.assign(x.state,{selected:'a',query:'a',view:'calls',overlay:'complexity',focus:'a',hops:2,direction:'out',language:'C',layout:'radial',quality:'performance'});
  const state=x.state;await x.switchMode('2d');const p=x.switchMode('3d');await x.switchMode('2d');h.loads[0].resolve();await p;
  assert.equal(x.state,state);assert.equal(x.state.selected,'a');assert.equal(x.state.overlay,'complexity');assert.equal(x.state.hops,2);assert.equal(x.state.mode,'2d');
- const next=x.switchMode('3d');h.loads[1].resolve();await next;assert.equal(x.state.mode,'3d');assert.equal(x.state.query,'a');assert.equal(x.state.layout,'radial');
+ const next=x.switchMode('3d');h.loads[1].resolve();await next;assert.equal(x.state.mode,'3d');assert.equal(x.state.query,'a');assert.equal(x.state.layout,'radial');assert.equal(x.state.quality,'performance');
  assert.equal(h.counts().created,3);assert.equal(h.counts().destroyed,2);
 });
 
@@ -121,20 +122,21 @@ test('WebGL detection handles failures without throwing',()=>{
 
 test('real 3D adapter uses isolated data, safe labels, bounded simulation and resource cleanup',()=>{
  let raf=0,cancelled=0,disconnected=0,disposed=0,contextLost=0,destructed=0;
- let updates=0;const calls={},host=new Element(),controls={target:{x:0,y:0,z:0},dispose(){disposed++;}};
+ let updates=0;const options=[];const calls={},host=new Element(),controls={target:{x:0,y:0,z:0},dispose(){disposed++;}};
  const graph={};
  const methods=['backgroundColor','showNavInfo','nodeId','nodeResolution','nodeLabel','linkLabel','linkDirectionalArrowLength','linkDirectionalArrowRelPos','linkOpacity','linkCurvature','enableNodeDrag','onNodeClick','onBackgroundClick','onNodeDragEnd','onNodeHover','warmupTicks','cooldownTicks','cooldownTime','nodeVal','nodeColor','linkColor','linkWidth','width','height','cameraPosition','zoomToFit'];
  for(const method of methods)graph[method]=(...args)=>{calls[method]=args;return graph;};
  graph.controls=()=>controls;graph.graphData=data=>{updates++;calls.graphData=data;return graph;};
  graph.pauseAnimation=()=>{calls.paused=true;};graph.resumeAnimation=()=>{};
  graph.scene=()=>({traverse:fn=>fn({geometry:{dispose(){disposed++;}},material:{dispose(){disposed++;}}})});
- graph.renderer=()=>({renderLists:{dispose(){disposed++;}},dispose(){disposed++;},forceContextLoss(){contextLost++;}});
+ graph.renderer=()=>({renderLists:{dispose(){disposed++;}},dispose(){disposed++;},forceContextLoss(){contextLost++;},setPixelRatio(value){calls.pixelRatio=value;},getContext(){return {getContextAttributes:()=>({antialias:false})};}});
  graph._destructor=()=>{destructed++;};
  const document={createElement:tag=>new Element(tag)};
- const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,setTimeout,clearTimeout,document,ForceGraph3D:()=>()=>graph,requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{cancelled++;},IntersectionObserver:class{observe(){}disconnect(){disconnected++;}}};
+ const context={ArchaeologistGraph:D,ArchaeologistLayouts:L,ArchaeologistQuality:Q,setTimeout,clearTimeout,document,ForceGraph3D:config=>{options.push(config);return ()=>graph;},requestAnimationFrame:()=>++raf,cancelAnimationFrame:()=>{cancelled++;},IntersectionObserver:class{observe(){}disconnect(){disconnected++;}}};
  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
  const adapter=new context.ArchaeologistThree.Adapter(host,()=>{},true),fixtureGraph=fixture();fixtureGraph.nodes[2].name='<img onerror=alert(1)>';fixtureGraph.nodes.push(n('dependency','file'));fixtureGraph.edges.push(e('import','file','dependency','IMPORTS'),e('include','dependency','file','INCLUDES'));
  const ix=D.index(fixtureGraph),s=D.initial();s.selected='a';adapter.set(D.subset(ix,s),ix,s);
+ assert.equal(options[0].rendererConfig.antialias,false);
  assert.equal(calls.cooldownTicks[0],0);assert.equal(calls.warmupTicks[0],0);assert.equal(controls.enableDamping,false);
  assert.equal(calls.nodeLabel[0]({record:fixtureGraph.nodes[2]}).textContent,'<img onerror=alert(1)> · src/a.c');
  assert.equal(calls.graphData.nodes[0].record.id,D.subset(ix,s).nodes[0].id);
@@ -145,6 +147,11 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
   assert.equal(updates,count,`3D ${view}: style-only updates must not resubmit graph data`);assert.equal(adapter.layoutRuns,runs);
   assert.equal(adapter.data.nodes[0],first);if(first)assert.deepEqual({x:first.x,y:first.y,z:first.z},location);
  }
+ const count=updates,runs=adapter.layoutRuns;
+ s.quality='performance';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],4);assert.equal(calls.pixelRatio,1);assert.equal(updates,count);assert.equal(adapter.layoutRuns,runs);
+ assert.match(adapter.qualityDescription(),/context antialias: off/);
+ const arrow=calls.linkDirectionalArrowLength[0];assert.equal(arrow({source:s.selected,target:'other'}),3);assert.equal(arrow({source:'unrelated',target:'another'}),0);
+ s.quality='balanced';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],6);assert.equal(updates,count);
  adapter.pause();assert(calls.paused);assert.equal(calls.cooldownTime[0],0);
 
  adapter.destroy();adapter.destroy();assert.equal(destructed,1);assert.equal(contextLost,1);assert.equal(Object.keys(host.listeners).length,0);assert(cancelled>=1);assert.equal(disconnected,1);assert(disposed>=4);
@@ -228,4 +235,31 @@ test('collision spacing checks neighboring cells and large collapsed overviews r
  const graph=hierarchyFixture();for(let i=0;i<250;i++){graph.nodes.push(n('func'+i));graph.edges.push(e('def'+i,'file','func'+i,'DEFINES'));}
  const h=controller();h.explorer.setGraph(graph);assert(h.explorer.state.collapsed.includes('file'));assert(h.explorer.view.groupHidden>=252);
  assert.equal(D.search(h.explorer.ix,'func249').total,1);h.explorer.choose('func249');assert(h.explorer.view.nodes.some(n=>n.id==='func249'));assert(h.explorer.view.nodes.length<=D.LIMITS.nodes);
+});
+
+test('automatic quality uses sustained active frame intervals and excludes idle gaps',()=>{
+ const policy=new Q.Policy();let now=0;
+ assert.equal(policy.profile,Q.PROFILES.automatic);
+ policy.frame(now);for(let i=0;i<24;i++)assert.equal(policy.frame(now+=35),false);
+ assert.equal(policy.slowWindows,1);policy.pause();now+=200000;assert.equal(policy.frame(now),false);
+ for(let i=0;i<23;i++)assert.equal(policy.frame(now+=35),false);
+ assert.equal(policy.frame(now+=35),true);assert.equal(policy.profile,Q.PROFILES.performance);assert.equal(policy.downgraded,true);
+ for(let i=0;i<70;i++)policy.frame(now+=10);assert.equal(policy.profile,Q.PROFILES.performance); // no oscillation
+ policy.setMode('balanced');assert.equal(policy.profile,Q.PROFILES.balanced);assert.equal(policy.downgraded,false);
+});
+
+test('quality policy does not downgrade on isolated stalls and preserves explicit choices',()=>{
+ const policy=new Q.Policy();let now=0;policy.frame(now);
+ for(let window=0;window<4;window++)for(let i=0;i<24;i++)policy.frame(now+=i===0?150:16);
+ assert.equal(policy.downgraded,false);
+ policy.setMode('performance');for(let i=0;i<100;i++)policy.frame(now+=45);assert.equal(policy.profile,Q.PROFILES.performance);
+ policy.setMode('balanced');for(let i=0;i<100;i++)policy.frame(now+=45);assert.equal(policy.profile,Q.PROFILES.balanced);
+ const h=controller();h.explorer.setGraph(fixture());h.explorer.state.quality='performance';h.explorer.clear();assert.equal(h.explorer.state.quality,'performance');h.explorer.setGraph(fixture());assert.equal(h.explorer.state.quality,'performance');
+});
+
+test('WebGL probe explicitly avoids requesting antialiasing and releases its context',()=>{
+ const requests=[];let lost=0;
+ const context={document:{createElement:()=>({getContext:(kind,options)=>{requests.push({kind,options});return {getExtension:()=>({loseContext(){lost++;}})};}})}};
+ vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
+ assert.equal(context.ArchaeologistThree.webgl(),true);assert.equal(requests[0].options.antialias,false);assert.equal(lost,1);
 });
