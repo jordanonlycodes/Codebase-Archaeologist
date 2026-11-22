@@ -24,6 +24,7 @@ def history_repo(tmp_path):
     shas=[]
     def commit(message,day,author='Fixture Engineer'):
         git(root,'add','--all');git(root,'commit','-m',message,env={'GIT_AUTHOR_DATE':f'2025-01-{day:02}T12:00:00+0500','GIT_COMMITTER_DATE':f'2025-01-{day:02}T13:00:00+0500','GIT_AUTHOR_NAME':author});sha=git(root,'rev-parse','HEAD');shas.append(sha);return sha
+    (root/'src/nested').mkdir(parents=True);(root/'src/nested/helper.c').write_text('int helper(void){return 1;}\n')
     (root/'a.py').write_text('def one():\n    return 1\n');commit('First evidence',1)
     (root/'a.py').write_text('def one():\n    return 2\n');commit('Edit a function',3,'Second Engineer')
     git(root,'checkout','-b','side');(root/'side.txt').write_text('side\n');commit('Side branch',4)

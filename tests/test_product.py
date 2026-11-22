@@ -128,6 +128,9 @@ def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_
         run=subprocess.run(['node','tests/frontend/product.test.cjs'],cwd=ROOT,env={**os.environ,'PRODUCT_FIXTURE':str(path)},capture_output=True,text=True,timeout=40)
         assert run.returncode==0,run.stdout+run.stderr
         print(run.stdout)
+        history_run=subprocess.run(['node','tests/frontend/time_machine.test.cjs'],cwd=ROOT,env={**os.environ,'PRODUCT_FIXTURE':str(path)},capture_output=True,text=True,timeout=30)
+        assert history_run.returncode==0,history_run.stdout+history_run.stderr
+        print(history_run.stdout)
 
 
 def test_browser_404_preserves_api_errors_and_recovery_navigation():

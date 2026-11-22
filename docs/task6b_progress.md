@@ -67,3 +67,16 @@ activity includes empty months in a bounded 24-month landscape and filters by mo
 57 real-document cases passed, including authentic seven-commit fixture timeline, viewport,
 selection, cleanup and date filters. These are functional DOM checks, not visual browser
 acceptance or measured performance. Next F: directory churn and exact comparison studio.
+
+## F complete — churn landscape and comparison studio
+
+Added a shared deterministic nested spatial map, directory drill-down, breadcrumbs,
+metric switching (touches/additions/deletions/changed lines), bounded overflow group
+inspection and honest missing/zero colors. Exact revision selectors retrieve real tree
+changes; the studio separates measured additions/deletions from unmeasured files and
+shows literal bounded unified patches. Patches are memory-only, never snapshot history.
+Timeline zoom now keeps labels/node sizes legible in screen units while preserving its
+focal point, rather than squeezing text with the entire event span.
+43 focused Python checks passed (24 history + 19 product), including 59 document cases
+and eight dedicated history view-model cases over genuine Git evidence. Next G adds
+actual revision trees, scrubbing and explicitly cached-only playback.
