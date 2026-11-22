@@ -42,3 +42,15 @@ candidates. Unsupported requests explain capability boundaries. Existing impact 
 provides direct/transitive direction and actual edge evidence, with its original limits.
 23 Node cases passed, including cycles, ambiguity, file/component membership, imports,
 missing model scores, partial/empty data, output bounds and reproducibility.
+
+## Stage D complete — optional provider boundary
+
+Added typed capabilities/explanation APIs and a replaceable provider protocol with one
+implemented adapter: fixed-host OpenAI Responses API, verified against official create
+and structured-output documentation. Explicit enable/key/model configuration, per-request
+consent, same-origin browser checks, pre-parser 32 KiB transport cap, 24 KiB evidence,
+two concurrent cloud requests/process, upload/connection/read/total timeouts, bounded
+response, no redirects/retries/tools, store:false, strict output and citation validation.
+Provider exceptions are scrubbed; keys are excluded from repr/responses. No server
+snapshot or conversation cache. 29 focused Python checks passed (including the 23-case
+Node runner); all provider traffic mocked. No live cloud test or credentials used.
