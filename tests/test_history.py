@@ -106,7 +106,7 @@ def test_public_adapter_consumes_genuine_git_fixture_metadata(history_repo):
         elif p.endswith('/commits'):body=[{'sha':c.sha} for c in facts.commits]
         else:
             c=byid[p.rsplit('/',1)[-1]];body={'sha':c.sha,'parents':[{'sha':s} for s in c.parents],'commit':{'author':{'name':c.author,'date':c.author_date},'committer':{'date':c.committer_date},'message':c.subject,'tree':{'sha':c.tree}},'files':[{'filename':f.path,'status':f.status,'additions':f.additions,'deletions':f.deletions,**({'patch':'actual patch omitted in fixture adapter'} if f.additions is not None else {}),**({'previous_filename':f.previous_path} if f.previous_path else {})} for f in c.files]}
-        return httpx.Response(200,stream=httpx.ByteStream(json.dumps(body).encode()))
+        return httpx.Response(200,headers={"content-type":"application/json"},stream=httpx.ByteStream(json.dumps(body).encode()))
     async def run():return await operation('https://github.com/owner/repo',lambda r:collect(r,shas[-1]),transport=httpx.MockTransport(handler))
     result=asyncio.run(run());assert [c.sha for c in result.commits]==[c.sha for c in facts.commits]
     assert len(requests)==9 and all(u.startswith('https://api.github.com/repos/owner/repo') for u in requests)
@@ -114,7 +114,7 @@ def test_public_adapter_consumes_genuine_git_fixture_metadata(history_repo):
 
 @pytest.mark.parametrize('status,code',[(404,'github_unavailable'),(429,'github_rate_limit'),(302,'github_upstream')])
 def test_network_errors_and_redirects_are_controlled(status,code):
-    async def run():return await operation('https://github.com/owner/repo',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda _:httpx.Response(status,headers={'Location':'http://localhost/private'})))
+    async def run():return await operation('https://github.com/owner/repo',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda _:httpx.Response(status,headers={'Location':'http://localhost/private'},stream=httpx.ByteStream(b''))))
     with pytest.raises(AnalysisError) as e:asyncio.run(run())
     assert e.value.code==code
 
@@ -187,7 +187,7 @@ def test_http_revision_tree_and_blob_adapter_matches_real_git_objects(history_re
         elif '/git/blobs/' in p:
             sha=p.rsplit('/',1)[-1];body={'sha':sha,'size':len(blobs[sha]),'encoding':'base64','content':base64.b64encode(blobs[sha]).decode()}
         else:raise AssertionError(p)
-        return httpx.Response(200,stream=httpx.ByteStream(json.dumps(body).encode()))
+        return httpx.Response(200,headers={"content-type":"application/json"},stream=httpx.ByteStream(json.dumps(body).encode()))
     async def run():return await operation('https://github.com/owner/repo',lambda r:compare(r,shas[2],shas[3]),transport=httpx.MockTransport(handler))
     actual=asyncio.run(run());assert [(f.path,f.status,f.additions,f.deletions,f.patch) for f in actual.files]==[(f.path,f.status,f.additions,f.deletions,f.patch) for f in expected.files]
     assert all(u.host=='api.github.com' and u.scheme=='https' for u in seen)
@@ -217,10 +217,10 @@ def test_history_network_exceptions_do_not_leak_details(failure,code):
 
 
 def test_transfer_and_request_budgets_are_enforced_before_parsing():
-    response=lambda _:httpx.Response(200,stream=httpx.ByteStream(b'x'*1000))
+    response=lambda _:httpx.Response(200,headers={"content-type":"application/json"},stream=httpx.ByteStream(b'x'*1000))
     with pytest.raises(AnalysisError) as e:asyncio.run(operation('https://github.com/a/b',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(response),limits=replace(LIMITS,transfer_bytes=50)))
     assert e.value.code=='github_size_limit'
-    public=lambda _:httpx.Response(200,stream=httpx.ByteStream(b'{"private":false}'))
+    public=lambda _:httpx.Response(200,headers={"content-type":"application/json"},stream=httpx.ByteStream(b'{"private":false}'))
     with pytest.raises(AnalysisError) as e:asyncio.run(operation('https://github.com/a/b',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(public),limits=replace(LIMITS,requests=1)))
     assert e.value.code=='history_request_limit'
 

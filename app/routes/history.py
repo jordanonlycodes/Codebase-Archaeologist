@@ -1,7 +1,8 @@
 """Stateless public history operations; no server paths, session store or source cache."""
 from typing import Annotated
 from pydantic import BaseModel,ConfigDict,Field,StringConstraints
-from fastapi import APIRouter
+import json
+from fastapi import APIRouter,Response
 from app.errors import AnalysisError
 from app.history.core import collect,compare
 from app.history.github import operation
@@ -32,22 +33,31 @@ async def retained(reader,anchor,*ids):
         raise AnalysisError('Select revisions from this pinned retained history window.','revision_outside_window',422)
 
 
+def reporting(response,work):
+    async def run(reader):
+        result=await work(reader)
+        if hasattr(reader,'api_status'):
+            response.headers['X-History-API']=json.dumps(reader.api_status(),separators=(',',':'))
+        return result
+    return run
+
+
 @router.post('/load',response_model=History)
-async def load(body:Source):
-    return await operation(body.url,lambda r:collect(r,body.anchor))
+async def load(body:Source,response:Response):
+    return await operation(body.url,reporting(response,lambda r:collect(r,body.anchor)))
 
 
 @router.post('/tree',response_model=RevisionTree)
-async def tree(body:Revision):
+async def tree(body:Revision,response:Response):
     async def work(reader):
         await retained(reader,body.anchor,body.revision)
         return await reader.tree(body.revision)
-    return await operation(body.url,work)
+    return await operation(body.url,reporting(response,work))
 
 
 @router.post('/compare',response_model=Comparison)
-async def comparison(body:Pair):
+async def comparison(body:Pair,response:Response):
     async def work(reader):
         await retained(reader,body.anchor,body.base,body.head)
         return await compare(reader,body.base,body.head)
-    return await operation(body.url,work)
+    return await operation(body.url,reporting(response,work))

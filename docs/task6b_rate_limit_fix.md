@@ -48,3 +48,18 @@ Tests: existing 34 history cases and five new cache cases passed individually; t
 new HTTP mocks incorrectly supplied consumed bodies, corrected to genuine streaming mocks.
 B complete: combined focused run **39 passed**, zero failed/skipped. Next C adds token
 scope separation, safe quota metadata, cooldown admission and precise errors.
+
+C complete: optional CODEBASE_GITHUB_TOKEN is read/validated server-side and sent only
+on fixed api.github.com HTTPS requests. Cache/rate scopes use a process-keyed HMAC, never
+the credential itself. Public metadata must report private=false before history is read;
+a recent public check is reusable for 60 seconds. Private access is not enabled.
+Primary exhaustion, secondary activity limits, unclassified429, ordinary403,401,404,
+5xx, redirect, timeout and malformed JSON/content-type are distinguished. Safe quota,
+reset, resource, Retry-After and request-ID fields are recorded; malformed values become
+unavailable. Shared scope cooldowns block uncached work, not valid cached evidence.
+No automatic retries; expiry permits a new attempt but never claims success/reset.
+Responses carry safe per-operation X-History-API diagnostics; errors carry optional
+error.api metadata. No credential or raw upstream message is reflected.
+Tests: **54 passed**, zero failed/skipped, one existing warning. Existing mocked streaming
+JSON fixtures now declare the genuine API content type; assertions were preserved.
+Next D: browser single-flight, bounded pair reuse, status/cooldown/retry UI and regressions.

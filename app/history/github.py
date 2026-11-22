@@ -3,12 +3,17 @@ import asyncio
 import base64
 import json
 import hashlib
+import hmac
+import secrets
 from app.errors import AnalysisError
-from app.ingestion.github import parse_github_url,upstream_error,read_limited
+from app.ingestion.github import parse_github_url,read_limited
+from app.config import github_history_token
 import httpx
 from .models import LIMITS,Commit,Change,TreeFile,RevisionTree
 from .core import revision,path,text,timestamp
 from .cache import CACHE,EvidenceCache,evidence
+
+_SCOPE_KEY=secrets.token_bytes(32)
 
 
 class GitHubReader:
@@ -17,26 +22,41 @@ class GitHubReader:
 
     def __init__(self,url,limits=LIMITS,*,transport=None,cache=None):
         self.transport=transport;self.cache=cache if cache is not None else CACHE
-        self.scope="anonymous";self.cache_states=[]
+        try:self.token=github_history_token()
+        except ValueError:raise AnalysisError('GitHub API credential configuration is invalid. Check server configuration.','github_authentication',502) from None
+        self.scope=hmac.new(_SCOPE_KEY,self.token.encode(),hashlib.sha256).hexdigest() if self.token else 'anonymous'
+        self.cache_states=[]
         self.repo=parse_github_url(url);self.url=self.repo.url
         self.base=f'https://api.github.com/repos/{self.repo.owner}/{self.repo.name}'
         self.limits=limits;self.requests=0;self.bytes=0;self.trees={};self.blobs={}
 
+    def api_status(self):
+        states=self.cache_states
+        return {**self.cache.rates.status(self.scope), 'cache':'hit' if states and all(s=='hit' for s in states) else 'coalesced' if states and all(s!='miss' for s in states) else 'mixed' if any(s!='miss' for s in states) else 'upstream',
+                'cache_hits':states.count('hit'),'coalesced':states.count('coalesced'),'upstream_requests':self.requests}
+
     async def get(self,suffix,params=None,maximum=None):
+        self.cache.rates.before(self.scope)
         self.requests+=1
         if self.requests>self.limits.requests:raise AnalysisError('History request budget reached. Narrow the operation.','history_request_limit',422)
         maximum=min(maximum or self.limits.response_bytes,self.limits.transfer_bytes-self.bytes)
         if maximum<=0:raise AnalysisError('History transfer budget reached.','history_transfer_limit',413)
+        headers={'User-Agent':'Codebase-Archaeologist','Accept':'application/vnd.github+json',
+                 'Accept-Encoding':'identity','X-GitHub-Api-Version':'2022-11-28'}
+        if self.token:headers['Authorization']='Bearer '+self.token
         # Producer owns its client even when an individual coalesced caller cancels.
         async with httpx.AsyncClient(transport=self.transport,follow_redirects=False,trust_env=False,
-                timeout=httpx.Timeout(10,connect=5),headers={
-                    'User-Agent':'Codebase-Archaeologist','Accept':'application/vnd.github+json',
-                    'Accept-Encoding':'identity','X-GitHub-Api-Version':'2022-11-28'}) as client:
+                timeout=httpx.Timeout(10,connect=5),headers=headers) as client:
           async with client.stream('GET',self.base+suffix,params=params) as response:
-            upstream_error(response)  # Includes rate limits; redirects never followed.
-            raw=await read_limited(response,maximum);self.bytes+=len(raw)
-            try:return json.loads(raw)
-            except (ValueError,RecursionError):raise AnalysisError('GitHub returned invalid history metadata.','history_metadata',502) from None
+            error=response.status_code!=200
+            raw=await read_limited(response,min(maximum,32768) if error else maximum);self.bytes+=len(raw)
+            try:body=json.loads(raw)
+            except (ValueError,RecursionError):body=None
+            self.cache.rates.record(self.scope,response.headers,response.status_code,body)
+            content_type=response.headers.get('content-type','').split(';')[0].lower()
+            if content_type not in {'application/json','application/vnd.github+json'} or body is None:
+                raise AnalysisError('GitHub returned invalid JSON history metadata.','history_metadata',502)
+            return body
 
     @evidence(60)
     async def verify_public(self):

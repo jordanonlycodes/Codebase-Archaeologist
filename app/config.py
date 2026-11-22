@@ -93,3 +93,12 @@ class ArchitectureLimits:
 
 
 ARCHITECTURE_LIMITS = ArchitectureLimits()
+
+
+def github_history_token():
+    """Optional operator credential; validated without reflecting its contents."""
+    import os
+    token=os.environ.get('CODEBASE_GITHUB_TOKEN','').strip()
+    if len(token)>512 or any(ord(c)<33 or ord(c)>126 for c in token):
+        raise ValueError('Invalid server GitHub credential configuration.')
+    return token

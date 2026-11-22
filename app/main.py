@@ -25,7 +25,13 @@ app.include_router(history.router)
 
 @app.exception_handler(AnalysisError)
 async def analysis_error(request: Request, exc: AnalysisError):
-    return JSONResponse({"error": {"code": exc.code, "message": exc.message}}, status_code=exc.status)
+    error={"code": exc.code, "message": exc.message}
+    api=getattr(exc,"api",None)
+    headers={}
+    if api is not None:
+        error["api"]=api
+        if api.get("retry_after") is not None:headers["Retry-After"]=str(api["retry_after"])
+    return JSONResponse({"error": error}, status_code=exc.status,headers=headers)
 
 
 @app.exception_handler(HTTPException)

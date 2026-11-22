@@ -11,6 +11,7 @@ import threading
 import time
 
 from app.errors import AnalysisError
+from .status import RateLedger
 
 
 def encoded_size(value):
@@ -33,6 +34,7 @@ class EvidenceCache:
                  flights=2, clock=time.monotonic):
         self.entries=entries; self.byte_limit=byte_limit; self.entry_bytes=entry_bytes
         self.max_flights=flights; self.clock=clock; self.lock=threading.RLock()
+        self.rates=RateLedger()
         self.values=OrderedDict(); self.pending={}; self.bytes=0
         self.hits=0; self.misses=0; self.coalesced=0; self.evictions=0
 

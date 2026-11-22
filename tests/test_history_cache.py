@@ -80,3 +80,93 @@ def test_invalid_parsed_evidence_is_not_cached():
     async def fetch():return await operation('https://github.com/o/r',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(handler),cache=cache)
     with pytest.raises(AnalysisError):run(fetch())
     assert run(fetch())==['a'*40] and len(seen)==3
+
+
+@pytest.mark.parametrize('status,headers,message,code,kind',[
+ (403,{'x-ratelimit-remaining':'0','x-ratelimit-reset':'2000000000'},'API rate limit exceeded','github_rate_limit','primary'),
+ (403,{'retry-after':'90'},'secondary rate limit','github_rate_limit','secondary'),
+ (403,{},'You exceeded a secondary rate limit.','github_rate_limit','secondary'),
+ (429,{},'Too many requests','github_rate_limit','unspecified'),
+ (403,{},'Resource not accessible','github_forbidden',None),
+ (401,{},'Bad credentials','github_authentication',None),
+ (404,{},'Not found','github_unavailable',None),
+ (503,{},'Service unavailable','github_upstream',None),
+])
+def test_precise_upstream_failure_categories_and_safe_metadata(status,headers,message,code,kind):
+    def handler(request):return httpx.Response(status,headers={**headers,'content-type':'application/json'},stream=httpx.ByteStream(json.dumps({'message':message}).encode()))
+    with pytest.raises(AnalysisError) as error:run(operation('https://github.com/o/r',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(handler)))
+    assert error.value.code==code and error.value.api.get('kind')==kind
+    if kind:assert error.value.api['retry_at']>error.value.api['observed_at']
+    if 'x-ratelimit-reset' not in headers:assert error.value.api['reset_at'] is None
+
+
+def test_cooldown_blocks_network_but_cached_evidence_stays_usable_and_requires_reverification():
+    from app.history.status import RateLedger
+    now=[1000];cache=EvidenceCache();cache.rates=RateLedger(clock=lambda:now[0]);seen=[]
+    def handler(request):
+        seen.append(str(request.url));params=request.url.params
+        if not params:return response({'private':False})
+        if params['sha']=='a'*40:return response([{'sha':'a'*40}])
+        return httpx.Response(403,headers={'x-ratelimit-remaining':'0','x-ratelimit-reset':'1100'},stream=httpx.ByteStream(b'{}'))
+    async def fetch(sha):return await operation('https://github.com/o/r',lambda r:r.list_commits(sha,2),transport=httpx.MockTransport(handler),cache=cache)
+    assert run(fetch('a'*40))==['a'*40]
+    with pytest.raises(AnalysisError):run(fetch('b'*40))
+    assert run(fetch('a'*40))==['a'*40]  # cache may serve during cooldown
+    with pytest.raises(AnalysisError):run(fetch('c'*40))
+    assert len(seen)==3
+    now[0]=1101;assert cache.rates.status('anonymous')['state']=='limited'
+    assert run(fetch('a'*40))==['a'*40]  # no promise of reset without another response
+    with pytest.raises(AnalysisError):run(fetch('c'*40))
+    assert len(seen)==4
+
+
+def test_headers_are_parsed_defensively_and_http_date_retry_is_respected():
+    from app.history.status import response_metadata,RateLedger
+    headers=httpx.Headers({'x-ratelimit-limit':'oops','x-ratelimit-remaining':'-1','x-ratelimit-reset':'nan','retry-after':'not a date','x-github-request-id':'unsafe<>','x-ratelimit-resource':'a<script>'})
+    meta=response_metadata(headers,0);assert all(meta[k] is None for k in ['limit','remaining','reset_at','retry_after','request_id','resource'])
+    meta=response_metadata(httpx.Headers({'retry-after':'Thu, 01 Jan 1970 00:02:00 GMT'}),60)
+    assert meta['retry_after']>=60
+    ledger=RateLedger(clock=lambda:60)
+    with pytest.raises(AnalysisError) as error:ledger.record('a',headers,429,{})
+    assert error.value.api['retry_at']>=120 and error.value.api['reset_at'] is None
+
+
+def test_token_server_only_scope_rotation_and_private_repository_rejection(monkeypatch):
+    cache=EvidenceCache();seen=[];token='test-only-operator-credential'
+    def handler(request):
+        seen.append(request)
+        return response({'private':False} if not request.url.params else [{'sha':request.url.params['sha']}])
+    async def fetch():return await operation('https://github.com/o/r',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(handler),cache=cache)
+    monkeypatch.delenv('CODEBASE_GITHUB_TOKEN',raising=False);assert run(fetch())==['a'*40]
+    assert all('authorization' not in r.headers for r in seen)
+    monkeypatch.setenv('CODEBASE_GITHUB_TOKEN',token);assert run(fetch())==['a'*40]
+    assert len(seen)==4 and all(r.headers['authorization']=='Bearer '+token for r in seen[2:])
+    assert all(r.url.host=='api.github.com' and r.url.scheme=='https' for r in seen)
+    assert token not in repr(cache.values) and token not in repr(cache.diagnostics())
+    monkeypatch.setenv('CODEBASE_GITHUB_TOKEN','rotated-operator-credential');run(fetch());assert len(seen)==6
+    async def private():return await operation('https://github.com/private/repo',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda _:response({'private':True})),cache=cache)
+    with pytest.raises(AnalysisError) as error:run(private())
+    assert error.value.code=='history_unavailable'
+
+
+@pytest.mark.parametrize('body,content_type',[(b'not-json','application/json'),(b'{}','text/html'),(b'{}','')])
+def test_invalid_json_or_content_type_is_rejected_without_cache_poison(body,content_type):
+    cache=EvidenceCache()
+    async def fetch():return await operation('https://github.com/o/r',lambda r:r.list_commits('a'*40,2),transport=httpx.MockTransport(lambda _:httpx.Response(200,headers={'content-type':content_type},stream=httpx.ByteStream(body))),cache=cache)
+    with pytest.raises(AnalysisError) as error:run(fetch())
+    assert error.value.code=='history_metadata' and cache.diagnostics()['entries']==0
+
+
+def test_token_error_payload_and_response_diagnostics_never_expose_credentials(monkeypatch):
+    from fastapi.testclient import TestClient
+    from app.main import app
+    from app.routes import history as route
+    from app.history.github import operation as real
+    token='test-only-secret-that-must-not-leak';monkeypatch.setenv('CODEBASE_GITHUB_TOKEN',token)
+    def handler(request):return httpx.Response(401,headers={'content-type':'application/json'},stream=httpx.ByteStream(json.dumps({'message':token}).encode()))
+    async def adapter(url,work):return await real(url,work,transport=httpx.MockTransport(handler))
+    monkeypatch.setattr(route,'operation',adapter)
+    with TestClient(app) as client:
+        r=client.post('/api/history/load',json={'url':'https://github.com/o/r','anchor':'a'*40})
+        assert r.status_code==502 and r.json()['error']['code']=='github_authentication'
+        assert token not in r.text and token not in str(r.headers)
