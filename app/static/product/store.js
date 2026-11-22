@@ -1,4 +1,4 @@
-/* One expiring, source-free snapshot per tab. No repository payload in URLs/localStorage. */
+/* One expiring, source-free snapshot per tab. No repository payload in URLs or synchronous storage. */
 (function(root){
  'use strict';
  const POLICY=Object.freeze({ttl:2*60*60*1000,bytes:24*1024*1024,snapshots:3,uiBytes:32768});
