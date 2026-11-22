@@ -64,3 +64,13 @@ Task 4A.1 adds `POST /api/analyze/github` with a public repository URL. It downl
 ## Structural metrics (Task 4A.2)
 
 The optional additive `structural` response has independent source-calculated metrics and coverage. Static analysis never requires loading the model. Request-local C file trees can be reused for extraction, while original per-function ML features and predictions are preserved. `structural.functions[].ml_result_index` points into the existing `defect_risk.functions` only for unique path/line-range/name matches; unmatched/Python functions remain ML-unavailable. See [structural definitions and contracts](structural_intelligence.md). Complexity hotspots are separate from uncalibrated ML scores.
+
+### Knowledge graph response
+
+Both analysis endpoints also return optional `knowledge_graph` schema `1.0`, containing
+nodes, directed edges, unresolved references, summary, coverage and limits. Existing
+structural and ML fields retain their meaning. C function nodes link the same structural
+ID and actual `ml_result_index`; no other language receives a model score. JSON export
+includes the component automatically. See [knowledge graph](knowledge_graph.md) for
+edge directions, conservative resolution rules and resource bounds. No graph-specific
+endpoint or persistent storage is introduced.

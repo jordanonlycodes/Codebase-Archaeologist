@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Literal
 from app.ml.schemas import DefectRisk
 from app.analysis.structural_models import StructuralIntelligence
+from app.analysis.graph.models import KnowledgeGraph
 
 
 @dataclass
@@ -68,3 +69,4 @@ class AnalysisResult:
     defect_risk: DefectRisk | None = None
     source: RepositorySource | None = None
     structural: StructuralIntelligence | None = None
+    knowledge_graph: KnowledgeGraph | None = None

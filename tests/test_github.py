@@ -209,6 +209,13 @@ def test_shared_api_and_cleanup(content,status,client,make_zip,tmp_path,monkeypa
         assert zipped['source']['type']=='zip' and zipped['source']['filename']=='same.zip'
         for field in ['summary','files','languages','skipped','defect_risk','structural']:
             assert data[field]==zipped[field],field
+        # Only the repository node carries ingestion-specific display/provenance.
+        for graph in (data['knowledge_graph'],zipped['knowledge_graph']):
+            for node in graph['nodes']:
+                if node['type']=='repository':
+                    node['name']='repository'
+                    node['metadata']['source']=None
+        assert data['knowledge_graph']==zipped['knowledge_graph']
         assert '/tmp/' not in response.text
 
 

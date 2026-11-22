@@ -54,3 +54,26 @@ class StructuralThresholds:
 
 
 STRUCTURAL_THRESHOLDS = StructuralThresholds()
+
+
+@dataclass(frozen=True)
+class GraphLimits:
+    file_bytes: int = STRUCTURAL_LIMITS.file_bytes
+    total_bytes: int = STRUCTURAL_LIMITS.total_bytes
+    nodes_per_file: int = 100_000
+    traversal_nodes: int = 400_000
+    nodes: int = 12_000
+    edges: int = 20_000
+    symbols: int = 4_000
+    references: int = 12_000
+    unresolved: int = 4_000
+    evidence_per_edge: int = 8
+    reference_chars: int = 256
+    output_bytes: int = 12 * 1024 * 1024
+
+    def __post_init__(self):
+        if self.output_bytes < 16384 or any(value < 0 for value in vars(self).values()):
+            raise ValueError("Graph limits must be nonnegative, with at least 16 KiB for the output envelope.")
+
+
+GRAPH_LIMITS = GraphLimits()

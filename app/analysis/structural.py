@@ -155,6 +155,7 @@ def analyze_structure(root, files, *, parsed_files=None, limits=STRUCTURAL_LIMIT
                 definitions = c_definitions(tree, budget)
             else:
                 tree = ast.parse(text)
+                parsed_files[path] = (data, tree)
                 definitions = python_definitions(tree, budget)
             record.status = 'analyzed'
             for node, name, qualified in definitions:

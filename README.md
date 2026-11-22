@@ -265,3 +265,16 @@ ZIP uploads and GitHub imports now include `structural` results and a dedicated 
 The UI offers complexity bands, classified-line composition, file rankings, review reasons and a searchable/sortable 25-row function view. JSON export includes all bounded structural records, coverage, definitions and configured thresholds. Complexity bands are 1–5 / 6–10 / 11–20 / 21+; hotspot thresholds are complexity ≥11, nesting ≥4, span ≥80 lines or parameters ≥6. These are review heuristics, not defect probabilities or software-quality scores.
 
 Limits in `app/config.py`: 512 KiB/file, 8 MiB source, 128 KiB/function, 2,000 definitions, 100,000 visited AST nodes/file and 400,000 total node visits. Existing ingestion protections remain in force. No new dependencies are required for Python; C uses the existing optional Tree-sitter installation. See [structural metric definitions, coverage and manual verification](docs/structural_intelligence.md). Run `python -m pytest -q tests/test_structural.py` for focused checks. The trained feature schema, model artifacts and academic report remain as previously recorded.
+
+### Repository knowledge graph (Task 4B.1)
+
+ZIP and public GitHub analyses now include `knowledge_graph` in their API response
+and JSON export: repository/directory/file/function hierarchy, supported C/Python
+calls, Python imports and C includes. It reuses structural IDs, metrics, hotspot
+reasons and actual C-only ML results. Ambiguous/dynamic references and bounded coverage
+are explicit; no external definitions or runtime guarantees are invented.
+
+See [graph engine documentation](docs/knowledge_graph.md) for resolution rules,
+resource limits, schemas, a verified example and `GraphIndex` query helpers.
+Run `pytest tests/test_graph.py -q` or the full `pytest -q` suite.
+Interactive graph visualization remains planned for Task 4B.2.
