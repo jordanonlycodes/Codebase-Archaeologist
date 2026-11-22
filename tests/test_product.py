@@ -44,7 +44,9 @@ import json
 import os
 import subprocess
 
-PAGES=['overview','risk','structure','graph','architecture','heatmaps','blast-radius','jordan']
+from test_history import history_repo
+
+PAGES=['overview','risk','structure','graph','architecture','heatmaps','blast-radius','jordan','time-machine']
 
 
 @pytest.mark.parametrize('page',PAGES)
@@ -64,7 +66,7 @@ def test_real_workspace_routes_and_lazy_feature_assets(page):
         if page!='graph':assert '/static/graph/three.js' not in response.text
         assert 'no-store' in response.headers['cache-control']
         assert "frame-ancestors 'none'" in response.headers['content-security-policy']
-        feature_ids={'jordan':'jordan-workspace','graph':'graph-canvas','architecture':'ai-canvas','heatmaps':'ai-canvas','blast-radius':'impact-canvas','risk':'risk-rows','structure':'structure-rows','overview':'file-table-body'}
+        feature_ids={'time-machine':'time-machine','jordan':'jordan-workspace','graph':'graph-canvas','architecture':'ai-canvas','heatmaps':'ai-canvas','blast-radius':'impact-canvas','risk':'risk-rows','structure':'structure-rows','overview':'file-table-body'}
         assert feature_ids[page] in ids
         for other,id in feature_ids.items():
             if other!=page and id!=feature_ids[page]:assert id not in ids
@@ -90,7 +92,7 @@ class DOM(HTMLParser):
         if text:self.stack[-1]['children'].append(text)
 
 
-def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_path,make_zip):
+def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_path,make_zip,history_repo):
     with TestClient(app) as client:
         response=client.post('/api/analyze',files={'file':('journey.zip',make_zip({
             'README.md':'Journey fixture\n','app/__init__.py':'','lib/__init__.py':'',
@@ -104,6 +106,20 @@ def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_
         python_response=client.post('/api/analyze',files={'file':('python.zip',make_zip({'src/app.py':'def helper(x): return x\ndef entry(x): return helper(x)\n'}))})
         assert python_response.status_code==200,python_response.text
         fixture={'analysis':response.json(),'python_analysis':python_response.json(),'pages':{},'scripts':{}}
+        import asyncio
+        from dataclasses import asdict
+        from app.history.local import LocalReader
+        from app.history.core import collect,compare
+        root,shas,_=history_repo
+        current=client.post('/api/analyze',files={'file':('history.zip',make_zip({p.relative_to(root).as_posix():p.read_bytes() for p in root.rglob('*') if p.is_file() and '.git' not in p.relative_to(root).parts}))}).json()
+        current['source']={'type':'github','url':'https://github.com/owner/repo','owner':'owner','name':'repo','snapshot_commit':shas[-1]}
+        async def history_facts():
+            reader=LocalReader(root);reader.url=current['source']['url']
+            history=asdict(await collect(reader,shas[-1]));trees={sha:asdict(await reader.tree(sha)) for sha in shas}
+            pair=asdict(await compare(reader,shas[0],shas[-1]));return history,trees,pair
+        history,trees,pair=asyncio.run(history_facts())
+        fixture.update(history=history,history_analysis=current,history_trees=trees,history_pair=pair)
+
         for page in [*PAGES,'explore']:
             html=client.get('/explore' if page=='explore' else '/workspace/'+page).text
             parser=DOM();parser.feed(html);fixture['pages'][page]=parser.root

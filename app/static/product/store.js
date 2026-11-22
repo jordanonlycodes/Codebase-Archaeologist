@@ -16,6 +16,21 @@
   close(){this.records.close?.();}
   async save(data){if(!data||data.schema_version!=='1.0'||!data.summary||!Array.isArray(data.files))throw new Error('The analysis response does not match the workspace format.');const bytes=new TextEncoder().encode(JSON.stringify(data)).length;if(bytes>POLICY.bytes)throw new Error('This analysis exceeds the 24 MiB browser snapshot limit. Export it or analyze a smaller repository.');const created=this.now(),id=this.uuid(),row={id,data,bytes,created,expires:created+POLICY.ttl},previous=this.tab.getItem('archaeologist.active');await this.records.write(row,previous);try{this.tab.setItem('archaeologist.active',id);this.tab.removeItem('archaeologist.views');this.tab.removeItem('archaeologist.handoff');}catch{await this.records.remove(id);throw new Error('Enable tab storage to keep repository context between pages.');}this.current=row;if(previous&&previous!==id){try{await this.records.remove(previous);}catch{/* Next cleanup/TTL still bounds any prior row. */}}return data;}
   async load(){const id=this.tab.getItem('archaeologist.active');if(!id){this.current=null;this.tab.removeItem('archaeologist.views');this.tab.removeItem('archaeologist.handoff');return null;}await this.records.prune(this.now());const row=await this.records.read(id);if(!row||row.expires<=this.now()){for(const key of ['archaeologist.active','archaeologist.views','archaeologist.handoff'])this.tab.removeItem(key);this.current=null;return null;}this.current=row;return row.data;}
+  async saveHistory(history){
+   const id=this.tab.getItem('archaeologist.active');
+   if(!id||this.current?.id!==id)throw new Error('The active repository changed. Reload before saving history.');
+   const row=await this.records.read(id),source=row?.data.source;
+   if(!row||row.expires<=this.now())throw new Error('This snapshot expired. Import it again.');
+   if(source?.type!=='github'||history.repository_url!==source.url||history.anchor!==source.snapshot_commit||history.schema_version!=='1.0')throw new Error('History does not belong to this repository snapshot.');
+   const encode=value=>new TextEncoder().encode(JSON.stringify(value)).length;
+   if(encode(history)>2*1024*1024)throw new Error('History exceeds the 2 MiB browser retention limit.');
+   const data={...row.data,history},bytes=encode(data);
+   if(bytes>POLICY.bytes)throw new Error('This combined workspace exceeds the 24 MiB snapshot limit.');
+   if(this.tab.getItem('archaeologist.active')!==id)throw new Error('The active repository changed.');
+   await this.records.write({...row,data,bytes},id);
+   if(this.tab.getItem('archaeologist.active')!==id){await this.records.remove(id);throw new Error('The active repository changed.');}
+   this.current={...row,data,bytes};return history;
+  }
   async forget(){const id=this.tab.getItem('archaeologist.active');if(id)await this.records.remove(id);for(const key of ['archaeologist.active','archaeologist.views','archaeologist.handoff'])this.tab.removeItem(key);this.current=null;}
   view(page,value){let values={};try{values=JSON.parse(this.tab.getItem('archaeologist.views')||'{}');}catch{}if(value===undefined)return values[page]||null;values[page]=value;const text=JSON.stringify(values);if(new TextEncoder().encode(text).length>POLICY.uiBytes)return false;this.tab.setItem('archaeologist.views',text);return true;}
   handoff(value){if(value!==undefined){this.tab.setItem('archaeologist.handoff',JSON.stringify(value));return;}let item=null;try{item=JSON.parse(this.tab.getItem('archaeologist.handoff')||'null');}catch{}this.tab.removeItem('archaeologist.handoff');return item;}

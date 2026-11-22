@@ -15,6 +15,7 @@ async def landing(request: Request):
 
 
 PAGES = {
+    'time-machine': dict(title='Codebase Time Machine', subtitle='AUTHENTIC HISTORY / OBSERVABLE EVOLUTION', description='Travel through real commits, inspect historical change and compare the evidence between revisions.', feature='time-machine'),
     'jordan': dict(title='Jordan', subtitle='YOUR REPOSITORY / TRACEABLE INTELLIGENCE', description='Ask precise questions. Follow real evidence. An engineering companion grounded in your active snapshot.', feature='jordan'),
     'overview': dict(title='Repository overview', subtitle='THE BIG PICTURE', description='An editorial map of your snapshot, its composition and the evidence worth exploring.', feature='overview'),
     'risk': dict(title='Defect risk intelligence', subtitle='C FUNCTIONS / RESEARCH MODEL', description='Model-estimated defect-related patterns. A review signal, never a vulnerability verdict.', feature='risk'),
@@ -26,6 +27,7 @@ PAGES = {
 }
 
 ASSETS = {
+    'time-machine': (['time_machine/workspace.css'], ['time_machine/data.js','time_machine/workspace.js']),
     'jordan': (['jordan/workspace.css'], ['impact/engine.js','jordan/retrieval.js','jordan/local.js','jordan/workspace.js']),
     'overview': ([], ['product/overview.js']),
     'risk': ([], ['risk.js']),

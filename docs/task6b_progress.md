@@ -45,3 +45,14 @@ Shared admission bounds two repository operations, 4 KiB history requests and 10
 read time. 24 history tests passed, including genuine two-direction/divergent comparisons,
 API contracts, no public filesystem paths, SSRF rejection and serialization bounds.
 Next D: per-snapshot bounded persistence and dedicated source-aware workspace.
+
+## D complete — workspace and continuity
+
+Added /workspace/time-machine, dedicated lazy assets and shared navigation/lifecycle.
+Public-source retrieval is explicit; ZIPs show an intentional no-history state without
+network or fake plots. Loaded commits have real inspection and filtering. History metadata
+is bounded to 2 MiB within the existing row, retaining the exact snapshot ID and expiry;
+replacement/expiry/identity mismatches cannot attach another repository's history.
+19 product Python checks passed, including real Git-fixture history fetch/reload cases;
+16 store cases passed. Current analysis and JSON export remain available. Next E replaces
+the initial working commit exploration with the interactive timeline/activity canvas.
