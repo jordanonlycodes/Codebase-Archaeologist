@@ -1368,3 +1368,16 @@ footer {
 #source-meta { overflow-wrap:anywhere; }
 #source-meta a { color:#f28b97; text-decoration:underline; text-underline-offset:3px; }
 @media(max-width:480px) { .github-form { padding:18px 14px; } .source-modes button { font-size:.75rem; } }
+
+/* Structural intelligence uses the same measured-card grid as defect intelligence. */
+.structural-section .risk-table-panel table { min-width:850px; }
+.structural-section .risk-table-panel th:nth-child(n) { width:auto; }
+.structural-section .risk-table-panel th:nth-child(1),.structural-section .risk-table-panel th:nth-child(2) { width:22%; }
+.structural-section .risk-table-panel th:nth-child(7) { width:15%; }
+.structural-section #structure-priority p { margin:4px 0 6px; }
+.structural-section #structure-issue-list { padding-left:20px; }
+.structure-definitions { margin:16px 0; font-size:.82rem; line-height:1.6; overflow-wrap:anywhere; }
+.structure-definitions dt { color:#F8E8EA; font-weight:650; margin:12px 0 3px; }
+.structure-definitions dd { margin:0; color:#cbb9be; }
+@media(max-width:680px) { .structural-section .risk-table-panel table { min-width:0; } }
+@media(max-width:850px) { .sidebar .nav-link[href="#structural-intelligence"] { display:none; } }

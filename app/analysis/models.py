@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Literal
 from app.ml.schemas import DefectRisk
+from app.analysis.structural_models import StructuralIntelligence
 
 
 @dataclass
@@ -66,3 +67,4 @@ class AnalysisResult:
     schema_version: str = "1.0"
     defect_risk: DefectRisk | None = None
     source: RepositorySource | None = None
+    structural: StructuralIntelligence | None = None

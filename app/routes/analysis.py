@@ -9,6 +9,7 @@ from starlette.datastructures import UploadFile
 
 from app.analysis.models import AnalysisResult, RepositorySource
 from app.analysis.scanner import scan_repository
+from app.analysis.structural import analyze_structure, link_ml_results
 from app.config import LIMITS
 from app.ml.repository import analyze_functions
 from app.errors import AnalysisError
@@ -35,7 +36,10 @@ def analyze_archive(stream, repository: str, source: RepositorySource) -> Analys
         root = Path(temporary)
         ingestion = extract_repository(stream, root)
         result = scan_repository(root, repository, ingestion)
-        result.defect_risk = analyze_functions(root, result.files)
+        parsed_files = {}
+        result.structural = analyze_structure(root, result.files, parsed_files=parsed_files)
+        result.defect_risk = analyze_functions(root, result.files, parsed_files=parsed_files)
+        link_ml_results(result.structural, result.defect_risk)
         result.source = source
         return result
 

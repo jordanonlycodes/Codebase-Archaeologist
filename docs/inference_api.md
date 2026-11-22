@@ -60,3 +60,7 @@ Browser verification remains pending in the restricted development sandbox: Uvic
 ## GitHub ingestion
 
 Task 4A.1 adds `POST /api/analyze/github` with a public repository URL. It downloads a pinned default-branch ZIP, then invokes the same archive/static/inference function as upload analysis. The additive `source` object records ZIP filename or GitHub provenance; top-level `analyzed_at` is the analysis timestamp. C-only scope, workload limits, model caching and missing-model behavior are identical. See [GitHub ingestion](github_ingestion.md).
+
+## Structural metrics (Task 4A.2)
+
+The optional additive `structural` response has independent source-calculated metrics and coverage. Static analysis never requires loading the model. Request-local C file trees can be reused for extraction, while original per-function ML features and predictions are preserved. `structural.functions[].ml_result_index` points into the existing `defect_risk.functions` only for unique path/line-range/name matches; unmatched/Python functions remain ML-unavailable. See [structural definitions and contracts](structural_intelligence.md). Complexity hotspots are separate from uncalibrated ML scores.

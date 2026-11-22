@@ -51,10 +51,10 @@ class ModelService:
 SERVICE = ModelService()
 
 
-def function_nodes(data):
+def function_nodes(data, parsed_root=None):
     from tree_sitter import Parser
-    tree = Parser(_language()).parse(data)
-    stack = [tree.root_node]
+    root = parsed_root if parsed_root is not None else Parser(_language()).parse(data).root_node
+    stack = [root]
     def definitions():
         while stack:
             node = stack.pop()
@@ -62,7 +62,7 @@ def function_nodes(data):
                 yield node
             else:
                 stack.extend(reversed(node.named_children))
-    return tree.root_node.has_error, definitions()
+    return root.has_error, definitions()
 
 
 def function_name(node):
@@ -74,7 +74,7 @@ def function_name(node):
     return None
 
 
-def analyze_functions(root, files, service=None, limits=InferenceLimits()):
+def analyze_functions(root, files, service=None, limits=InferenceLimits(), *, parsed_files=None):
     service = service or SERVICE
     eligible = [f for f in files if Path(f.path).suffix == '.c']
     result = DefectRisk('no_functions', 'No eligible C function definitions found.',
@@ -107,7 +107,9 @@ def analyze_functions(root, files, service=None, limits=InferenceLimits()):
                 raise ValueError('Source changed')
             # Match scanner decoding and retain original line numbering.
             data = data.decode('utf-8-sig').replace('\r\n', '\n').replace('\r', '\n').encode('utf-8')
-            has_error, nodes = function_nodes(data)
+            cached = (parsed_files or {}).get(file.path)
+            parsed_root = cached[1] if cached is not None and cached[0] == data else None
+            has_error, nodes = function_nodes(data, parsed_root)
             if has_error:
                 result.file_issues.append(FileIssue(file.path, 'parse_errors; only independently valid functions may be scored'))
             for node in nodes:

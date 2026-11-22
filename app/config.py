@@ -27,3 +27,30 @@ class GitHubLimits:
 
 
 GITHUB_LIMITS = GitHubLimits()
+
+
+@dataclass(frozen=True)
+class StructuralLimits:
+    file_bytes: int = 512 * 1024
+    total_bytes: int = 8 * 1024 * 1024
+    function_bytes: int = 128 * 1024
+    functions: int = 2000
+    nodes_per_file: int = 100_000
+    total_nodes: int = 400_000
+
+
+STRUCTURAL_LIMITS = StructuralLimits()
+
+
+@dataclass(frozen=True)
+class StructuralThresholds:
+    low_max: int = 5
+    moderate_max: int = 10
+    high_max: int = 20
+    high_complexity: int = 11
+    large_span: int = 80
+    deep_nesting: int = 4
+    many_parameters: int = 6
+
+
+STRUCTURAL_THRESHOLDS = StructuralThresholds()

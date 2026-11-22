@@ -83,6 +83,7 @@ function upload(file) {
 }
 
 function renderResult() {
+  renderStructure(result.structural);
   renderDefectRisk(result.defect_risk);
   const source = result.source;
   $('source-meta').replaceChildren();
