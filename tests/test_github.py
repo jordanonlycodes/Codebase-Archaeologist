@@ -207,7 +207,7 @@ def test_shared_api_and_cleanup(content,status,client,make_zip,tmp_path,monkeypa
         assert data['source']=={'type':'github','filename':None,'owner':'octocat','name':'sample',
             'url':'https://github.com/octocat/sample','default_branch':'main','snapshot_commit':COMMIT}
         assert zipped['source']['type']=='zip' and zipped['source']['filename']=='same.zip'
-        for field in ['summary','files','languages','skipped','defect_risk','structural']:
+        for field in ['summary','files','languages','skipped','defect_risk','structural','architecture']:
             assert data[field]==zipped[field],field
         # Only the repository node carries ingestion-specific display/provenance.
         for graph in (data['knowledge_graph'],zipped['knowledge_graph']):

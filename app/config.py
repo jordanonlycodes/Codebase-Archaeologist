@@ -77,3 +77,19 @@ class GraphLimits:
 
 
 GRAPH_LIMITS = GraphLimits()
+
+
+@dataclass(frozen=True)
+class ArchitectureLimits:
+    heat_nodes: int = 10_000
+    components: int = 1_000
+    component_edges: int = 8_000
+    evidence_ids: int = 8
+    reference_ids: int = 16
+
+    def __post_init__(self):
+        if self.heat_nodes < 1 or any(value < 0 for value in vars(self).values()):
+            raise ValueError("Architecture limits must be nonnegative and retain at least the heatmap root.")
+
+
+ARCHITECTURE_LIMITS = ArchitectureLimits()

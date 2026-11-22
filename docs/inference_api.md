@@ -74,3 +74,18 @@ ID and actual `ml_result_index`; no other language receives a model score. JSON 
 includes the component automatically. See [knowledge graph](knowledge_graph.md) for
 edge directions, conservative resolution rules and resource bounds. No graph-specific
 endpoint or persistent storage is introduced.
+
+### Architecture and heatmap response (Task 4C.1)
+
+Both existing analysis endpoints add optional `architecture`, schema `1.0`. It contains
+`components`, directed aggregated `edges`, parent-linked `heatmap` nodes,
+`dependency_cycles`, evidence-based `findings`, `summary`, `coverage`, `definitions` and
+`limits`. It reuses existing inventory, structure and graph outputs; existing fields
+and the whole-result JSON export remain available. No new endpoint/storage is required.
+
+Component counts cover immediate member files; heatmap directories aggregate descendants.
+Complexity uses explicit maxima/sums of valid structural measurements. Nullable fields
+and `measured_files` distinguish missing coverage from zero. `max_c_function_score` is
+only the maximum existing C-function estimate, never a file/directory defect probability.
+Aggregate graph-edge counts differ from source occurrences; bounded edge-ID samples
+link to original knowledge-graph evidence. See [architecture contracts and limits](architecture_heatmaps.md).

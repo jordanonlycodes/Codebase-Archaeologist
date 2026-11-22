@@ -362,3 +362,24 @@ Mesa 26.2.7 / Chrome 155 ANGLE/OpenGL installation is recorded in the
 [graphics-quality and hardware notes](docs/knowledge_graph.md#hardware-feedback-and-adaptive-quality).
 The reported `msaa_is_slow` workarounds are a profiling clue, not proof that MSAA caused
 stuttering. No GPU-specific hardcoding, browser flags or security changes are required.
+
+### Architecture Intelligence and Repository Heatmaps (Task 4C.1)
+
+ZIP and GitHub analyses now return `architecture` and display an Architecture Atlas:
+selectable directory components, directed call/import/include aggregates, source evidence,
+component dependency-cycle groups and measured findings. Components partition files by
+immediate directory; no services or layers are guessed. Selection highlights connected
+components, with pan/zoom, fit/reset, focus and links into the Knowledge Graph Explorer.
+
+The nested repository heatmap supports directory drill-down, breadcrumbs, file inspection
+and six color metrics: physical lines, valid observed function count, **maximum** function
+complexity, hotspot count, bytes and **maximum observed C-function model score**. Region
+area independently uses physical lines or bytes. The score is an uncalibrated function
+review signal, not a directory defect probability; unsupported/unscored values remain
+explicit. Metric/view changes reuse cached results without another analysis request.
+
+This scoped SVG feature adds no packages or continuous animation loop. Canvas bounds,
+partial coverage and evidence limits are shown. **381 Python tests passed**, including
+9 architecture frontend cases through its runner; real browser verification remains
+blocked by sandbox socket restrictions. See [methodology, metrics, limits and local
+checks](docs/architecture_heatmaps.md). The academic report remains unchanged for Task 7.

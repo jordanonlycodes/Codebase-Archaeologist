@@ -234,7 +234,7 @@ confirmed edges.
 `GraphIndex(graph)` offers `node(id)`, `nodes_of_type(type)`,
 `incoming(id, kind=None)` and `outgoing(id, kind=None)`. Building it is O(V+E).
 Future neighborhood/impact traversal must track visited IDs to handle recursion and
-cycles. No impact algorithm or architecture classifier is implemented. The graph UI is described below.
+cycles. No impact algorithm or architecture classifier is implemented. Directory-based architecture aggregation is documented separately below. The graph UI is described below.
 
 ```bash
 source .venv/bin/activate
@@ -546,8 +546,7 @@ assets were present and the bundle matched its receipt; those untracked user fil
 were preserved unchanged. Chromium startup failed with `setsockopt: Operation not
 permitted`; localhost port binding was also blocked. No successful visual, live-GitHub
 or real-WebGL verification is claimed. Graph semantics retain all static-analysis
-limitations described earlier. Architecture reconstruction and impact analysis remain
-future work.
+limitations described earlier. Semantic architecture classification and impact analysis remain future work; Task 4C.1 now adds evidence-based directory-component reconstruction.
 
 ### Local functional and performance verification
 
@@ -631,3 +630,18 @@ Check idle pauses, node dragging, camera focus, labels and geometry changes. For
 explicit profile choices through the application controls, without changing browser flags.
 Separate cold layout/loading from steady interaction. A trace or controlled comparison
 is needed before assigning a cause to stuttering; none is claimed here.
+
+
+## Architecture and heatmap consumers (Task 4C.1)
+
+The existing graph now feeds [Architecture Intelligence and Repository Heatmaps](architecture_heatmaps.md).
+A separate bounded aggregator partitions retained files by immediate directory, projects
+resolved CALLS/IMPORTS/INCLUDES onto component pairs and detects component-level
+import/include cycle groups. It reuses structural identities, hotspot records and
+actual C-function estimates. No graph extraction or model definition changes are needed.
+
+The new `architecture` API/export component includes aggregate counts and bounded original
+edge/reference IDs. The SVG canvas and nested heatmap link back into the existing graph
+inspector. Unresolved references never become dependencies; directory components are not
+invented semantic layers. The dedicated document defines maxima, nullable coverage,
+visualization bounds and verification (381 passing Python tests; browser execution blocked).

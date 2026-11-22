@@ -3,6 +3,7 @@ from typing import Literal
 from app.ml.schemas import DefectRisk
 from app.analysis.structural_models import StructuralIntelligence
 from app.analysis.graph.models import KnowledgeGraph
+from app.analysis.architecture.models import Architecture
 
 
 @dataclass
@@ -70,3 +71,4 @@ class AnalysisResult:
     source: RepositorySource | None = None
     structural: StructuralIntelligence | None = None
     knowledge_graph: KnowledgeGraph | None = None
+    architecture: Architecture | None = None

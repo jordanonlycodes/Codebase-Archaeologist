@@ -18,6 +18,10 @@
     <script src="{{ url_for('static', path='graph/quality.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/three.js') }}" defer></script>
     <script src="{{ url_for('static', path='graph/explorer.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='architecture/explorer.css') }}">
+    <script src="{{ url_for('static', path='architecture/data.js') }}" defer></script>
+    <script src="{{ url_for('static', path='architecture/scene.js') }}" defer></script>
+    <script src="{{ url_for('static', path='architecture/explorer.js') }}" defer></script>
   </head>
   <body>
     <aside class="sidebar">
@@ -30,6 +34,7 @@
       <nav aria-label="Main navigation">
         <a class="nav-link active" href="#overview">
           <span aria-hidden="true">▦</span> Overview</a>
+        <a class="nav-link" href="#architecture-intelligence"><span aria-hidden="true">⌬</span> Architecture intelligence</a>
         <a class="nav-link" href="#knowledge-explorer"><span aria-hidden="true">◉</span> Knowledge explorer</a>
         <a class="nav-link" href="#structural-intelligence"><span aria-hidden="true">⌘</span> Structural intelligence</a>
         <a class="nav-link" href="#defect-risk"><span aria-hidden="true">◈</span> Defect intelligence</a>
@@ -199,6 +204,26 @@
               </dl>
               <p class="panel-note" id="comment-coverage">Comment counts are available for Python and standard JSON. Other formats remain uncounted.</p>
             </article>
+          </div>
+        </section>
+        <section class="architecture-feature" id="architecture-intelligence" aria-labelledby="ai-title">
+          <header class="ai-heading"><div><p class="ai-kicker">RECONSTRUCTED FROM SOURCE · DIRECTORY / CALL / DEPENDENCY EVIDENCE</p><h2 id="ai-title">Read the <em>architecture.</em></h2><p class="ai-intro">Follow the connections. Find the concentrations. Explore the source behind every signal.</p></div><span class="ai-edition">ARCHITECTURE<br>ATLAS / 01</span></header>
+          <p id="ai-state" role="status">Analyze a repository to reveal its directory components and spatial source map.</p>
+          <div id="ai-content" hidden>
+            <p id="ai-ledger" class="ai-ledger"></p>
+            <div class="ai-workspace">
+              <div class="ai-toolbar">
+                <div class="ai-modes" role="group" aria-label="Architecture intelligence view"><button type="button" id="ai-architecture" aria-pressed="true">Component architecture</button><button type="button" id="ai-heatmap" aria-pressed="false">Repository heatmap</button></div>
+                <label class="ai-search-label">Find a directory or file<input type="search" id="ai-search" maxlength="240" placeholder="Search retained paths…" aria-controls="ai-search-results"></label>
+              </div>
+              <div id="ai-search-results" class="ai-search-results" hidden></div>
+              <div class="ai-options"><div id="ai-arch-controls"><label>Observed relationships<select id="ai-relationships"><option value="all">Calls + imports + includes</option><option value="dependencies">Imports + includes</option><option value="calls">Function calls</option></select></label><button id="ai-focus" type="button" aria-pressed="false" disabled>Focus connections</button></div><div id="ai-heat-controls" hidden><label>Color by<select id="ai-metric"></select></label><label>Region area<select id="ai-area"></select></label><button id="ai-up" type="button">Parent directory</button></div><button id="ai-reset" type="button">Repository overview</button></div>
+              <nav id="ai-breadcrumbs" class="ai-breadcrumbs" aria-label="Heatmap directory path"></nav>
+              <div class="ai-main"><div class="ai-stage"><div class="ai-canvas-tools" role="group" aria-label="Architecture viewport"><button type="button" id="ai-zoom-in" aria-label="Zoom architecture in">+</button><button type="button" id="ai-zoom-out" aria-label="Zoom architecture out">−</button><button type="button" id="ai-fit">Fit / reset view</button><span>Drag to pan · Scroll to zoom · Enter to inspect</span></div><div id="ai-canvas" class="ai-canvas" aria-label="Architecture intelligence visualization"></div><p id="ai-view-status" class="ai-view-status" role="status" aria-live="polite"></p></div><aside id="ai-inspector" class="ai-inspector" aria-label="Architecture source evidence"></aside></div>
+              <p id="ai-legend" class="ai-legend"></p>
+            </div>
+            <div class="ai-observations"><div><p class="ai-kicker">PLACES TO LOOK</p><h3>Measured concentrations.</h3><p>Choose a finding to inspect its component. These are review starting points, not architectural verdicts.</p></div><div id="ai-findings" class="ai-findings"></div></div>
+            <p id="ai-cycle-note" class="ai-note"></p><details class="ai-method"><summary>Evidence, coverage &amp; interpretation</summary><p>Components partition files by their immediate directory. The heatmap aggregates nested descendants. Links aggregate retained resolved static relationships; uncertain references remain in the evidence panel. Neither complexity nor model estimates establish confirmed defects or vulnerabilities.</p><p id="ai-coverage"></p><p>Color: observed metric. Area: physical lines or bytes, with a one-unit minimum per displayed entry. Missing, unsupported and unscored values stay explicit. View limits are separate from analysis coverage. Export JSON for retained evidence beyond the canvas.</p></details>
           </div>
         </section>
         <section class="risk-section graph-section" id="knowledge-explorer" aria-labelledby="graph-title">

@@ -9,6 +9,7 @@ from starlette.datastructures import UploadFile
 
 from app.analysis.models import AnalysisResult, RepositorySource
 from app.analysis.scanner import scan_repository
+from app.analysis.architecture.engine import reconstruct
 from app.analysis.graph.engine import extract_graph
 from app.analysis.structural import analyze_structure, link_ml_results
 from app.config import LIMITS
@@ -43,6 +44,7 @@ def analyze_archive(stream, repository: str, source: RepositorySource) -> Analys
         link_ml_results(result.structural, result.defect_risk)
         result.source = source
         result.knowledge_graph = extract_graph(root, result, parsed_files=parsed_files)
+        result.architecture = reconstruct(result)
         return result
 
 
