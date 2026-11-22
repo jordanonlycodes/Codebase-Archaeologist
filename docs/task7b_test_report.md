@@ -123,3 +123,8 @@ on a fresh Ubuntu machine is not certified. Details/checksum in manual checklist
 
 See baseline for exact environment/workaround, manual checklist for ordinary local
 commands and acceptance, progress for checkpoint commits and7C handoff for open work.
+
+Remote outcome: normal push failed exit128 (`Could not resolve host: github.com`).
+Commits are retained locally; use `git push origin main` when networking works. Original
+three untracked vendor files remain unchanged. Independent npm archive verification was
+also freshly attempted and failed DNS; this does not undo the local digest match.
