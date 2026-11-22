@@ -5,12 +5,17 @@
  const el=id=>document.getElementById(id),make=(tag,text,css)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);if(css)n.className=css;return n;};
  const button=(text,fn)=>{const b=make('button',text);b.type='button';b.addEventListener('click',fn);return b;};
  class JordanWorkspace{
-  constructor(){this.ix=null;this.turns=[];this.entityId=null;this.request=null;this.capRequest=null;this.pending=null;this.epoch=0;this.active=false;this.cloud=false;
+  constructor(){this.ix=null;this.turns=[];this.entityId=null;this.request=null;this.capRequest=null;this.pending=null;this.epoch=0;this.active=false;this.cloud=false;this.capabilityState='checking';this.capabilityMessage='Checking AI configuration. Local intelligence remains available.';
    el('jordan-form').addEventListener('submit',e=>{e.preventDefault();this.ask(el('jordan-question').value);});
    el('jordan-question').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();this.ask(el('jordan-question').value);}});
    el('jordan-new').addEventListener('click',()=>{this.cancel();this.turns=[];this.entityId=null;this.handoff=null;this.draw();this.persist();el('jordan-question').focus();});
    el('jordan-clear-selection').addEventListener('click',()=>{this.entityId=null;this.handoff=null;this.context();this.persist();});
-   el('jordan-mode').addEventListener('change',()=>{this.cancel();this.mode();});
+   el('jordan-mode').addEventListener('change',()=>{
+    const requested=el('jordan-mode').value;this.cancel();
+    if(requested==='cloud'&&!this.cloud){el('jordan-mode').value='local';this.mode();el('jordan-mode-status').textContent=this.capabilityMessage+' Local intelligence is selected. Use Recheck AI setup after correcting configuration.';return;}
+    this.mode();
+   });
+   el('jordan-mode-recheck').addEventListener('click',()=>{this.cancel();el('jordan-mode').value='local';this.mode();this.capabilities();});
    el('jordan-consent').addEventListener('change',()=>{if(!el('jordan-consent').checked&&this.request){this.cancel();el('jordan-mode').value='local';this.mode();return;}el('jordan-cloud-send').disabled=!el('jordan-consent').checked;});
    el('jordan-cloud-send').addEventListener('click',()=>this.send());
    el('jordan-stay-local').addEventListener('click',()=>{this.cancel();el('jordan-mode').value='local';this.mode();});
@@ -22,7 +27,7 @@
    if(root.matchMedia?.('(max-width: 1450px)').matches)el('jordan-context').removeAttribute('open');
    if(root.matchMedia?.('(max-width: 1100px)').matches)el('jordan-inspector').removeAttribute('open');
    const prompts=el('jordan-prompts');prompts.replaceChildren();for(const q of ['Summarize this repository.','Which functions are most complex?','Show structural hotspots.','What information is unavailable?'])prompts.append(button(q,()=>this.ask(q)));
-   this.draw();this.context();this.mode();this.capabilities();
+   el('jordan-mode').value='local';this.draw();this.context();this.mode();this.capabilities();
    if(handoff?.page==='jordan'&&!handoff.id&&handoff.question){this.handoff=handoff;}
    if(this.handoff){el('jordan-question').value=typeof this.handoff.question==='string'?this.handoff.question.slice(0,1600):'Explain this selected entity.';el('jordan-question').focus();}
   }
@@ -30,7 +35,29 @@
   persist(){try{root.workspaceStoreForJordan?.view('jordan',this.state());}catch{/* Conversation persistence is optional. */}}
   context(){const n=this.ix?.entities.get(this.entityId);el('jordan-selected').textContent=n?`Selected ${n.type}: ${n.name} · ${n.path||'root'}`:'No entity selected. Quote an exact name or path to investigate it.';const back=this.handoff?.from;const link=el('jordan-return');link.hidden=!['overview','risk','structure','graph','architecture','heatmaps','blast-radius'].includes(back);if(!link.hidden)link.href='/workspace/'+back;}
   mode(){const external=el('jordan-mode').value==='cloud';el('jordan-mode-label').textContent=external?'AI-enhanced · review required before every external request':'Local intelligence · no external transmission';el('jordan-submit').textContent=external?'Prepare evidence ↗':'Investigate ↗';}
-  async capabilities(){this.capRequest?.abort();const controller=new AbortController();this.capRequest=controller;const generation=this.epoch;try{const response=await fetch('/api/jordan/capabilities',{signal:controller.signal,credentials:'same-origin'});if(!response.ok)throw Error();const status=await response.json();if(!this.active||generation!==this.epoch)return;this.cloud=status.cloud_available===true;el('jordan-mode').options[1].disabled=!this.cloud;if(!this.cloud)el('jordan-status').textContent='Local intelligence ready. Optional AI provider is not configured.';}catch{if(controller.signal.aborted)return;el('jordan-status').textContent='Local intelligence ready. Provider availability could not be checked.';}finally{if(this.capRequest===controller)this.capRequest=null;}}
+  async capabilities(){
+   this.capRequest?.abort();const controller=new AbortController();this.capRequest=controller;
+   this.cloud=false;this.capabilityState='checking';this.capabilityMessage='Checking server AI configuration. Local intelligence remains available.';
+   el('jordan-mode').options[1].textContent='AI-enhanced · checking setup';el('jordan-mode-status').textContent=this.capabilityMessage;
+   const timer=setTimeout(()=>controller.abort(),8000);
+   try{
+    const response=await fetch('/api/jordan/capabilities',{signal:controller.signal,credentials:'same-origin',cache:'no-store'});
+    if(!response.ok)throw Error();const status=await response.json();
+    if(!this.active||this.capRequest!==controller)return;
+    if(typeof status.cloud_available!=='boolean')throw Error();
+    this.cloud=status.cloud_available;this.capabilityState=this.cloud?'configured':'unconfigured';
+    const reasons={cloud_disabled:'Set JORDAN_CLOUD_ENABLED=true on the server.',missing_key:'Set JORDAN_OPENAI_API_KEY on the server (never in chat).',invalid_key:'The server API key configuration is invalid.',missing_model:'Set JORDAN_OPENAI_MODEL on the server.',invalid_model:'The configured server model identifier is invalid.'};
+    const details=Array.isArray(status.configuration_issues)?status.configuration_issues.map(code=>reasons[code]).filter(Boolean).join(' '):'';
+    this.capabilityMessage=this.cloud?'AI-enhanced is available for selection: server configuration is present; provider connectivity is not verified. Each external request still requires reviewed consent.':'AI-enhanced is unavailable. '+(details||'Cloud configuration is incomplete or disabled on the server.')+' Restart the server after environment changes, then recheck.';
+   }catch{
+    if(!this.active||this.capRequest!==controller)return;
+    this.cloud=false;this.capabilityState='error';this.capabilityMessage='AI availability could not be checked (request failed, timed out or returned invalid data). Check the application server and use Recheck AI setup. Local intelligence remains available.';
+   }finally{
+    clearTimeout(timer);
+    if(this.active&&this.capRequest===controller){el('jordan-mode-status').textContent=this.capabilityMessage;el('jordan-mode').options[1].textContent=this.cloud?'AI-enhanced · available':'AI-enhanced · unavailable (see setup)';this.capRequest=null;}
+   }
+  }
+
   ask(question){if(!this.active||!this.ix||this.pending||this.request)return;el('jordan-error').hidden=true;try{const context={entity_id:this.entityId};if(this.handoff){context.depth=this.handoff.depth;context.direction=this.handoff.direction;context.target_id=this.handoff.target_id;}const response=L.answer(this.ix,question,context);if(response.entity_id)this.entityId=response.entity_id;const turn={snapshot:this.snapshot,mode:'local',question:question.trim(),response,context};this.turns.push(turn);this.turns=this.turns.slice(-8);el('jordan-question').value='';this.draw();this.context();this.persist();if(el('jordan-mode').value==='cloud'&&this.cloud&&response.evidence.length){this.pending={question:turn.question,evidence:response.evidence.map(({id,...record})=>record),turn};el('jordan-preview').textContent=JSON.stringify({question:this.pending.question,evidence:this.pending.evidence},null,2);el('jordan-disclosure').hidden=false;el('jordan-consent').checked=false;el('jordan-cloud-send').disabled=true;el('jordan-submit').disabled=true;el('jordan-status').textContent='Local answer ready. Review the disclosure; nothing has been sent externally.';el('jordan-consent').focus();}else el('jordan-status').textContent=(el('jordan-mode').value==='cloud'&&!response.evidence.length?'No evidence retrieved for external explanation. Select an entity or use a supported investigation. ':'')+'Local investigation complete. Evidence is bounded to 12 records; open the source workspace for complete retained detail.';}catch(error){this.error(error.message);}}
   draw(){const messages=el('jordan-messages');messages.replaceChildren();el('jordan-welcome').hidden=this.turns.length>0;for(const turn of this.turns){const r=turn.response;if(!r||typeof r.answer!=='string')continue;const article=make('article',undefined,'jordan-turn');article.append(make('p','YOUR QUESTION','jordan-question-label'),make('h3',turn.question),make('p',turn.mode==='cloud'?'JORDAN / AI-GENERATED INTERPRETATION':'JORDAN / LOCAL EVIDENCE','jordan-answer-label'),make('div',r.answer,'jordan-answer'));
     const citations=make('div',undefined,'jordan-citations');for(const e of r.evidence||[])citations.append(button(`${e.id} · ${e.name}`,()=>this.inspect(e)));article.append(citations);
@@ -48,9 +75,9 @@
    }catch(error){if(this.active&&generation===this.epoch)this.error(controller.signal.aborted?'AI request cancelled or timed out. The local answer remains available.':error.message);}finally{clearTimeout(timer);if(this.request===controller){this.request=null;el('jordan-cancel').hidden=true;el('jordan-consent').checked=false;el('jordan-cloud-send').disabled=true;}}
   }
   resetDisclosure(){this.pending=null;el('jordan-disclosure').hidden=true;el('jordan-preview').textContent='';el('jordan-consent').checked=false;el('jordan-cloud-send').disabled=true;el('jordan-submit').disabled=false;}
-  cancel(){const sent=!!this.request;this.epoch++;this.request?.abort();this.request=null;this.capRequest?.abort();this.capRequest=null;this.resetDisclosure();el('jordan-cancel').hidden=true;el('jordan-status').textContent='Ready for an investigation.'+(sent?' The cancelled external request may already have reached the provider.':'');}
+  cancel(){const sent=!!this.request;this.epoch++;this.request?.abort();this.request=null;this.resetDisclosure();el('jordan-cancel').hidden=true;el('jordan-status').textContent='Ready for an investigation.'+(sent?' The cancelled external request may already have reached the provider.':'');}
   error(message){el('jordan-error').textContent=String(message);el('jordan-error').hidden=false;}
-  destroy(){this.persist();this.cancel();this.active=false;this.ix=null;}
+  destroy(){this.persist();this.cancel();this.capRequest?.abort();this.capRequest=null;this.active=false;this.ix=null;}
   resume(){this.active=true;this.capabilities();}
  }
  root.jordanWorkspace=new JordanWorkspace();

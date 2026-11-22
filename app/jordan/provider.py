@@ -29,16 +29,29 @@ class Configuration:
     model: str
 
     @classmethod
-    def load(cls):
+    def issues(cls):
+        # Fixed diagnostic codes only; never return environment values or credentials.
+        issues = []
         if os.getenv('JORDAN_CLOUD_ENABLED', '').lower() != 'true':
-            return None
+            issues.append('cloud_disabled')
         key = os.getenv('JORDAN_OPENAI_API_KEY', '').strip()
         model = os.getenv('JORDAN_OPENAI_MODEL', '').strip()
-        if not key or len(key) > 4096 or any(c.isspace() for c in key):
+        if not key:
+            issues.append('missing_key')
+        elif len(key) > 4096 or any(c.isspace() for c in key):
+            issues.append('invalid_key')
+        if not model:
+            issues.append('missing_model')
+        elif not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}', model):
+            issues.append('invalid_model')
+        return issues
+
+    @classmethod
+    def load(cls):
+        if cls.issues():
             return None
-        if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9._:-]{0,127}', model):
-            return None
-        return cls(key, model)
+        return cls(os.environ['JORDAN_OPENAI_API_KEY'].strip(),
+                   os.environ['JORDAN_OPENAI_MODEL'].strip())
 
 
 class ExplanationProvider(Protocol):

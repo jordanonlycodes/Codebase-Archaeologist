@@ -55,6 +55,7 @@ class Explanation(Strict):
 class Capabilities(Strict):
     local: bool = True
     cloud_available: bool
+    configuration_issues: list[Literal['cloud_disabled', 'missing_key', 'invalid_key', 'missing_model', 'invalid_model']] = Field(default_factory=list)
     provider: str = 'OpenAI Responses API'
     request_bytes: int = 32768
     evidence_records: int = 12

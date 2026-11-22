@@ -10,7 +10,8 @@ router = APIRouter(prefix='/api/jordan', tags=['jordan'])
 
 @router.get('/capabilities', response_model=Capabilities)
 async def capabilities():
-    return Capabilities(cloud_available=Configuration.load() is not None)
+    issues = Configuration.issues()
+    return Capabilities(cloud_available=not issues, configuration_issues=issues)
 
 
 @router.post('/explain', response_model=Explanation)

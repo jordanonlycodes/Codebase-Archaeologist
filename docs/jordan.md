@@ -138,7 +138,9 @@ occurs at startup. `.env.example` documents names but the app does not automatic
 starting the server. Environment changes require restarting the running process.
 
 - `GET /api/jordan/capabilities`: local/cloud availability, fixed provider label, limits,
-  `source_bodies_retained:false`; no keys or configured model ID.
+  `source_bodies_retained:false`; no keys or configured model ID. Additive
+  `configuration_issues` contains only fixed diagnostic codes: `cloud_disabled`,
+  `missing_key`, `invalid_key`, `missing_model`, `invalid_model`.
 - `POST /api/jordan/explain`: JSON `{question, consent:true, evidence:[...]}`. Each evidence
   item has `entity_id`, `kind`, `name`, optional `path`/`line`, `facts:[{label,value}]`.
   Do not supply display citation IDs; the server assigns them. Extra fields are rejected.
@@ -161,6 +163,38 @@ The adapter follows the official [Responses create contract](https://developers.
 and [structured outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs),
 consulted for this implementation. Provider output format/model support must match the
 operator's configuration. Live provider availability is not implied by mocked tests.
+
+## Enhanced Mode selection and setup feedback — Task 6A.1
+
+The mode menu distinguishes the **selected mode** from cloud **configuration readiness**.
+The Enhanced option remains selectable so unavailable clicks can explain the problem;
+this does not authorize cloud use. If configuration is missing, invalid, still loading,
+or could not be checked, selection returns to Local and the adjacent live status explains
+why. Configuration diagnostics identify the enable flag, key or model setting to correct
+without exposing their values. Set these in the server environment, restart the process,
+and use **Recheck AI setup**. `.env` is not automatically loaded.
+
+When configured, selecting Enhanced changes the composer to Prepare evidence. It still
+requires exact disclosure review and fresh consent before every external request. A
+successful capability check verifies configuration syntax/presence only, not provider
+connectivity, credentials or model access. Provider failures are handled at request time;
+no test request is sent merely to select a mode.
+
+Capability checks have an eight-second client timeout and an explicit retry action.
+Conversation cancellation and mode changes no longer abort configuration discovery;
+new checks supersede old responses, and leaving the page aborts pending discovery.
+Rechecking first returns to Local and clears pending disclosure, preventing a stale
+previously-available result from authorizing a later request. Errors show helpful generic
+feedback rather than raw backend exception text. Native keyboard selection and an
+`aria-describedby` live status provide the same feedback as pointer interaction.
+
+Task 6A.1 verification: 440 Python tests passed, zero failed/skipped (one existing
+Starlette/httpx warning); 52 real-document frontend cases passed, including configured,
+unconfigured, network/backend errors, timeout, pending selection and stale-response
+recovery. Existing disclosure/consent tests remain green. JavaScript and Python 3.10
+syntax checks passed. Chromium again failed before rendering with exit 133 /
+`setsockopt: Operation not permitted`; native browser appearance/interaction and live
+provider connectivity remain unverified.
 
 ## Scientific boundaries
 
@@ -189,7 +223,7 @@ Import a mixed C/Python ZIP at `/explore`, then:
 2. Inspect citations and follow a real function into structure/graph/impact; return without
    uploading again. Try duplicate function names, Python-only and empty repositories.
 3. Launch from an actual impact path; compare its direction/depth/lines against source.
-4. Without configuration, confirm local operation and unavailable cloud control. With an
+4. Without configuration, confirm local operation, select Enhanced to inspect configuration feedback, and try Recheck AI setup. With an
    operator-configured provider, review the exact preview, decline once, then explicitly
    consent to a small safe disclosure. Check failure/cancel/withdrawal behavior. This live
    provider check has not been performed in the development sandbox.

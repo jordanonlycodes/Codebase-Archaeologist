@@ -93,7 +93,8 @@ def test_capabilities_and_missing_config_are_secret_free(monkeypatch):
     with TestClient(app) as client:
         response=client.get('/api/jordan/capabilities')
         assert response.json()['local'] and not response.json()['cloud_available']
-        assert 'api_key' not in response.text and 'model' not in response.text
+        assert 'api_key' not in response.text
+        assert set(response.json()['configuration_issues']) <= {'cloud_disabled','missing_key','invalid_key','missing_model','invalid_model'}
         assert client.post('/api/jordan/explain',json=BODY).status_code==503
     assert 'test-key' not in repr(Configuration('test-key','model'))
 
@@ -203,3 +204,24 @@ def test_total_provider_and_request_read_timeouts_are_controlled(monkeypatch):
         await boundary({'type':'http','method':'POST','path':'/api/jordan/explain','headers':[(b'content-type',b'application/json')]},receive,send)
         assert sent[0]['status']==408 and boundary.active==0
     asyncio.run(check())
+
+
+@pytest.mark.parametrize('values,issues', [
+    ({}, ['cloud_disabled','missing_key','missing_model']),
+    ({'JORDAN_CLOUD_ENABLED':'true','JORDAN_OPENAI_API_KEY':'test-key'}, ['missing_model']),
+    ({'JORDAN_CLOUD_ENABLED':'true','JORDAN_OPENAI_MODEL':'test-model'}, ['missing_key']),
+    ({'JORDAN_CLOUD_ENABLED':'true','JORDAN_OPENAI_API_KEY':'bad key','JORDAN_OPENAI_MODEL':'https://private.invalid'}, ['invalid_key','invalid_model']),
+    ({'JORDAN_CLOUD_ENABLED':'true','JORDAN_OPENAI_API_KEY':'private-test-value','JORDAN_OPENAI_MODEL':'private-model-value'}, []),
+])
+def test_capability_configuration_diagnostics_are_exact_and_value_free(monkeypatch,values,issues):
+    for name in ['JORDAN_CLOUD_ENABLED','JORDAN_OPENAI_API_KEY','JORDAN_OPENAI_MODEL']:
+        monkeypatch.delenv(name,raising=False)
+    for name,value in values.items():monkeypatch.setenv(name,value)
+    with TestClient(app) as client:
+        response=client.get('/api/jordan/capabilities')
+        assert response.status_code==200
+        assert response.json()['configuration_issues']==issues
+        assert response.json()['cloud_available']==(not issues)
+        assert (Configuration.load() is not None)==(not issues)
+        for name in ['JORDAN_OPENAI_API_KEY','JORDAN_OPENAI_MODEL']:
+            if name in values:assert values[name] not in response.text
