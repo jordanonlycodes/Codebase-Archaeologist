@@ -26,9 +26,10 @@
     this.animations.set(el,animation);const finish=()=>{if(this.animations.get(el)===animation)this.animations.delete(el);};animation.onfinish=finish;animation.oncancel=finish;return true;
    }catch{return false;}
   }
+  opacity(el){const value=Number(this.env.getComputedStyle?.(el)?.opacity??1);return Number.isFinite(value)?value:1;}
   reveal(el,{key,kind='rise',duration=TIMING.normal,delay=0}={}){
    if(!this.enabled(el)||!this.claim(key))return false;
-   const frames=kind==='fade'?[{opacity:.35},{opacity:1}]:[{opacity:.45,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}];
+   const opacity=this.opacity(el),frames=kind==='fade'?[{opacity:opacity*.35},{opacity}]:[{opacity:opacity*.45,transform:'translateY(6px)'},{opacity,transform:'translateY(0)'}];
    return this.play(el,frames,{duration,delay});
   }
   batch(elements,{key,kind='fade',duration=TIMING.slow}={}){
@@ -47,7 +48,7 @@
   trace(elements,{key}={}){
    const paths=Array.from(elements).slice(0,MAX_BATCH);if(!paths.some(p=>this.enabled(p))||!this.claim(key))return;
    paths.forEach((path,i)=>{try{const length=path.getTotalLength();if(!Number.isFinite(length)||length<=0||length>100000)return;
-    this.play(path,[{strokeDasharray:`${length} ${length}`,strokeDashoffset:length,opacity:.35},{strokeDasharray:`${length} ${length}`,strokeDashoffset:0,opacity:1}],{duration:TIMING.slow,delay:i*30});
+    const opacity=this.opacity(path);this.play(path,[{strokeDasharray:`${length} ${length}`,strokeDashoffset:length,opacity:opacity*.35},{strokeDasharray:`${length} ${length}`,strokeDashoffset:0,opacity}],{duration:TIMING.slow,delay:i*30});
    }catch{/* A missing path metric simply leaves the original relationship visible. */}});
   }
   count(el,value,{key,format=String}={}){

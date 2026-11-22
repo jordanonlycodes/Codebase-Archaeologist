@@ -289,3 +289,11 @@ test('3D pan control exposes pressed state and resets on renderer replacement',a
  h.explorer.syncControls();assert.equal(pan.getAttribute('aria-pressed'),'true');
  await h.explorer.switchMode('2d');assert.equal(pan.hidden,true);assert.equal(pan.getAttribute('aria-pressed'),'false');
 });
+
+test('camera transitions use the current reduced-motion preference without changing controls',()=>{
+ const context={document:{}};vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
+ const duration=context.ArchaeologistThree.Adapter.prototype.duration;
+ assert.equal(duration.call({reduced:true},450),0);
+ context.matchMedia=()=>({matches:false});assert.equal(duration.call({reduced:true},450),450);
+ context.matchMedia=()=>({matches:true});assert.equal(duration.call({reduced:false},450),0);
+});

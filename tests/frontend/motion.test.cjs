@@ -57,3 +57,6 @@ test('unsupported Web Animations, blocked storage and focused content degrade im
 test('busy status follows genuine state and remains usable without animation support',()=>{
  const h=harness(),el=new Element();h.motion.busy(el,true);assert.equal(el.attrs['aria-busy'],'true');assert.equal(el.attrs['data-pending'],'true');h.motion.busy(el,false);assert.equal(el.attrs['aria-busy'],'false');assert.equal(el.attrs['data-pending'],'false');
 });
+test('fades and traces preserve dimmed relationship emphasis',()=>{
+ const h=harness(),el=new Element();h.env.getComputedStyle=()=>({opacity:'.2'});h.motion.reveal(el,{kind:'fade'});assert.equal(el.calls[0].frames[1].opacity,.2);h.motion.trace([el]);assert.equal(el.calls[1].frames[1].opacity,.2);
+});

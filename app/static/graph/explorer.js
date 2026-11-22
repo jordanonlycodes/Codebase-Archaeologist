@@ -80,7 +80,7 @@
           this.adapter=new root.ArchaeologistThree.Adapter(this.host,id=>this.select(id),this.reduced,()=>this.qualityStatus());
           this.notice='';
         }else this.adapter=new root.ArchaeologistSVG(this.host,id=>this.select(id));
-        this.refresh();this.adapter.fit();
+        this.refresh();this.adapter.fit();root.WorkspaceMotion?.reveal(this.host,{key:'graph:'+mode,kind:'fade',duration:450});
       }catch(error){
         if(token!==this.epoch)return;
         this.adapter?.destroy();this.adapter=null;
@@ -100,13 +100,13 @@
       this.notice='Perspective changed: entity, relationship and language filters reset. Layout selection and overlay preserved.';
       this.syncControls();this.refresh();this.adapter?.fit();
     }
-    select(id){this.state.selected=id&&this.ix.nodes.has(id)?id:null;this.refresh();}
+    select(id){this.state.selected=id&&this.ix.nodes.has(id)?id:null;this.refresh();root.WorkspaceMotion?.reveal($('graph-inspection'),{key:'inspect:'+this.state.selected});}
     choose(id){
       const n=this.ix.nodes.get(id);if(!n)return;
       // Search spans the full retained graph, even beyond current filters and bounds.
       this.state.selected=id;this.state.focus=id;this.state.branch=null;this.state.query='';this.state.types=[...D.TYPES];this.state.language='';
       if(!D.subset(this.ix,this.state).nodes.some(item=>item.id===id))this.state.view='knowledge';
-      this.syncControls();this.refresh();this.adapter?.focus(id);
+      this.syncControls();this.refresh();this.adapter?.focus(id);root.WorkspaceMotion?.reveal($('graph-inspection'),{key:'inspect:'+id});
     }
     clear(){const {mode,quality}=this.state;this.state=D.initial();this.state.mode=mode;this.state.quality=quality;clearTimeout(this.timer);this.syncControls();this.refresh();this.adapter?.fit();}
     refresh(){

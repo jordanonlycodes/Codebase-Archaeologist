@@ -59,3 +59,19 @@ metrics once per retained tab/snapshot. Completion badge reveal is not a loading
 No result or provenance is fabricated. The existing landing composition is preserved.
 Focused primitive+actual-document integration: **21Python tests passed,0failed/skipped,
 41.33s**, one existing deprecation warning. Browser-free verification only.
+
+## Visualization checkpoint
+
+Graph mode entrance is one opacity reveal per renderer mode/snapshot; entity inspectors
+reveal on selection.3D focus450ms/fit340ms preserve direction and use the current reduced
+preference (zero duration). Existing pan/reset/resize/data/quality/idle behavior remains.
+Architecture component groups and real dependency paths receive bounded opacity/line
+reveals; heatmaps reveal a bounded group on directory/area changes, with metric colors
+updated directly, never decoratively interpolated. Impact reveals real retained nodes
+and paths once per origin/depth/direction; picking a result traces only its actual path.
+Dimmed relationship opacity is preserved during effects, not temporarily brightened.
+
+Primitive12cases, graph26cases, architecture10cases, impact32cases pass. Focused actual
+product/graph/motion Python suite **27passed,0failed/skipped in44.91s**, one existing
+warning. Native GPU/visual acceptance is still unavailable: fresh Chromium exit133 at
+setsockopt and Uvicorn exit3 at localhost binding, before any website rendering.
