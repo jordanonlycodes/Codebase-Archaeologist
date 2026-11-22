@@ -34,3 +34,17 @@ No AI configuration, analytical engine, report or visual redesign is in scope.
 A complete: baseline **475 passed, zero failed/skipped**, one existing Starlette/httpx
 deprecation warning (83.86 s). Next: bounded cache and
 single-flight tests, accurate upstream status/token handling, client efficiency, final docs.
+
+B implementation: validated method results now share a process-local LRU/TTL cache
+(256 entries, 16 MiB total, 2 MiB per entry). Public checks live 60 s, pinned lists 300 s,
+commit/tree records 900 s and bounded blob bytes 120 s. Keys include canonical owner/name,
+method, exact SHA/arguments, schema and limit configuration; authentication scope follows
+in C. Defensive copies prevent per-request mutations from changing cached evidence.
+Two bounded per-key producers can run independently; compatible consumers share a flight.
+Canceling a consumer does not cancel shared work or close its HTTP client. Failures are
+not retained. Each producer owns a client and deadline, including after caller cancellation.
+Cache diagnostics expose counts only, no keys. No disk storage or browser patch retention.
+Tests: existing 34 history cases and five new cache cases passed individually; the initial
+new HTTP mocks incorrectly supplied consumed bodies, corrected to genuine streaming mocks.
+B complete: combined focused run **39 passed**, zero failed/skipped. Next C adds token
+scope separation, safe quota metadata, cooldown admission and precise errors.
