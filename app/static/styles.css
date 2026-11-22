@@ -1349,3 +1349,22 @@ footer {
   .risk-section .risk-table-panel td,.risk-section .risk-table-panel td:first-child,.risk-section .risk-table-panel td:last-child { grid-template-columns:88px minmax(0,1fr); }
 }
 @media (prefers-reduced-motion:reduce) { .risk-section * { transition:none; scroll-behavior:auto; } }
+
+/* Repository source controls reuse the existing input panel. */
+.repository-input { min-width:0; }
+.source-modes { display:flex; gap:4px; margin-bottom:12px; padding:4px; border:1px solid #60313d; border-radius:10px; background:#0A0A0D; }
+.source-modes button { flex:1; min-width:0; border:1px solid transparent; border-radius:7px; padding:10px 8px; background:transparent; color:#cbb9be; font:inherit; font-size:.8rem; }
+.source-modes button[aria-pressed="true"] { background:#30151D; border-color:#86404d; color:#F8E8EA; }
+.source-modes button:focus-visible,.github-form :focus-visible { outline:2px solid #E54859; outline-offset:3px; }
+.github-form { display:grid; align-content:start; gap:12px; padding:24px; border:1px solid #60313d; border-radius:12px; background:#0A0A0D; }
+.github-form[hidden] { display:none; }
+.github-form .section-tag { color:#f28b97; font-size:.7rem; letter-spacing:.08em; }
+.github-form label { color:#F8E8EA; font-size:.9rem; }
+.github-form input { width:100%; min-width:0; height:44px; padding:10px 12px; border:1px solid #73505a; border-radius:8px; background:#171015; color:#F8E8EA; font:inherit; font-size:.85rem; }
+.github-form input::placeholder { color:#ab959d; }
+.github-form p { margin:0; color:#cbb9be; font-size:.76rem; line-height:1.5; }
+.github-form .primary { background:#E54859; border-color:#E54859; color:#0A0A0D; }
+.github-form .primary:hover { background:#f3717f; }
+#source-meta { overflow-wrap:anywhere; }
+#source-meta a { color:#f28b97; text-decoration:underline; text-underline-offset:3px; }
+@media(max-width:480px) { .github-form { padding:18px 14px; } .source-modes button { font-size:.75rem; } }

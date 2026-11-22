@@ -20,6 +20,11 @@ function showError(message) {
   $("error-box").hidden = false;
 }
 
+function setInputBusy(busy) {
+  for (const id of ['choose-file', 'analyze-github', 'github-url', 'mode-zip', 'mode-github']) $(id).disabled = busy;
+  $('github-form').setAttribute('aria-busy', String(busy));
+}
+
 function upload(file) {
   if (activeRequest || !file) return;
   $("error-box").hidden = true;
@@ -28,7 +33,7 @@ function upload(file) {
   if (!file.size) return showError("This file is empty. Choose a complete ZIP archive.");
   const request = new XMLHttpRequest();
   activeRequest = request;
-  $("choose-file").disabled = true;
+  setInputBusy(true);
   $("drop-zone").classList.add("busy");
   $("upload-status").hidden = false;
   $("cancel-upload").hidden = false;
@@ -67,7 +72,7 @@ function upload(file) {
   request.onloadend = () => {
     $("defect-risk").setAttribute("aria-busy", "false");
     activeRequest = null;
-    $("choose-file").disabled = false;
+    setInputBusy(false);
     $("drop-zone").classList.remove("busy");
     $("cancel-upload").hidden = true;
     $("file-input").value = "";
@@ -79,6 +84,19 @@ function upload(file) {
 
 function renderResult() {
   renderDefectRisk(result.defect_risk);
+  const source = result.source;
+  $('source-meta').replaceChildren();
+  $('source-meta').hidden = source?.type !== 'github';
+  if (source?.type === 'github') {
+    const link = node('a', `${source.owner}/${source.name}`);
+    // Display only canonical GitHub links returned by our source contract.
+    if (/^https:\/\/github\.com\/[A-Za-z0-9-]+\/[A-Za-z0-9_.-]+$/.test(source.url || '')) {
+      link.href = source.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+    $('source-meta').append(link, node('span', ` · Default branch: ${source.default_branch || 'unavailable'} · Snapshot: ${source.snapshot_commit || 'unavailable'}`));
+  }
   const s = result.summary;
   $("result-title").textContent = result.repository;
   $("result-badge").textContent = "Analysis complete";
@@ -181,4 +199,52 @@ $("download-json").addEventListener("click", () => {
 for (const link of document.querySelectorAll('.nav-link[href^="#"]')) link.addEventListener("click", () => {
   document.querySelectorAll(".nav-link").forEach((item) => item.classList.remove("active"));
   link.classList.add("active");
+});
+
+
+for (const mode of ['zip', 'github']) $(`mode-${mode}`).addEventListener('click', () => {
+  if (activeRequest) return;
+  $('drop-zone').hidden = mode !== 'zip';
+  $('github-form').hidden = mode !== 'github';
+  $('mode-zip').setAttribute('aria-pressed', String(mode === 'zip'));
+  $('mode-github').setAttribute('aria-pressed', String(mode === 'github'));
+});
+
+$('github-form').addEventListener('submit', event => {
+  event.preventDefault();
+  if (activeRequest) return;
+  const url = $('github-url').value.trim();
+  $('error-box').hidden = true;
+  if (!/^https:\/\/github\.com\/[A-Za-z0-9-]+\/[A-Za-z0-9_.-]+\/?$/i.test(url)) return showError('Use https://github.com/owner/repository without extra paths or query parameters.');
+  const request = new XMLHttpRequest();
+  activeRequest = request;
+  setInputBusy(true);
+  $('upload-status').hidden = false;
+  $('cancel-upload').hidden = true;
+  $('upload-progress').removeAttribute('value');
+  $('defect-risk').setAttribute('aria-busy', 'true');
+  $('status-text').textContent = 'Importing from GitHub · downloading a default-branch snapshot, validating and analyzing…';
+  request.open('POST', '/api/analyze/github');
+  request.setRequestHeader('Content-Type', 'application/json');
+  request.responseType = 'json';
+  request.timeout = 180000;
+  request.onload = () => {
+    if (request.status >= 200 && request.status < 300 && request.response?.summary) {
+      result = request.response;
+      renderResult();
+      $('status-text').textContent = `Analysis complete · ${number(result.summary.files)} files scanned. Temporary files deleted.`;
+      $('upload-progress').value = 100;
+    } else {
+      showError(request.response?.error?.message || `GitHub import failed (HTTP ${request.status}). Please retry.`);
+      $('upload-status').hidden = true;
+    }
+  };
+  request.onerror = () => { showError('Could not reach the server. Check the connection and retry.'); $('upload-status').hidden = true; };
+  request.ontimeout = () => { showError('GitHub import timed out. Try a smaller repository or retry later.'); $('upload-status').hidden = true; };
+  request.onloadend = () => {
+    activeRequest = null;
+    setInputBusy(false);
+    $('defect-risk').setAttribute('aria-busy', 'false');
+  };
+  request.send(JSON.stringify({url}));
 });

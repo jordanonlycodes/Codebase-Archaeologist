@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Literal
 from app.ml.schemas import DefectRisk
 
 
@@ -41,6 +42,17 @@ class Summary:
 
 
 @dataclass
+class RepositorySource:
+    type: Literal['zip', 'github']
+    filename: str | None = None
+    owner: str | None = None
+    name: str | None = None
+    url: str | None = None
+    default_branch: str | None = None
+    snapshot_commit: str | None = None
+
+
+@dataclass
 class AnalysisResult:
     repository: str
     analyzed_at: str
@@ -53,3 +65,4 @@ class AnalysisResult:
     notes: list[str]
     schema_version: str = "1.0"
     defect_risk: DefectRisk | None = None
+    source: RepositorySource | None = None

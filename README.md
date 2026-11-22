@@ -1,8 +1,8 @@
 # Codebase Archaeologist
 
-A local repository intelligence dashboard built with FastAPI, Jinja2, vanilla JavaScript and custom CSS. Upload a repository ZIP to inspect real file, language and line metrics. Uploaded code is **never executed**.
+A local repository intelligence dashboard built with FastAPI, Jinja2, vanilla JavaScript and custom CSS. Upload a repository ZIP or import a public GitHub URL to inspect real file, language and line metrics. Uploaded code is **never executed**.
 
-Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Task 3A integrates that saved model into ZIP analysis and a C-only Defect Risk Intelligence dashboard. GitHub URL ingestion remains unavailable.
+Task 1 provides the repository dashboard. Task 2 adds an optional, reproducible C-function research pipeline using the official CodeXGLUE/Devign splits. A Random Forest was trained locally and evaluated once on the official test holdout. Task 3A integrates that saved model into ZIP analysis and a C-only Defect Risk Intelligence dashboard. Task 4A.1 adds public GitHub default-branch snapshot imports through the same analysis pipeline.
 
 ## Install on Ubuntu
 
@@ -38,6 +38,7 @@ Use this as a local, single-user application. Two analyses per process may run c
 - `GET /` — dashboard.
 - `GET /api/health` — health response.
 - `POST /api/analyze` — one multipart file named `file`, containing a `.zip` archive.
+- `POST /api/analyze/github` — JSON `{ "url": "https://github.com/owner/repository" }` for public repositories.
 - `GET /docs` — interactive OpenAPI documentation.
 - `GET /openapi.json` — machine-readable API schema.
 
@@ -240,3 +241,19 @@ Regenerate both formats from the same content source using the existing ML plott
 ```
 
 The generator uses Matplotlib/Pillow and standard-library Office Open XML packaging; it requires no extra application dependencies or remote downloads. Saved evidence comes from `reports/ml/`; local artifact metadata is cross-checked when present. [Report manifest](submission/report_manifest.json) records source hashes and document metadata. See [submission notes](submission/README.md) for document validation and rendering limitations. The full premium README redesign remains future Task 5 work.
+
+## Public GitHub imports (Task 4A.1)
+
+Choose **Import from GitHub**, enter `https://github.com/owner/repository`, then select **Analyze Repository**. Leading/trailing whitespace, a trailing slash and one `.git` suffix are normalized. Only public repositories and the default branch are supported; tokens, private repositories, branch selection and Git history are outside this release. Results use the existing static and C-only ML dashboard and JSON export. Source metadata includes a canonical GitHub link, verified default branch and exact downloaded commit; `analyzed_at` remains the analysis timestamp. ZIP provenance keeps the original filename.
+
+```bash
+curl --fail-with-body -H 'Content-Type: application/json' \
+  -d '{"url":"https://github.com/octocat/Hello-World"}' \
+  http://127.0.0.1:8000/api/analyze/github > github-analysis.json
+```
+
+A plain HTTPS GitHub repository URL is required. Credentials, ports, non-GitHub/lookalike hosts, encoded paths, query strings, fragments and file/issue/PR paths are rejected. The server constructs fixed GitHub API requests, resolves the default branch to a commit, then requests its ZIP archive. Automatic redirects and environment proxies are disabled; every allowed redirect must target the same repository/commit on `codeload.github.com` over HTTPS. Standard TLS verification remains enabled. Downloaded code is never executed or installed.
+
+`GitHubLimits` in `app/config.py` sets 10-second connect/read timeouts, a 60-second total acquisition deadline, at most 3 redirects, 256 KiB metadata, a 4 KiB JSON request and a 25 MiB streamed archive cap. Existing extraction limits still apply: 100 MiB expanded, 2 MiB per file, 5,000 entries, depth 30, ratio 200:1. GitHub and ZIP requests share the existing two-analysis admission limit. Temporary archives and extracted files close on success/failure. No new environment variables or dependencies are needed. The existing optional `ARCHAEOLOGIST_MODEL_DIR` setting still controls trusted inference artifacts.
+
+Not-found/private/empty repositories, rate limits, timeouts, network failures, oversized archives and unsafe/corrupt ZIPs return structured errors. Rate limiting is surfaced without automatic retries; retry later. Renamed repositories that redirect at the metadata API should be submitted using their current canonical URL. See [GitHub import API and manual checks](docs/github_ingestion.md).

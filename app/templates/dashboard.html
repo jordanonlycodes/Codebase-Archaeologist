@@ -58,17 +58,30 @@
           <div class="upload-copy">
             <span class="section-tag">START AN EXPLORATION</span>
             <h2 id="upload-title">Bring your repository.</h2>
-            <p>Upload a ZIP to explore its languages, source lines and file structure.</p>
+            <p>Upload a ZIP or import a public GitHub repository to explore its source.</p>
             <div class="upload-footnote">
               <span aria-hidden="true">◇</span> Files stay on this server and are deleted after analysis.</div>
           </div>
-          <div class="drop-zone" id="drop-zone">
-            <div class="upload-symbol" aria-hidden="true">⇧</div>
-            <strong>Drop your repository ZIP here</strong>
-            <span>or choose a file from your device</span>
-            <button type="button" class="button primary" id="choose-file">Choose ZIP file</button>
-            <input type="file" id="file-input" accept=".zip,application/zip" data-max-bytes="{{ upload_limit }}" hidden>
-            <small>ZIP only · Up to 25 MiB · 5,000 entries</small>
+          <div class="repository-input">
+            <div class="source-modes" role="group" aria-label="Repository input method">
+              <button type="button" id="mode-zip" aria-pressed="true" aria-controls="drop-zone">Upload ZIP</button>
+              <button type="button" id="mode-github" aria-pressed="false" aria-controls="github-form">Import from GitHub</button>
+            </div>
+            <div class="drop-zone" id="drop-zone">
+              <div class="upload-symbol" aria-hidden="true">⇧</div>
+              <strong>Drop your repository ZIP here</strong>
+              <span>or choose a file from your device</span>
+              <button type="button" class="button primary" id="choose-file">Choose ZIP file</button>
+              <input type="file" id="file-input" accept=".zip,application/zip" data-max-bytes="{{ upload_limit }}" hidden>
+              <small>ZIP only · Up to 25 MiB · 5,000 entries</small>
+            </div>
+            <form id="github-form" class="github-form" hidden>
+              <span class="section-tag"><span aria-hidden="true">⌘</span> GITHUB · PUBLIC REPOSITORIES</span>
+              <label for="github-url">Repository URL</label>
+              <input id="github-url" name="url" type="url" required maxlength="2048" placeholder="https://github.com/owner/repository" autocomplete="url" aria-describedby="github-help">
+              <p id="github-help">Public repositories only · Default branch snapshot · Up to 25 MiB ZIP</p>
+              <button type="submit" id="analyze-github" class="button primary">Analyze Repository</button>
+            </form>
           </div>
         </section>
         <div class="upload-status" id="upload-status" hidden>
@@ -79,7 +92,7 @@
           </div>
           <progress id="upload-progress" max="100" value="0" aria-label="Upload progress">
           </progress>
-          <p>Upload progress measures bytes sent. Extraction and scanning follow.</p>
+          <p>ZIP progress measures bytes sent. GitHub downloads and analysis show an indeterminate state.</p>
         </div>
         <div class="error-box" id="error-box" role="alert" hidden>
         </div>
@@ -94,7 +107,8 @@
             </div>
             <button class="button secondary" type="button" id="download-json" hidden>Export JSON</button>
           </div>
-          <p class="result-meta" id="result-meta">Your analysis will appear here after you upload a ZIP.</p>
+          <p class="result-meta" id="result-meta">Your analysis will appear here after a ZIP upload or GitHub import.</p>
+          <p class="result-meta" id="source-meta" hidden></p>
           <div class="stats-grid">
             <article class="stat-card">
               <div class="stat-label">Included files <span aria-hidden="true">▤</span>

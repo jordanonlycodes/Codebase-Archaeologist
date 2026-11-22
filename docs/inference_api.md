@@ -56,3 +56,7 @@ Scores estimate Devign label 1 from syntax patterns, without calibration or attr
 Run `python -m pytest -q` for all regressions or `python -m pytest -q tests/ml/test_repository.py` for focused integration tests. These new tests do not fit estimators or use raw datasets. Actual artifact tests explicitly skip if the ignored local artifact is absent; parser tests skip if optional dependencies are absent. The full existing suite includes two preserved tiny Task 2 fitting tests on authentic training rows. It never reruns the held-out evaluation. In socket-restricted sandboxes use the documented selector wrapper in `ml_pipeline.md`.
 
 Browser verification remains pending in the restricted development sandbox: Uvicorn completed startup but could not bind localhost, and headless Chromium failed `setsockopt: Operation not permitted`. API tests exercise the real FastAPI stack in-process, including genuine predictions, preserved metrics, schema, assets and JSON export wiring.
+
+## GitHub ingestion
+
+Task 4A.1 adds `POST /api/analyze/github` with a public repository URL. It downloads a pinned default-branch ZIP, then invokes the same archive/static/inference function as upload analysis. The additive `source` object records ZIP filename or GitHub provenance; top-level `analyzed_at` is the analysis timestamp. C-only scope, workload limits, model caching and missing-model behavior are identical. See [GitHub ingestion](github_ingestion.md).

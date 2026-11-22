@@ -3,7 +3,7 @@
 import asyncio
 from starlette.responses import JSONResponse
 
-from app.config import LIMITS
+from app.config import LIMITS, GITHUB_LIMITS
 
 
 class UploadBoundary:
@@ -15,12 +15,15 @@ class UploadBoundary:
         self.active = 0
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] != "http" or scope["method"] != "POST" or scope["path"].rstrip("/") != "/api/analyze":
+        if scope["type"] != "http" or scope["method"] != "POST" or scope["path"].rstrip("/") not in {"/api/analyze", "/api/analyze/github"}:
             return await self.app(scope, receive, send)
 
         async def reject(status, code, message):
             await JSONResponse({"error": {"code": code, "message": message}}, status_code=status)(scope, receive, send)
 
+        github = scope["path"].rstrip("/") == "/api/analyze/github"
+        maximum = GITHUB_LIMITS.request_bytes if github else self.max_bytes
+        limit_message = "GitHub request exceeds 4 KiB." if github else "Request exceeds the 26 MiB transport limit. ZIP files must be at most 25 MiB."
         headers = dict(scope["headers"])
         try:
             length = int(headers.get(b"content-length", b"0"))
@@ -28,8 +31,8 @@ class UploadBoundary:
             return await reject(400, "invalid_request", "Invalid Content-Length header.")
         if length < 0:
             return await reject(400, "invalid_request", "Invalid Content-Length header.")
-        if length > self.max_bytes:
-            return await reject(413, "upload_limit", "Request exceeds the 26 MiB transport limit. ZIP files must be at most 25 MiB.")
+        if length > maximum:
+            return await reject(413, "upload_limit", limit_message)
         if self.active >= self.max_active:
             return await reject(429, "busy", "Two analyses are already running. Please try again shortly.")
         self.active += 1
@@ -49,8 +52,8 @@ class UploadBoundary:
                 if message["type"] == "http.disconnect":
                     return
                 chunk = message.get("body", b"")
-                if len(body) + len(chunk) > self.max_bytes:
-                    return await reject(413, "upload_limit", "Request is too large. ZIP files must be at most 25 MiB.")
+                if len(body) + len(chunk) > maximum:
+                    return await reject(413, "upload_limit", limit_message)
                 body.extend(chunk)
                 if not message.get("more_body", False):
                     break
