@@ -31,3 +31,14 @@ records retain IDs, paths, lines and categorical facts; packets cap at 12 record
 24 KiB. Conversation helpers filter by snapshot and local mode, at most eight turns
 and 18 KiB. Six deterministic Node cases passed (retrieval, provenance, ambiguity,
 unknown context, bounds, isolation and untrusted text). No network or source retention.
+
+## Stage C complete — local intelligence
+
+Added supported intent interpretation and evidence-backed deterministic answers for
+summaries/languages/counts, complexity/hotspots, scored/unscored functions, coverage,
+entity lookup, callers/callees, imports/includes, components, two-file relationships
+and bounded impact paths. Pronouns use a validated selected entity; ambiguity produces
+candidates. Unsupported requests explain capability boundaries. Existing impact engine
+provides direct/transitive direction and actual edge evidence, with its original limits.
+23 Node cases passed, including cycles, ambiguity, file/component membership, imports,
+missing model scores, partial/empty data, output bounds and reproducibility.
