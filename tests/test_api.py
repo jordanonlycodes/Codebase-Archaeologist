@@ -16,7 +16,7 @@ def client():
 
 
 def test_dashboard_and_assets(client):
-    response = client.get("/")
+    response = client.get("/explore")
     assert response.status_code == 200
     assert "Every codebase has a story" in response.text
     assert "Awaiting repository" in response.text

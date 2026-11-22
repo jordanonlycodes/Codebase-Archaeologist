@@ -220,7 +220,7 @@ def test_zip_api_structure_and_export(make_zip,monkeypatch,tmp_path):
         assert data['defect_risk']['status']=='unavailable'
         assert '/tmp/' not in response.text
         assert 'structural' in client.get('/openapi.json').json()['components']['schemas']['AnalysisResult']['properties']
-        assert 'Structural Intelligence' in client.get('/').text
+        assert 'Structural Intelligence' in client.get('/explore').text
         assert 'JSON.stringify(result, null, 2)' in client.get('/static/app.js').text
 
 

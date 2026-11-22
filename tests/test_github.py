@@ -252,7 +252,7 @@ def test_missing_model_github_still_analyzes(client,make_zip,mock_download,tmp_p
 
 
 def test_dashboard_contract(client):
-    html=client.get('/').text
+    html=client.get('/explore').text
     for id in ['mode-zip','mode-github','github-form','github-url','analyze-github','source-meta','choose-file']:
         assert f'id="{id}"' in html
     js=client.get('/static/app.js').text

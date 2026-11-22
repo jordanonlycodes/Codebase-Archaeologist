@@ -23,7 +23,7 @@ def test_architecture_frontend_suite_and_syntax():
 
 def test_architecture_dashboard_contract_and_source_safety():
     with TestClient(app) as client:
-        response=client.get('/')
+        response=client.get('/explore')
         ids=re.findall(r'\bid="([^"]+)"',response.text)
         assert len(ids)==len(set(ids))
         for id in ['architecture-intelligence','ai-architecture','ai-heatmap','ai-metric','ai-area','ai-inspector','ai-canvas','ai-breadcrumbs','ai-focus']:

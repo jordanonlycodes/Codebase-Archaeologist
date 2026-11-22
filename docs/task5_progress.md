@@ -12,6 +12,14 @@
   local Latin-subset Noto Sans + Noto Serif Display with inspected OFL metadata/license.
   Static assets/font attribution test: **1 passed**. No application routes changed yet.
 
+- Stage C: cinematic public `/` with procedural organic light trails, editorial
+  typography, product narrative and working `/explore` entry. Landing animation is
+  bounded to 24 Hz and pauses offscreen/hidden, with reduced-motion static rendering.
+  Existing dashboard temporarily moves intact to `/explore` until Stage E migration.
+  Regression assertions now target that route, preserving all checks. **387 passed**.
+  Chromium was attempted again: exit 133, `setsockopt: Operation not permitted`; no
+  visual verification claimed. All HTML routes now receive existing CSP/no-store headers.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
@@ -28,7 +36,7 @@
 ## Pending / exact next steps
 
 1. Stage B completed; activate the tested design foundation in new page templates.
-2. Stage C: cinematic landing with reduced-motion/offscreen cleanup.
+2. Stage C completed; replace temporary explore dashboard during D/E migration.
 3. Stage D: shared snapshot store, import controller, real route shell.
 4. Stage E: migrate feature templates and initialize only the active feature; cross-page
    ID handoffs and export; regression contract migration to their proper pages.

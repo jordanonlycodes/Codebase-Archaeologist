@@ -18,3 +18,15 @@ def test_design_system_assets_and_font_attribution():
             assert response.status_code==200 and len(response.content)>1000
         license=client.get('/static/product/fonts/OFL.txt').text
         assert 'SIL OPEN FONT LICENSE' in license and 'Noto Project Authors' in license
+
+
+def test_cinematic_landing_and_working_import_entry():
+    with TestClient(app) as client:
+        response=client.get('/')
+        assert response.status_code==200
+        assert 'hero-light' in response.text and 'UNCOVER THE UNSEEN' in response.text
+        assert 'href="/explore"' in response.text
+        assert 'graph-canvas' not in response.text and '/static/app.js' not in response.text
+        assert "script-src 'self'" in response.headers['content-security-policy']
+        assert client.get('/explore').status_code==200
+        assert client.get('/static/product/landing.js').status_code==200

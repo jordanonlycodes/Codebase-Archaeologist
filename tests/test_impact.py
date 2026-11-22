@@ -32,7 +32,7 @@ def test_impact_engine_controller_and_syntax():
 
 def test_dashboard_handoffs_and_safe_assets():
     with TestClient(app) as client:
-        page=client.get('/').text
+        page=client.get('/explore').text
         ids=re.findall(r'\bid="([^"]+)"',page)
         assert len(ids)==len(set(ids))
         for name in ['engine.js','explorer.js','explorer.css']:

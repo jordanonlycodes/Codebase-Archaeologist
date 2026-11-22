@@ -23,7 +23,7 @@ def test_frontend_graph_utilities_and_lifecycle():
 
 def test_graph_dashboard_integration_and_static_assets():
     with TestClient(app) as client:
-        html = client.get('/').text
+        html = client.get('/explore').text
         ids = re.findall(r'\bid="([^"]+)"', html)
         assert len(ids) == len(set(ids))
         for required in ['knowledge-explorer', 'graph-2d', 'graph-3d', 'graph-view',
@@ -34,7 +34,7 @@ def test_graph_dashboard_integration_and_static_assets():
         for filename in ['data.js', 'layouts.js', 'quality.js', 'svg.js', 'three.js', 'explorer.js', 'explorer.css']:
             response = client.get('/static/graph/' + filename)
             assert response.status_code == 200
-        assert "script-src 'self'" in client.get('/').headers['content-security-policy']
+        assert "script-src 'self'" in client.get('/explore').headers['content-security-policy']
         assert 'renderKnowledgeGraph(result.knowledge_graph)' in client.get('/static/app.js').text
         for script in ['svg.js', 'three.js', 'explorer.js']:
             source = client.get('/static/graph/' + script).text

@@ -10,6 +10,11 @@ templates = Jinja2Templates(directory=Path(__file__).resolve().parents[1] / "tem
 
 
 @router.get("/", include_in_schema=False)
+async def landing(request: Request):
+    return templates.TemplateResponse(request=request, name="landing.html")
+
+
+@router.get("/explore", include_in_schema=False)
 async def dashboard(request: Request):
     return templates.TemplateResponse(request=request, name="dashboard.html",
                                       context={"upload_limit": LIMITS.upload_bytes})
