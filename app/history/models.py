@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 @dataclass(frozen=True)
 class HistoryLimits:
     commits: int = 24
-    files_per_commit: int = 200
+    files_per_commit: int = 100
     changes: int = 4000
     tree_files: int = 5000
     comparison_files: int = 200

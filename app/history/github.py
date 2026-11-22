@@ -41,7 +41,7 @@ class GitHubReader:
         return ids
 
     async def commit(self,sha):
-        raw=await self.get('/commits/'+revision(sha),{'per_page':self.limits.files_per_commit,'page':1})
+        raw=await self.get('/commits/'+revision(sha),{'per_page':min(100,self.limits.files_per_commit),'page':1})
         if raw['sha']!=sha:raise ValueError('Commit mismatch')
         c=raw['commit'];files=[]
         if len(raw['parents'])>128:raise ValueError('Parent evidence limit')
@@ -53,7 +53,7 @@ class GitHubReader:
             if measured and (type(adds)!=int or type(deletes)!=int or min(adds,deletes)<0):raise ValueError('Invalid line statistics')
             files.append(Change(path(f['filename']),text(status,32),path(f['previous_filename']) if 'previous_filename' in f else None,adds,deletes,'github_text' if measured else 'unavailable'))
         # Exactly a page is conservatively incomplete: additional pages are not fetched.
-        return Commit(revision(sha),[revision(p['sha']) for p in raw['parents']],text(c['author']['name'],128),timestamp(c['author']['date']),timestamp(c['committer']['date']),text(c['message'].split('\n')[0]),revision(c['tree']['sha']),files,len(raw.get('files',[]))<self.limits.files_per_commit)
+        return Commit(revision(sha),[revision(p['sha']) for p in raw['parents']],text(c['author']['name'],128),timestamp(c['author']['date']),timestamp(c['committer']['date']),text(c['message'].split('\n')[0]),revision(c['tree']['sha']),files,len(raw.get('files',[]))<min(100,self.limits.files_per_commit))
 
     async def tree(self,sha):
         revision(sha)

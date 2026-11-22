@@ -75,7 +75,7 @@ async def collect(reader, anchor, limits=LIMITS):
     retained={c.sha for c in commits};missing=sorted({p for c in commits for p in c.parents if p not in retained})
     if missing:issues.append('ancestry_outside_window')
     if getattr(reader,'shallow',False):issues.append('shallow_source')
-    coverage=Coverage(not issues and bool(commits),ordering=reader.ordering,issues=issues,missing_parents=missing[:128])
+    coverage=Coverage(bool(commits) and not missing and len(ids)<=limits.commits and not getattr(reader,'shallow',False),ordering=reader.ordering,issues=issues,missing_parents=missing[:128])
     activity,churn=aggregate(commits)
     result=History(reader.url,anchor,commits,coverage,activity,churn,asdict(limits),source=reader.source)
     # Hard serialized budget. Remove oldest retained records, recomputing all derived values.

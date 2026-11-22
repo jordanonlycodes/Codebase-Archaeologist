@@ -27,7 +27,7 @@ PAGES = {
 }
 
 ASSETS = {
-    'time-machine': (['time_machine/workspace.css'], ['time_machine/data.js','time_machine/timeline.js','time_machine/landscape.js','time_machine/studio.js','time_machine/workspace.js']),
+    'time-machine': (['time_machine/workspace.css'], ['time_machine/data.js','time_machine/timeline.js','time_machine/landscape.js','time_machine/studio.js','time_machine/evolution.js','time_machine/workspace.js']),
     'jordan': (['jordan/workspace.css'], ['impact/engine.js','jordan/retrieval.js','jordan/local.js','jordan/workspace.js']),
     'overview': ([], ['product/overview.js']),
     'risk': ([], ['risk.js']),

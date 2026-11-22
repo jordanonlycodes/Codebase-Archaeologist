@@ -80,3 +80,16 @@ focal point, rather than squeezing text with the entire event span.
 43 focused Python checks passed (24 history + 19 product), including 59 document cases
 and eight dedicated history view-model cases over genuine Git evidence. Next G adds
 actual revision trees, scrubbing and explicitly cached-only playback.
+
+## G complete — real revision evolution
+
+Added exact tree retrieval, tracked-entry/byte/reported-change spatial maps, revision
+selectors and real commit scrubbing. Three bounded metadata trees can persist inside
+the original 2 MiB history envelope; patches never do. Optional playback visits loaded
+real revisions only, pauses on view/page/visibility change, and is disabled for reduced
+motion. Symlinks/submodules remain metadata-only. Tree file search and paginated overflow
+inspection keep retained paths accessible. Public per-commit page bound aligned to the
+verified 100-entry REST maximum; ancestry closure is separate from incomplete file data.
+62 real-document cases and eight view-model cases passed. Browser rendering remains
+unverified. Next H connects current file IDs to historical paths, without treating current
+ML/complexity metrics as historical measurements; then final security/visual review.
