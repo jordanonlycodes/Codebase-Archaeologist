@@ -22,3 +22,12 @@ Decisions:
 
 Next: B evidence indexing/tests; C local intents/tests; D provider/consent API;
 E dedicated workspace; F stable-ID handoffs; G full regressions, docs and review.
+
+## Stage B complete — evidence retrieval
+
+Added a snapshot-local lexical index over real graph entities, components and retained
+structural functions. Exact/partial matching preserves same-name ambiguity. Evidence
+records retain IDs, paths, lines and categorical facts; packets cap at 12 records and
+24 KiB. Conversation helpers filter by snapshot and local mode, at most eight turns
+and 18 KiB. Six deterministic Node cases passed (retrieval, provenance, ambiguity,
+unknown context, bounds, isolation and untrusted text). No network or source retention.
