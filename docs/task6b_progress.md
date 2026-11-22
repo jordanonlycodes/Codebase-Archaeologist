@@ -22,3 +22,15 @@ its ID. Source patches are transient only. ZIP archives never manufacture histor
 Next: B real commits/churn/activity and fixtures; C exact revision/tree comparisons;
 D workspace/state; E timeline/activity; F churn/comparison; G evolution; H stable-ID
 links; I full tests, visual attempt, documentation and safe push. Each tested stage commits.
+
+## B complete — authentic history core
+
+Added typed commit/change/tree contracts, fixed-host public REST reader, bounded read-only
+operator/test Git adapter, parent/date preservation, deterministic churn and UTC activity.
+History packets strip all patches. Missing shallow parents remain explicitly incomplete;
+no fake initial additions. 16 genuine-fixture/network checks passed (9 seconds), covering
+branches, merges, authors, timezones, renames, deletions, binary/unusual files, hooks,
+detached/shallow histories, limits and reproducibility. The sandbox selector workaround
+was needed for threaded Git reads; no application workaround was added.
+Default 24 commits balances REST fanout; file measurements are explicitly bounded.
+Next: C typed public history/tree/comparison API, request boundary and additional tests.
