@@ -56,3 +56,14 @@ replacement/expiry/identity mismatches cannot attach another repository's histor
 19 product Python checks passed, including real Git-fixture history fetch/reload cases;
 16 store cases passed. Current analysis and JSON export remain available. Next E replaces
 the initial working commit exploration with the interactive timeline/activity canvas.
+
+## E complete — interactive timeline and activity
+
+Replaced initial list with bounded event-spaced SVG committer-date timeline. Parent curves
+use actual retained SHA relationships; merge rings mean multiple observed parents, not
+invented branches. Selection reuses SVG nodes and preserves camera; wheel/button zoom,
+pointer pan, Fit History and keyboard selection work in document fixtures. UTC monthly
+activity includes empty months in a bounded 24-month landscape and filters by month.
+57 real-document cases passed, including authentic seven-commit fixture timeline, viewport,
+selection, cleanup and date filters. These are functional DOM checks, not visual browser
+acceptance or measured performance. Next F: directory churn and exact comparison studio.
