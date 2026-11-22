@@ -8,6 +8,10 @@
 - Existing main is synchronized at `e5f6783`; three untracked graph vendor assets
   are user-owned and must remain untouched/uncommitted.
 
+- Stage B: shared graphite/ivory/garnet design system, responsive shell/primitives,
+  local Latin-subset Noto Sans + Noto Serif Display with inspected OFL metadata/license.
+  Static assets/font attribution test: **1 passed**. No application routes changed yet.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
@@ -23,7 +27,7 @@
 
 ## Pending / exact next steps
 
-1. Stage B: design system, local fonts/license, shared primitives.
+1. Stage B completed; activate the tested design foundation in new page templates.
 2. Stage C: cinematic landing with reduced-motion/offscreen cleanup.
 3. Stage D: shared snapshot store, import controller, real route shell.
 4. Stage E: migrate feature templates and initialize only the active feature; cross-page
