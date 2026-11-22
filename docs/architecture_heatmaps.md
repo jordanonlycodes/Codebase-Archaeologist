@@ -1,5 +1,20 @@
 # Architecture Intelligence and Repository Heatmaps — Task 4C.1
 
+## Current product workflow — Task 5
+
+The two real documents `/workspace/architecture` and `/workspace/heatmaps` share the
+existing engine and scoped controller, initialized to their respective views. Import
+once at `/explore`; normal navigation/refresh restores the source-free browser snapshot.
+Switching views hands off actual directory/file/component IDs. Parallel and reverse
+component links now use deterministic separate curve lanes. Non-ML heatmap colors use
+a muted warm scale; hotspot/model-score colors use garnet, actual zero is neutral and
+missing stays hatched. All six metric definitions and resource bounds below remain.
+
+Graph, file and impact navigation use stable IDs without rerunning ingestion. Page
+exit suspends observers and disposes SVG resources; history restoration recreates the
+scene. See [frontend lifecycle and verification](frontend.md). Historical verification
+records below describe their original tasks; current totals are recorded in the README.
+
 The `architecture` response component (schema `1.0`) is assembled after the existing
 shared inventory → structural → ML → knowledge-graph pipeline. Both ZIP and GitHub
 imports use it. No source is reparsed, imported, executed or downloaded by this engine;

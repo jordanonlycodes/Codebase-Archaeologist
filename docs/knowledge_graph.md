@@ -1,5 +1,20 @@
 # Repository knowledge graph engine and explorer
 
+## Current product workflow — Task 5
+
+Import once at `/explore`, then use the dedicated `/workspace/graph` document. Its
+2D/3D adapters, perspective layouts, overlays and bounded search reuse the retained
+snapshot. Inspection links open `/workspace/blast-radius`, component architecture or
+file heatmaps by stable ID; no source reanalysis is triggered. Only this page loads
+renderer adapters, and the pinned 3D bundle remains lazy. Neutral graphite styling,
+contextual labels and a collapsible quality/coverage panel replace the old dashboard
+composition. Existing-material 3D emission is restrained and disabled in Performance
+mode; MSAA stays unrequested. No new postprocessing or perpetual simulation is added.
+
+See [frontend architecture and retention](frontend.md) for expiring per-tab context,
+refresh/history restoration, resource suspension and isolation. Older verification
+counts below are historical task records; final Task 5 results are in the README.
+
 The shared ZIP/GitHub analysis pipeline returns `knowledge_graph` (schema `1.0`).
 The backend infrastructure now feeds the Task 4B.2 client-side explorer described below.
 No dedicated graph endpoints are needed. No graph database, extra dependency, network request,

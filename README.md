@@ -37,8 +37,8 @@ never sent to a visualization service.
 
 ## A real product, with real evidence
 
-**Authentic application screenshots are still pending.** This environment blocks Chromium
-and Firefox before rendering. The hero above is original brand artwork, not an application
+**Authentic application screenshots are still pending.** Neither Chromium nor Firefox reached
+application rendering in this environment. The hero above is original brand artwork, not an application
 preview. No fake screenshots or analytics are presented.
 
 [Local screenshot and visual-verification checklist →](docs/screenshots/README.md)
@@ -82,6 +82,7 @@ flowchart LR
     AST --> RF[Optional trusted C-function Random Forest]
     GRAPH --> ARC[Directory components and heatmap metrics]
     INV --> API[FastAPI analysis response]
+    RF --> GRAPH
     RF --> API
     ARC --> API
     GRAPH --> API
@@ -207,8 +208,10 @@ python -m pytest tests/test_product.py -q -s
 ```
 
 Baseline before Task 5: **385 passing Python tests**. The dedicated-page migration
-passed **399**, and subsequent focused visualization checks passed **27**. Final Task 5
-verification is recorded below after the final regression pass. Tests cover malicious ZIPs,
+passed **399**, and subsequent focused visualization checks passed **27**. **Final Task 5 verification: 402 passed, 0 failed, 0 skipped.** The browser-free
+frontend checks include 29 real-document cases, 14 store/IndexedDB API-harness cases,
+24 graph cases, 10 architecture cases and 32 impact cases, plus real-response smoke
+checks. These are exercised through Python runners, not added to the Python total. Tests cover malicious ZIPs,
 GitHub SSRF/streaming limits, metrics, model compatibility, graph resolution, evidence,
 impact bounds, page initialization, snapshot isolation/expiry, cross-page identity,
 import feedback and renderer/history cleanup. No security tests were removed.

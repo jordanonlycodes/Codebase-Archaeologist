@@ -1,87 +1,64 @@
-# Task 5 progress
+# Task 5 progress / recovery record
 
-## Completed
+**Implementation stages A–H are complete. Real-browser visual acceptance and authentic
+application screenshots remain outstanding because browsers could not render here.**
+No Task 6 work, research-model retraining, held-out reevaluation or academic report
+regeneration was performed.
 
-- Stage A: audited routes, schemas, import/analysis lifecycle, feature controllers,
-  graph adapters, architecture/heatmap and impact handoffs. Baseline: **385 passed,
-  0 failed, 0 skipped**, one existing Starlette/httpx deprecation warning.
-- Existing main is synchronized at `e5f6783`; three untracked graph vendor assets
-  are user-owned and must remain untouched/uncommitted.
+## Completed stages and preserved commits
 
-- Stage B: shared graphite/ivory/garnet design system, responsive shell/primitives,
-  local Latin-subset Noto Sans + Noto Serif Display with inspected OFL metadata/license.
-  Static assets/font attribution test: **1 passed**. No application routes changed yet.
+| Stage | Work | Verification / local commit |
+| --- | --- | --- |
+| A | Relevant frontend/route/lifecycle audit | Baseline 385 passing; `d7e6d14` |
+| B | Shared design system, local licensed typography | Asset check passed; `dd68d49` |
+| C | Cinematic procedural landing and working entry | 387 passing; `b4f719f` |
+| D | Bounded expiring per-tab browser snapshot store | Store tests passed after source-check correction; `531bcbb`, `d07dbf5` |
+| D/E | Premium import, seven real page documents, stable-ID handoffs | 399 passing; `35c588f` |
+| F | Visualization, routing, graphics and typography refinement | 27 focused Python checks passed; `c900c4e` |
+| G | Signature README, original vector hero/mark, reproducible assets | 16 product checks plus SVG checks passed; `44ab99c` |
+| H | Final lifecycle/accessibility/design review, regression/docs | Final Task 5 commit; inspect `git log -1` |
 
-- Stage C: cinematic public `/` with procedural organic light trails, editorial
-  typography, product narrative and working `/explore` entry. Landing animation is
-  bounded to 24 Hz and pauses offscreen/hidden, with reduced-motion static rendering.
-  Existing dashboard temporarily moves intact to `/explore` until Stage E migration.
-  Regression assertions now target that route, preserving all checks. **387 passed**.
-  Chromium was attempted again: exit 133, `setsockopt: Operation not permitted`; no
-  visual verification claimed. All HTML routes now receive existing CSP/no-store headers.
+## Final verification
 
-- Stage D state core: implemented isolated per-tab active pointers, IndexedDB payload/
-  metadata stores, atomic bounded retention (3 snapshots, 24 MiB each), two-hour TTL,
-  replacement/forget, bounded UI state and consumed ID handoffs. **10 Node tests passed**,
-  including expiry, isolation, quota errors and pointer-write rollback. A source-check
-  false positive matched a comment; corrected and reran all ten cases before integration. Import UI and
-  route integration follow together in the next functional migration commit.
+- **402 Python tests passed, 0 failed, 0 skipped**. One existing Starlette/httpx warning.
+- Node suites: 29 real-document cases, 14 store/IndexedDB API-harness cases, 24 graph,
+  10 architecture and 32 impact cases. They run through Python wrappers, not extra Python tests.
+- Real mixed C/Python and Python-only ZIP responses boot dedicated documents; actual
+  trusted C-model output and missing-model impact behavior are exercised.
+- Syntax, compile, dependency, local link, SVG XML and reproducible brand checks passed.
+- Only the vector brand artwork was rendered and inspected. Chromium: exit 133,
+  `setsockopt: Operation not permitted`. Firefox: exit 139 before rendering.
+- Uvicorn completed startup, but could not bind `127.0.0.1:8000` in this environment.
+- No measured FPS, rendered responsive acceptance or genuine WebGL visual check claimed.
 
-- Stages D/E integrated: premium ZIP/GitHub import, actual upload vs indeterminate
-  processing feedback, persistent snapshot handoff, seven real workspace routes and
-  page-specific controllers/templates. Overview, risk, structure, graph, architecture,
-  heatmaps and impact preserve all analytical capabilities. Existing selectors and
-  regression assertions migrated to their correct routes. Superseded massive dashboard
-  HTML/CSS/controller removed. **399 Python tests passed**, including 19 real-document
-  integration cases and 10 store cases. No renderer or analysis request duplication
-  in the tested history/navigation lifecycle. Details: `docs/frontend.md`.
+## Architecture decisions
 
-- Stage F completed: rebuilt graph styling, coordinated visualization surfaces,
-  separated parallel/reverse architecture curve lanes, warm/garnet heatmap scales,
-  indexed file/component handoffs, restrained existing-material 3D emission disabled
-  in Performance mode, and WOFF compression/preloading. Added a recovery HTML 404.
-  **27 focused Python checks passed**; document harness now has **21 cases**, graph
-  24, architecture 10, impact 32, store 10 frontend cases. Firefox also failed before
-  rendering (exit 139); real GPU/browser behavior remains unverified.
+- `/` landing, `/explore` import and seven real `/workspace/*` Jinja documents.
+  No hidden all-feature dashboard; superseded HTML/CSS/controller removed.
+- Existing analytical schemas/engines unchanged. Feature-specific assets and initialization;
+  heavy 3D bundle remains lazy. Renderer preferences hydrate before startup.
+- One source-free response in IndexedDB, per-tab sessionStorage pointer, two-hour logical
+  expiry, 24 MiB compact JSON per snapshot, three snapshots per origin. Expired data is
+  pruned on subsequent operations; active pages schedule expiry. No raw source/archive
+  storage or server-global repository store. Browser profiles are not an auth boundary.
+- Stable-ID handoffs and bounded UI preferences. Navigation never reanalyzes. Renderer,
+  observer, async-load and connection cleanup cover pagehide/history races.
+- Shared graphite/ivory/garnet styling, locally served OFL Noto subsets in WOFF, event-driven
+  visualizations and a bounded, reduced-motion-aware procedural landing composition.
+- User-owned untracked graph bundle, license and receipt remain untouched/uncommitted;
+  bundle was checked against its receipt. Do not accidentally stage them.
 
-- Stage G completed: signature README, original local SVG hero with path-outlined
-  licensed typography, warm layered mark, reproducible asset generator and authentic
-  screenshot checklist. Exact saved validation/test metrics and source licensing are
-  documented. **16 product checks passed**; SVG XML, deterministic regeneration and
-  local Markdown links passed. Brand artwork rendered with rsvg-convert and inspected.
-  No application screenshot was fabricated. Uvicorn reached application startup but
-  could not bind localhost in this sandbox.
+## Exact next steps / manual acceptance
 
-## Decisions
-
-- Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
-  dashboard hidden behind different route names.
-- Existing analytical engines and response fields remain unchanged.
-- One source-free analysis snapshot in bounded, expiring IndexedDB. A per-tab opaque
-  pointer in sessionStorage owns the active context. No server-global repository store,
-  no raw source/archive retention. Explicit forget action; graceful storage errors.
-- Page-specific assets/controllers; preserve stable-ID handoffs using small per-tab
-  navigation state. Standard document navigation and browser history, not section hiding.
-- Locally served licensed fonts, procedural Canvas landing, restrained graphite/ivory
-  and garnet identity. No new frontend framework or rendering dependencies.
-
-## Pending / exact next steps
-
-1. Stage B completed; activate the tested design foundation in new page templates.
-2. Stage C completed; replace temporary explore dashboard during D/E migration.
-3. Stage D completed.
-4. Stage E completed; proceed to F visualization refinement and second quality pass.
-5. Stage F completed; Stage G README brand assets/narrative now in progress.
-6. Stage G completed.
-7. Stage H next: final design/lifecycle review, doc route updates, full tests, staged
-   security/large-file check, final commit and normal push. Browser attempts are complete
-   but blocked; preserve that limitation. Do not rerun training/evaluation or reports.
-
-Update this file and commit after each functional, verified stage. Do not regenerate
-academic reports, retrain the research model or commit user vendor assets.
-
-## Verification environment
-
-FastAPI TestClient requires a process-local selector polling workaround in this sandbox;
-no application patch is needed. Normal local command remains `pytest -q`.
-Browser verification must be attempted again; previous tasks hit socket restrictions.
+1. Inspect `git status`, recent commits and this file before continuing. Preserve all
+   unrelated files. If `main` is ahead, attempt **`git push origin main`**, never force.
+2. Run locally: `source .venv/bin/activate` then
+   `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload`.
+3. Perform the browser checklist in `docs/frontend.md` and capture only authentic images
+   following `docs/screenshots/README.md`. Validate at 1366×768, tablet and 390×844,
+   plus real 2D/3D interaction, console errors, keyboard, reduced motion and GPU traces.
+4. Add verified screenshots to README only after capture. No invented mock screenshots.
+5. If revising code, use `pytest -q` / `pytest tests/test_product.py -q -s` and update this
+   record. In this socket-restricted sandbox use the selector polling wrapper documented
+   in `docs/ml_pipeline.md`; do not change application code to work around TestClient.
+6. Academic report update remains Task 7. Do not begin Task 6 without the user's request.

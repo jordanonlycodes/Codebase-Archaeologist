@@ -1,5 +1,20 @@
 # Blast Radius Explorer — Task 4C.2
 
+## Current product workflow — Task 5
+
+The explorer now lives at `/workspace/blast-radius`, a dedicated document with only
+its own feature initialization. Import at `/explore` once, then navigate freely with
+the same expiring source-free snapshot. Graph, architecture and heatmap inspection can
+launch this page with stable IDs; impact inspection can return to those pages without
+reanalysis. Origin/depth/direction preferences survive ordinary navigation and refresh.
+The API remains unchanged; exporting from this workspace includes its selected bounded
+query. Other workspace exports contain the full original analysis snapshot.
+
+The anchored layout and all traversal/evidence semantics below are preserved. Neutral
+surfaces, editorial shell typography and readable evidence controls replace the old
+combined dashboard. See [frontend lifecycle and retention](frontend.md). Verification
+numbers below are historical; the README records the final Task 5 suite.
+
 ## Scope and architecture
 
 The explorer answers **which retained entities are statically reachable, and through

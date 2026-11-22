@@ -7,7 +7,7 @@
  const button=(label,action,css)=>{const b=el('button',label,css);b.type='button';b.addEventListener('click',action);return b;};
  class Explorer{
   constructor(){
-   this.state=A.initial();this.ix=A.index(null);this.scene=null;this.key=null;this.items=new Map();this.edgeItems=new Map();this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+   this.suspended=false;this.state=A.initial();this.ix=A.index(null);this.scene=null;this.key=null;this.items=new Map();this.edgeItems=new Map();this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
    for(const mode of ['architecture','heatmap'])$('ai-'+mode).addEventListener('click',()=>{if(root.WorkspaceNavigation){root.WorkspaceNavigation.open(mode==='heatmap'?'heatmaps':'architecture',this.state.directory);return;}this.state.view=mode;this.key=null;this.draw();});
    for(const [id,key]of [['ai-metric','metric'],['ai-area','area'],['ai-relationships','relationship']])$(id).addEventListener('change',()=>{this.state[key]=$(id).value;if(key!=='metric')this.key=null;this.draw();});
    let timer;this.cancelSearch=()=>clearTimeout(timer);$('ai-search').addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{this.state.query=$('ai-search').value;this.search();if(this.state.view==='architecture'){this.key=null;this.draw();}},150);});
@@ -31,7 +31,7 @@
   openDirectory(id){if(root.WorkspaceNavigation&&document.body.dataset.page==='architecture'){root.WorkspaceNavigation.open('heatmaps',id);return;}const n=this.ix.nodes.get(id);if(!n)return;this.state.directory=n.type==='directory'?id:n.parent_id;this.state.selected=id;this.state.component=n.component_id||[...this.ix.components.values()].find(c=>c.path===n.path)?.id||null;this.state.page=0;this.state.view='heatmap';this.key=null;this.draw();}
   graph(id){if(root.WorkspaceNavigation){root.WorkspaceNavigation.open('graph',id);return;}if(!id||!root.graphExplorer?.ix.nodes.has(id))return;root.graphExplorer.choose(id);$('knowledge-explorer').scrollIntoView({behavior:this.reduced?'auto':'smooth',block:'start'});}
   draw(){
-   if(!this.ix.data)return;
+   if(this.suspended||!this.ix.data)return;
    for(const mode of ['architecture','heatmap'])$('ai-'+mode).setAttribute('aria-pressed',String(this.state.view===mode));
    $('ai-heat-controls').hidden=this.state.view!=='heatmap';$('ai-arch-controls').hidden=this.state.view!=='architecture';$('ai-focus').disabled=!this.state.component;$('ai-focus').setAttribute('aria-pressed',String(this.state.focus));
    this.breadcrumbs();if(!this.visible){this.inspect();return;}

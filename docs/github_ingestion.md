@@ -1,5 +1,9 @@
 # Public GitHub ingestion
 
+Task 5 interface: import at `/explore`, inspect provenance at `/workspace/overview`,
+then navigate dedicated workspaces using the same browser snapshot. API and ingestion
+security contracts remain unchanged; see [frontend lifecycle](frontend.md).
+
 `POST /api/analyze/github` accepts only a JSON object with `url` (up to 2,048 characters). Example: `{"url":"https://github.com/owner/repository"}`. Extra keys are rejected; no authentication or branch/ref parameter is accepted. `POST /api/analyze` remains the existing multipart ZIP endpoint.
 
 ## Contract and shared pipeline

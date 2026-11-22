@@ -101,7 +101,9 @@ def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_
             'include/api.h':'int helper(int x);\n',
         }))})
         assert response.status_code==200,response.text
-        fixture={'analysis':response.json(),'pages':{},'scripts':{}}
+        python_response=client.post('/api/analyze',files={'file':('python.zip',make_zip({'src/app.py':'def helper(x): return x\ndef entry(x): return helper(x)\n'}))})
+        assert python_response.status_code==200,python_response.text
+        fixture={'analysis':response.json(),'python_analysis':python_response.json(),'pages':{},'scripts':{}}
         for page in [*PAGES,'explore']:
             html=client.get('/explore' if page=='explore' else '/workspace/'+page).text
             parser=DOM();parser.feed(html);fixture['pages'][page]=parser.root
@@ -135,3 +137,12 @@ def test_readme_brand_svg_is_local_and_github_safe():
     for target in re.findall(r'\]\(([^)]+)\)',readme):
         if '://' not in target and not target.startswith('#'):
             assert (ROOT/target.split('#')[0]).exists(),target
+
+
+def test_product_csp_does_not_break_existing_fastapi_documentation():
+    with TestClient(app) as client:
+        assert "script-src 'self'" in client.get('/workspace/overview').headers['content-security-policy']
+        docs=client.get('/docs')
+        assert docs.status_code==200 and 'swagger-ui-bundle.js' in docs.text
+        assert 'content-security-policy' not in docs.headers
+        assert client.get('/openapi.json').status_code==200

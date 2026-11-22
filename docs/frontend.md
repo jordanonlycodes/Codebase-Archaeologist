@@ -131,3 +131,70 @@ capture workflow and prohibits substituting mockups. The redesigned README docum
 real routes, snapshot retention, installation, preserved capabilities and exact saved
 validation/test metrics, with scientific caveats and separate dataset/font/vendor licensing.
 Stage G checks: 16 product tests passed; brand XML, reproducibility and local links passed.
+
+## Final Task 5 quality and verification record
+
+Final regression run: **402 Python tests passed, 0 failed, 0 skipped**, with one existing
+Starlette/httpx deprecation warning. Browser-free frontend suites cover **29 real-document
+journey cases**, **14 store/IndexedDB API-harness cases**, **24 graph cases**, **10
+architecture cases** and **32 impact cases**, plus the original real-response impact
+smoke check with and without the trusted artifact. Node cases are exercised by Python
+runners and are not added to the Python total. JavaScript syntax checks, Python compile,
+`pip check`, all local documentation links, stylesheet block balance, SVG XML and
+brand-asset deterministic regeneration passed. The preserved 3D bundle matches its
+existing receipt. No raw dataset, model artifact or academic report was changed.
+
+The final engineering/design review checked:
+
+- Single feature documents, active navigation, semantic headings and functioning entry
+  points; compact mobile public navigation and a serif/sans-serif identity throughout.
+- Real API values in overview/risk/structure, Python-only usefulness, no fabricated scores,
+  and exact saved experiment metrics in README.
+- Stable-ID graph/component/file/impact handoffs and filter/selection restoration.
+- Saved 2D preference applied before automatic 3D initialization; unsupported saved 3D
+  consistently falls back to 2D. Only one adapter attaches, including async load races.
+- No renderer resurrection from late visibility events after pagehide; restoration during
+  navigation is ignored by the retired document. Idle IndexedDB connections close and
+  reopen lazily. Back/forward restoration recreates rendering without analysis.
+- Fullscreen fallback has dialog semantics, focus entry, Tab boundaries and Escape/trigger
+  focus restoration. Mobile navigation has visible focus and Escape handling.
+- Source paths/identifiers remain accessible through inspection/scrolling; rendered labels
+  are bounded/contextual. Partial analysis, empty state and unscored values remain explicit.
+- Invalid replacement files clear pending input. Storage failure preserves the old context
+  and offers real unsaved JSON, never a false successful redirect.
+- Reduced motion, offscreen/hidden landing suspension, conservative canvas resolution,
+  deterministic graph geometry and performance-profile effects limitations.
+
+These are source, integration and fixture checks, not a rendered visual acceptance test.
+The SVG brand artwork alone was rendered and visually inspected. Uvicorn imported,
+completed startup, then failed to bind `127.0.0.1:8000` here. Chromium exited 133 with
+`setsockopt: Operation not permitted`; Firefox exited 139 before rendering. Website
+screenshots, actual 1366×768/mobile visual inspection, real WebGL appearance, console
+verification and performance traces remain outstanding. No FPS, CLS, smoothness or
+visual-success claims are inferred from the mocks.
+
+Product HTML keeps the self-only CSP. FastAPI's pre-existing Swagger/ReDoc pages retain
+their framework CDN defaults so the redesign does not break their scripts; those reference
+UIs need network, while `/openapi.json` and installed product assets remain local.
+
+### Local visual acceptance
+
+1. Follow README setup and start Uvicorn on localhost. Open `/` at 1366×768; inspect the
+   still composition, motion, scroll narrative and immediate import access. Repeat with
+   reduced motion and narrow widths (390×844, tablet and large desktop).
+2. Import a known mixed C/Python ZIP, then navigate all seven workspaces without a
+   second upload. Refresh each and exercise browser back/forward. Open a new tab to
+   verify its context behavior; remember browser tab duplication may copy sessionStorage.
+3. Inspect overview provenance and inventory filters; select actual functions in structure
+   and risk, then navigate their graph/impact evidence. Test a Python-only repository.
+4. In graph: test 2D and genuine WebGL 3D, all perspectives, quality profiles, overlays,
+   search, selected/hover labels, zoom/drag, expanded view focus and reduced motion.
+   Record performance traces on the Intel HD 620 before claiming improvements.
+5. In architecture: inspect parallel/reverse arrows, source evidence, components/cycles.
+   In heatmaps: all six metrics, drill-down, breadcrumbs, missing vs zero vs unscored.
+6. In impact: one/two/three hops, upstream/downstream/both, off-canvas results and complete
+   path inspection. Compare arrows and source lines manually against the fixture.
+7. Export from each page; from impact, confirm the current query is included. Replace
+   the repository, forget it, test expiry/storage denial and malformed GitHub/ZIP inputs.
+8. Check console errors, long paths, keyboard flow and screenshots using
+   [the authentic screenshot checklist](screenshots/README.md). Only commit actual captures.

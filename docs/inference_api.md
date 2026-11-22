@@ -1,5 +1,14 @@
 # C-function inference API (Task 3A)
 
+## Current interface — Task 5
+
+The analysis endpoints and response schemas remain unchanged. Import lives at `/explore`;
+C-only model results live at `/workspace/risk`. Other dedicated workspaces hydrate the
+same source-free, expiring browser snapshot without further API analysis requests.
+There is no server-global repository store or snapshot-ID authorization endpoint.
+See [frontend storage, isolation, routes and lifecycle](frontend.md). Model loading,
+trusted artifact requirements and interpretation below remain applicable.
+
 `POST /api/analyze` still accepts one multipart `file` ZIP. Static analysis, exclusions, security limits and error responses are unchanged. A successful response adds `defect_risk` to schema 1.0 as an additive field, with its own schema version `1.0`. OpenAPI defines the nested dataclass contracts in `app/ml/schemas.py`. Export JSON downloads this same response including all functions and file issues; no source text or server paths are included.
 
 ## Contract

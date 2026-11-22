@@ -50,5 +50,7 @@ async def response_headers(request: Request, call_next):
     response.headers["X-Frame-Options"] = "DENY"
     if response.headers.get("content-type", "").startswith("text/html") or request.url.path.startswith("/api/"):
         response.headers["Cache-Control"] = "no-store"
-        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+        # Preserve FastAPI's existing Swagger/ReDoc CDN configuration; product pages stay self-only.
+        if request.url.path not in {"/docs", "/redoc", "/docs/oauth2-redirect"}:
+            response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
     return response

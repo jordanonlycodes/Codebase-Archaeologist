@@ -35,7 +35,7 @@ def test_graph_dashboard_integration_and_static_assets():
             response = client.get('/static/graph/' + filename)
             assert response.status_code == 200
         assert "script-src 'self'" in client.get('/workspace/graph').headers['content-security-policy']
-        assert 'renderKnowledgeGraph(result.knowledge_graph)' in client.get('/static/product/workspace.js').text
+        assert 'renderKnowledgeGraph(result.knowledge_graph, saved)' in client.get('/static/product/workspace.js').text
         for script in ['svg.js', 'three.js', 'explorer.js']:
             source = client.get('/static/graph/' + script).text
             assert '.innerHTML' not in source and 'insertAdjacentHTML' not in source

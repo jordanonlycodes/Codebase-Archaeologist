@@ -6,7 +6,7 @@
   const metric=value=>value===null||value===undefined?'Unavailable':String(value);
   class Explorer {
     constructor(){
-      this.state=D.initial();this.ix=D.index(null);this.adapter=null;this.epoch=0;this.notice='';this.timer=null;
+      this.suspended=false;this.state=D.initial();this.ix=D.index(null);this.adapter=null;this.epoch=0;this.notice='';this.timer=null;
       this.host=$('graph-canvas');this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.resize=new ResizeObserver(()=>this.adapter?.resize());this.resize.observe(this.host);
       this.supports3D=root.ArchaeologistThree.webgl();
@@ -35,16 +35,23 @@
       $('graph-focus').addEventListener('click',()=>this.adapter?.focus(this.state.selected));
       $('graph-group').addEventListener('click',()=>{const id=this.state.selected;if(!id)return;const values=new Set(this.state.collapsed);values.has(id)?values.delete(id):values.add(id);this.state.collapsed=[...values];this.state.focus=null;this.state.query='';this.syncControls();this.refresh();});
       $('graph-branch').addEventListener('click',()=>{this.state.view='knowledge';this.state.branch=this.state.selected;this.state.focus=null;this.state.query='';this.state.types=[...D.TYPES];this.state.relations=[...D.RELATIONS];this.state.language='';this.syncControls();this.refresh();this.adapter?.fit();});
-      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('graph-workspace').classList.contains('is-expanded'))this.collapse();});
-      this.observer=new IntersectionObserver(entries=>{this.visible=entries[0].isIntersecting;if(this.visible&&this.ix.nodes.size&&!this.adapter)this.switchMode(this.state.mode);});
+      document.addEventListener('keydown',e=>{
+        const workspace=$('graph-workspace');if(!workspace.classList.contains('is-expanded'))return;
+        if(e.key==='Escape')this.collapse();
+        if(e.key==='Tab'){const focusable=[...workspace.querySelectorAll('button, input, select, [tabindex]')].filter(el=>!el.disabled&&el.getClientRects().length&&el.tabIndex!==-1),first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}
+      });
+      this.observer=new IntersectionObserver(entries=>{this.visible=entries[0].isIntersecting;if(!this.suspended&&!document.hidden&&this.visible&&this.ix.nodes.size&&!this.adapter)this.switchMode(this.state.mode);});
       this.observer.observe($('knowledge-explorer'));
       this.visible=false;
     }
-    setGraph(graph){
+    setGraph(graph,preferences=null){
       this.epoch++;clearTimeout(this.timer);this.adapter?.destroy();this.adapter=null;this.notice='';
       const quality=this.state.quality;this.ix=D.index(graph);this.state=D.initial();this.state.quality=quality;this.searchKey=null;this.inspectKey=null;
       if(this.ix.nodes.size>D.LIMITS.nodes)this.state.collapsed=this.ix.ordered.filter(n=>n.type==='file').map(n=>n.id);
       if(this.supports3D&&matchMedia('(min-width: 1000px) and (pointer: fine)').matches&&!this.reduced)this.state.mode='3d';
+      // Restore preferences before any renderer starts, so saved 2D does not
+      // fetch/initialize showcase 3D and unsupported saved 3D falls back honestly.
+      if(preferences){for(const key of Object.keys(this.state))if(preferences[key]!==undefined)this.state[key]=preferences[key];this.state.mode=preferences.mode==='3d'&&this.supports3D?'3d':'2d';if(!this.ix.nodes.has(this.state.selected))this.state.selected=null;}
       this.syncControls();
       $('graph-content').hidden=!graph;
       $('graph-state').textContent=graph?(this.ix.nodes.size?'Graph ready. Explore retained source relationships.':'No graph nodes were retained. Review coverage and limits.'):'Knowledge graph unavailable for this analysis.';
@@ -60,6 +67,7 @@
     }
     modeButtons(){for(const mode of ['2d','3d'])$('graph-'+mode).setAttribute('aria-pressed',String(this.state.mode===mode));}
     async switchMode(mode){
+      if(this.suspended)return;
       if(mode==='3d'&&!this.supports3D){mode='2d';this.notice='WebGL unavailable; using 2D.';}
       const token=++this.epoch;
       this.adapter?.destroy();this.adapter=null;this.state.mode=mode;this.modeButtons();
@@ -166,11 +174,11 @@
       const el=$('graph-workspace');
       if(document.fullscreenElement===el){await document.exitFullscreen();return;}
       if(el.requestFullscreen){try{await el.requestFullscreen();return;}catch{/* CSS expansion remains available. */}}
-      el.classList.toggle('is-expanded');$('graph-fullscreen').setAttribute('aria-expanded',String(el.classList.contains('is-expanded')));this.adapter?.resize();
+      if(el.classList.contains('is-expanded')){this.collapse();return;}el.classList.add('is-expanded');el.setAttribute('role','dialog');el.setAttribute('aria-modal','true');$('graph-fullscreen').setAttribute('aria-expanded','true');$('graph-close-expanded').focus();this.adapter?.resize();
     }
-    collapse(){if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});$('graph-workspace').classList.remove('is-expanded');$('graph-fullscreen').setAttribute('aria-expanded','false');this.adapter?.resize();$('graph-fullscreen').focus();}
+    collapse(){if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});$('graph-workspace').classList.remove('is-expanded');$('graph-workspace').removeAttribute('role');$('graph-workspace').removeAttribute('aria-modal');$('graph-fullscreen').setAttribute('aria-expanded','false');this.adapter?.resize();$('graph-fullscreen').focus();}
   }
   const explorer=new Explorer();
-  root.renderKnowledgeGraph=graph=>explorer.setGraph(graph);
+  root.renderKnowledgeGraph=(graph,preferences)=>explorer.setGraph(graph,preferences);
   root.graphExplorer=explorer;
 })(globalThis);
