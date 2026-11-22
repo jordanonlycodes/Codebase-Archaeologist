@@ -132,6 +132,7 @@ def analyze_functions(root, files, service=None, limits=InferenceLimits(), *, pa
     if pending:
         try:
             import numpy as np
+            from app.ml.evaluation import THRESHOLD
             values = np.asarray(matrix, dtype=np.float64).reshape(-1, len(FEATURE_NAMES))
             probabilities = pipeline.predict_proba(values)
             classes = pipeline.predict(values)
@@ -144,7 +145,8 @@ def analyze_functions(root, files, service=None, limits=InferenceLimits(), *, pa
             for item, probability, label in zip(pending, probabilities[:, 1], classes):
                 item.status = 'analyzed'
                 item.model_probability = float(probability)
-                item.predicted_class = int(label)
+                # Match the recorded benchmark rule, including an exact 0.5 tie.
+                item.predicted_class = int(float(probability) >= THRESHOLD)
         except Exception:
             for item in pending:
                 item.status = 'inference_failed'

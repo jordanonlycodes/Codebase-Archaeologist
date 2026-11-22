@@ -16,10 +16,13 @@ are recorded in `graph-assets.json`; preserve upstream license comments in the b
 See https://github.com/vasturiano/3d-force-graph/tree/v1.73.3 and its LICENSE
 (Copyright 2017 Vasco Asturiano); Three.js is MIT licensed, https://threejs.org/.
 
-These files could not be retrieved in the restricted development environment
-(`Could not resolve host: cdn.jsdelivr.net`; the npm registry is also unreachable).
-There is **no fabricated or empty vendor bundle**. Until installation succeeds,
-the 3D switch reports the missing local asset and falls back to analytical 2D.
+A fresh checkout may omit these locally installed files. When the bundle is absent,
+the 3D switch reports it and falls back to analytical 2D. A locally present bundle is
+not proof of independently verified upstream provenance: compare the archive/receipt
+and check bundled dependency attribution before redistribution. The currently audited
+minified bundle has no embedded license notices, so its top-level MIT license alone
+does not establish that every bundled dependency notice has been retained. See
+[the Task7A vendor assessment](../../../docs/task7a_university_compliance_audit.md).
 The application never requests a CDN. Do not strip license notices from installed assets.
 The built bundle freezes its included code; no runtime semver dependency resolution
 occurs. The download receipt is a provenance record, not an independent authenticity

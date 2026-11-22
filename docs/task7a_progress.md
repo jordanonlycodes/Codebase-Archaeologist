@@ -65,3 +65,19 @@ Independent npm archive re-verification failed DNS. The bundle contains no embed
 Copyright or license notices; exact transitive versions are not pinned by the receipt's
 ranges. Leave all three user-owned files untracked; recommend vendoring as one reviewed
 set only after archive integrity and third-party notices are completed for Task7D.
+
+
+## 3. Focused integration correction
+
+A boundary regression reproduced a genuine convention mismatch: benchmark evaluation
+uses probability >= .5, while live classifier argmax returned class0 for a .5 tie.
+The new test failed with [0,0,1] versus the recorded-rule [0,1,1]. A localized change in
+app/ml/repository.py now derives labels with the shared THRESHOLD, retaining native
+shape/class/probability validation. No scores, model bytes, features, splits or metrics
+were altered. This affects exact ties only for the deployed binary Random Forest.
+Scientific artifacts retain their original checksums; report source hashes remain stale.
+Focused post-fix run: **24 passed, 0 failed/skipped** (4 academic-evidence +20 existing
+repository-ML cases), one existing warning. Native output safeguards and genuine model
+inference remain covered. Current guide now labels Task2-era runtime claims as historical;
+tracked vendor documentation now distinguishes optional installation from verified
+redistribution. No user-owned vendor asset was staged or modified.

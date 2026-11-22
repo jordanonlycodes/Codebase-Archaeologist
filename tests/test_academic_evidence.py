@@ -34,6 +34,7 @@ def test_saved_feature_schema_cleaning_and_model_metadata_agree():
     assert schema['version']==meta['feature_version']==FEATURE_VERSION
     assert set(schema['excluded_inputs'])=={'target','project','commit_id','id'}
     assert len(FEATURE_NAMES)==11 and schema['dtype']=='float64'
+    assert meta['threshold']==.5
     assert meta['selection']['model']=='random_forest' and meta['selection']['test_used'] is False
     assert clean['test_labels_used'] is False and clean['test_rows_modified']==0
     assert all(item['function_groups']==0 for item in clean['overlap_after'].values())
@@ -65,3 +66,25 @@ def test_original_demo_zip_uses_real_trusted_pipeline_and_c_only_features(monkey
             assert f['model_probability']==pytest.approx(float(pipeline.predict_proba(matrix)[0,1]))
         assert 'uncalibrated' in risk['message'] and '/tmp/' not in response.text
         assert data['structural']['functions'] and data['knowledge_graph']['nodes']
+
+
+def test_live_classification_uses_the_recorded_inclusive_half_threshold(monkeypatch):
+    """Boundary-only mock, not training labels or a claimed empirical model result."""
+    import io,zipfile
+    from types import SimpleNamespace
+    import numpy as np
+    from fastapi.testclient import TestClient
+    from app.main import app
+    class BoundaryPipeline:
+        def predict_proba(self,values):return np.asarray([[1-p,p] for p in [.49,.50,.51]])
+        def predict(self,values):return np.asarray([0,0,1])  # native argmax chooses class0 on a tie
+    pipeline=BoundaryPipeline()
+    monkeypatch.setattr('app.ml.repository.SERVICE',SimpleNamespace(load=lambda:pipeline,metadata={'model_version':'boundary-test-only'}))
+    stream=io.BytesIO()
+    with zipfile.ZipFile(stream,'w') as z:z.writestr('boundary.c','int a(void){return 0;}\nint b(void){return 1;}\nint c(void){return 2;}')
+    with TestClient(app) as client:
+        r=client.post('/api/analyze',files={'file':('boundary.zip',stream.getvalue())})
+        assert r.status_code==200
+        functions=r.json()['defect_risk']['functions']
+        assert [f['model_probability'] for f in functions]==[.49,.50,.51]
+        assert [f['predicted_class'] for f in functions]==[0,1,1]

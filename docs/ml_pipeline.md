@@ -1,5 +1,11 @@
 # Task 2 pipeline guide
 
+Current compliance verification: [Task 7A audit](task7a_university_compliance_audit.md).
+The generated reports/ml/README.md and immutable model metadata preserve Task2-era
+wording such as "dashboard disabled"; those historical phrases do not describe the
+current runtime integration below. Do not edit trained metadata/checksums to modernize
+wording or relabel validation as held-out testing.
+
 This pipeline uses legitimate CodeXGLUE/Devign C functions and their original labels. It extends `app/ml/`; Task 1 ingestion, static statistics, routes, assets and templates are unchanged.
 
 ## Source and licensing
@@ -124,3 +130,10 @@ PY
 Task 3A now implements Tree-sitter C function boundaries and file/line locations, shared feature extraction, trusted cached Random Forest loading, parsing abstention and explicitly uncalibrated function scores. See [the inference API guide](inference_api.md). The selected model and benchmark results have not changed. A repository-level score needs a separate justified aggregation contract; `AnalysisResult` totals cannot substitute for C function source. Independent-project evaluation and calibration are still required before practical security claims. The current test ROC-AUC of 0.5874 and 635 false positives demonstrate this limitation.
 
 The repository service calls `extract_features` for each extracted definition and constructs float64 rows in `FEATURE_NAMES` order, identical to `feature_matrix`. It reuses the saved imputer and estimator without fitting. Only parseable functions are scored; individual valid functions can still be scored from a file containing other parse errors, with a file-level warning. Task 3B academic documentation is provided in submission/; document generation does not alter the experiment.
+
+
+Task7A confirmed the live class label now follows the recorded `p(label1) >= 0.5`
+evaluation rule, including an exact tie. Native classifier output validation remains;
+model scores, trained pipeline, feature schema and saved evaluation are unchanged.
+A focused boundary regression reproduced the old class0 tie and verified class1 after
+the correction. This is decision-rule consistency, not a new fitted model.
