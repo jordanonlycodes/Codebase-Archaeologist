@@ -26,6 +26,8 @@ async def analysis_error(request: Request, exc: AnalysisError):
 
 @app.exception_handler(HTTPException)
 async def http_error(request: Request, exc: HTTPException):
+    if exc.status_code == 404 and not request.url.path.startswith("/api/") and "text/html" in request.headers.get("accept", ""):
+        return dashboard.templates.TemplateResponse(request=request, name="not_found.html", status_code=404)
     return JSONResponse({"error": {"code": "invalid_request", "message": str(exc.detail)}}, status_code=exc.status_code)
 
 

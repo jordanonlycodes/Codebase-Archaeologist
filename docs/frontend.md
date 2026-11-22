@@ -87,3 +87,31 @@ permitted` (exit 133). No authentic application screenshots or measured FPS are 
 Run `pytest tests/test_product.py -q -s` for the document integration suite. Browser
 verification instructions and final design review will be maintained here as later
 Task 5 stages are completed. Academic PDF/DOCX files remain unchanged.
+
+## Visualization refinement
+
+The dedicated graph stylesheet was rebuilt rather than layered over legacy rules.
+Controls use neutral compact surfaces, coverage/graphics detail is collapsible, labels
+retain contextual collision rules, and inspectors use readable text with scrolling
+identifiers. Existing perspective layouts, bounds and all six 2D/3D/perspective
+combinations remain covered by graph regression fixtures.
+
+Architecture now assigns deterministic separate curve lanes to parallel and reverse
+component relationships; no source edges are changed. Heatmap non-ML metrics use a
+muted warm scale; hotspot/model-score metrics use garnet, missing remains hatched and
+actual zero remains neutral. Component selection preserves geometry. Impact retains
+its anchored, direction-specific layout and evidence trails with coordinated neutral
+surfaces. File/component cross-navigation uses indexed stable memberships.
+
+3D reuses its existing sphere materials for restrained emissive color (intensity .12),
+without extra geometry, lights or postprocessing. Performance/adaptive-reduced mode
+sets that emission to zero. MSAA remains unrequested in all modes; pixel ratio, normal
+label count, low geometry resolution and idle pause policies remain intact. These
+behaviors were checked through the adapter fixture, not a real GPU profile.
+
+Font assets now use local WOFF (256,404 bytes total versus 480,320 bytes for the initial
+TTF subsets); primary interface and landing editorial faces are preloaded. No measured
+CLS, FPS or visual smoothness claim is made. Firefox was also attempted and exited 139
+before rendering. Focused refinement verification: **27 Python checks passed**, including
+**21 document-journey cases**, graph (24), architecture (10), impact (32) and store (10)
+Node cases through their respective runners. A final full suite follows Stage H.

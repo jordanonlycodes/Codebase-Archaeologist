@@ -13,10 +13,11 @@
   const orb=context.createRadialGradient(x-3,y-3,0,x,y,21);orb.addColorStop(0,'#fff6df');orb.addColorStop(.18,'#f0dcaf');orb.addColorStop(.4,'#b6a78baf');orb.addColorStop(1,'#c5af8800');context.fillStyle=orb;context.beginPath();context.ellipse(x,y,25,25,0,0,Math.PI*2);context.fill();
  }
  function tick(time){frame=null;if(!visible||document.hidden||reduced.matches)return;if(time-last>=1000/24){phase+=.045;draw();last=time;}frame=requestAnimationFrame(tick);}
- function start(){cancelAnimationFrame(frame);frame=null;draw();if(visible&&!document.hidden&&!reduced.matches)frame=requestAnimationFrame(tick);}
+ function start(){cancelAnimationFrame(frame);frame=null;draw();if(context&&visible&&!document.hidden&&!reduced.matches)frame=requestAnimationFrame(tick);}
  const resize=new ResizeObserver(()=>{const rect=canvas.getBoundingClientRect();width=rect.width;height=rect.height;const ratio=Math.min(devicePixelRatio||1,1.25);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);context?.setTransform(ratio,0,0,ratio,0,0);start();});resize.observe(canvas);
  const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;start();});observer.observe(canvas);
  document.addEventListener('visibilitychange',start,{signal:abort.signal});reduced.addEventListener('change',start,{signal:abort.signal});canvas.parentElement.addEventListener('pointermove',event=>{pointer=(event.clientX/innerWidth-.5);},{passive:true,signal:abort.signal});
  const reveal=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('is-visible');reveal.unobserve(entry.target);}},{threshold:.08});if(!reduced.matches)for(const section of document.querySelectorAll('.landing-section')){section.classList.add('reveal-ready');reveal.observe(section);}
- addEventListener('pagehide',()=>{cancelAnimationFrame(frame);resize.disconnect();observer.disconnect();reveal.disconnect();abort.abort();},{once:true});
+ addEventListener('pagehide',event=>{cancelAnimationFrame(frame);frame=null;if(event.persisted)return;resize.disconnect();observer.disconnect();reveal.disconnect();abort.abort();});
+ addEventListener('pageshow',event=>{if(event.persisted)start();});
 })();

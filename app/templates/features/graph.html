@@ -25,9 +25,9 @@
                 <button type="button" id="graph-clear">Clear selection &amp; filters</button>
               </div>
               <details class="graph-filter-details"><summary>Entity and relationship filters</summary><fieldset id="graph-types"><legend>Entity types</legend></fieldset><fieldset id="graph-relations"><legend>Relationship types</legend></fieldset></details>
-              <p id="graph-quality-status" class="graph-coverage" role="status"></p>
+
               <p id="graph-counts" class="graph-counts" role="status" aria-live="polite"></p>
-              <p id="graph-coverage" class="graph-coverage"></p>
+
               <div class="graph-main">
                 <div class="graph-stage">
                   <div class="graph-camera-controls" role="group" aria-label="Graph camera and neighborhood controls">
@@ -41,6 +41,7 @@
                 </div>
                 <aside id="graph-inspection" class="graph-inspection" aria-label="Selected graph entity details"></aside>
               </div>
+              <details class="graph-method"><summary>Graphics quality, extraction coverage &amp; limits</summary>              <p id="graph-quality-status" class="graph-coverage" role="status"></p>              <p id="graph-coverage" class="graph-coverage"></p></details>
               <p id="graph-legend" class="graph-legend"></p>
               <details class="graph-node-browser"><summary>Search results / accessible entity browser</summary><p id="graph-search-count"></p><div id="graph-search-results"></div></details>
               <p class="graph-caution">Relationships represent retained static evidence. Unresolved references appear in entity details, without invented internal edges. Structural complexity and C-only ML scores are separate research indicators.</p>

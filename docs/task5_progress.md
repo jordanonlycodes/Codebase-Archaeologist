@@ -36,6 +36,14 @@
   integration cases and 10 store cases. No renderer or analysis request duplication
   in the tested history/navigation lifecycle. Details: `docs/frontend.md`.
 
+- Stage F completed: rebuilt graph styling, coordinated visualization surfaces,
+  separated parallel/reverse architecture curve lanes, warm/garnet heatmap scales,
+  indexed file/component handoffs, restrained existing-material 3D emission disabled
+  in Performance mode, and WOFF compression/preloading. Added a recovery HTML 404.
+  **27 focused Python checks passed**; document harness now has **21 cases**, graph
+  24, architecture 10, impact 32, store 10 frontend cases. Firefox also failed before
+  rendering (exit 139); real GPU/browser behavior remains unverified.
+
 ## Decisions
 
 - Real Jinja pages at `/`, `/explore`, and seven `/workspace/*` routes; no enormous
@@ -55,7 +63,7 @@
 2. Stage C completed; replace temporary explore dashboard during D/E migration.
 3. Stage D completed.
 4. Stage E completed; proceed to F visualization refinement and second quality pass.
-5. Stage F: visualization and responsive refinement; teardown checks.
+5. Stage F completed; Stage G README brand assets/narrative now in progress.
 6. Stage G: branded README SVG and accurate narrative/research evidence/screenshots status.
 7. Stage H: complete tests, browser attempt, second quality pass, docs, final commit/push.
 

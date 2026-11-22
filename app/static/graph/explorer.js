@@ -135,6 +135,7 @@
       const m=n.metadata||{};
       if(['function','file','directory'].includes(n.type)){const impact=text('button','Explore potential change impact','graph-related');impact.type='button';impact.addEventListener('click',()=>root.WorkspaceNavigation?root.WorkspaceNavigation.open('blast-radius',n.id):root.impactExplorer?.open(n.id));panel.append(impact);}
       panel.append(text('span',n.type.toUpperCase(),'section-tag'),text('h3',n.name));
+      if(root.WorkspaceNavigation){const component=root.WorkspaceNavigation.component(n.id),file=root.WorkspaceNavigation.file(n.id);if(component){const link=text('button','Inspect component architecture','graph-related');link.type='button';link.addEventListener('click',()=>root.WorkspaceNavigation.open('architecture',component));panel.append(link);}if(file){const link=text('button','Explore file heatmap','graph-related');link.type='button';link.addEventListener('click',()=>root.WorkspaceNavigation.open('heatmaps',file));panel.append(link);}}
       const section=(heading,values)=>{panel.append(text('h4',heading));const dl=text('dl',undefined,'graph-details');for(const [key,value]of Object.entries(values)){const dd=text('dd',metric(value));dd.title=metric(value);if(key==='Snapshot'||key==='Node ID')dd.className='graph-identifier';dl.append(text('dt',key),dd);}panel.append(dl);};
       section('Entity identity',{'Name':n.name,'Node ID':n.id});
       if(n.type==='repository'){

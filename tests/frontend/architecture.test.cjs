@@ -75,3 +75,9 @@ test('safe text, source evidence and repository replacement cleanup',()=>{
  x.selectComponent('component-src');assert(h.elements.get('ai-inspector').textContent.includes('<img src=x onerror=alert(1)>'));x.inspectEdge('edge');assert(h.elements.get('ai-inspector').textContent.includes('src/a.c:2:3'));
  const svg=x.scene.svg;x.set(fixture(),null);assert.equal(Object.keys(svg.listeners).length,0);assert.equal(x.state.selected,null);assert.equal(x.state.directory,'root');
 });
+
+
+test('component routing separates parallel and cyclic relationships without inventing edges',()=>{
+ const data=fixture(),view={components:data.components,edges:[...data.edges,{...data.edges[0],id:'import',type:'IMPORTS'},{...data.edges[0],id:'back',source:'component-root',target:'component-src'}]},positions=A.componentPositions(view),routes=A.edgeRoutes(view,positions);
+ assert.equal(routes.size,3);assert.equal(new Set(routes.values()).size,3);for(const path of routes.values())assert(!path.includes('NaN'));assert.deepEqual([...A.edgeRoutes(view,positions)],[...routes]);
+});

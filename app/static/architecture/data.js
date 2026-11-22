@@ -34,6 +34,14 @@
   ordered.forEach((level,i)=>{const band=Math.floor(i/4),offset=bandHeights.slice(0,band).reduce((a,b)=>a+b,0);levels.get(level).sort((a,b)=>a.y-b.y).forEach((p,row)=>Object.assign(p,{x:(i%4)*286,y:offset+row*166}));});
   return positions;
  }
+ function edgeRoutes(view,positions){
+  const groups=new Map(),routes=new Map();for(const edge of view.edges){const key=[edge.source,edge.target].sort().join('|');if(!groups.has(key))groups.set(key,[]);groups.get(key).push(edge);}
+  for(const list of groups.values()){list.sort((a,b)=>a.id.localeCompare(b.id));list.forEach((edge,i)=>{const a=positions.get(edge.source),b=positions.get(edge.target),offset=(i-(list.length-1)/2)*12;let path;
+   if(b.x>a.x){path=`M${a.x+232},${a.y+64+offset} C${a.x+278},${a.y+64+offset} ${b.x-48},${b.y+64+offset} ${b.x},${b.y+64+offset}`;}
+   else if(b.x===a.x){const rail=a.x+285+i*14;path=`M${a.x+232},${a.y+64+offset} C${rail},${a.y+64+offset} ${rail},${b.y+64+offset} ${b.x+232},${b.y+64+offset}`;}
+   else{const rail=Math.min(a.y,b.y)-40-i*16;path=`M${a.x+116+offset},${a.y} C${a.x+116+offset},${rail} ${b.x+116+offset},${rail} ${b.x+116+offset},${b.y}`;}routes.set(edge.id,path);
+  });}return routes;
+ }
  function metric(node,key){
   const value=node.metrics[key],covered=['bytes','physical_lines'].includes(key)?node.metrics.files:node.metrics.measured_files[key]||0;
   const state=value==null?(key==='max_c_function_score'?(node.ml_status==='unsupported'?'unsupported':'unscored'):node.structural_status==='unsupported'?'unsupported':'unavailable'):covered<node.metrics.files?'partial':'measured';
@@ -42,7 +50,7 @@
  function tone(node,key,maximum){
   const m=metric(node,key);if(m.value==null)return {fill:'url(#architecture-unscored)',...m};
   const ratio=key==='max_c_function_score'?m.value:maximum?Math.sqrt(m.value/maximum):0;
-  const low=[61,63,73],high=[194,61,81],clamped=Math.max(0,Math.min(1,ratio));
+  const low=[47,51,53],high=['max_c_function_score','hotspots'].includes(key)?[181,87,100]:[151,131,103],clamped=Math.max(0,Math.min(1,ratio));
   return {fill:`rgb(${low.map((c,i)=>Math.round(c+(high[i]-c)*clamped)).join(',')})`,...m};
  }
  function partition(items,rect,area){
@@ -71,5 +79,5 @@
  function filesUnder(ix,id){if(ix.fileCache.has(id))return ix.fileCache.get(id);const found=[],seen=new Set(),stack=[id];while(stack.length){const current=stack.pop();if(seen.has(current))continue;seen.add(current);const n=ix.nodes.get(current);if(n?.type==='file')found.push(n);else for(const child of ix.children.get(current)||[])stack.push(child.id);}found.sort((a,b)=>a.path.localeCompare(b.path));ix.fileCache.set(id,found);return found;}
  function search(ix,query){const q=query.trim().toLowerCase();return [...ix.nodes.values()].filter(n=>n.path.toLowerCase().includes(q)||n.name.toLowerCase().includes(q)).slice(0,LIMITS.search);}
  function breadcrumbs(ix,id){const result=[],seen=new Set();while(id&&!seen.has(id)){seen.add(id);const n=ix.nodes.get(id);if(!n)break;result.push(n);id=n.parent_id;}return result.reverse();}
- const api={LIMITS,METRICS,initial,index,componentView,componentPositions,metric,tone,partition,treemap,filesUnder,search,breadcrumbs};root.ArchaeologistArchitecture=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+ const api={LIMITS,METRICS,initial,index,componentView,componentPositions,edgeRoutes,metric,tone,partition,treemap,filesUnder,search,breadcrumbs};root.ArchaeologistArchitecture=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(globalThis);

@@ -110,3 +110,12 @@ def test_real_documents_boot_with_shared_analysis_and_cross_page_navigation(tmp_
         run=subprocess.run(['node','tests/frontend/product.test.cjs'],cwd=ROOT,env={**os.environ,'PRODUCT_FIXTURE':str(path)},capture_output=True,text=True,timeout=40)
         assert run.returncode==0,run.stdout+run.stderr
         print(run.stdout)
+
+
+def test_browser_404_preserves_api_errors_and_recovery_navigation():
+    with TestClient(app) as client:
+        page=client.get('/workspace/missing',headers={'accept':'text/html'})
+        assert page.status_code==404 and 'OUTSIDE THE MAP' in page.text
+        assert 'href="/workspace/overview"' in page.text
+        api=client.get('/api/missing',headers={'accept':'text/html'})
+        assert api.status_code==404 and api.json()['error']['code']=='invalid_request'

@@ -26,7 +26,7 @@
       this.host=host;this.reduced=reducedMotion;this.onQualityChange=onQualityChange;this.quality=new root.ArchaeologistQuality.Policy();this.destroyed=false;this.visible=true;this.frame=null;this.sleep=null;this.positions=new Map();this.labels=new Map();this.clean=[];this.layoutRuns=0;this.dataUpdates=0;this.curves=new Map();
       try{
         this.graph=root.ForceGraph3D({controlType:'orbit',rendererConfig:{antialias:false,powerPreference:'low-power'}})(host);
-        this.graph.backgroundColor('#0A0A0D').showNavInfo(false).nodeId('id')
+        this.graph.backgroundColor('#0b0c0e').showNavInfo(false).nodeId('id')
           .nodeLabel(n=>{const el=document.createElement('span');el.textContent=`${n.record.name} · ${n.record.path||n.record.type}`;return el;})
           .linkLabel(e=>{const el=document.createElement('span');el.textContent=`${e.type}: ${e.reference||''} · ${e.occurrences} occurrence(s)`;return el;})
           .linkWidth(0).linkDirectionalArrowLength(3).linkDirectionalArrowRelPos(1).linkOpacity(1)
@@ -70,7 +70,13 @@
       if(changed)this.graph.nodeVal(n=>{const v=this.visuals.get(n.id);return (v.size/5)**3*(v.hotspot?1.4:1);});
       this.graph.nodeColor(n=>this.em.get(n.id)==='selected'?'#F8E8EA':this.em.get(n.id)==='dim'?'#30232d':this.visuals.get(n.id).color)
         .linkColor(e=>{const v=this.edgeVisuals.get(e.id);return v.color+Math.round(v.opacity*255).toString(16).padStart(2,'0');});
+      this.styleMaterials();
       this.updateArrows();this.syncLabels();this.wake();
+    }
+    styleMaterials(){
+      // Reuse existing materials: no new geometry, lights or postprocessing passes.
+      const performance=this.quality.profile===root.ArchaeologistQuality.PROFILES.performance;
+      this.graph.scene().traverse(object=>{if(object.geometry?.type!=='SphereGeometry')return;for(const material of Array.isArray(object.material)?object.material:[object.material])if(material?.emissive?.copy&&material.color){material.emissive.copy(material.color);material.emissiveIntensity=performance?0:.12;}});
     }
     updateArrows(){
       this.graph.linkDirectionalArrowLength(edge=>{
@@ -84,7 +90,7 @@
       if(this.profile===profile)return;
       this.profile=profile;
       this.graph.renderer().setPixelRatio?.(Math.min(root.devicePixelRatio||1,profile.pixelRatio));
-      this.graph.nodeResolution(profile.resolution);
+      this.graph.nodeResolution(profile.resolution);this.styleMaterials();
       this.updateArrows();this.syncLabels();this.labelDirty=true;this.onQualityChange();
     }
     qualityDescription(){

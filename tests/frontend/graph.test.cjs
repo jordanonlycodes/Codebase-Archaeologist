@@ -128,7 +128,7 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  for(const method of methods)graph[method]=(...args)=>{calls[method]=args;return graph;};
  graph.controls=()=>controls;graph.graphData=data=>{updates++;calls.graphData=data;return graph;};
  graph.pauseAnimation=()=>{calls.paused=true;};graph.resumeAnimation=()=>{};
- graph.scene=()=>({traverse:fn=>fn({geometry:{dispose(){disposed++;}},material:{dispose(){disposed++;}}})});
+ const material={color:{},emissive:{copy(){}},dispose(){disposed++;}};graph.scene=()=>({traverse:fn=>fn({geometry:{type:'SphereGeometry',dispose(){disposed++;}},material})});
  graph.renderer=()=>({renderLists:{dispose(){disposed++;}},dispose(){disposed++;},forceContextLoss(){contextLost++;},setPixelRatio(value){calls.pixelRatio=value;},getContext(){return {getContextAttributes:()=>({antialias:false})};}});
  graph._destructor=()=>{destructed++;};
  const document={createElement:tag=>new Element(tag)};
@@ -136,7 +136,7 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
  const adapter=new context.ArchaeologistThree.Adapter(host,()=>{},true),fixtureGraph=fixture();fixtureGraph.nodes[2].name='<img onerror=alert(1)>';fixtureGraph.nodes.push(n('dependency','file'));fixtureGraph.edges.push(e('import','file','dependency','IMPORTS'),e('include','dependency','file','INCLUDES'));
  const ix=D.index(fixtureGraph),s=D.initial();s.selected='a';adapter.set(D.subset(ix,s),ix,s);
- assert.equal(options[0].rendererConfig.antialias,false);
+ assert.equal(options[0].rendererConfig.antialias,false);assert.equal(material.emissiveIntensity,.12);
  assert.equal(calls.cooldownTicks[0],0);assert.equal(calls.warmupTicks[0],0);assert.equal(controls.enableDamping,false);
  assert.equal(calls.nodeLabel[0]({record:fixtureGraph.nodes[2]}).textContent,'<img onerror=alert(1)> · src/a.c');
  assert.equal(calls.graphData.nodes[0].record.id,D.subset(ix,s).nodes[0].id);
@@ -148,7 +148,7 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
   assert.equal(adapter.data.nodes[0],first);if(first)assert.deepEqual({x:first.x,y:first.y,z:first.z},location);
  }
  const count=updates,runs=adapter.layoutRuns;
- s.quality='performance';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],4);assert.equal(calls.pixelRatio,1);assert.equal(updates,count);assert.equal(adapter.layoutRuns,runs);
+ s.quality='performance';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],4);assert.equal(material.emissiveIntensity,0);assert.equal(calls.pixelRatio,1);assert.equal(updates,count);assert.equal(adapter.layoutRuns,runs);
  assert.match(adapter.qualityDescription(),/context antialias: off/);
  const arrow=calls.linkDirectionalArrowLength[0];assert.equal(arrow({source:s.selected,target:'other'}),3);assert.equal(arrow({source:'unrelated',target:'another'}),0);
  s.quality='balanced';adapter.set(D.subset(ix,s),ix,s);assert.equal(calls.nodeResolution[0],6);assert.equal(updates,count);

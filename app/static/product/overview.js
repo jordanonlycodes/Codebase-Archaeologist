@@ -1,7 +1,7 @@
 (function(root){
 "use strict";
-let result=null;let page=0;const pageSize=50;
-function renderOverview(data){result=data;
+let result=null;let heatIds=new Map();let page=0;const pageSize=50;
+function renderOverview(data){result=data;heatIds=new Map((data.architecture?.heatmap||[]).filter(n=>n.type==='file').map(n=>[n.path,n.id]));
   const source = result.source;
   $('source-meta').replaceChildren();
   $('source-meta').hidden = source?.type !== 'github';
@@ -73,7 +73,9 @@ function renderInventory() {
   const fragment = document.createDocumentFragment();
   for (const file of files.slice(start, start + pageSize)) {
     const row = node("tr");
-    const path = node("td", file.path);
+    const path = node("td");
+    const identity=heatIds.get(file.path);
+    if(identity){const link=node('button',file.path,'text-button');link.type='button';link.addEventListener('click',()=>WorkspaceNavigation.open('heatmaps',identity));path.append(link);}else path.textContent=file.path;
     path.title = file.path;
     row.append(path, node("td", file.language), node("td", number(file.lines), "number"), node("td", number(file.blank_lines), "number"));
     const comment = node("td", file.comment_lines === null ? "—" : number(file.comment_lines), "number");
