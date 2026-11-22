@@ -13,7 +13,7 @@
     g.addEventListener('click',e=>{e.stopPropagation?.();act();});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation?.();act();}});this.nodes.set(tile.path||'@more',g);canvas.append(g);
     if(!nested&&tile.directory&&width>190&&height>135){const allChildren=D.groups(rows,tile.path,metric),children=allChildren.slice(0,8);g.append(make('title',{},`Nested preview: ${children.length}/${allChildren.length} groups; drill down for all retained entries.`));draw(children,tile.x+gap+6,tile.y+gap+62,width-12,height-68,true);}
    }};
-   draw(visible,0,0,1000,480);this.host.append(canvas);if(!groups.length){const p=document.createElement('p');p.textContent='No historical paths match this directory and range.';this.host.append(p);}return {shown:visible.length,total:groups.length,max:observed};
+   draw(visible,0,0,1000,480);this.host.append(canvas);root.WorkspaceMotion?.batch(this.nodes.values(),{key:'history-map:'+directory+':'+metric});if(!groups.length){const p=document.createElement('p');p.textContent='No historical paths match this directory and range.';this.host.append(p);}return {shown:visible.length,total:groups.length,max:observed};
   }
   destroy(){this.host.replaceChildren();this.nodes.clear();this.canvas=null;}
  }

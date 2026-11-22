@@ -128,3 +128,22 @@ test('rapid revision switching aborts stale browser consumer and rejects late tr
 test('comparison cache expires and evicts without adding source to snapshot or mixing repositories',async()=>{const h=await boot('time-machine',{data:historyData()}),m=h.context.timeMachine;for(const c of fixture.history.commits.slice(0,4))m.rememberComparison({...fixture.history_pair,base:c.sha});assert.equal(m.comparisons.size,3);const [key,row]=m.comparisons.entries().next().value;row.expires=Date.now()-1;assert.equal(m.cachedComparison(row.value.base,row.value.head),null);assert.equal(m.comparisons.size,2);m.initialize(historyData(),h.store,null,null);assert.equal(m.comparisons.size,0);assert(!JSON.stringify(m.state()).includes('patch'));assert.equal(h.cloudRequests.length,0);});
 test('server cache status is visible without an extra status endpoint or rerender fetch',async()=>{const h=await boot('time-machine',{data:historyData(),historyHandler:async()=>historyOK(fixture.history,{state:'connected',remaining:17,reset_at:2000000000,cache:'hit'})}),m=h.context.timeMachine;await m.load();const status=h.doc.getElementById('tm-api-status').textContent;assert(status.includes('cached')&&status.includes('17 requests'));m.render();m.render();assert.equal(h.cloudRequests.length,1);assert.equal(h.doc.getElementById('tm-api-status').getAttribute('role'),'status');});
 test('smaller partial history never discards a previously loaded larger pinned window',async()=>{const partial={...fixture.history,commits:fixture.history.commits.slice(0,2)},h=await boot('time-machine',{data:historyData(),historyHandler:async()=>historyOK(partial,{state:'limited',cache:'mixed'})}),m=h.context.timeMachine;await m.load();assert.equal(m.history.commits.length,7);assert(h.doc.getElementById('tm-error').textContent.includes('larger window'));});
+
+test('shared motion scopes to active snapshot and tears down through native history navigation',async()=>{
+ const h=await boot('overview'),m=h.context.WorkspaceMotion;
+ assert.equal(m.scope,'test-snapshot:overview');assert.equal(m.active,true);assert.equal(m.counters.size,0,'unsupported animation API must expose final data immediately');
+ await h.emit('pagehide');assert.equal(m.active,false);assert.equal(m.animations.size,0);assert.equal(m.pending.size,0);
+ await h.emit('pageshow',{persisted:true});assert.equal(m.active,true);assert.equal(m.scope,'test-snapshot:overview');assert.equal(h.requests.length,0);
+});
+test('Jordan reveals only a new response and clears genuine local busy state on failure',async()=>{
+ const h=await boot('jordan'),j=h.context.jordanWorkspace,calls=[];h.context.WorkspaceMotion.reveal=(el)=>calls.push(el);
+ j.ask('Summarize this repository.');assert.equal(calls.length,1);assert.equal(h.doc.getElementById('jordan-status').getAttribute('aria-busy'),'false');
+ j.draw();assert.equal(calls.length,1,'rebuilt old messages must not replay entrance');
+ j.ask('Which functions are most complex?');assert.equal(calls.length,2);
+ h.context.JordanLocal.answer=()=>{throw Error('Deterministic fixture failure');};j.ask('Summarize this repository.');assert.equal(h.doc.getElementById('jordan-status').getAttribute('data-pending'),'false');assert.equal(h.doc.getElementById('jordan-error').hidden,false);
+});
+test('Time Machine busy indicator clears on cancellation without discarding loaded history',async()=>{
+ let release;const gate=new Promise(resolve=>release=resolve),h=await boot('time-machine',{data:historyData(),historyHandler:()=>gate}),m=h.context.timeMachine,history=m.history;
+ const pending=m.request('tree',{revision:m.selected});assert.equal(h.doc.getElementById('tm-status').getAttribute('data-pending'),'true');
+ m.cancel();assert.equal(h.doc.getElementById('tm-status').getAttribute('aria-busy'),'false');release({ok:false,json:async()=>({error:{message:'Delayed fixture error'}})});await pending;assert.equal(m.history,history);assert.equal(h.doc.getElementById('tm-status').getAttribute('data-pending'),'false');
+});

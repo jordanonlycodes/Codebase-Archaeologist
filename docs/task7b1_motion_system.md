@@ -75,3 +75,31 @@ Primitive12cases, graph26cases, architecture10cases, impact32cases pass. Focused
 product/graph/motion Python suite **27passed,0failed/skipped in44.91s**, one existing
 warning. Native GPU/visual acceptance is still unavailable: fresh Chromium exit133 at
 setsockopt and Uvicorn exit3 at localhost binding, before any website rendering.
+
+## History / Jordan / safety checkpoint
+
+TimeMachine timeline markers, monthly plot, real directory maps, comparison balance and
+inspectors have finite evidence-keyed entrances. A map's directory/metric key avoids
+repeated waves during cached playback. Retrieval busy marks follow existing request/
+finally/cancel paths; no extra fetch, cache mutation or retry was introduced.
+Jordan reveals only the newest actual turn; rebuilt old/restored turns are static.
+Citation/details effects preserve safe text. Local processing is synchronous and clears
+busy in finally, without artificial delay; a visible spinner is not guaranteed for an
+instant answer. Existing setup/request status gets pending-only feedback, without
+configuring or activating any provider. Error/cancellation/teardown clear the marks.
+
+Narrow viewports use3px instead of6px rise and25ms instead of45ms stagger. Removed-view
+native effects are pruned before new effects; original empty computed opacity falls back
+to1 so detached newly inserted summaries do not disappear.14primitive cases pass.
+Actual-document tests now cover motion scope/BFCache, new-message-only reveal, local
+error cleanup and history-cancel loaded-state preservation. Focused product+motion run:
+**22passed,0failed/skipped in42.99s**, one existing warning. All29appJSsyntax checks pass.
+
+## Checkpoints / final review
+
+8efafee baseline;0b2d133 primitives;c85d95b shell/overview;9c9b866 graph/architecture/impact.
+History/Jordan checkpoint follows the successful focused tests above. Final complete
+regression and human visual acceptance are recorded separately. No brand SVG, source
+analysis, API, model or historical-evidence module was changed. Seen preference eviction
+(after80entries) or blocked session storage may permit a later repeat reveal; this is
+bounded visual state, not repository retention or correctness state.

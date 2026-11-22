@@ -22,3 +22,13 @@ def test_motion_assets_are_local_and_progressive():
         assert '.innerHTML' not in js.text and 'fetch(' not in js.text
         assert 'fill:\'none\'' in js.text
         assert 'opacity:0' not in css.text  # No stylesheet hides initial essential content.
+
+
+def test_workspace_motion_load_order_and_brand_preservation():
+    with TestClient(app) as client:
+        for page in ['overview','graph','architecture','heatmaps','blast-radius','jordan','time-machine']:
+            html=client.get('/workspace/'+page).text
+            assert html.index('/static/product/motion.js') < html.index('/static/product/workspace.js')
+            assert '/static/product/motion.css' in html
+            assert '/static/brand/relic-dark.svg' in html
+        assert '/static/product/motion.js' not in client.get('/').text

@@ -60,3 +60,9 @@ test('busy status follows genuine state and remains usable without animation sup
 test('fades and traces preserve dimmed relationship emphasis',()=>{
  const h=harness(),el=new Element();h.env.getComputedStyle=()=>({opacity:'.2'});h.motion.reveal(el,{kind:'fade'});assert.equal(el.calls[0].frames[1].opacity,.2);h.motion.trace([el]);assert.equal(el.calls[1].frames[1].opacity,.2);
 });
+test('removed view effects are pruned and detached computed styles do not hide new content',()=>{
+ const h=harness(),old=new Element(),next=new Element();h.motion.reveal(old);old.isConnected=false;h.env.getComputedStyle=()=>({opacity:''});h.motion.reveal(next,{kind:'fade'});assert(old.calls[0].cancelled);assert.equal(h.motion.animations.size,1);assert.equal(next.calls[0].frames[1].opacity,1);
+});
+test('narrow viewports use shorter travel and bounded stagger',()=>{
+ const h=harness(),el=new Element();h.env.matchMedia=query=>query.includes('650px')?{matches:true}:h.media;h.motion.reveal(el);assert.equal(el.calls[0].frames[0].transform,'translateY(3px)');const nodes=[new Element(),new Element()];h.motion.batch(nodes);assert.equal(nodes[1].calls[0].options.delay,25);
+});

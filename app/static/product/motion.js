@@ -21,21 +21,21 @@
   }
   play(el,frames,{duration=TIMING.normal,delay=0}={}){
    if(!this.enabled(el))return false;
-   this.cancel(el);if(this.animations.size>=MAX_ACTIVE)return false;
+   this.cancel(el);for(const node of [...this.animations.keys()])if(node.isConnected===false)this.cancel(node);if(this.animations.size>=MAX_ACTIVE)return false;
    try{const animation=el.animate(frames,{duration,delay:Math.min(220,delay),easing:TIMING.ease,fill:'none'});
     this.animations.set(el,animation);const finish=()=>{if(this.animations.get(el)===animation)this.animations.delete(el);};animation.onfinish=finish;animation.oncancel=finish;return true;
    }catch{return false;}
   }
-  opacity(el){const value=Number(this.env.getComputedStyle?.(el)?.opacity??1);return Number.isFinite(value)?value:1;}
+  opacity(el){const value=Number.parseFloat(this.env.getComputedStyle?.(el)?.opacity??'1');return Number.isFinite(value)?value:1;}
   reveal(el,{key,kind='rise',duration=TIMING.normal,delay=0}={}){
    if(!this.enabled(el)||!this.claim(key))return false;
-   const opacity=this.opacity(el),frames=kind==='fade'?[{opacity:opacity*.35},{opacity}]:[{opacity:opacity*.45,transform:'translateY(6px)'},{opacity,transform:'translateY(0)'}];
+   const distance=this.env.matchMedia('(max-width: 650px)').matches?3:6,opacity=this.opacity(el),frames=kind==='fade'?[{opacity:opacity*.35},{opacity}]:[{opacity:opacity*.45,transform:`translateY(${distance}px)`},{opacity,transform:'translateY(0)'}];
    return this.play(el,frames,{duration,delay});
   }
   batch(elements,{key,kind='fade',duration=TIMING.slow}={}){
    const nodes=Array.from(elements).slice(0,MAX_BATCH);
    if(!nodes.some(n=>this.enabled(n))||!this.claim(key))return;
-   nodes.forEach((el,i)=>this.reveal(el,{kind,duration,delay:i*TIMING.stagger}));
+   nodes.forEach((el,i)=>this.reveal(el,{kind,duration,delay:i*(this.env.matchMedia('(max-width: 650px)').matches?25:TIMING.stagger)}));
   }
   watch(elements,{key}={}){
    const nodes=Array.from(elements).slice(0,MAX_BATCH);if(!nodes.some(n=>this.enabled(n)))return;
@@ -43,7 +43,7 @@
    if(!this.observer)this.observer=new this.env.IntersectionObserver(entries=>{
     for(const e of entries)if(e.isIntersecting){const options=this.pending.get(e.target);this.pending.delete(e.target);this.observer.unobserve(e.target);if(options)this.reveal(e.target,options);}
    },{threshold:.08});
-   nodes.forEach((el,i)=>{this.pending.set(el,{key:key+':'+i,delay:Math.min(180,i*TIMING.stagger)});this.observer.observe(el);});
+   nodes.forEach((el,i)=>{this.pending.set(el,{key:key+':'+i,delay:Math.min(180,i*(this.env.matchMedia('(max-width: 650px)').matches?25:TIMING.stagger))});this.observer.observe(el);});
   }
   trace(elements,{key}={}){
    const paths=Array.from(elements).slice(0,MAX_BATCH);if(!paths.some(p=>this.enabled(p))||!this.claim(key))return;
