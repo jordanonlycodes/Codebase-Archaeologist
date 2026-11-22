@@ -3,8 +3,8 @@
 ## Real pages, shared evidence
 
 FastAPI/Jinja renders a public landing (`/`), repository import (`/explore`), and
-seven independent `/workspace/` documents: `overview`, `risk`, `structure`, `graph`,
-`architecture`, `heatmaps`, `blast-radius`. Unknown workspace names return 404.
+eight independent `/workspace/` documents: `overview`, `risk`, `structure`, `graph`,
+`architecture`, `heatmaps`, `blast-radius`, `jordan`. Unknown workspace names return 404.
 `workspace_base.html` owns one navigation/context shell; validated feature includes
 contain only that page's relevant controls and content. Architecture and heatmaps
 share an engine/template but initialize different actual views. They do not load a
@@ -182,7 +182,7 @@ UIs need network, while `/openapi.json` and installed product assets remain loca
 1. Follow README setup and start Uvicorn on localhost. Open `/` at 1366×768; inspect the
    still composition, motion, scroll narrative and immediate import access. Repeat with
    reduced motion and narrow widths (390×844, tablet and large desktop).
-2. Import a known mixed C/Python ZIP, then navigate all seven workspaces without a
+2. Import a known mixed C/Python ZIP, then navigate all eight workspaces without a
    second upload. Refresh each and exercise browser back/forward. Open a new tab to
    verify its context behavior; remember browser tab duplication may copy sessionStorage.
 3. Inspect overview provenance and inventory filters; select actual functions in structure
@@ -198,3 +198,38 @@ UIs need network, while `/openapi.json` and installed product assets remain loca
    the repository, forget it, test expiry/storage denial and malformed GitHub/ZIP inputs.
 8. Check console errors, long paths, keyboard flow and screenshots using
    [the authentic screenshot checklist](screenshots/README.md). Only commit actual captures.
+
+
+## Jordan extension — Task 6A
+
+`/workspace/jordan` loads only the existing impact engine and scoped retrieval, local
+intelligence and conversation modules. It builds one snapshot-local index and uses
+retained stable IDs, not source parsing. Normal navigation still does not reanalyze.
+`WorkspaceNavigation.askJordan` stores a compact validated entity reference, source page,
+suggested question and optional exact impact target/depth/direction in the existing
+one-shot handoff. Unknown identities are rejected. The evidence inspector navigates
+back into real graph, structure, architecture and impact workspaces.
+
+The per-snapshot Jordan preference contains at most eight local turns / 18 KiB within
+the shared 32 KiB preferences cap. Cloud replies remain in page memory and are never
+persisted. Replacement/forget/expiry clears conversation context; expired or absent
+active pointers now also remove leftover conversation/preferences. Pagehide aborts
+capability/provider requests, clears disclosure and drops indexes. Epoch checks reject
+late answers. History restoration reconstructs indexes without duplicated listeners.
+The native details panels collapse at smaller widths; no rendering loop or dependency
+was added. Safe textContent rendering handles user, repository and generated text.
+
+Only explicit reviewed cloud requests cross the API boundary with selected facts. There
+is no server snapshot mirror or global assistant state. See [Jordan](jordan.md) for the
+provider trust boundary, disclosure, configuration and complete verification record.
+
+
+Task 6A final regression record: **435 Python tests passed, zero failed/skipped**, with
+one existing Starlette/httpx warning. The browser-free document suite now has 44 cases,
+Jordan utilities 30 and snapshot persistence 15. Existing graph (24), architecture (10)
+and impact (32) suites remain green. These counts are not added to the Python total.
+Mixed C/Python real-ingestion smoke: 3 files, 4 structural functions, 2 actual C-model
+predictions; verified local caller and impact answers. Uvicorn reached application
+startup but could not bind localhost. Chromium again exited 133 at setsockopt; Firefox
+exited 139 before rendering. Jordan visual/responsive acceptance and live cloud testing
+remain local manual checks in jordan.md; no measured FPS or screenshots are claimed.

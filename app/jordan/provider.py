@@ -60,22 +60,7 @@ class OpenAIProvider:
                            'answer': {'type': 'string'},
                            'citation_ids': {'type': 'array', 'items': {'type': 'string'}}}}}}}
         try:
-            async with asyncio.timeout(45):
-                async with httpx.AsyncClient(transport=self.transport, timeout=httpx.Timeout(30, connect=5),
-                                            follow_redirects=False, trust_env=False) as client:
-                    async with client.stream('POST', ENDPOINT, json=payload,
-                                             headers={'Authorization': 'Bearer ' + self.config.key}) as response:
-                        if response.status_code in (401, 403):
-                            raise AnalysisError('The configured AI provider rejected authentication. Local intelligence remains available.', 'provider_auth', 502)
-                        if response.status_code == 429:
-                            raise AnalysisError('The AI provider is rate limited. Retry later or remain local.', 'provider_rate_limit', 429)
-                        if response.status_code != 200:
-                            raise AnalysisError('The AI provider is unavailable or rejected the configured model/request.', 'provider_unavailable', 502)
-                        body = bytearray()
-                        async for chunk in response.aiter_bytes():
-                            if len(body) + len(chunk) > 65536:
-                                raise AnalysisError('AI response exceeded the output limit.', 'provider_output_limit', 502)
-                            body.extend(chunk)
+            body = await asyncio.wait_for(self._request(payload), timeout=45)
             result = json.loads(body)
             if result.get('status') != 'completed':
                 raise ValueError('Incomplete response')
@@ -90,9 +75,27 @@ class OpenAIProvider:
                 if not set(re.findall(r'\bE[0-9]+\b', generated.answer)) <= allowed:
                     raise ValueError('Unknown inline citation')
             return generated
-        except (TimeoutError, httpx.TimeoutException):
+        except (asyncio.TimeoutError, httpx.TimeoutException):
             raise AnalysisError('AI request timed out. Local intelligence remains available.', 'provider_timeout', 504) from None
         except httpx.HTTPError:
             raise AnalysisError('Could not reach the AI provider. Local intelligence remains available.', 'provider_unavailable', 502) from None
         except (ValueError, TypeError, KeyError, AttributeError, ValidationError):
             raise AnalysisError('The AI provider returned an invalid or unsupported explanation.', 'provider_invalid_output', 502) from None
+
+    async def _request(self, payload):
+        async with httpx.AsyncClient(transport=self.transport, timeout=httpx.Timeout(30, connect=5),
+                                    follow_redirects=False, trust_env=False) as client:
+            async with client.stream('POST', ENDPOINT, json=payload,
+                                     headers={'Authorization': 'Bearer ' + self.config.key}) as response:
+                if response.status_code in (401, 403):
+                    raise AnalysisError('The configured AI provider rejected authentication. Local intelligence remains available.', 'provider_auth', 502)
+                if response.status_code == 429:
+                    raise AnalysisError('The AI provider is rate limited. Retry later or remain local.', 'provider_rate_limit', 429)
+                if response.status_code != 200:
+                    raise AnalysisError('The AI provider is unavailable or rejected the configured model/request.', 'provider_unavailable', 502)
+                body = bytearray()
+                async for chunk in response.aiter_bytes():
+                    if len(body) + len(chunk) > 65536:
+                        raise AnalysisError('AI response exceeded the output limit.', 'provider_output_limit', 502)
+                    body.extend(chunk)
+        return body

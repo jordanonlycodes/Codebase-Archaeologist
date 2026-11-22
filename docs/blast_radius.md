@@ -250,3 +250,12 @@ Verify clear/export, repository replacement, an unsupported-language repository 
 missing model. Check zoom/pan and keyboard controls at 1366×768 and mobile widths,
 including reduced motion and long names. Record browser profiling before making any
 performance claim. Academic reports remain unchanged until Task 7.
+
+## Explain an investigation with Jordan
+
+The impact inspector's Ask Jordan action preserves origin, selected depth/direction and,
+when applicable, the selected reachable target ID. Jordan reconstructs the representative
+path using this engine, preserving original relationship arrows/evidence. Only compact
+IDs/options cross workspace navigation; no source parsing or network call occurs on
+handoff. Optional cloud explanation requires a separate reviewed disclosure and consent.
+See [Jordan evidence and privacy](jordan.md).

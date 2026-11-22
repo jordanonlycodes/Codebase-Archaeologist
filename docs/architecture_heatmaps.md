@@ -246,3 +246,10 @@ directory origins expand retained descendants. Impact inspection can return to t
 corresponding component canvas or file heatmap without reanalysis. Reached function
 owners map to existing files/components; containment is not an impact propagation edge.
 No architecture grouping, metric definitions, trained model or heatmap aggregation changed.
+
+## Jordan handoff
+
+Selected components and graph-linked heatmap files expose an Ask Jordan action carrying
+the actual component/file identity. Jordan can describe retained component measurements,
+recorded cycles and dependencies, then navigate back to architecture. It does not invent
+architectural roles or runtime services. See [Jordan](jordan.md).

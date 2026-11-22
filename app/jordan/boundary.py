@@ -21,20 +21,26 @@ class JordanBoundary:
             return await reject(429, 'jordan_busy', 'Jordan is busy. Local intelligence remains available.')
         self.active += 1
         try:
-            body = bytearray()
+            async def collect():
+                body = bytearray()
+                while True:
+                    part = await receive()
+                    if part['type'] == 'http.disconnect':
+                        return None
+                    if len(body) + len(part.get('body', b'')) > 32768:
+                        return False
+                    body.extend(part.get('body', b''))
+                    if not part.get('more_body'):
+                        return body
+
             try:
-                async with asyncio.timeout(10):
-                    while True:
-                        part = await receive()
-                        if part['type'] == 'http.disconnect':
-                            return
-                        if len(body) + len(part.get('body', b'')) > 32768:
-                            return await reject(413, 'request_limit', 'Jordan requests are limited to 32 KiB.')
-                        body.extend(part.get('body', b''))
-                        if not part.get('more_body'):
-                            break
-            except TimeoutError:
+                body = await asyncio.wait_for(collect(), timeout=10)
+            except asyncio.TimeoutError:
                 return await reject(408, 'request_timeout', 'Jordan request upload timed out.')
+            if body is None:
+                return
+            if body is False:
+                return await reject(413, 'request_limit', 'Jordan requests are limited to 32 KiB.')
             replayed = False
 
             async def replay():

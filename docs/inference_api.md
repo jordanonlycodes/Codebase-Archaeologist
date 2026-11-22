@@ -110,3 +110,13 @@ bounded seeds, direction-specific reachability/path records, original edge evide
 internal seed relationships, attributable uncertain references, summary, coverage and
 limits. Clearing focus omits it on the next export. There is no persistent impact
 store or new server endpoint. See [contract, examples and limits](blast_radius.md).
+
+
+## Jordan — additive Task 6A API
+
+Existing analysis/export fields and model contracts are unchanged. Jordan local retrieval
+runs over browser snapshots. Optional `GET /api/jordan/capabilities` and consent-gated
+`POST /api/jordan/explain` accept only bounded selected fact records, never snapshot IDs
+as authorization or whole analyses. Responses include validated evidence citations and
+limitations. No local/cloud conversation is added to analysis export. See
+[Jordan API and privacy contracts](jordan.md#configuration-and-api) and OpenAPI.

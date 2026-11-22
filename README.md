@@ -28,6 +28,7 @@ research-model scores remain distinct, with explicit coverage and limitations.
 | **Knowledge explorer** | One extracted graph in interactive 2D/3D: hierarchy, calls and dependencies; search, filtering, overlays and evidence. |
 | **Architecture atlas** | Real directory components, directed call/import/include aggregates and observed dependency-cycle groups. |
 | **Repository heatmaps** | Nested source landscapes colored by six verified metrics, with drill-down, breadcrumbs and honest unscored states. |
+| **Jordan** | Offline, deterministic engineering investigations with source references; optional consent-gated AI explanations of selected evidence. |
 | **Blast radius** | Bounded 1–3 hop potential upstream dependents and downstream dependencies, with actual representative paths. |
 
 The public homepage has an original procedural light composition and editorial typography.
@@ -55,6 +56,7 @@ preview. No fake screenshots or analytics are presented.
 /workspace/architecture        Directory-component architecture
 /workspace/heatmaps            Nested metric exploration
 /workspace/blast-radius        Evidence-based potential impact
+/workspace/jordan              Evidence-grounded engineering companion
 ```
 
 These are separate Jinja documents with page-specific initialization—not one giant
@@ -68,6 +70,24 @@ on application storage operations; active pages also schedule expiry. Forget a s
 from the workspace. Browser data is not encrypted; avoid sensitive repositories on a
 shared profile. No global server repository/session store or authentication is introduced.
 See [workspace lifecycle and isolation](docs/frontend.md).
+
+## Jordan. Questions with a source.
+
+An engineering companion built on the repository's actual intelligence. Ask for complex
+functions, callers, dependencies, component cycles or potential change impact. Inspect
+stable-ID evidence and follow it into the existing workspaces. Ambiguous names produce
+choices; missing information stays missing. Local mode needs no model download, API key
+or internet connection and does not pretend to have retained source bodies.
+
+Optional **AI-enhanced mode** uses an explicitly configured server-side OpenAI Responses
+provider. Each request first shows its exact selected fact package; a separate consent
+and send action is required. Questions, names, paths and metrics may be sensitive. No
+archive, full analysis, full source or conversation history is disclosed. Cloud answers
+are labeled interpretations, not verified facts, and are not persisted to conversation
+storage. `store:false` is not a guarantee of zero provider retention. Local answers remain
+available when the provider fails. Keys never enter browser assets or snapshots.
+
+[Supported investigations, configuration, privacy and verification →](docs/jordan.md)
 
 ## Inside the instrument
 
@@ -128,7 +148,7 @@ repository's default-branch snapshot. The existing API also accepts trailing `/`
 
 Upload percentages represent actual transferred bytes. Processing is indeterminate;
 there is no fabricated server progress. Errors preserve the previous active snapshot.
-After success, explore all seven workspaces and export the current analysis as JSON.
+After success, explore all eight workspaces and export the current analysis as JSON.
 Impact export additionally includes the selected bounded query.
 
 A minimal static-analysis installation can use `requirements.txt`; missing optional
@@ -216,6 +236,14 @@ GitHub SSRF/streaming limits, metrics, model compatibility, graph resolution, ev
 impact bounds, page initialization, snapshot isolation/expiry, cross-page identity,
 import feedback and renderer/history cleanup. No security tests were removed.
 
+**Task 6A verification: 435 Python tests passed, 0 failed, 0 skipped** (one existing
+Starlette/httpx deprecation warning). Current browser-free checks include 44 real-document
+journeys, 30 Jordan intelligence/retrieval cases and 15 snapshot-store cases, alongside
+the preserved graph/architecture/impact suites. A real mixed ZIP smoke test analyzed
+3 files / 4 functions, produced 2 genuine C-model scores and verified Jordan caller and
+potential-impact evidence. All cloud provider tests used mocked responses; no live
+provider success is claimed. [Jordan implementation and recovery record](docs/task6a_progress.md).
+
 Real browser verification is **outstanding**: Chromium exited 133 with a sandbox socket
 error; Firefox exited 139 before rendering. No visual, responsive, genuine-WebGL or FPS
 measurements are fabricated. [Frontend design and verification](docs/frontend.md) ·
@@ -223,6 +251,7 @@ measurements are fabricated. [Frontend design and verification](docs/frontend.md
 
 ## Field notes
 
+- [Jordan: local investigations, optional AI provider, explicit consent and limits](docs/jordan.md)
 - [Secure GitHub ingestion](docs/github_ingestion.md)
 - [Structural metrics and limitations](docs/structural_intelligence.md)
 - [Knowledge graph extraction, perspectives and graphics controls](docs/knowledge_graph.md)
@@ -238,7 +267,7 @@ Academic submission: **Bilal Malik · 24P-3061 · Software Engineering (SE), Cla
 FAST-NUCES, Peshawar · 2026**. Individual project with instructor-approved solo participation,
 as supplied by the student. No instructor identity is inferred.
 
-Future work includes Jordan AI, history exploration and Repository DNA. They are **not
+Future work includes history exploration and Repository DNA. They are **not
 implemented** or shown as working navigation. Existing static-analysis limitations and
 research caveats remain part of the product.
 

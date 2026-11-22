@@ -81,3 +81,42 @@ structure, graph, architecture and impact without reanalysis. Architecture summa
 include actual directory grouping and recorded dependency cycles.
 Verified: 41 real-document cases, 24 graph, 10 architecture, 32 impact Node cases passed.
 No source parser, trained model, academic artifact or landing design was modified.
+
+## Stage G complete — final review, documentation and verification
+
+- Final full suite: **435 Python tests passed, 0 failed, 0 skipped**, one pre-existing
+  Starlette/httpx deprecation warning. New provider/retrieval runners and Jordan route
+  are included. No existing tests removed or weakened.
+- Current direct Node checks: **30 Jordan**, **44 real-document journeys**, **15 store**,
+  **24 graph**, **10 architecture**, **32 impact** cases passed. The last focused Jordan
+  checks cover relationship-type filtering, same-path component ambiguity, full identity
+  versus abbreviated disclosure, recursion and within-file relationship evidence.
+- Real in-process ASGI mixed ZIP smoke: 3 files, 2 directories, 5 physical lines,
+  4 structural functions, model ready with 2 genuine C predictions, graph 10 nodes /
+  12 edges. Verified load_settings → parse_config and its reversed potential-impact
+  path with real source references. No training/held-out evaluation was run.
+- JavaScript syntax, Python compilation, local documentation links, CSS block balance
+  and git diff whitespace checks passed. Reviewed intended files/ignore rules; no
+  secrets, raw datasets, source archives, artifacts or report updates staged.
+- Python 3.10 compatibility review replaced newer asyncio timeout context APIs with
+  wait_for; deterministic tests cover provider total deadline/request-read timeout.
+- Privacy review: explicit fresh consent per cloud send/retry; withdrawal/cancellation
+  and navigation invalidate late responses. AI replies never enter persisted history.
+  Missing/expired pointers also clear leftover conversation preferences. Plain text
+  rendering prevents HTML/Markdown execution. Server/client factual trust boundary is
+  documented; valid citations are not an entailment guarantee.
+- Design/source review: scoped native fonts/tokens, restrained editorial Jordan identity,
+  compact toolbar, composer, evidence citations, full-path inspector, collapsible panels,
+  reduced motion and preserved original landing. Narrow panels do not open themselves
+  merely because an answer arrives. No continuous animation or new rendering dependency.
+- Browser attempts: Chromium exit 133, `setsockopt: Operation not permitted`; Firefox
+  exit 139 before rendering. Uvicorn imported and reached startup, then exit 3 because
+  localhost:8000 could not bind. No website visual, responsive, GPU, screenshot or FPS
+  verification is claimed. In-process route and real-document checks succeeded.
+- No live cloud call: credentials were not supplied or used; all provider tests mocked.
+  Operator configuration and exact local browser acceptance steps are in jordan.md.
+
+All implementation stages A–G are complete. Remaining manual acceptance: actual browser
+layout/keyboard/mobile checks, optional explicitly consented live provider request and
+GitHub synchronization if sandbox networking blocks the final push. No Task 6B work,
+ML training or academic report regeneration is included.

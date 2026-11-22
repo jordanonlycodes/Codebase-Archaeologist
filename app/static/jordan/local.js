@@ -25,9 +25,9 @@
   const q=question.trim(),kind=intent(q),records=[],lines=[],actions=[];let entityId=null,candidates=[];
   const add=n=>{if(n){const record=R.entityEvidence(n);for(const r of (ix.impact.hotspots.get(n.id)?.reasons||[]).slice(0,4))record.facts.push(R.fact('Structural hotspot',`${r.explanation}; threshold ${r.threshold}; measured ${r.value}`));records.push(record);}};
   const reply={intent:kind,answer:'',entity_id:null,evidence:[],candidates:[],limitations:[NOTE],actions};
-  const finish=()=>{reply.answer=lines.join('\n').slice(0,6000);reply.entity_id=entityId;reply.evidence=R.packet(records);reply.candidates=candidates.slice(0,R.LIMITS.candidates).map(n=>({id:n.id,name:n.name,path:n.path||'',type:n.type}));if(ix.data.knowledge_graph?.coverage?.complete!==true)reply.limitations.push('Graph coverage is partial or unavailable; absence of a relationship is not proof of independence.');return reply;};
+  const finish=()=>{reply.answer=lines.join('\n').slice(0,6000);reply.entity_id=entityId;reply.evidence=R.packet(records);reply.candidates=candidates.slice(0,R.LIMITS.candidates).map(n=>({id:n.id,name:R.clip(n.name),path:R.clip(n.path||''),type:n.type}));if(ix.data.knowledge_graph?.coverage?.complete!==true)reply.limitations.push('Graph coverage is partial or unavailable; absence of a relationship is not proof of independence.');return reply;};
   const functions=ix.ordered.filter(n=>n.type==='function'),scored=n=>n.metadata?.language==='C'&&n.metadata?.ml?.status==='analyzed'&&Number.isFinite(n.metadata.ml.model_probability);
-  const repo=(facts)=>records.push({entity_id:'repository-summary',kind:'repository',name:R.clip?R.clip(ix.data.repository):String(ix.data.repository||'Repository').slice(0,256),path:null,line:null,facts});
+  const repo=(facts)=>records.push({entity_id:'repository-summary',kind:'repository',name:R.clip(ix.data.repository||'Repository'),path:null,line:null,facts});
   if(kind==='overview'){
    const s=ix.data.summary||{},st=ix.data.structural?.summary;
    lines.push(`${ix.data.repository||'This snapshot'} contains ${s.files??'unavailable'} inventoried files in ${s.directories??'unavailable'} directories, with ${s.total_lines??'unavailable'} physical lines.`,`${st?.analyzed_functions??'Unavailable'} C/Python functions were structurally analyzed. ${ix.data.structural?.hotspots?.length??'Unavailable'} retained structural hotspots are rule-based review indicators.`);
@@ -58,7 +58,7 @@
    lines.push(`Graph coverage: ${g?.complete?'complete within supported rules':'partial or unavailable'}; ${g?.analyzed_files??'unavailable'} files analyzed, ${g?.skipped_files??'unavailable'} skipped.`, `Structural truncation: ${st?.truncated??'unavailable'}. Model status: ${m?.status??'unavailable'}. ${m?.message||''}`, 'Dynamic dispatch, runtime behavior, full source explanations and confirmed vulnerability detection are unavailable. Unresolved and ambiguous references are not confirmed dependencies.');
    repo([R.fact('Graph complete',g?.complete),R.fact('Graph truncated',g?.truncated),R.fact('Model status',m?.status)]);return finish();
   }
-  if(kind==='unsupported'){lines.push('Local Jordan supports repository summaries, languages, function counts, complexity, hotspots, C-model review signals, entity lookup, callers/callees, imports/includes, component dependencies, relationships between two quoted paths, and bounded change-impact investigations. Try “Who calls `parse_config`?” or select a real entity. I cannot infer implementation behavior from unavailable source bodies.');return finish();}
+  if(kind==='unsupported'){const found=R.resolve(ix,q,context.entity_id).matches;if(found.length===1){entityId=found[0].id;add(found[0]);lines.push('I retrieved the referenced entity, but this question is outside local investigation rules. Its evidence can support an optional AI explanation after review.');}else candidates=found;lines.push('Local Jordan supports repository summaries, languages, function counts, complexity, hotspots, C-model review signals, entity lookup, callers/callees, imports/includes, component dependencies, relationships between two quoted paths, and bounded change-impact investigations. Try “Who calls `parse_config`?” or select a real entity. I cannot infer implementation behavior from unavailable source bodies.');return finish();}
   const resolved=R.resolve(ix,q,context.entity_id);let matches=resolved.matches;
   if(kind==='between'){
    const terms=resolved.terms;if(terms.length!==2){lines.push('Quote exactly two file paths, for example: relationships between `app/main.py` and `lib/util.py`.');return finish();}
@@ -68,8 +68,9 @@
    const links=[...ix.impact.edges.values()].filter(e=>(owns(e.source)===a.id&&owns(e.target)===b.id)||(owns(e.source)===b.id&&owns(e.target)===a.id));
    lines.push(`${links.length} resolved semantic relationships connect these files (including cross-file calls). Showing at most 8.`);for(const e of links.slice(0,8)){records.push(R.edgeEvidence(ix,e));lines.push(`${ix.entities.get(e.source)?.name} → ${ix.entities.get(e.target)?.name} (${e.type})`);}return finish();
   }
+  if(/\bcomponent\b/i.test(q)){const components=matches.filter(n=>n.type==='component');if(components.length)matches=components;}
   if(/\b(file|module)\b/i.test(q)||resolved.terms.some(t=>/\.(py|c|h|pyi)$/.test(t))){const files=matches.filter(n=>n.type==='file');if(files.length)matches=files;}
-  if(matches.length!==1){lines.push(matches.length?'Several entities match. Select the intended path before continuing.':'No unique retained entity matches. Quote its exact name or path, or select an evidence item first.');candidates=matches;return finish();}
+  if(matches.length!==1){lines.push(matches.length?`${matches.length} entities match. Showing at most 8; select the intended path or refine the quoted name.`:'No unique retained entity matches. Quote its exact name or path, or select an evidence item first.');candidates=matches;return finish();}
   const n=matches[0];entityId=n.id;add(n);
   if(kind==='entity'){
    lines.push(`${n.name} is a retained ${n.type} at ${n.path||'repository root'}.`);const ev=R.entityEvidence(n);for(const f of ev.facts)lines.push(`${f.label}: ${f.value}`);
@@ -77,11 +78,12 @@
    lines.push('This describes extracted structure and relationships; I have not read a retained function body.');
   }
   if(['incoming','outgoing'].includes(kind)){
-   const direction=kind==='incoming'?'upstream':'downstream';const impact=E.query(ix.impact,n.id,{depth:1,direction});
-   lines.push(`${impact.records.length} direct ${direction==='upstream'?'dependents / callers':'dependencies / callees'} observed from the selected entity’s bounded membership. Arrows retain source → dependency direction.`);
-   for(const e of impact.edges.slice(0,8)){records.push(R.edgeEvidence(ix,e));lines.push(`${ix.entities.get(e.source)?.name||e.source} → ${ix.entities.get(e.target)?.name||e.target} (${e.type}; ${e.occurrences} occurrence(s))`);}
+   const direction=kind==='incoming'?'upstream':'downstream',type=/\bimports?\b/i.test(q)?'IMPORTS':/\bincludes?\b/i.test(q)?'INCLUDES':/\b(call|calls|callers|callees)\b/i.test(q)?'CALLS':null;const impact=E.query(R.relationshipIndex(ix,type),n.id,{depth:1,direction});
+   lines.push(`${impact.records.length} direct ${direction==='upstream'?'dependents / callers':'dependencies / callees'} outside the selected entity’s bounded membership; ${impact.summary.observed_internal_seed_edges} observed relationships within membership (including recursion). Arrows retain source → dependency direction.`);
+   if(n.type==='component'){const components=[...new Set(impact.records.map(r=>ix.impact.component.get(ix.impact.owner.get(r.id))).filter(id=>id&&id!==n.id))].sort();lines.push(`${components.length} other retained components represented: ${components.map(id=>ix.entities.get(id)?.path||ix.entities.get(id)?.name||id).join(', ')||'none observed'}.`);}
+   for(const e of [...impact.edges,...impact.internal_edges].slice(0,8)){records.push(R.edgeEvidence(ix,e));lines.push(`${ix.entities.get(e.source)?.name||e.source} → ${ix.entities.get(e.target)?.name||e.target} (${e.type}; ${e.occurrences} occurrence(s))`);}
    if(impact.coverage.truncated)reply.limitations.push('Relationship query reached a resource limit: '+impact.coverage.issues.join(', '));
-   if(impact.references.length)lines.push(`${impact.summary.attributable_references} attributable unresolved/ambiguous/dynamic references are excluded from confirmed relationships.`);
+   if(impact.references.length){lines.push(`${impact.summary.attributable_references} attributable unresolved/ambiguous/dynamic references are excluded from confirmed relationships.`);for(const ref of impact.references.slice(0,3))records.push({entity_id:ref.id,kind:'relationship',name:('Unconfirmed reference: '+ref.reference).slice(0,256),path:ref.evidence?.path?.slice(0,256)||null,line:ref.evidence?.line||null,facts:[R.fact('Resolution',ref.status),R.fact('Reason',ref.reason),R.fact('Source ID',ref.source),R.fact('Reference type',ref.type)]});}
   }
   if(kind==='impact'){
    const depth=Number(q.match(/\b([123])\s*(?:hop|step)/i)?.[1]||context.depth||1),direction=context.direction||'both',p=E.query(ix.impact,n.id,{depth,direction});

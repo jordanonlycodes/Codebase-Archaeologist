@@ -671,3 +671,10 @@ inspection can launch impact queries with the actual node ID. Representative pat
 preserve original edge IDs, direction and source locations; unresolved records stay
 explicit and do not become dependencies. No graph extraction or model changes are made.
 The existing 2D/3D explorer retains its own state and rendering lifecycle.
+
+## Jordan contextual investigation
+
+The selected-node inspector can launch Jordan with its exact retained ID and a dependency
+question. Jordan reuses the same graph/impact index; no graph is re-extracted and no
+unresolved reference becomes a confirmed edge. Evidence links return to the graph with
+stable selection. See [Jordan modes, disclosure and limitations](jordan.md).

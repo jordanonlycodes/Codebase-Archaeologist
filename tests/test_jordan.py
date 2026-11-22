@@ -158,3 +158,48 @@ def test_cloud_concurrency_is_bounded_and_released():
         release.set();await asyncio.gather(one,two)
         assert boundary.active==0
     asyncio.run(check())
+
+
+def test_streamed_request_bound_before_json_parser():
+    async def check():
+        called=[]
+        async def inner(*args):called.append(True)
+        boundary=JordanBoundary(inner)
+        parts=iter([{'type':'http.request','body':b'x'*20000,'more_body':True},
+                    {'type':'http.request','body':b'x'*13000,'more_body':False}])
+        async def receive():return next(parts)
+        sent=[]
+        async def send(message):sent.append(message)
+        await boundary({'type':'http','method':'POST','path':'/api/jordan/explain','headers':[(b'content-type',b'application/json')]},receive,send)
+        assert not called and sent[0]['status']==413 and boundary.active==0
+    asyncio.run(check())
+
+
+def test_configuration_rejects_endpoint_like_model_and_disabled_keys(monkeypatch):
+    monkeypatch.setenv('JORDAN_CLOUD_ENABLED','true')
+    monkeypatch.setenv('JORDAN_OPENAI_API_KEY','secret')
+    monkeypatch.setenv('JORDAN_OPENAI_MODEL','http://localhost/model')
+    assert Configuration.load() is None
+    monkeypatch.setenv('JORDAN_OPENAI_MODEL','configured-model')
+    assert Configuration.load() is not None
+    monkeypatch.setenv('JORDAN_CLOUD_ENABLED','false')
+    assert Configuration.load() is None
+
+
+def test_total_provider_and_request_read_timeouts_are_controlled(monkeypatch):
+    async def expired(coro, timeout):
+        coro.close()
+        raise asyncio.TimeoutError
+    monkeypatch.setattr(asyncio,'wait_for',expired)
+    with pytest.raises(AnalysisError) as error:
+        run_provider(lambda _:pytest.fail('Network must not run after deadline'))
+    assert error.value.code=='provider_timeout'
+    async def check():
+        async def inner(*args):pytest.fail('Expired request must not reach route')
+        async def receive():pytest.fail('Read coroutine is cancelled before reading')
+        sent=[]
+        async def send(message):sent.append(message)
+        boundary=JordanBoundary(inner)
+        await boundary({'type':'http','method':'POST','path':'/api/jordan/explain','headers':[(b'content-type',b'application/json')]},receive,send)
+        assert sent[0]['status']==408 and boundary.active==0
+    asyncio.run(check())
