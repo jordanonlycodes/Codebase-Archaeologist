@@ -15,6 +15,7 @@ async def landing(request: Request):
 
 
 PAGES = {
+    'jordan': dict(title='Jordan', subtitle='YOUR REPOSITORY / TRACEABLE INTELLIGENCE', description='Ask precise questions. Follow real evidence. An engineering companion grounded in your active snapshot.', feature='jordan'),
     'overview': dict(title='Repository overview', subtitle='THE BIG PICTURE', description='An editorial map of your snapshot, its composition and the evidence worth exploring.', feature='overview'),
     'risk': dict(title='Defect risk intelligence', subtitle='C FUNCTIONS / RESEARCH MODEL', description='Model-estimated defect-related patterns. A review signal, never a vulnerability verdict.', feature='risk'),
     'structure': dict(title='Structural intelligence', subtitle='C + PYTHON / DETERMINISTIC METRICS', description='Inspect the decisions, depth and dimensions of real function definitions.', feature='structure'),
@@ -25,6 +26,7 @@ PAGES = {
 }
 
 ASSETS = {
+    'jordan': (['jordan/workspace.css'], ['impact/engine.js','jordan/retrieval.js','jordan/local.js','jordan/workspace.js']),
     'overview': ([], ['product/overview.js']),
     'risk': ([], ['risk.js']),
     'structure': ([], ['structural.js']),

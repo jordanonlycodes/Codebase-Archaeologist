@@ -54,3 +54,17 @@ response, no redirects/retries/tools, store:false, strict output and citation va
 Provider exceptions are scrubbed; keys are excluded from repr/responses. No server
 snapshot or conversation cache. 29 focused Python checks passed (including the 23-case
 Node runner); all provider traffic mocked. No live cloud test or credentials used.
+
+## Stage E complete — dedicated Jordan workspace
+
+Added /workspace/jordan with lazy assets, existing typography/tokens, responsive
+collapsible repository/evidence regions, safe text-only conversation, real citations,
+local follow-ups, bounded snapshot-scoped history, new investigation and cancellation.
+AI enhancement prepares an exact disclosure preview; a fresh explicit checkbox and send
+are required for each request. Withdraw/mode-change/pagehide abort client requests and
+clear pending disclosure. Local answer remains available on provider failure. Cloud
+answers are memory-only. Existing shared lifecycle restores local conversation and
+cleans up requests on navigation; no source payload or second repository cache.
+19 focused Python checks (18 product, 1 retrieval runner) passed after correcting a
+case-sensitive preview assertion; the real-document harness now has 38 passing cases.
+This is browser-free integration, not visual verification. No landing styles changed.

@@ -44,7 +44,7 @@ import json
 import os
 import subprocess
 
-PAGES=['overview','risk','structure','graph','architecture','heatmaps','blast-radius']
+PAGES=['overview','risk','structure','graph','architecture','heatmaps','blast-radius','jordan']
 
 
 @pytest.mark.parametrize('page',PAGES)
@@ -64,7 +64,7 @@ def test_real_workspace_routes_and_lazy_feature_assets(page):
         if page!='graph':assert '/static/graph/three.js' not in response.text
         assert 'no-store' in response.headers['cache-control']
         assert "frame-ancestors 'none'" in response.headers['content-security-policy']
-        feature_ids={'graph':'graph-canvas','architecture':'ai-canvas','heatmaps':'ai-canvas','blast-radius':'impact-canvas','risk':'risk-rows','structure':'structure-rows','overview':'file-table-body'}
+        feature_ids={'jordan':'jordan-workspace','graph':'graph-canvas','architecture':'ai-canvas','heatmaps':'ai-canvas','blast-radius':'impact-canvas','risk':'risk-rows','structure':'structure-rows','overview':'file-table-body'}
         assert feature_ids[page] in ids
         for other,id in feature_ids.items():
             if other!=page and id!=feature_ids[page]:assert id not in ids
