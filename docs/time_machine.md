@@ -23,9 +23,10 @@ are run by the public history service.
 - `app/history/models.py`: typed commit, change, tree, comparison, coverage and limit models.
 - `app/history/core.py`: validation, UTC activity, path churn, exact tree differences,
   bounded text differences and serialized-history limits.
-- `app/history/github.py`: fixed-host, public REST retrieval with request/transfer deadlines.
+- `app/history/github.py`: fixed-host public REST retrieval, scoped evidence reuse and deadlines.
+- `app/history/cache.py` / `status.py`: bounded validated evidence cache, single-flight and quota/cooldown accounting.
 - `app/history/local.py`: read-only bounded Git fixture/operator adapter.
-- `app/routes/history.py`: stateless typed operations; no server history/session cache.
+- `app/routes/history.py`: typed operations; no server user-snapshot/session store. Public upstream evidence has a bounded process cache.
 - `app/static/time_machine/`: shared pure view models, workspace lifecycle, timeline,
   spatial landscape, comparison studio and revision evolution modules.
 
@@ -55,11 +56,12 @@ object SHA, mode and optional byte size; symlinks/gitlinks remain metadata only.
 
 Requests are constructed from validated owner/repository identifiers at fixed
 `https://api.github.com/repos/...` endpoints. URLs returned in responses are not fetched.
-Redirects and environment proxies are disabled; there are no user download hosts,
-credentials, GitHub tokens or automatic retries. Public-repository status is checked before
-history access. Streaming response caps apply even without Content-Length. Blob content
-is bounded and its Git blob SHA is verified before comparison. Temporary reader caches
-expire with the request; no repository is downloaded to persistent server storage.
+Redirects and environment proxies are disabled; there are no user download hosts or
+automatic retries. Optional `CODEBASE_GITHUB_TOKEN` is read only on the server and sent
+only to the fixed GitHub API host. A public-only metadata gate (60-second cache) precedes
+history access, even when configured credentials could access private repositories. Streaming response caps apply even without Content-Length. Blob content
+is bounded and its Git blob SHA is verified before comparison. Validated public evidence is cached with explicit TTL/byte/entry limits; bounded blob
+bytes expire after 120 seconds. No repository is downloaded to persistent server storage.
 
 Upstream authentication/inaccessibility, rate limits, timeouts, network errors and malformed
 metadata produce safe application errors. If a resource/rate limit occurs after some commit
@@ -81,7 +83,8 @@ are not sent to an AI provider. Jordan/provider code and consent behavior are un
 
 ## Default limits
 
-Central defaults live in `HistoryLimits`, not new environment variables.
+Analysis defaults live in `HistoryLimits`; cache bounds live in `EvidenceCache`. The
+only new optional environment setting is the server-side GitHub token.
 
 | Resource | Bound |
 | :-- | --: |
@@ -103,9 +106,9 @@ Central defaults live in `HistoryLimits`, not new environment variables.
 
 The client aborts at 65 seconds and provides Cancel. These are conservative safety defaults,
 not measured optimal settings or full-history guarantees. A normal 24-commit load needs
-approximately 26 upstream requests; subsequent comparisons/trees use additional requests.
-Unauthenticated GitHub rate limits can therefore be reached quickly. No silent retry storm
-or token setup is introduced. Large upstream JSON may fail before post-parsing bounds.
+approximately 26 upstream requests; subsequent comparisons/trees reuse validated lists, commit/tree metadata and blobs.
+Cache misses and genuinely new revisions still consume quota. No silent retry storm
+is introduced. Optional authentication can raise the allowance according to GitHub policy. Large upstream JSON may fail before post-parsing bounds.
 
 ## Ordering, ancestry and dates
 
@@ -175,7 +178,8 @@ large region indicates a historical measure, never a defect probability.
 Base/head selectors contain real retained revisions. Compare is explicit; selection alone
 does not fetch. Results label added, removed, modified and exact-blob renamed paths, separate
 measured totals from unmeasured files and offer literal bounded patch evidence. Reversing
-the pair reverses the comparison direction. Results remain in memory only.
+the pair reverses the comparison direction. Comparison results remain in page memory only; source blobs may also occupy the bounded
+120-second server evidence cache. Patches themselves are not server-cached or persisted.
 
 ### Evolution explorer
 
@@ -197,8 +201,9 @@ pointer. Saving it preserves snapshot ID, creation date and two-hour expiry. It 
 refreshes retention or creates another analysis. Shared bounds remain three snapshots /
 24 MiB per row, with a stricter 2 MiB history envelope. Normal reload restores history and
 bounded trees; transient source diffs do not survive. Repository replacement/expiry drops
-context; epoch checks and request cancellation reject late responses. No server mirror
-or cross-user mutable history is added. Browser storage is not encrypted.
+context; epoch checks and request cancellation reject late responses. No server mirror of browser snapshots or conversations is added. The shared server cache
+contains only recently verified public GitHub evidence under separate credential scopes,
+not uploaded ZIP data, per-user history state or credentials. Browser storage is not encrypted.
 
 Current structure, graph and heatmap file inspectors can launch file history using stable
 file IDs. Historical/current links require matching canonical repository URL, pinned SHA
@@ -214,6 +219,54 @@ pagehide listeners are cleaned up. No WebGL, physics simulation, heavy visualiza
 library, perpetual animation, MSAA or high-DPI canvas is introduced. CSS adapts controls
 and the native collapsible inspector for narrow widths; actual rendered responsiveness
 still requires local browser acceptance. No FPS improvement is claimed.
+
+## API reliability repair — Task 6B.1
+
+Validated public metadata, pinned commit lists, commit details, revision trees and bounded
+blobs now share a process-local LRU cache: **256 entries / 16 MiB serialized evidence /
+2 MiB per entry**. TTLs are 60 / 300 / 900 / 900 / 120 seconds respectively. Credential
+scope, canonical repository, method, exact revision/parameters, schema and limit values
+form the internal key. Two per-key producers can run independently; identical consumers
+share one bounded producer. Canceling one consumer does not corrupt shared work. Cache
+miss failures are not stored. Tree lookup reuses a cached verified commit's tree SHA.
+
+The browser reuses loaded metadata trees and up to three / 2 MiB cached comparison results
+for 120 seconds, in page memory only. The current displayed comparison may remain visible
+until navigation; its source is never persisted/exported. A retryable failure preserves
+successful views. Smaller partial reloads cannot replace a larger pinned history window.
+A subtle live status line displays cache/loading/connection state, **last reported** quota,
+reliable reset timestamps in local time and explicit cooldowns. Retry is user initiated;
+there is no polling, automatic retry or assertion that elapsed reset time guarantees success.
+
+Successful API responses include optional `X-History-API` JSON diagnostics. Failures may
+include `error.api`; codes distinguish authentication, permission, inaccessible repository,
+rate limiting and upstream/network/metadata failures. Rate failures further identify
+primary, secondary or unclassified restrictions. Cooldowns apply to uncached upstream
+work; already loaded browser evidence remains available. A fresh public gate is needed
+once its short TTL expires, even if some immutable server entries remain cached.
+
+Optional Bash configuration before starting Uvicorn (do not paste keys into chat/UI):
+
+```bash
+read -rsp 'GitHub public-read token (optional): ' CODEBASE_GITHUB_TOKEN
+export CODEBASE_GITHUB_TOKEN
+```
+
+Use a fine-grained token restricted to the public read access needed for the selected
+repositories. No private-repository support is introduced. No token field, credential
+endpoint, key log or token persistence exists. This setting applies to history REST
+operations; ZIP ingestion and existing snapshot import contracts are unchanged.
+Anonymous mode remains supported. No AI provider configuration is involved.
+
+Process-local caches are not shared across Uvicorn workers and disappear on restart.
+Visibility checks can be up to 60 seconds old; previously public immutable data expires
+according to its bounded evidence TTL. New/uncached access is denied if the renewed
+metadata check reports private/inaccessible. Tokens changing scope cannot reuse one
+another's entries. Quotas shared with other programs/IPs can still be exhausted; large
+responses may exceed source limits. This repair reduces avoidable calls, not GitHub's
+policy limits. No latency or FPS improvement is claimed.
+
+[Diagnosis, exact cache/cooldown behavior and repair verification](task6b_rate_limit_fix.md).
 
 ## Verification and limitations
 

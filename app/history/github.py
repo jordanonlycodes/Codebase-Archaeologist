@@ -11,7 +11,7 @@ from app.config import github_history_token
 import httpx
 from .models import LIMITS,Commit,Change,TreeFile,RevisionTree
 from .core import revision,path,text,timestamp
-from .cache import CACHE,EvidenceCache,evidence
+from .cache import CACHE,EvidenceCache,evidence,evidence_key
 
 _SCOPE_KEY=secrets.token_bytes(32)
 
@@ -32,7 +32,7 @@ class GitHubReader:
 
     def api_status(self):
         states=self.cache_states
-        return {**self.cache.rates.status(self.scope), 'cache':'hit' if states and all(s=='hit' for s in states) else 'coalesced' if states and all(s!='miss' for s in states) else 'mixed' if any(s!='miss' for s in states) else 'upstream',
+        return {**self.cache.rates.status(self.scope), 'cache':'hit' if self.requests==0 and states and all(s=='hit' for s in states) else 'coalesced' if self.requests==0 and states and all(s!='miss' for s in states) else 'mixed' if any(s!='miss' for s in states) else 'upstream',
                 'cache_hits':states.count('hit'),'coalesced':states.count('coalesced'),'upstream_requests':self.requests}
 
     async def get(self,suffix,params=None,maximum=None):
@@ -49,10 +49,11 @@ class GitHubReader:
                 timeout=httpx.Timeout(10,connect=5),headers=headers) as client:
           async with client.stream('GET',self.base+suffix,params=params) as response:
             error=response.status_code!=200
+            if not error:self.cache.rates.record(self.scope,response.headers,200,{})
             raw=await read_limited(response,min(maximum,32768) if error else maximum);self.bytes+=len(raw)
             try:body=json.loads(raw)
             except (ValueError,RecursionError):body=None
-            self.cache.rates.record(self.scope,response.headers,response.status_code,body)
+            if error:self.cache.rates.record(self.scope,response.headers,response.status_code,body)
             content_type=response.headers.get('content-type','').split(';')[0].lower()
             if content_type not in {'application/json','application/vnd.github+json'} or body is None:
                 raise AnalysisError('GitHub returned invalid JSON history metadata.','history_metadata',502)
@@ -91,9 +92,13 @@ class GitHubReader:
     async def tree(self,sha):
         revision(sha)
         if sha in self.trees:return self.trees[sha]
-        commit=await self.get('/git/commits/'+sha,maximum=256*1024)
-        if commit['sha']!=sha:raise ValueError('Revision mismatch')
-        tree_sha=revision(commit['tree']['sha'])
+        known,found=self.cache.peek(evidence_key(self,'commit',(sha,)))
+        if found:
+            tree_sha=known.tree;self.cache_states.append('hit')
+        else:
+            commit=await self.get('/git/commits/'+sha,maximum=256*1024)
+            if commit['sha']!=sha:raise ValueError('Revision mismatch')
+            tree_sha=revision(commit['tree']['sha'])
         raw=await self.get('/git/trees/'+tree_sha,{'recursive':'1'})
         if raw.get('sha')!=tree_sha or type(raw.get('truncated')) is not bool:raise ValueError('Tree identity mismatch')
         files=[];issues=['upstream_tree_truncated'] if raw.get('truncated') else []

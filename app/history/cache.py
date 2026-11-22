@@ -50,6 +50,14 @@ class EvidenceCache:
                         hits=self.hits, misses=self.misses, coalesced=self.coalesced,
                         evictions=self.evictions)
 
+    def peek(self,key):
+        """Optional validated cross-resource evidence; a miss never triggers I/O."""
+        with self.lock:
+            self._prune()
+            if key not in self.values:return None,False
+            value,_,_=self.values[key];self.values.move_to_end(key);self.hits+=1
+            return deepcopy(value),True
+
     async def obtain(self, key, factory, ttl):
         with self.lock:
             self._prune()
@@ -93,13 +101,17 @@ class EvidenceCache:
 CACHE=EvidenceCache()
 
 
+def evidence_key(reader,method,args):
+    return ('history-v2',reader.scope,reader.repo.owner.lower(),reader.repo.name.lower(),
+            method,args,astuple(reader.limits))
+
+
 def evidence(ttl=900):
     """Cache only successfully parsed/validated method output, never raw error bodies."""
     def decorate(method):
         @wraps(method)
         async def wrapped(self,*args):
-            key=('history-v2',self.scope,self.repo.owner.lower(),self.repo.name.lower(),
-                 method.__name__,args,astuple(self.limits))
+            key=evidence_key(self,method.__name__,args)
             async def produce():
                 return await asyncio.wait_for(method(self,*args),self.limits.seconds)
             value,state=await self.cache.obtain(key,produce,ttl)

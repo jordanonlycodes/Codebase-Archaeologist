@@ -48,7 +48,7 @@
    while(this.comparisons.size>3||[...this.comparisons.values()].reduce((n,r)=>n+r.size,0)>2097152)this.comparisons.delete(this.comparisons.keys().next().value);
   }
   request(kind,extra={}){
-   const key=JSON.stringify([this.source.url,this.source.snapshot_commit,kind,extra]);
+   const key=JSON.stringify([this.source.url,this.source.snapshot_commit,kind,Object.entries(extra).sort(([a],[b])=>a.localeCompare(b))]);
    if(this.pendingKey===key&&this.pendingRequest)return this.pendingRequest;
    const cached=kind==='tree'?this.trees.get(extra.revision):kind==='compare'?this.cachedComparison(extra.base,extra.head):null;
    if(cached){this.cancel();$('tm-error').hidden=true;$('tm-retry').hidden=true;this.apiStatus(null,true);$('tm-status').textContent='Using loaded historical evidence. No GitHub request was made.';return Promise.resolve(cached);}

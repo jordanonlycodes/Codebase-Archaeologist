@@ -107,6 +107,12 @@ an informative no-history state. No fabricated history, historical ML scores or 
 requests are introduced. Metadata shares the existing two-hour snapshot lifecycle;
 comparison source patches remain transient and are never saved in browser snapshots.
 
+Validated server evidence caching and request coalescing avoid repeated GitHub calls.
+Loaded trees and short-lived comparisons are reused; quota/cooldown status and explicit
+retry preserve the existing view on failure. Optional server-only `CODEBASE_GITHUB_TOKEN`
+supports public-read authentication; no credential enters the browser. Anonymous operation
+remains available, subject to GitHub's quotas.
+
 [Methodology, limits, local browser acceptance and API →](docs/time_machine.md)
 
 ## Inside the instrument
@@ -271,6 +277,12 @@ comparisons. Browser-free checks include 67 real-document journeys, eight Time M
 view-model cases and 16 snapshot cases, alongside the preserved feature suites. No
 live GitHub history or browser rendering is claimed in the socket/DNS-restricted sandbox.
 [History methodology and acceptance](docs/time_machine.md) · [Task 6B progress](docs/task6b_progress.md).
+
+**Task 6B.1 reliability verification: 502 Python tests passed, 0 failed, 0 skipped**.
+The added cache, coalescing, credential-isolation and cooldown tests use deterministic
+mocked HTTP over genuine Git fixture evidence. Browser-free journeys now include 77
+cases. [Request-flow diagnosis, cache lifetimes and local verification](docs/task6b_rate_limit_fix.md).
+Live GitHub/authentication and rendered visual acceptance remain unverified here.
 
 Real browser verification is **outstanding**: Chromium exited 133 with a sandbox socket
 error; Firefox exited 139 before rendering. No visual, responsive, genuine-WebGL or FPS

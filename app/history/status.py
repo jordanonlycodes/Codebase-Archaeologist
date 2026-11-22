@@ -47,7 +47,7 @@ class RateLedger:
         if meta.get('retry_at',0)>self.clock():
             meta['retry_after']=max(1,int(meta['retry_at']-self.clock())+1)
             raise HistoryAPIError('GitHub requests are cooling down. Previously loaded evidence remains available; retry after the reported cooldown.',
-                                  'github_rate_limit',429,meta)
+                                  'github_upstream' if meta.get('kind')=='upstream' else 'github_rate_limit',502 if meta.get('kind')=='upstream' else 429,meta)
 
     def record(self,scope,headers,status,body):
         now=self.clock();meta=response_metadata(headers,now);message=body.get('message','') if isinstance(body,dict) else ''
@@ -62,11 +62,13 @@ class RateLedger:
             until=max([now+60 if meta['retry_after'] is None and not (meta['remaining']==0 and meta['reset_at'] and meta['reset_at']>now) else now,
                        now+(meta['retry_after'] or 0),meta['reset_at'] if meta['remaining']==0 and meta['reset_at'] else now])
             meta.update(kind=kind,retry_at=int(until),cooldown_source='reported' if meta['retry_after'] is not None or meta['remaining']==0 and meta['reset_at'] and meta['reset_at']>now else 'conservative_backoff')
+        if not kind and status>=500 and meta['retry_after'] is not None:
+            meta.update(kind='upstream',retry_at=int(now+meta['retry_after']),cooldown_source='reported')
         with self.lock:
             previous=self.records.get(scope,{})
             # A response already in flight must not shorten an observed cooldown.
             if previous.get('retry_at',0)>now:
-                meta.update(state='limited',kind=previous['kind'],retry_at=max(previous['retry_at'],meta.get('retry_at',0)),cooldown_source=previous['cooldown_source'])
+                meta.update(state='unavailable' if previous['kind']=='upstream' else 'limited',kind=previous['kind'],retry_at=max(previous['retry_at'],meta.get('retry_at',0)),cooldown_source=previous['cooldown_source'])
             self.records[scope]=meta;self.records.move_to_end(scope)
             while len(self.records)>8:self.records.popitem(last=False)
         if status==200:return

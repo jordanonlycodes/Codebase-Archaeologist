@@ -129,9 +129,17 @@ history retrieval uses `POST /api/history/load` (`url`, full `anchor` SHA),
 `POST /api/history/tree` (plus `revision`) and `POST /api/history/compare` (plus `base`,
 `head`). Revision IDs must belong to the pinned retained history window. These stateless
 operations use fixed public GitHub REST endpoints, shared admission limits and bounded
-requests; no browser-supplied filesystem path or server snapshot cache exists.
+requests; no browser-supplied filesystem path or server user-snapshot store exists. Validated
+public upstream evidence has a scoped, bounded process cache.
 
 Source-matched browser history/tree metadata can be exported under optional `history`.
 Transient comparison source patches are not persisted or exported. Exact base/head
 comparison is distinct from merge-base comparison; unavailable line metrics remain null.
 See [history data contracts, coverage, limits and errors](time_machine.md).
+
+
+Task 6B.1 preserves history response schemas and adds optional safe `X-History-API`
+response-header diagnostics (cache state, per-operation requests and last observed quota).
+Expected GitHub failures may include `error.api` quota/cooldown metadata. Requests honor
+reported Retry-After/reset restrictions without automatic retries. Optional server-only
+`CODEBASE_GITHUB_TOKEN` does not enable private history. See [repair details](task6b_rate_limit_fix.md).
