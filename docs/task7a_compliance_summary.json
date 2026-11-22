@@ -1,0 +1,583 @@
+{
+  "audit_date": "2026-11-22",
+  "starting_commit": "5914361742023560edfd7ffff47a0cf556d39a13",
+  "criteria_source": "Exact substantive requirements supplied by project owner in Task7A; original university PDF not independently opened",
+  "requirements": [
+    {
+      "id": "1",
+      "name": "Problem Statement",
+      "classification": "PASS — Verified",
+      "evidence": [
+        "README.md; tools/generate_report.py: build_pages Problem Statement; submission/*.docx/pdf",
+        "README.md; app/templates/features/risk.html; docs/inference_api.md"
+      ],
+      "limitations": [],
+      "follow_up_owner": "Task7A verified evidence; preserve methodology"
+    },
+    {
+      "id": "2",
+      "name": "Dataset",
+      "classification": "PASS — Verified",
+      "evidence": [
+        "reports/ml/source_manifest.json; app/ml/acquire.py; data/raw/devign/DATASET_CARD.md",
+        "docs/ml_pipeline.md; reports/ml/source_manifest.json; data/raw/devign/C-UDA-1.0.md",
+        "reports/ml/cleaning_audit.json; reports/ml/test_evaluation.json",
+        "app/ml/acquire.py; docs/ml_pipeline.md; reports/ml/README.md"
+      ],
+      "limitations": [],
+      "follow_up_owner": "Task7A verified evidence; preserve methodology"
+    },
+    {
+      "id": "3",
+      "name": "Data Preprocessing",
+      "classification": "PASS — Verified",
+      "evidence": [
+        "app/ml/dataset.py: clean_development; tests/ml/test_dataset.py",
+        "app/ml/features.py; app/ml/estimators.py; artifacts/devign-v1/pipeline.joblib",
+        "app/ml/dataset.py; reports/ml/cleaning_audit.json; data/processed/devign-v1/cleaning_decisions.json",
+        "app/ml/features.py: FEATURE_NAMES; reports/ml/feature_schema.json",
+        "app/ml/estimators.py; artifacts/devign-v1/candidates/logistic_regression/pipeline.joblib",
+        "app/ml/estimators.py: build_models",
+        "app/ml/prepare.py; app/ml/train.py: test_once; artifacts/devign-v1/selection.json",
+        "app/ml/features.py; app/ml/repository.py; app/ml/model_store.py; tests/test_academic_evidence.py"
+      ],
+      "limitations": [
+        "All11 model inputs are numerical. project,commit_id,id,target and names are excluded; no categorical predictor requires encoding. Bool target→0/1 is label conversion.",
+        "RF/HGB use numerical split thresholds and do not require standard scaling. Median imputation remains in both pipelines."
+      ],
+      "follow_up_owner": "Task7A verified evidence; preserve methodology"
+    },
+    {
+      "id": "4",
+      "name": "Exploratory Data Analysis",
+      "classification": "PASS — Verified",
+      "evidence": [
+        "app/ml/eda.py; reports/ml/split_and_label_counts.png; reports/ml/missing_and_duplicates.png",
+        "reports/ml/feature_distributions.png; reports/ml/feature_correlations.png; reports/ml/features_by_class.png",
+        "reports/ml/observations.txt; reports/ml/eda_summary.json; reports/ml/README.md"
+      ],
+      "limitations": [],
+      "follow_up_owner": "Task7A verified evidence; preserve methodology"
+    },
+    {
+      "id": "5",
+      "name": "Train 2 to 4 models",
+      "classification": "PARTIAL",
+      "evidence": [
+        "app/ml/estimators.py; artifacts/devign-v1/candidates/*; reports/ml/model_comparison.json",
+        "app/ml/train.py; reports/ml/model_comparison.json",
+        "reports/ml/test_evaluation.json; app/ml/train.py: test_once",
+        "requirements-ml-frozen.txt; artifacts/devign-v1/experiment.json; app/ml/train.py"
+      ],
+      "limitations": [
+        "Only selected RF evaluated on final test. Ask instructor whether validation evaluation for all candidates meets train-and-test-each wording. Do not invent or rerun missing final-test results."
+      ],
+      "follow_up_owner": "Student/instructor clarification before final signoff"
+    },
+    {
+      "id": "6",
+      "name": "Comparison of Models",
+      "classification": "PASS — Verified",
+      "evidence": [
+        "reports/ml/model_comparison.json; reports/ml/test_evaluation.json; tests/test_academic_evidence.py",
+        "app/ml/evaluation.py: select_model; docs/ml_pipeline.md; this audit model explanation"
+      ],
+      "limitations": [],
+      "follow_up_owner": "Task7A verified evidence; preserve methodology"
+    },
+    {
+      "id": "7",
+      "name": "Integrate Model with App",
+      "classification": "IMPLEMENTED — Not Fully Verified",
+      "evidence": [
+        "app/routes/analysis.py: analyze_archive; app/ml/repository.py; tests/ml/test_repository.py",
+        "app/routes/analysis.py: analyze_github; tests/test_github.py: test_shared_api_and_cleanup,test_real_model_github_inference",
+        "tests/ml/test_repository.py; tests/test_academic_evidence.py; tests/test_archive.py",
+        "app/routes/dashboard.py; app/templates/features/risk.html; app/static/risk.js; tests/test_product.py"
+      ],
+      "limitations": [
+        "Real route documents and77 browser-free journeys verified. Chromium/localhost blocked; actual rendered prediction journey and UI acceptance owned by7B."
+      ],
+      "follow_up_owner": "Task7B browser acceptance"
+    },
+    {
+      "id": "8",
+      "name": "Submission",
+      "classification": "PARTIAL",
+      "evidence": [
+        "README.md; .git/config; git status/log/rev-parse commands",
+        "submission/Codebase_Archaeologist_Report.docx; submission/Codebase_Archaeologist_Report.pdf; submission/report_manifest.json",
+        "README.md; docs/ml_pipeline.md; reports/ml/source_manifest.json",
+        "requirements-ml-frozen.txt; docs/task7a_demo_checklist.md; tests/fixtures/university_demo/"
+      ],
+      "limitations": [
+        "28-page report,5707 words,9 figures,19 sections,correct identity/metrics exist; current-source validator fails on six stale/missing paths.7C must update, not merely rewrite hashes.",
+        "Local genuine API demo works. Fresh clone omits trusted model/raw data;7D must arrange compatible artifact transfer and offline verification. Human browser demo remains7B."
+      ],
+      "follow_up_owner": "Tasks7C/7D final report, artifacts, demonstration"
+    }
+  ],
+  "group": {
+    "classification": "HUMAN CONFIRMATION REQUIRED",
+    "evidence": [
+      "README.md",
+      "submission/README.md",
+      "tools/generate_report.py"
+    ],
+    "limitation": "No instructor-issued documentary approval located",
+    "follow_up_owner": "Student/instructor"
+  },
+  "subrequirements": [
+    {
+      "id": "1a",
+      "classification": "PASS — Verified",
+      "criterion": "Unfamiliar codebases, review problem and expected repository outputs",
+      "evidence": "README.md; tools/generate_report.py: build_pages Problem Statement; submission/*.docx/pdf",
+      "verification": "Read problem/introduction text in both report formats; inventory/graph/metrics are separate from prediction."
+    },
+    {
+      "id": "1b",
+      "classification": "PASS — Verified",
+      "criterion": "Target audience, C-function classification and uncertainty",
+      "evidence": "README.md; app/templates/features/risk.html; docs/inference_api.md",
+      "verification": "Developer/reviewer workflow, paths/features/classes and uncalibrated estimates are explicit; no confirmed vulnerability claim."
+    },
+    {
+      "id": "2a",
+      "classification": "PASS — Verified",
+      "criterion": "Dataset identity, source and format",
+      "evidence": "reports/ml/source_manifest.json; app/ml/acquire.py; data/raw/devign/DATASET_CARD.md",
+      "verification": "Manifest/file checksums and actual Parquet schema/counts verified; official source linked; source functions not confused with numerical features."
+    },
+    {
+      "id": "2b",
+      "classification": "PASS — Verified",
+      "criterion": "Provenance, labels, language and provider-declared attribution",
+      "evidence": "docs/ml_pipeline.md; reports/ml/source_manifest.json; data/raw/devign/C-UDA-1.0.md",
+      "verification": "Devign-derived FFmpeg/QEMU C functions; target bool label0/1; provider C-UDA declaration verified locally. This is not complete rights clearance for upstream code."
+    },
+    {
+      "id": "2c",
+      "classification": "PASS — Verified",
+      "criterion": "Actual sizes, class counts and official partitions",
+      "evidence": "reports/ml/cleaning_audit.json; reports/ml/test_evaluation.json",
+      "verification": "Raw row/class counts independently read; cleaned development sizes/indexes matched. No new random split."
+    },
+    {
+      "id": "2d",
+      "classification": "PASS — Verified",
+      "criterion": "Reproduction and representativeness limitations",
+      "evidence": "app/ml/acquire.py; docs/ml_pipeline.md; reports/ml/README.md",
+      "verification": "Pinned URLs/checksums and download commands exist. Shared projects/commits, noisy labels, near-clones and external generalization are disclosed."
+    },
+    {
+      "id": "3a",
+      "classification": "PASS — Verified",
+      "criterion": "Missing/invalid source and target handling",
+      "evidence": "app/ml/dataset.py: clean_development; tests/ml/test_dataset.py",
+      "verification": "Recorded raw missing fields/invalid labels are zero; invalid development records have explicit reasons; invalid test labels halt evaluation."
+    },
+    {
+      "id": "3b",
+      "classification": "PASS — Verified",
+      "criterion": "Missing numerical features and imputation",
+      "evidence": "app/ml/features.py; app/ml/estimators.py; artifacts/devign-v1/pipeline.joblib",
+      "verification": "4029 training /463 validation structural parse failures produce NaN in eight features; saved training medians reproduced and transformed training data finite."
+    },
+    {
+      "id": "3c",
+      "classification": "PASS — Verified",
+      "criterion": "Duplicate/conflict removal and leakage audit",
+      "evidence": "app/ml/dataset.py; reports/ml/cleaning_audit.json; data/processed/devign-v1/cleaning_decisions.json",
+      "verification": "Exactly reproduced all113 removals,54 contradictory development groups and zero normalized cross-split overlaps; near-clone/shared-commit dependence remains."
+    },
+    {
+      "id": "3d",
+      "classification": "NOT APPLICABLE WITH JUSTIFICATION",
+      "criterion": "Categorical feature encoding",
+      "evidence": "app/ml/features.py: FEATURE_NAMES; reports/ml/feature_schema.json",
+      "verification": "All11 model inputs are numerical. project,commit_id,id,target and names are excluded; no categorical predictor requires encoding. Bool target→0/1 is label conversion."
+    },
+    {
+      "id": "3e",
+      "classification": "PASS — Verified",
+      "criterion": "Required feature scaling",
+      "evidence": "app/ml/estimators.py; artifacts/devign-v1/candidates/logistic_regression/pipeline.joblib",
+      "verification": "LR StandardScaler mean/scale reproduce imputed training rows; code fits preprocessing only on X_train."
+    },
+    {
+      "id": "3f",
+      "classification": "NOT APPLICABLE WITH JUSTIFICATION",
+      "criterion": "Scaling tree models",
+      "evidence": "app/ml/estimators.py: build_models",
+      "verification": "RF/HGB use numerical split thresholds and do not require standard scaling. Median imputation remains in both pipelines."
+    },
+    {
+      "id": "3g",
+      "classification": "PASS — Verified",
+      "criterion": "Train/validation/test separation and seed",
+      "evidence": "app/ml/prepare.py; app/ml/train.py: test_once; artifacts/devign-v1/selection.json",
+      "verification": "Official memberships retained, seed42, validation-only selection, test labels omitted from development reads. Final test evaluation guard recorded once."
+    },
+    {
+      "id": "3h",
+      "classification": "PASS — Verified",
+      "criterion": "Train/inference feature and decision-rule consistency",
+      "evidence": "app/ml/features.py; app/ml/repository.py; app/ml/model_store.py; tests/test_academic_evidence.py",
+      "verification": "Shared ordered11 float64 features/parser/schema and saved preprocessing checked; API values match actual pipeline scores. Exact .5 class tie fixed to recorded >=.5 rule."
+    },
+    {
+      "id": "4a",
+      "classification": "PASS — Verified",
+      "criterion": "Dataset overview, class balance and missing/duplicate EDA",
+      "evidence": "app/ml/eda.py; reports/ml/split_and_label_counts.png; reports/ml/missing_and_duplicates.png",
+      "verification": "Real development data and raw integrity statistics; test labels are not development EDA inputs."
+    },
+    {
+      "id": "4b",
+      "classification": "PASS — Verified",
+      "criterion": "Function-size/complexity distributions and relationships",
+      "evidence": "reports/ml/feature_distributions.png; reports/ml/feature_correlations.png; reports/ml/features_by_class.png",
+      "verification": "Saved figures, labels and underlying summary inspected; three original plots visually opened. Pairwise correlations use observed training values."
+    },
+    {
+      "id": "4c",
+      "classification": "PASS — Verified",
+      "criterion": "Interpretation and limitations",
+      "evidence": "reports/ml/observations.txt; reports/ml/eda_summary.json; reports/ml/README.md",
+      "verification": "Size/class medians, skew, parse coverage and feature correlation observations supported; no causality/feature-attribution claim."
+    },
+    {
+      "id": "5a",
+      "classification": "PASS — Verified",
+      "criterion": "Train two to four appropriate models",
+      "evidence": "app/ml/estimators.py; artifacts/devign-v1/candidates/*; reports/ml/model_comparison.json",
+      "verification": "Exactly three candidates with real pipelines, fit markers, parameter records and train/validation metrics; checkpoint hashes verified."
+    },
+    {
+      "id": "5b",
+      "classification": "PASS — Verified",
+      "criterion": "Out-of-training evaluation of every candidate",
+      "evidence": "app/ml/train.py; reports/ml/model_comparison.json",
+      "verification": "Each candidate tested on untouched-by-fit validation rows using accuracy,precision,recall,F1,AUC and confusion matrices. No retuning here."
+    },
+    {
+      "id": "5c",
+      "classification": "PARTIAL",
+      "criterion": "Literal final-test metrics for each model",
+      "evidence": "reports/ml/test_evaluation.json; app/ml/train.py: test_once",
+      "verification": "Only selected RF evaluated on final test. Ask instructor whether validation evaluation for all candidates meets train-and-test-each wording. Do not invent or rerun missing final-test results."
+    },
+    {
+      "id": "5d",
+      "classification": "PASS — Verified",
+      "criterion": "Reproducibility, warnings and controls",
+      "evidence": "requirements-ml-frozen.txt; artifacts/devign-v1/experiment.json; app/ml/train.py",
+      "verification": "Seed42, recorded versions/checksums/hyperparameters, no fit warnings, no search/refit-on-validation; unchanged implementation hashes verified."
+    },
+    {
+      "id": "6a",
+      "classification": "PASS — Verified",
+      "criterion": "Compare appropriate metrics without mixing splits",
+      "evidence": "reports/ml/model_comparison.json; reports/ml/test_evaluation.json; tests/test_academic_evidence.py",
+      "verification": "All candidate validation metrics tabulated; RF held-out results separated. Saved confusion-derived arithmetic verified; AUC not recomputed from holdout scores."
+    },
+    {
+      "id": "6b",
+      "classification": "PASS — Verified",
+      "criterion": "Selection justification and selected-model understanding",
+      "evidence": "app/ml/evaluation.py: select_model; docs/ml_pipeline.md; this audit model explanation",
+      "verification": "RF highest validation F1/recall among three; fewer FP than HGB, more than LR, larger generalization gap. RF not claimed universally best or production-grade."
+    },
+    {
+      "id": "7a",
+      "classification": "PASS — Verified",
+      "criterion": "Actual backend input→saved model→results",
+      "evidence": "app/routes/analysis.py: analyze_archive; app/ml/repository.py; tests/ml/test_repository.py",
+      "verification": "Original mixed ZIP and real trusted RF:2 files,4 structural functions,3 C predictions,7 graph nodes. Direct saved-pipeline score equality verified."
+    },
+    {
+      "id": "7b",
+      "classification": "PASS — Verified",
+      "criterion": "GitHub input uses same engine",
+      "evidence": "app/routes/analysis.py: analyze_github; tests/test_github.py: test_shared_api_and_cleanup,test_real_model_github_inference",
+      "verification": "Mocked fixed-host/pinned archive download plus real shared analysis/model tests pass; not a live GitHub/network verification."
+    },
+    {
+      "id": "7c",
+      "classification": "PASS — Verified",
+      "criterion": "Safe unsupported, missing and failed states",
+      "evidence": "tests/ml/test_repository.py; tests/test_academic_evidence.py; tests/test_archive.py",
+      "verification": "Python-only and JS unscored; malformed C partial; empty ZIP422; invalid ZIP400; missing model unavailable; inference failure partial without invented predictions."
+    },
+    {
+      "id": "7d",
+      "classification": "IMPLEMENTED — Not Fully Verified",
+      "criterion": "User-visible browser demonstration and operating server",
+      "evidence": "app/routes/dashboard.py; app/templates/features/risk.html; app/static/risk.js; tests/test_product.py",
+      "verification": "Real route documents and77 browser-free journeys verified. Chromium/localhost blocked; actual rendered prediction journey and UI acceptance owned by7B."
+    },
+    {
+      "id": "8a",
+      "classification": "PASS — Verified",
+      "criterion": "Source GitHub identity/local version control",
+      "evidence": "README.md; .git/config; git status/log/rev-parse commands",
+      "verification": "Valid origin, main, tracked source present; HEAD matched local origin/main at audit entry. Final audit commits/push are reported separately; no fresh remote proof assumed."
+    },
+    {
+      "id": "8b",
+      "classification": "PARTIAL",
+      "criterion": "Current comprehensive academic report",
+      "evidence": "submission/Codebase_Archaeologist_Report.docx; submission/Codebase_Archaeologist_Report.pdf; submission/report_manifest.json",
+      "verification": "28-page report,5707 words,9 figures,19 sections,correct identity/metrics exist; current-source validator fails on six stale/missing paths.7C must update, not merely rewrite hashes."
+    },
+    {
+      "id": "8c",
+      "classification": "PASS — Verified",
+      "criterion": "Dataset/source link and instructions",
+      "evidence": "README.md; docs/ml_pipeline.md; reports/ml/source_manifest.json",
+      "verification": "Legitimate provider/revision/license links and pinned download/reproduction instructions. Live HF access not verified; local saved card/checksums intact."
+    },
+    {
+      "id": "8d",
+      "classification": "PARTIAL",
+      "criterion": "Portable demonstration/submission readiness",
+      "evidence": "requirements-ml-frozen.txt; docs/task7a_demo_checklist.md; tests/fixtures/university_demo/",
+      "verification": "Local genuine API demo works. Fresh clone omits trusted model/raw data;7D must arrange compatible artifact transfer and offline verification. Human browser demo remains7B."
+    },
+    {
+      "id": "G",
+      "classification": "HUMAN CONFIRMATION REQUIRED",
+      "criterion": "Three-member group rule versus recorded individual status",
+      "evidence": "README.md; submission/README.md; tools/generate_report.py",
+      "verification": "Solo approval appears only as student-supplied text. No instructor-issued approval file located in repository. Obtain confirmation without manufacturing members/approval."
+    }
+  ],
+  "read_only_data_verification": {
+    "raw_manifest_verified": true,
+    "raw_class_counts": {
+      "train": {
+        "rows": 21854,
+        "0": 11836,
+        "1": 10018
+      },
+      "validation": {
+        "rows": 2732,
+        "0": 1545,
+        "1": 1187
+      },
+      "test": {
+        "rows": 2732,
+        "0": 1477,
+        "1": 1255
+      }
+    },
+    "cleaning_reproduced": true,
+    "cleaning_decisions": 113,
+    "prepared_shapes": {
+      "train": [
+        21750,
+        11
+      ],
+      "validation": [
+        2723,
+        11
+      ]
+    },
+    "feature_missing": {
+      "train": {
+        "physical_lines": 0,
+        "nonblank_lines": 0,
+        "function_bytes": 0,
+        "parameter_count": 4029,
+        "conditional_count": 4029,
+        "loop_count": 4029,
+        "return_count": 4029,
+        "max_nesting_depth": 4029,
+        "decision_complexity": 4029,
+        "pointer_syntax_count": 4029,
+        "call_count": 4029
+      },
+      "validation": {
+        "physical_lines": 0,
+        "nonblank_lines": 0,
+        "function_bytes": 0,
+        "parameter_count": 463,
+        "conditional_count": 463,
+        "loop_count": 463,
+        "return_count": 463,
+        "max_nesting_depth": 463,
+        "decision_complexity": 463,
+        "pointer_syntax_count": 463,
+        "call_count": 463
+      }
+    },
+    "row_index_verified": true,
+    "sample_features_equal": true,
+    "training_imputation_and_scaler_verified": true,
+    "pipeline_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+    "model_version": "devign-v1-4a23cc304ca8",
+    "environment": {
+      "joblib": "1.6.0",
+      "matplotlib": "3.11.2",
+      "numpy": "2.5.5",
+      "pyarrow": "23.0.1",
+      "python": "3.14.10",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "threadpoolctl": "3.8.0",
+      "tree-sitter": "0.25.2",
+      "tree-sitter-c": "0.24.2"
+    },
+    "candidate_checkpoints_verified": [
+      "hist_gradient_boosting",
+      "logistic_regression",
+      "random_forest"
+    ],
+    "preparation_code_hash_drift": [],
+    "report_source_hash_mismatches": [
+      "app/ml/repository.py",
+      "app/routes/analysis.py",
+      "app/static/app.js",
+      "app/static/risk.js",
+      "app/templates/dashboard.html",
+      "tests/ml/test_repository.py"
+    ],
+    "report_output_hashes_match": true
+  },
+  "api_smoke": {
+    "mixed": {
+      "http": 200,
+      "files": 2,
+      "structural_functions": 4,
+      "ml_status": "ready",
+      "analyzed_c_functions": 3,
+      "error": null,
+      "predictions": [
+        {
+          "name": "clamp_index",
+          "path": "review.c",
+          "start_line": 2,
+          "end_line": 6,
+          "predicted_class": 1,
+          "model_probability": 0.6446299251115485
+        },
+        {
+          "name": "sum_values",
+          "path": "review.c",
+          "start_line": 8,
+          "end_line": 14,
+          "predicted_class": 0,
+          "model_probability": 0.4640631119969904
+        },
+        {
+          "name": "entry",
+          "path": "review.c",
+          "start_line": 16,
+          "end_line": 19,
+          "predicted_class": 0,
+          "model_probability": 0.44115041436869545
+        }
+      ],
+      "graph_nodes": 7
+    },
+    "python": {
+      "http": 200,
+      "files": 1,
+      "structural_functions": 1,
+      "ml_status": "no_functions",
+      "analyzed_c_functions": 0,
+      "error": null
+    },
+    "unsupported": {
+      "http": 200,
+      "files": 1,
+      "structural_functions": 0,
+      "ml_status": "no_functions",
+      "analyzed_c_functions": 0,
+      "error": null
+    },
+    "empty": {
+      "http": 422,
+      "files": null,
+      "structural_functions": null,
+      "ml_status": null,
+      "analyzed_c_functions": null,
+      "error": "empty_repository"
+    },
+    "malformed_c": {
+      "http": 200,
+      "files": 1,
+      "structural_functions": 0,
+      "ml_status": "partial",
+      "analyzed_c_functions": 0,
+      "error": null
+    },
+    "invalid_zip": {
+      "http": 400,
+      "error": "invalid_archive"
+    },
+    "missing_model": {
+      "files": 2,
+      "status": "unavailable",
+      "functions": []
+    },
+    "inference_failure": {
+      "http": 200,
+      "status": "partial",
+      "function_statuses": [
+        "inference_failed",
+        "inference_failed",
+        "inference_failed"
+      ]
+    }
+  },
+  "benchmark_retrained": false,
+  "held_out_predictions_rerun": false,
+  "vendor_assets_staged": false,
+  "remaining_signoff": "Conditional readiness; group exception, requirement5 interpretation, browser demo and portable final deliverables require closure.",
+  "verification_runs": {
+    "baseline": {
+      "passed": 502,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 87.4
+    },
+    "focused_after_threshold_fix": {
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0
+    },
+    "final_regression": {
+      "passed": 506,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 87.43,
+      "warnings": [
+        "Existing Starlette/httpx deprecation warning"
+      ]
+    },
+    "auxiliary_report_validator": {
+      "status": "FAIL",
+      "reason": "Stale current-source hashes; first app/ml/repository.py; original report output hashes still match"
+    },
+    "boundary_reproduction_before_fix": {
+      "failed": 1,
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "observed": [
+        0,
+        0,
+        1
+      ]
+    },
+    "browser": "Chromium exit133 before rendering: setsockopt Operation not permitted",
+    "startup": "Uvicorn startup complete, bind127.0.0.1:8000 failed, exit3",
+    "live_github": "curl exit6: Could not resolve host api.github.com",
+    "independent_npm": "URLError DNS failure; bundle receipt self-consistency only"
+  },
+  "correction_commit": "29d010f"
+}

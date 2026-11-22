@@ -81,3 +81,39 @@ repository-ML cases), one existing warning. Native output safeguards and genuine
 inference remain covered. Current guide now labels Task2-era runtime claims as historical;
 tracked vendor documentation now distinguishes optional installation from verified
 redistribution. No user-owned vendor asset was staged or modified.
+
+
+## 4. Final audit artifacts and complete regression
+
+Created the principal eight-requirement/subrequirement matrix, evidence index, original
+local demo checklist and machine-readable summary. Classification:1–4,6 PASS;5 PARTIAL
+(literal test-each interpretation);7 IMPLEMENTED—not fully browser verified;8 PARTIAL;
+group HUMAN CONFIRMATION REQUIRED. No demonstrated P0. P1 closures are human signoff,
+portable trusted artifact setup and actual demo;7C report freshness and7D vendor review
+remain explicit, with no academic report/source manifest bypass.
+
+Final full suite after correction: **506 passed,0 failed,0 skipped in87.43s**, one existing
+Starlette/httpx warning. Four new academic tests passed; focused academic+repository tests
+24 passed. Preserved frontend runners cover77 real-document,8 history utility,16 store,
+24 graph,10 architecture,32 impact and30 Jordan cases; not added to Python totals.
+The updated read-only evidence tool passed, including actual training scale statistics
+and all candidate pipeline digests. Dependency check passed. The separate report-source
+validator remains FAILED as documented; the pre-fix boundary regression was intentionally
+red before correction. Neither failure is hidden in the final green pytest count.
+
+Current environment checks: Chromium exited133 before rendering at setsockopt; Uvicorn
+completed startup but failed localhost bind (exit3); direct api.github.com probe failed
+DNS (curl6). Independent npm archive re-verification also failed DNS. No live browser,
+GitHub, new screenshot, performance measurement or instructor approval is claimed.
+Only three existing saved EDA PNGs were visually opened, not a full website acceptance.
+
+Next:7B real local browser acceptance and genuine demo; obtain group/evaluation wording
+signoff in parallel before final academic submission;7C final report/evidence refresh;
+7D portable trusted model/environment/vendor packaging and remote verification. Task8
+viva preparation and optional6C work are not started. Normal safe push follows the final
+artifact commit; retain commits and use git push origin main if DNS remains unavailable.
+Final static review passed: all audit/doc links resolve, summary has8 main requirements
+and32 subrequirement/group rows, Python3.10 grammar and pip consistency pass, diff has no
+whitespace errors, and intended changes pass path/size/credential-pattern checks. Original
+vendor bundle digest remains unchanged. Current report binaries, ML artifacts, raw data,
+existing result metrics and frontend design were not regenerated or modified.
