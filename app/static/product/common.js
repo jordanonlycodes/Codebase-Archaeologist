@@ -24,3 +24,9 @@ window.WorkspaceNavigation.askJordan=(id,options={})=>{
  if(options.target_id&&workspaceEntities.nodes.has(options.target_id))handoff.target_id=options.target_id;
  workspaceStore.handoff(handoff);location.assign('/workspace/jordan');return true;
 };
+
+window.WorkspaceNavigation.fileHistory=id=>{
+ const file=workspaceEntities.owners.get(id)||id;
+ if(window.activeAnalysis?.source?.type!=='github'||workspaceEntities.nodes.get(file)?.type!=='file')return false;
+ return window.WorkspaceNavigation.open('time-machine',file);
+};

@@ -141,6 +141,7 @@
       const panel=$('graph-inspection'),n=this.ix.nodes.get(this.state.selected);panel.replaceChildren();
       if(!n){panel.append(text('h3','Inspect an entity'),text('p','Select a node or a search result to inspect actual relationships and source metrics.','muted'));return;}
       const m=n.metadata||{};
+      if(root.activeAnalysis?.source?.type==='github'&&root.WorkspaceNavigation?.file(n.id)){const history=text('button','Explore file history','graph-related');history.type='button';history.addEventListener('click',()=>root.WorkspaceNavigation.fileHistory(n.id));panel.append(history);}
       if(root.WorkspaceNavigation?.askJordan){const ask=text('button','Ask Jordan about these relationships','graph-related');ask.type='button';ask.addEventListener('click',()=>root.WorkspaceNavigation.askJordan(n.id,{question:'What does this selected entity depend on?'}));panel.append(ask);}
       if(['function','file','directory'].includes(n.type)){const impact=text('button','Explore potential change impact','graph-related');impact.type='button';impact.addEventListener('click',()=>root.WorkspaceNavigation?root.WorkspaceNavigation.open('blast-radius',n.id):root.impactExplorer?.open(n.id));panel.append(impact);}
       panel.append(text('span',n.type.toUpperCase(),'section-tag'),text('h3',n.name));

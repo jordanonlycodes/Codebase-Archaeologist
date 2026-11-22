@@ -93,3 +93,17 @@ verified 100-entry REST maximum; ancestry closure is separate from incomplete fi
 62 real-document cases and eight view-model cases passed. Browser rendering remains
 unverified. Next H connects current file IDs to historical paths, without treating current
 ML/complexity metrics as historical measurements; then final security/visual review.
+
+## H complete — current/historical boundaries and navigation
+
+Added stable file-ID history launches from structure, graph and heatmap inspectors.
+Historical path focus requires actual retained path/rename evidence; no name-only function
+matching or guessed rename continuity. Current-context links require matching repository
+URL and anchor plus unique inventory mapping, and explicitly describe current metrics.
+JSON exports naturally include retained history/tree metadata but never transient patches.
+63 document cases passed, including exact-ID handoffs, source continuity and cached-only
+playback. Restored path focus/viewport state and all-zero/unmeasured legends were reviewed
+for misleading defaults. Jordan historical question integration remains intentionally
+unimplemented: its existing local/provider behavior is preserved, with no cloud changes.
+Next I: expanded Git/HTTP security tests, final responsive/source review, browser/network
+attempts, complete regression suite and documentation.
