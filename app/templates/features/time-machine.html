@@ -1,6 +1,7 @@
 <section class="time-machine" id="time-machine" aria-labelledby="tm-title">
  <div class="tm-source"><div><p class="kicker">AN EVIDENCE-BASED JOURNEY</p><p id="tm-source">History belongs to a real Git snapshot.</p></div><div><button id="tm-load" type="button">Retrieve Git history ↗</button><button id="tm-cancel" type="button" hidden>Cancel retrieval</button></div></div>
- <p id="tm-status" role="status" aria-live="polite">Open a public GitHub snapshot to retrieve its authentic history.</p><p id="tm-error" class="error-box" role="alert" hidden></p>
+ <p id="tm-api-status" class="tm-api-status" role="status" aria-live="polite">GitHub API · not checked</p><p id="tm-status" role="status" aria-live="polite">Open a public GitHub snapshot to retrieve its authentic history.</p><p id="tm-error" class="error-box" role="alert" hidden></p>
+ <button id="tm-retry" type="button" hidden>Retry historical retrieval</button>
  <div id="tm-empty" class="tm-empty"><p class="kicker">THE PAST IS NOT IN A ZIP</p><h2 id="tm-title">Every change leaves<br><em>a trace.</em></h2><p id="tm-empty-copy">Ordinary ZIP archives contain files, not genuine Git ancestry. Time Machine never invents commits from archive timestamps.</p><a href="/explore" class="button secondary">Import a public GitHub repository ↗</a></div>
  <div id="tm-results" hidden>
   <div class="tm-ledger" id="tm-summary"></div><p id="tm-coverage" class="tm-coverage"></p>

@@ -63,3 +63,18 @@ error.api metadata. No credential or raw upstream message is reflected.
 Tests: **54 passed**, zero failed/skipped, one existing warning. Existing mocked streaming
 JSON fixtures now declare the genuine API content type; assertions were preserved.
 Next D: browser single-flight, bounded pair reuse, status/cooldown/retry UI and regressions.
+
+D complete: browser requests now coalesce identical in-flight keys, use loaded trees,
+and retain at most three / 2 MiB comparison results for 120 seconds in page memory only.
+Different revision selection cancels the stale browser consumer; server producers remain
+independently bounded. Rerenders and tab switches do not fetch. Comparison/trees and the
+larger existing history window survive upstream errors/partial reloads. The subtle API
+line distinguishes cached, loading, connected, limited, unavailable and unverified state;
+quota values are labeled last reported, local reset time appears only from real metadata.
+Explicit Retry respects cooldown without polling or claiming automatic recovery.
+Existing five visualization experiences and source-free snapshot lifecycle remain intact.
+Tests: **19 product Python checks passed**, including **77 real-document Node cases**
+(10 new reliability cases), eight Time Machine view-model and preserved product behavior.
+JavaScript syntax checks passed. Browser-rendered acceptance remains unverified here.
+Next E: expanded genuine-fixture repeated-operation/cache tests, complete regressions,
+security review, documentation and normal push attempt.
