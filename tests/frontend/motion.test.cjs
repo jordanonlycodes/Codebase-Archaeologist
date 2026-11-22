@@ -19,7 +19,7 @@ function harness(storage=new Map()){
 }
 test('finite animations release slots and never alter final text or block interaction',()=>{
  const h=harness(),el=new Element();el.textContent='Verified evidence';assert(h.motion.reveal(el,{key:'panel'}));
- const a=el.calls[0];assert.equal(a.options.duration,TIMING.normal);assert.equal(a.options.fill,'none');assert.equal(el.textContent,'Verified evidence');a.onfinish();assert.equal(h.motion.animations.size,0);assert.equal(h.motion.reveal(el,{key:'panel'}),false);
+ const a=el.calls[0];assert.equal(a.options.duration,TIMING.normal);assert.equal(a.options.fill,'backwards');assert.equal(el.textContent,'Verified evidence');a.onfinish();assert.equal(h.motion.animations.size,0);assert.equal(h.motion.reveal(el,{key:'panel'}),false);
 });
 test('same-element updates cancel previous animation; initialization cleans listeners',()=>{
  const h=harness(),el=new Element();h.motion.reveal(el);h.motion.reveal(el);assert(el.calls[0].cancelled);assert.equal(h.motion.animations.size,1);
@@ -43,7 +43,7 @@ test('counts ignore missing, negative, fractional values and never overwrite rep
 test('bounded batches, active slots and path traces restore original style',()=>{
  const h=harness(),nodes=Array.from({length:100},()=>new Element());h.motion.batch(nodes,{key:'batch'});assert.equal(nodes.filter(n=>n.calls.length).length,MAX_BATCH);
  for(const el of nodes)h.motion.reveal(el);assert.equal(h.motion.animations.size,MAX_ACTIVE);h.motion.stop();assert.equal(h.motion.animations.size,0);
- h.motion.trace(nodes,{key:'edges'});assert.equal(h.motion.animations.size,MAX_BATCH);assert.equal(nodes[0].calls.at(-1).frames[0].strokeDashoffset,100);assert.equal(nodes[0].calls.at(-1).options.fill,'none');
+ h.motion.trace(nodes,{key:'edges'});assert.equal(h.motion.animations.size,MAX_BATCH);assert.equal(nodes[0].calls.at(-1).frames[0].strokeDashoffset,100);assert.equal(nodes[0].calls.at(-1).options.fill,'backwards');
 });
 test('one-shot visibility observation leaves content accessible before intersection',()=>{
  const h=harness(),el=new Element();el.textContent='Already available';h.motion.watch([el],{key:'cards'});assert.equal(el.textContent,'Already available');assert.equal(el.calls.length,0);const ob=h.observers[0];ob.cb([{target:el,isIntersecting:true}]);assert.equal(el.calls.length,1);assert.equal(ob.targets.size,0);ob.cb([{target:el,isIntersecting:true}]);assert.equal(el.calls.length,1);

@@ -20,7 +20,7 @@ def test_motion_assets_are_local_and_progressive():
         assert js.status_code == css.status_code == 200
         assert 'prefers-reduced-motion' in js.text and 'prefers-reduced-motion' in css.text
         assert '.innerHTML' not in js.text and 'fetch(' not in js.text
-        assert 'fill:\'none\'' in js.text
+        assert 'fill:\'backwards\'' in js.text
         assert 'opacity:0' not in css.text  # No stylesheet hides initial essential content.
 
 

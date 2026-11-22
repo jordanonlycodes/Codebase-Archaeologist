@@ -22,7 +22,7 @@
   play(el,frames,{duration=TIMING.normal,delay=0}={}){
    if(!this.enabled(el))return false;
    this.cancel(el);for(const node of [...this.animations.keys()])if(node.isConnected===false)this.cancel(node);if(this.animations.size>=MAX_ACTIVE)return false;
-   try{const animation=el.animate(frames,{duration,delay:Math.min(220,delay),easing:TIMING.ease,fill:'none'});
+   try{const animation=el.animate(frames,{duration,delay:Math.min(220,delay),easing:TIMING.ease,fill:'backwards'});
     this.animations.set(el,animation);const finish=()=>{if(this.animations.get(el)===animation)this.animations.delete(el);};animation.onfinish=finish;animation.oncancel=finish;return true;
    }catch{return false;}
   }

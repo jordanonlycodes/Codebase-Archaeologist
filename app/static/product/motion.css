@@ -2,7 +2,7 @@
 :root{--motion-fast:160ms;--motion-normal:340ms;--motion-slow:560ms;--motion-stagger:45ms;--motion-ease:cubic-bezier(.22,1,.36,1)}
 @media(prefers-reduced-motion:no-preference){
  button,.button,summary,.workspace-link,.public-links a{transition:color var(--motion-fast),background-color var(--motion-fast),border-color var(--motion-fast),box-shadow var(--motion-fast),transform var(--motion-fast) var(--motion-ease)}
- button:enabled:active,.button:active{transform:translateY(1px)}
+ button:enabled:active,.button:active,.button.primary:active{transform:translateY(1px)}
  .workspace-heading{animation:motion-heading var(--motion-normal) var(--motion-ease)}
  .workspace-link[aria-current=page]{animation:motion-current 400ms var(--motion-ease)}
  .workspace-link:hover,.workspace-link:focus-visible{box-shadow:inset 2px 0 #b68f88}

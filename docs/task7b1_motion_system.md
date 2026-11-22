@@ -103,3 +103,18 @@ regression and human visual acceptance are recorded separately. No brand SVG, so
 analysis, API, model or historical-evidence module was changed. Seen preference eviction
 (after80entries) or blocked session storage may permit a later repeat reveal; this is
 bounded visual state, not repository retention or correctness state.
+
+## Deliberate second quality pass
+
+Review of delayed Web Animations identified a potential visible-to-dim jump during
+stagger delays. Effects now apply their nonzero-opacity first frame **backwards** during
+the bounded delay, then release the effect entirely after completion (no forwards fill).
+This avoids intentionally scheduling a fully bright frame followed by a delayed fade,
+without CSS-hidden content or retained transforms/styles. Regression expectations pin
+that fill policy. Primary pressed-button specificity also overrides its hover lift.
+These are source/API semantics improvements, not claims of observed browser smoothness.
+
+Final full regression after quality refinement:511passed,0failed/skipped in102.32s;
+one existing warning. All216frontend cases pass;29JSsyntax checks pass. Application
+performance and cinematic appearance remain unmeasured/unverified in a real browser.
+No additional dependency, branded asset change, report generation or provider activation.
