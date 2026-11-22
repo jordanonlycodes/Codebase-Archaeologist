@@ -57,3 +57,48 @@ actions could exceed narrow screens); add wrap and compact <=420px workspace loc
 These CSS safeguards are inspected/testable source changes, not visually certified
 responsive layouts. A fit requested on a hidden 3D host now persists until measurement;
 the new assertion passes. Inference API text now reflects7A's inclusive0.5 convention.
+
+## Checkpoint 4 — core and feature regression
+
+Actual mixed ZIP smoke with original tracked review.c/helpers.py ran real parsers and
+selected local model:2files,24physical lines,4structural functions,7nodes/7edges,
+3Cpredictions (.6446299251115485/.4640631119969904/.44115041436869545); Python unscored.
+Python-only, JS-only and malformed-C states plus empty/invalid/traversal ZIP and invalid
+GitHub URL were exercised. An initial ad-hoc script expected400 for invalid GitHub URL;
+422 is the genuine existing contract; corrected the script expectation, no app change.
+All11 public/workspace pages200. Jordan Local on this actual response correctly answered
+summary, complexity, callers and1-hop change impact using the entry→sum_values edge.
+No provider configured/contacted; capability check shows cloud unavailable honestly.
+
+Read-only academic audit passes: source/class counts,113cleaning decisions, prepared
+matrices/schema/features, training-derived imputation/scaling, three candidate digests
+and selected pipeline checksum. No benchmark fit/evaluation/report regeneration.
+Report validator reproduced exit1 at known stale app/ml/repository.py hash; six old source
+paths remain listed in7C handoff. Output report hashes still match, not bypassed.
+
+## Checkpoint 5 — responsiveness, safety and quality review
+
+Reviewed navigation sizes, context actions, graph controls, labels, focus/reduced-motion,
+lazy assets, source-free storage lifecycle and renderer cleanup. Narrow action wrap and
+compact brand safeguards are included; actual responsive geometry requires local browser.
+3D fitting stays bounded by existing retained graph view, no relayout on camera reset;
+control events/listeners clean up, MSAA-off/DPR/idle policy preserved. No FPS claim.
+Brand SVG XML checks and local render review are complete; site renders are unavailable.
+Vendor bundle digest unchanged; MIT text matches pinned upstream. Transitive notice/
+independent archive review still needed; all three original assets remain untracked.
+Limited public name research found other products: no trademark/visual clearance claim.
+
+## Checkpoint 6 — final automated results and handoff
+
+Full post-change suite **508 passed,0 failed,0 skipped in96.58s**, one existing warning.
+This includes existing Python and frontend runners; do not add Node cases to508.
+Explicit graph harness25/25passes; earlier focused graph/product25passes and newbrand/
+product21passes. Syntax checks pass all28 non-vendor applicationJSfiles. pip check passes.
+Required six Task7B documents produced; manual acceptance and7C handoff distinguish
+verified API/harness results from blocked browser/liveGitHub/clean-machine checks.
+
+Checkpoint commits:99c3067 baseline, a9ee5c4 camera, e7ae0b0 branding/identity.
+Final documentation commit follows this review; no user vendor file staged. Normal
+push will be attempted and its actual result recorded. Next task7C may use real saved
+scientific evidence and new assets; first complete local browser/demo signoff. No7C
+report generation or optional roadmap/cloud work started in this task.
