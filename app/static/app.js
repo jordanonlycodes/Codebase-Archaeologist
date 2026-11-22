@@ -23,6 +23,9 @@ function showError(message) {
 function setInputBusy(busy) {
   for (const id of ['choose-file', 'analyze-github', 'github-url', 'mode-zip', 'mode-github']) $(id).disabled = busy;
   $('github-form').setAttribute('aria-busy', String(busy));
+  $('knowledge-explorer').setAttribute('aria-busy', String(busy));
+  if (busy) $('graph-state').textContent = 'Repository analysis in progress. Previous graph, if any, remains available.';
+  else if (result) $('graph-state').textContent = result.knowledge_graph ? 'Exploring the last completed repository analysis.' : 'Knowledge graph unavailable for this analysis.';
 }
 
 function upload(file) {
@@ -83,6 +86,7 @@ function upload(file) {
 }
 
 function renderResult() {
+  renderKnowledgeGraph(result.knowledge_graph);
   renderStructure(result.structural);
   renderDefectRisk(result.defect_risk);
   const source = result.source;

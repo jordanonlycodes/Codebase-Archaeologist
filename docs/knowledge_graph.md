@@ -1,8 +1,8 @@
 # Repository knowledge graph engine (Task 4B.1)
 
 The shared ZIP/GitHub analysis pipeline returns `knowledge_graph` (schema `1.0`).
-This is backend infrastructure; an interactive explorer and dedicated graph endpoints
-are future Task 4B.2 work. No graph database, extra dependency, network request,
+The backend infrastructure now feeds the Task 4B.2 client-side explorer described below.
+No dedicated graph endpoints are needed. No graph database, extra dependency, network request,
 source execution, model training or persistent repository storage is involved.
 
 ## Architecture and contracts
@@ -25,7 +25,7 @@ in graph output beyond bounded reference names/expressions.
 The component contains `nodes`, `edges`, `references`, `summary`, `coverage`,
 `limits`, and `schema_version`. Existing analysis fields and the frontend's whole-result
 JSON export remain intact. The graph is available through existing analysis responses
-and JSON export; this task adds no graph visualization or frontend dependency.
+and JSON export; Task 4B.1 added no visualization; the Task 4B.2 section documents the frontend adapters.
 
 ## Entities, identities and direction
 
@@ -234,7 +234,7 @@ confirmed edges.
 `GraphIndex(graph)` offers `node(id)`, `nodes_of_type(type)`,
 `incoming(id, kind=None)` and `outgoing(id, kind=None)`. Building it is O(V+E).
 Future neighborhood/impact traversal must track visited IDs to handle recursion and
-cycles. No impact algorithm, architecture classifier or graph UI is implemented here.
+cycles. No impact algorithm or architecture classifier is implemented. The graph UI is described below.
 
 ```bash
 source .venv/bin/activate
@@ -249,7 +249,7 @@ pytest -q
 Upload the same ZIP in the existing dashboard and export JSON; confirm its
 `knowledge_graph` component, structural section and C-only ML results. A public GitHub
 import uses the same engine; compare graph content after excluding repository-node
-name/source provenance. Interactive visualization is intentionally absent.
+name/source provenance. Use the explorer below for client-side visualization.
 
 Task 4B.1 verification: 69 focused graph cases and the complete 348-test suite passed
 (0 failed, 0 skipped), including mocked GitHub/ZIP graph equivalence, existing security
@@ -258,3 +258,151 @@ Starlette TestClient deprecation warning remains. Tests in the restricted enviro
 used a process-local selector polling workaround; normal local runs use the commands
 above. Uvicorn completed application startup but the environment denied binding
 `127.0.0.1:8765`, so browser and live-network UI verification were not performed.
+
+
+## Interactive explorer (Task 4B.2)
+
+The dashboard now consumes the existing `knowledge_graph` response entirely on the
+client. No extraction or ML changes, storage or additional API endpoints were needed.
+`app/static/graph/data.js` owns indexes, canonical IDs, filtering, search, bounded
+neighborhoods and overlay mappings. `explorer.js` owns shared interaction state and a
+text-only inspector. `svg.js` and `three.js` are interchangeable rendering adapters.
+The canonical response is never mutated; the 3D library receives disposable copies.
+
+### Modes, controls and interpretation
+
+- **Knowledge:** retained repository/directory/file/function entities and chosen edges.
+- **Function Calls:** function entities with resolved CALLS relationships.
+- **Dependencies:** file entities with resolved IMPORTS/INCLUDES relationships.
+
+Zoom, pan, fit, reset, select, drag, focus, fullscreen (or expanded CSS fallback),
+search, node/relationship/language filters and one/two-hop neighborhoods operate on
+actual graph results. Perspective changes do not submit another analysis. Search
+spans all retained nodes even outside current filters; choosing a result opens its
+bounded neighborhood, clearing incompatible type/language filters and switching to
+the knowledge perspective if needed. Remaining active relationship filters still apply.
+Search results and related-node buttons are the keyboard-accessible selection path in
+both adapters; 2D nodes additionally support Tab/Enter/Space and arrow-key canvas pan.
+
+Selecting a node shows applicable source location, structural metrics, hotspot reasons,
+real ML metadata, incoming/outgoing relationships, evidence and unresolved references.
+Missing values say Unavailable. Panel relationship/reference lists retain at most 40
+entries; the rest remain in the original JSON export. Unresolved references never
+become confirmed graph edges. Neither overlays nor connectivity imply vulnerabilities.
+
+Entity visuals are fixed by type: repository diamond / size 14, directory square / 10,
+file rectangle / 8, function circle / 6 in 2D; 3D uses spheres whose relative volumes
+follow these size values. Sizes describe entity type, not importance. Selected nodes
+are emphasized, unrelated nodes dimmed; outgoing relationships are crimson, incoming
+amber. A self-loop belongs to both directions and uses outgoing color when both apply.
+
+Complexity colors use existing bands: green 1–5, amber 6–10, crimson 11–20,
+magenta ≥21; gray means unavailable. Hotspot outlines in 2D and a 1.4× volume factor
+in 3D mark actual existing threshold reasons. ML colors require a genuine analyzed
+C-function prediction: crimson for class 1, green for class 0, gray for unscored.
+Estimated model probability appears in the inspector, with the research/uncalibrated
+qualification. Python and nonfunction entities are never assigned ML predictions.
+
+### 2D and 3D dependencies and availability
+
+The network environment could not resolve `cdn.jsdelivr.net` or `registry.npmjs.org`.
+To keep analysis usable offline, 2D uses a focused first-party SVG adapter with a
+deterministic grid and draggable positions; no force simulation or package dependency.
+This is a compatibility adapter, not a custom physics engine. It makes disconnected
+components visible, supports directional curved edges/self-loops and hides labels
+when zoomed out. Dense graphs may still have overlapping edges; search and bounded
+neighborhood focus provide the analytical path.
+
+The real 3D adapter expects the upstream UMD bundle from **3d-force-graph 1.73.3**,
+which includes its Three.js renderer and force/control dependencies. Its contract is
+based on the [upstream API](https://github.com/vasturiano/3d-force-graph) and
+[pinned MIT license](https://github.com/vasturiano/3d-force-graph/blob/v1.73.3/LICENSE).
+There is no runtime CDN or external data service. Install explicitly from project root:
+
+```bash
+source .venv/bin/activate
+python tools/install_graph_assets.py
+```
+
+The standard-library installer downloads the exact versioned npm archive, validates
+its package identity, reads only bounded named members, preserves LICENSE and writes
+`app/static/vendor/graph-assets.json` with source URL, hashes and bundled dependency
+declarations. No npm package scripts run. The frozen prebuilt bundle needs no build
+pipeline or dependency installation. Preserve license comments and the license/receipt
+when redistributing assets. The receipt records downloaded bytes; it is not an independent
+signature or a preverified digest. `app/static/vendor/README.md` documents attribution.
+
+**Current blocker:** no 3D bundle could be downloaded in this sandbox. The adapter is
+implemented and mock-tested but actual GPU rendering is unverified until installation
+and browser checks succeed. Missing local assets or WebGL failures report a clear
+notice and fall back to functional 2D, never to a simulated 3D picture.
+
+Capable desktop devices (fine pointer, width ≥1000px, WebGL, no reduced-motion preference)
+prefer 3D on first exploration when the local dependency is available. Other devices
+start in 2D; 3D remains selectable when WebGL exists. Each adapter initializes lazily
+when the explorer becomes visible or is requested. Switching modes preserves selected
+ID, query, perspective, filters, overlay, direction and neighborhood. Camera/drag layout
+positions are adapter-local; resetting a camera/layout does not clear shared filters.
+
+3D supplies orbit controls, right-drag camera pan, scrolling zoom, node dragging and
+camera focus. A bounded force simulation starts from deterministic spatial positions;
+reduced-motion mode uses static positions and immediate camera transitions. The spatial
+view uses a near-black backdrop, type-sized spheres, arrows, selected-node emphasis,
+hover names and at most 31 projected labels, hidden at distance. No decorative particles
+or perpetual camera motion are enabled.
+
+### Performance and lifecycle
+
+Rendering retains at most **180 nodes and 420 edges** at once. Initial selection is
+deterministic, with selected entities retained inside the current matching subset.
+Search scans the full bounded backend graph and lists up to 40 results after a 160ms
+debounce. Neighborhoods are cycle-safe, one or two hops, bounded at 180 nodes and
+6,000 relationship visits. Summary text distinguishes displayed, matching and total
+retained counts. Backend coverage, skipped files and truncation indicators remain
+visible; a displayed subset is never claimed to cover all source.
+
+Only one rendering adapter exists at a time. Stale asynchronous library loads cannot
+attach after a repository/mode switch. Repository replacement disposes the previous
+adapter and resets interaction state. 2D removes pointer/keyboard/wheel listeners;
+3D pauses animation, detaches controls/callbacks, releases geometry/materials/textures,
+disposes renderer/context and calls the pinned component teardown. Its simulation runs
+at most 80 ticks / 2.2 seconds (zero with reduced motion); rendering pauses offscreen.
+WebGL still renders for interactive orbit/drag after simulation cooldown. No GPU
+execution or browser performance measurement was possible in this environment.
+
+### Verification and remaining manual checks
+
+Automated tests exercise conversion, all filters, full-index search, cyclic/bounded
+traversal, overlays/unscored values, inspector-safe text, state preservation, stale-load
+cancellation, repository replacement, missing-asset/WebGL fallback, SVG listener removal,
+3D disposal contracts and installer license/receipt behavior. Browser-free adapter tests
+use DOM/renderer mocks and do not establish actual WebGL compatibility or visual quality.
+
+```bash
+node tests/frontend/graph.test.cjs   # Node 18+, no npm packages
+pytest tests/test_graph_explorer.py -q
+pytest -q
+uvicorn app.main:app --reload
+```
+
+Visit `http://127.0.0.1:8000`, analyze a small mixed C/Python ZIP or public GitHub repo,
+then scroll to Knowledge Graph Explorer. Check all three perspectives, filters and
+search; select a hidden search result; inspect source metrics, related nodes and
+unresolved references; try one/two-hop neighborhoods and overlays. In 2D verify drag,
+zoom, keyboard selection and pan. After installing local assets, switch to 3D and
+verify orbit, right-drag pan, node dragging, arrows, labels, camera focus, fit and
+fullscreen. Confirm shared state survives mode switching and a new repository clears
+old selection. Check narrow/tablet/desktop widths, reduced-motion settings, a device
+without WebGL and JSON export. Existing structural and ML sections remain available.
+
+Browser verification was attempted: Chromium exited with `setsockopt: Operation not
+permitted`; Uvicorn port binding has also been blocked in this environment. No visual,
+responsive or real 3D interaction success is claimed. Live GitHub verification is likewise
+unavailable under the network restrictions. Architecture reconstruction, impact analysis
+and assistant features remain future work.
+
+Task 4B.2 automated verification: **354 Python tests passed, 0 failed, 0 skipped**;
+the suite includes a runner for **13 passing Node frontend cases**. JavaScript syntax
+checks passed. One existing Starlette TestClient deprecation warning remains. Restricted
+Python test execution used the previously documented process-local selector polling
+workaround. These outcomes do not replace the blocked real-browser/3D checks above.

@@ -277,4 +277,29 @@ are explicit; no external definitions or runtime guarantees are invented.
 See [graph engine documentation](docs/knowledge_graph.md) for resolution rules,
 resource limits, schemas, a verified example and `GraphIndex` query helpers.
 Run `pytest tests/test_graph.py -q` or the full `pytest -q` suite.
-Interactive graph visualization remains planned for Task 4B.2.
+The Task 4B.2 explorer below consumes these retained results.
+
+### Interactive Knowledge Graph Explorer (Task 4B.2)
+
+The dashboard provides Knowledge, Function Calls and Dependency perspectives,
+search across all retained entities, filters, source/metric inspection, incoming/outgoing
+highlighting and bounded one/two-hop focus. Entity, complexity/hotspot and genuine
+C-only ML overlays share one state across the 2D and 3D adapters. JSON export keeps
+the complete retained backend graph, independent of visualization filters.
+
+**2D works offline immediately** using a small native SVG adapter with deterministic
+layout, zoom, pan, dragging and keyboard selection. The genuine WebGL 3D adapter uses
+**3d-force-graph 1.73.3**, including Three.js, served locally after:
+
+```bash
+python tools/install_graph_assets.py
+```
+
+Asset retrieval was blocked by DNS in the development sandbox. Until this command
+succeeds, 3D reports the missing asset and falls back to 2D. Real 3D rendering remains
+unverified here. There is no CDN fallback. The installer preserves the upstream MIT
+license and records hashes/version. See [explorer documentation](docs/knowledge_graph.md#interactive-explorer-task-4b2)
+for controls, limits, dependency details and manual verification.
+
+Run `node tests/frontend/graph.test.cjs` for browser-free interaction/adapter tests
+(Node.js 18+; no npm install), and `pytest -q` for application regressions.
