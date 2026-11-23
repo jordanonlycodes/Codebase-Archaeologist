@@ -155,8 +155,8 @@
     }
   },
   "delivered_source_reproduction": {
-    "source_commit": "644b5d5f1a69862a1e8660029bac77cc93ef3761",
-    "source_zip_sha256": "b494fa4d30b3569792797af98b35471b694efe29bca2c5f39e0b7c0fd70f498d",
+    "source_commit": "a95b1c676bec11ccb71f893f5babdca7bccb2873",
+    "source_zip_sha256": "b6cce9bcf0b2adf80b77eee1940acf2a9faf46e3c15e9fc49c57f10da3ea5dd3",
     "source_files": 323,
     "runtime": "Fresh separate 29-package venv, pip check successful",
     "smoke": {

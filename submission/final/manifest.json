@@ -1,0 +1,93 @@
+{
+  "status": "PARTIAL \u2014 submission candidate",
+  "source_commit": "a95b1c676bec11ccb71f893f5babdca7bccb2873",
+  "files": {
+    "source.zip": {
+      "bytes": 9571333,
+      "sha256": "b6cce9bcf0b2adf80b77eee1940acf2a9faf46e3c15e9fc49c57f10da3ea5dd3"
+    },
+    "Codebase_Archaeologist_Submission_Candidate.zip": {
+      "bytes": 6890853,
+      "sha256": "b5c3ddaa751140668f01101b97d56e3bd950e189733041c6af03983fe03d85ad"
+    }
+  },
+  "payload": {
+    "Codebase_Archaeologist_Report.docx": {
+      "bytes": 848823,
+      "sha256": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
+    },
+    "Codebase_Archaeologist_Report.pdf": {
+      "bytes": 1679121,
+      "sha256": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48"
+    },
+    "DEMO.md": {
+      "bytes": 3842,
+      "sha256": "59dbc9e197bb849c10c51ec112636e85984c77e759e420a56af5f557eb3ac952"
+    },
+    "SETUP.md": {
+      "bytes": 13150,
+      "sha256": "531a6aab32f9937f1cf1032ad62e837163683b93ed6a451efe6219aa2c46de05"
+    },
+    "SOURCE.txt": {
+      "bytes": 223,
+      "sha256": "ff5f28fde082fc688b426aa478a77a47129c7e69792c56d2ff7c0a54a5894646"
+    },
+    "STATUS.md": {
+      "bytes": 457,
+      "sha256": "664d812e6389d0ffaf76107544e1ceb1abed9c395aceae47361f70a916953798"
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "bytes": 2693,
+      "sha256": "686de5b88d56867a2b887a7a8897fb48eb499d264c9c899ad6842d83bb2cdb8e"
+    },
+    "academic_details.json": {
+      "bytes": 428,
+      "sha256": "341ebc008b023219ca2f0afc9ae2fd2f86f40f69c1d8fcd1c69ea5c947999089"
+    },
+    "app/static/product/fonts/OFL.txt": {
+      "bytes": 4162,
+      "sha256": "ca97f00dff53d546e43a596136773220014c1f2c6ba2eb77e870e28d3e3c56db"
+    },
+    "models/devign-v1/C-UDA-1.0.md": {
+      "bytes": 3545,
+      "sha256": "69aeb2c407f2ffce7f31c3aba0f1eeffac248009ec2070fcd989586ac8229c82"
+    },
+    "models/devign-v1/README.md": {
+      "bytes": 1409,
+      "sha256": "bc6d6ec29fb195dd5dd674f620ffa78ddd2c929345fc389c5b1fc8279cf0d0b9"
+    },
+    "models/devign-v1/feature_schema.json": {
+      "bytes": 2213,
+      "sha256": "1840b1d0e9a3a3c568091294c42882a44e83d237dde2e52ba4ed4efbc5a918e7"
+    },
+    "models/devign-v1/manifest.json": {
+      "bytes": 650,
+      "sha256": "9fb9560356bfdbbc873cdebf1c70c3af8feaed58ba0819a89ba1cc5d347b1fdb"
+    },
+    "models/devign-v1/metadata.json": {
+      "bytes": 11387,
+      "sha256": "2ac89d357a51bff631c302d5f9938fb79b56544df72d5855bf80d1c3c90cad1f"
+    },
+    "models/devign-v1/pipeline.joblib": {
+      "bytes": 4490519,
+      "sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6"
+    },
+    "third_party/DejaVu-LICENSE.txt": {
+      "bytes": 4816,
+      "sha256": "d75938dec098f06f0ac3c00853065d94f020be1c3c62ef1dc2975ba15b4d9b0e"
+    },
+    "verification.json": {
+      "bytes": 6195,
+      "sha256": "66e72c7ef8d250a20b1464d3b7d131a9c2d9b9a3a500e5933159c65d7c11b7f0"
+    }
+  },
+  "remaining_actions": [
+    "Genuine application screenshots not captured/integrated",
+    "Local Office layout and physical browser/demo acceptance pending",
+    "Portable offline3D redistribution provenance unresolved",
+    "GitHub publication pending verification",
+    "Instructor interpretation of final-test-for-every-candidate wording needs clarification"
+  ],
+  "generation_date": "23 November 2026",
+  "archive_crc_and_extracted_payload_verified": true
+}
