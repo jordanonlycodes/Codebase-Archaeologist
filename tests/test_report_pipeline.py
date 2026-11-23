@@ -7,11 +7,17 @@ spec=importlib.util.spec_from_file_location('report_validator',ROOT/'tools/valid
 validator=importlib.util.module_from_spec(spec);spec.loader.exec_module(validator)
 
 
-def test_current_report_documents_pass_actual_validator():
-    result=subprocess.run([sys.executable,'tools/validate_report.py'],cwd=ROOT,capture_output=True,text=True,timeout=45)
+def test_university_release_report_documents_pass_actual_validator():
+    # Development continues after the accepted university report; validate its exact
+    # immutable evidence without rewriting the release documents or their hashes.
+    revision='09f6b6df29b6b3e8e81c48c7f8f929a6e638dce5'
+    receipt=(ROOT/'submission/validation.json').read_bytes()
+    result=subprocess.run([sys.executable,'tools/validate_report.py','--source-ref',revision],cwd=ROOT,capture_output=True,text=True,timeout=45)
     assert result.returncode==0,result.stdout+result.stderr
+    assert (ROOT/'submission/validation.json').read_bytes()==receipt
     evidence=json.loads(result.stdout)
     assert evidence['chapters']==17 and evidence['appendices']==5
+    assert evidence['source_manifest_valid'] and evidence['report_evidence_source']==revision
     assert evidence['two_author_metadata_and_identity_valid']
     assert evidence['verified_application_screenshots']==json.loads((ROOT/'submission/report_manifest.json').read_text())['screenshots_verified']
     assert evidence['pdf_text_outside_page']==[]

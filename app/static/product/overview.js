@@ -20,7 +20,10 @@ function renderOverview(data){result=data;heatIds=new Map((data.architecture?.he
   $("result-badge").textContent = "Analysis complete";
   $("result-badge").classList.add("complete");
   $("result-meta").textContent = `Analyzed ${new Date(result.analyzed_at).toLocaleString()} · ${number(result.archive_entries)} archive entries · ${bytes(s.bytes)} included text`;
-  for (const [id, value] of Object.entries({"stat-files": s.files, "stat-lines": s.source_lines, "stat-languages": s.languages, "stat-directories": s.directories, "metric-total": s.total_lines, "metric-blank": s.blank_lines, "metric-comments": s.known_comment_lines, "metric-skipped": s.skipped_files})) $(id).textContent = number(value);
+  for (const [id, value] of Object.entries({"stat-files": s.files, "stat-lines": s.source_lines, "stat-languages": s.languages, "stat-directories": s.directories, "metric-total": s.total_lines, "metric-blank": s.blank_lines, "metric-comments": s.known_comment_lines, "metric-skipped": s.skipped_files})) {
+    if(root.LivingStatistics)root.LivingStatistics.set($(id),value,{scope:workspaceStore.current?.id||result.analyzed_at,key:id});
+    else $(id).textContent=value==null?'—':number(value);
+  }
   $("stat-files-note").textContent = `${number(s.source_files)} source files · ${number(s.skipped_files)} skipped`;
   $("stat-lines-note").textContent = `Across ${number(s.source_files)} recognized source files`;
   $("stat-languages-note").textContent = `Most files: ${(result.languages[0]?.language || 'unavailable')}`;
@@ -34,7 +37,11 @@ function renderOverview(data){result=data;heatIds=new Map((data.architecture?.he
   for (const language of result.languages) {
     const row = node("div", undefined, "language-row");
     const label = node("div", undefined, "language-label");
-    label.append(node("span", language.language), node("span", `${number(language.files)} files · ${language.percentage}%`));
+    const composition=node('span'),percentage=node('span');
+    composition.append(node('span',`${number(language.files)} files · `),percentage);
+    label.append(node("span", language.language), composition);
+    if(root.LivingStatistics)root.LivingStatistics.set(percentage,language.percentage,{scope:workspaceStore.current?.id||result.analyzed_at,key:'language:'+language.language,precision:Math.min(6,String(language.percentage).split('.')[1]?.length||0),suffix:'%'});
+    else percentage.textContent=`${language.percentage}%`;
     const bar = node("progress", undefined, "language-bar");
     bar.max = s.files;
     bar.value = language.files;
@@ -60,7 +67,6 @@ function renderOverview(data){result=data;heatIds=new Map((data.architecture?.he
   renderInventory();
   const motion=root.WorkspaceMotion;
   motion?.watch(document.querySelectorAll('.stat-card'),{key:'overview-cards'});
-  for(const [id,value]of Object.entries({'stat-files':s.files,'stat-lines':s.source_lines,'stat-languages':s.languages,'stat-directories':s.directories}))motion?.count($(id),value,{key:'count:'+id,format:number});
   motion?.reveal($('result-badge'),{key:'analysis-ready',kind:'fade'});
 }
 

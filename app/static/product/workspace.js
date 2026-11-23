@@ -36,7 +36,9 @@ function renderOverviewContext(){
   ['risk','C-function research scores',m?number(m.analyzed_functions):'Unavailable',m?.message||'Optional trusted model unavailable.'],
   ['jordan','Jordan engineering companion','Ask','Investigate this snapshot through traceable local evidence or consent-based AI explanations.'],
   ['blast-radius','Potential change impact','Explore','Trace resolved relationships; reachability is not guaranteed breakage.']]){
-  const link=node('a',undefined,'overview-pathway');link.href='/workspace/'+page;link.append(node('span',label),node('strong',measure),node('p',detail),node('b','↗'));container.append(link);
+  const link=node('a',undefined,'overview-pathway'),metric=node('strong',measure);link.href='/workspace/'+page;link.append(node('span',label),metric,node('p',detail),node('b','↗'));container.append(link);
+  const numeric={structure:s?.summary.analyzed_functions,graph:g?.summary.edges,architecture:a?.components.length,risk:m?.analyzed_functions}[page];
+  if(typeof numeric==='number')window.LivingStatistics?.set(metric,numeric,{scope:workspaceStore.current.id,key:'pathway:'+page});
  }
 }
 $("download-json").addEventListener("click", () => {

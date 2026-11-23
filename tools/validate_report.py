@@ -4,18 +4,21 @@ No fitting/inference. Poppler is required; visual inspection is separate.
 """
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import hashlib,json,re,subprocess,zipfile
+import argparse,hashlib,json,re,subprocess,zipfile
 import xml.etree.ElementTree as ET
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'submission'
 NS={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 def compact(text):return re.sub(r'\s+','',text).replace('−','-').replace('–','-').replace('—','-')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
-def checked_sources(manifest):
+def checked_sources(manifest,source_revision=None):
     """Never substitute a digest for a missing/superseded file."""
+    if source_revision is not None:
+        assert re.fullmatch(r'[0-9a-f]{40}',source_revision),'Use a full immutable source commit SHA'
     for name,expected in manifest['source_sha256'].items():
         path=(ROOT/name).resolve()
         assert path.is_relative_to(ROOT) and path.is_file(),name
-        assert sha(path)==expected, f'Source changed; review content and regenerate: {name}'
+        actual=sha(path) if source_revision is None else hashlib.sha256(subprocess.check_output(['git','show',f'{source_revision}:{name}'],cwd=ROOT)).hexdigest()
+        assert actual==expected, f'Source changed; review content and regenerate: {name}'
     assert 'app/static/app.js' not in manifest['source_sha256']
     assert 'app/templates/dashboard.html' not in manifest['source_sha256']
     for current in ['app/static/product/workspace.js','app/templates/workspace.html','app/routes/analysis.py','tools/report_content.py']:
@@ -81,7 +84,10 @@ def office_layout_status():
     return 'Current Office render/visual review pending; structural checks alone do not certify pagination.'
 
 def main():
-    manifest=json.loads((OUT/'report_manifest.json').read_text());checked_sources(manifest)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--source-ref',help='Validate frozen report evidence against this full immutable commit SHA; default: working tree')
+    args=parser.parse_args()
+    manifest=json.loads((OUT/'report_manifest.json').read_text());checked_sources(manifest,args.source_ref)
     for name,digest in manifest['outputs_sha256'].items():assert sha(OUT/name)==digest,name
     paras,media=document_text(OUT/'Codebase_Archaeologist_Report.docx');word_text=' '.join(paras)
     assert len(media)==manifest['figures']
@@ -133,7 +139,7 @@ def main():
     assert all(f'{n:02}' in chapters for n in range(1,18))
     assert all(n in chapters for n in 'ABCDE')
     result={'pdf_pages':len(pages),'chapters':17,'appendices':5,'figures':len(media),'tables':manifest['tables'],
-      'docx_words':len(word_text.split()),'source_manifest_current_and_valid':True,'source_output_checksums_valid':True,
+      'docx_words':len(word_text.split()),'source_manifest_current_and_valid':args.source_ref is None,'report_evidence_source':args.source_ref or 'working tree','source_manifest_valid':True,'source_output_checksums_valid':True,
       'rounded_saved_metrics_consistent':True,'shared_substantive_paragraphs_match':True,'two_author_metadata_and_identity_valid':True,
       'docx_xml_relationships_and_editable_tables_valid':True,'automatic_word_page_fields':True,
       'pdf_text_outside_page':outside,'empty_pdf_pages':0,'references_traceable':True,
@@ -141,5 +147,7 @@ def main():
       'remaining_academic_placeholders':[],
       'visual_review':'Separate Poppler rendering review; not asserted by this structural validator.',
       'docx_pagination':office_layout_status()}
-    (OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
+    # Frozen report validation is read-only; preserve the accepted release receipt.
+    if args.source_ref is None:(OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
+    print(json.dumps(result,indent=2))
 if __name__=='__main__':main()
