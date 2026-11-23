@@ -4,7 +4,7 @@
   "appendices": 5,
   "figures": 11,
   "tables": 13,
-  "docx_words": 8300,
+  "docx_words": 8293,
   "source_manifest_current_and_valid": true,
   "source_output_checksums_valid": true,
   "rounded_saved_metrics_consistent": true,
@@ -16,13 +16,7 @@
   "empty_pdf_pages": 0,
   "references_traceable": true,
   "verified_application_screenshots": 0,
-  "remaining_academic_placeholders": [
-    "course",
-    "instructor",
-    "semester",
-    "submission date",
-    "confirm previously recorded institution/department/class"
-  ],
+  "remaining_academic_placeholders": [],
   "visual_review": "Separate Poppler rendering review; not asserted by this structural validator.",
   "docx_pagination": "Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination."
 }

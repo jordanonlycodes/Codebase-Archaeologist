@@ -40,3 +40,5 @@ checkpoints/
 
 # Explicitly approved immutable production model only (never candidate caches).
 !models/devign-v1/pipeline.joblib
+# Reproducible submission payload copies/ZIPs are generated; keep manifests in Git.
+submission/final/payload/

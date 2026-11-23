@@ -1,5 +1,5 @@
 {
-  "implementation_commit": "5735e4cc4f0376a60c2547a1e2d4abfa862c461d",
+  "implementation_commit": "4f9127a26f8980d5400038b1d2b912b49cb53a64",
   "build_tree": "Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.",
   "report_date": "23 November 2026",
   "pdf_pages": 46,
@@ -67,7 +67,7 @@
   "table_index": [
     {
       "number": 1,
-      "title": "Academic details and confirmation status"
+      "title": "Confirmed academic details"
     },
     {
       "number": 2,
@@ -486,6 +486,17 @@
     "docs/task7c_report_revision_log.md": "0bf161fc026d71605184b6ea6e603f4ca49bf2373df6bcb4e24d9e0730a873f2",
     "docs/task7c_report_validation.md": "728a0329a5910c03318c1e2ef54b5610925a65bb65de0a121b7df2801a516d6e",
     "docs/task7c_screenshot_capture_guide.md": "6b493bbfcbb51f3cf0643c5c4f0c53ef9fc958dd4ab1f7470ba13685d02c9fb8",
+    "docs/task7d_clean_install_validation.md": "b5942f368891616ed2d4e74088319fd8673192a1c33b6dccb03dcec4a36e4a5f",
+    "docs/task7d_demo_guide.md": "59dbc9e197bb849c10c51ec112636e85984c77e759e420a56af5f557eb3ac952",
+    "docs/task7d_final_verification.md": "92fb5a54c9a580a08147aa3e1988e9b05ef0341534c47e34a35b36daeeb414c9",
+    "docs/task7d_handoff_to_viva.md": "ba4a798f02cb7265e5dabcd6dcfa56ef8bd13549d6a32b1015349f046f9d2425",
+    "docs/task7d_model_portability.md": "c0963c9fd31400e2f48f21366af5aa33d23725d1938b06e4da1609f809bba6d0",
+    "docs/task7d_release_baseline.md": "d80ff9731092ddecb8533477b2ce3017c38e7bf30e49575531162bfab744138f",
+    "docs/task7d_report_acceptance.md": "55068e8c63655c824205edf71451f086ed8fabc3abd888f6cb324f98975fe72f",
+    "docs/task7d_submission_manifest.md": "8b02da275e1d6be199e98b3fa46e1397328c04b55cd6f5884a0dcbae2632c001",
+    "docs/task7d_university_compliance.md": "2420e9e7454724037f7839cbd57aea153f7b4e92164683f3c91413291ee8793a",
+    "docs/task7d_vendor_provenance.md": "034284dea9a9e976a01e5bdcfb52083fc2b9a9826df08d44fd4d12b8e9b87737",
+    "models/devign-v1/manifest.json": "9fb9560356bfdbbc873cdebf1c70c3af8feaed58ba0819a89ba1cc5d347b1fdb",
     "reports/ml/cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
     "reports/ml/confusion_matrices.png": "24e46f62904d05ca91ad2f5e9aa9253cbe60eb0d4cb36634c11c83de090de2a4",
     "reports/ml/eda_summary.json": "f71b6a07406502581b8d41adf2412ba40ee2e09c7006b27b1829093efde457ff",
@@ -533,9 +544,11 @@
     "reports/ml/source_manifest.json": "65b47e59998e1c1726ada04916f612a92ac21cc72a49fb9ce1b059c2f49b28ab",
     "reports/ml/split_and_label_counts.png": "c5ef939ef53c725905a6ca02ff677c030a7e09f368685e8c1e422277ada1932e",
     "reports/ml/test_evaluation.json": "bca167f228321c400e8617856bac86eaee2e81b26feedafe0f89924dad7c050c",
+    "requirements-runtime.lock": "29c57b13fa169ca823423b1b6c6fc7ebd6d3c39831248830e0ace30fd6476477",
+    "submission/academic_details.json": "341ebc008b023219ca2f0afc9ae2fd2f86f40f69c1d8fcd1c69ea5c947999089",
     "submission/references.json": "638d92792222668f69800949c2a773cb7858a687cc6da74912caf6da69879132",
     "submission/screenshots.json": "f200fed0d105053cb16228f26423478306ef20e4ba888726ce6655030001864d",
-    "submission/test_evidence.json": "85566796e3660de30e4a9cfa4f3f8cb96d348fd5a775235a7231ce1bb5b8ecde",
+    "submission/test_evidence.json": "dfdcd85672c29d899e1be76d222c638c28ff2ab087be28f806677e2bbe08c008",
     "tests/conftest.py": "8784ab602b5d1f49038f711aee395030d3c48562ef54da0e4dc081be6a3638dc",
     "tests/fixtures/university_demo/helpers.py": "13d850b8ac1a54eb64477514c8645de92a709523172ce6976bb7ef2096a81fd4",
     "tests/frontend/architecture.test.cjs": "00418008fb5fe2c7f33c2fccac79f4000b6a508543289df78266a168611847a5",
@@ -570,18 +583,22 @@
     "tests/test_middleware.py": "2dcaa139fe4e5f65cf0e49658a8df02a2e01ca101c250ac90214eb2c75cdbbfa",
     "tests/test_motion.py": "2c343a366868baab2c32c0f78bd80caba65f6cd77c11f85fd59aac6beffb62be",
     "tests/test_product.py": "9b4b10cf291a4f63b1248559fef05c52196fdda0faa9fa87ec010efd4a6d7441",
+    "tests/test_release_packaging.py": "d0568eca7a419da857a60d06ee9923cf22cbbc2dd07c25a662e932f1c51735c1",
     "tests/test_report_pipeline.py": "fe1e0a2d9810c03ec448c155c0a4375eb161a8e4e209acae0be21961bd874c32",
     "tests/test_scanner.py": "d125b8c124d230e2adcce5ec0885cfa4da6e3fd9a6dd7adde51c0f2f024552bf",
     "tests/test_structural.py": "d0526355242595db1fd55236ba1144bd41add5d1b2ae1cab724ddd6c44dfe912",
-    "tools/check_report_links.py": "2950115dabaa5edb3a6227685c744b97e3c0b11c4f3843e198d6eec53624d4df",
-    "tools/generate_report.py": "648c46d07528d406f60006f41ae2ee20336819c84c2d585573b01c96932595b8",
+    "tools/build_submission.py": "c04d025bcaba3f6fe2806016802e3346b7da1cf1e5c9c7c32e1fbf17cd0edc76",
+    "tools/check_report_links.py": "6a74feb9a0cc517463c9b45c65bf129470442b41b0340a299e542db2a67a3eda",
+    "tools/generate_report.py": "65041bd064b65ab5d2d6860d83620eef60e8def3144b15b4556b99fe21c4a0cf",
+    "tools/install_model.py": "f8dc4a18e278d988580654d3fbd8c8b82299e9dad870a019b4af5091510a6b1f",
+    "tools/release_smoke.py": "e1aac0418f4d30b6cdce96925f1accf0ebe9997085b0be0c7aeae7616122d17b",
     "tools/report_charts.py": "8e512d5a28d287bee61020760c59e006791cedc9423989e6fb3d37ffb87f38e6",
-    "tools/report_content.py": "dac19c5f237b436399d1c3ade08729748209c83a674ccc6a6c409353d5b46af8",
-    "tools/validate_report.py": "a8dc7316f8b144b5d8db4e896ac9aebbccd88d7de9ba46cdf658569d8fc6f1a9"
+    "tools/report_content.py": "30beadd89b389eab0bc268b7f4cc10e1ca425d1177759bcb9436c10271ef27fd",
+    "tools/validate_report.py": "42bdd76afc5c19ea6e63a42e2e5d33515379e158b3bf93300471cb1ae00184a6"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "011159ac97e4e022e3951b419dfaa64d6d1ddd6f9ad666911ac09f7c050a358b",
-    "Codebase_Archaeologist_Report.docx": "9880cc7d72e015d7dd26598729490d89b41892bf81e6a3994239e28ebd0f666b"
+    "Codebase_Archaeologist_Report.pdf": "bb9a6c6d7bd79d6139ab67bb2fb553a86d6342724972bd115e93e193ad3c0e9b",
+    "Codebase_Archaeologist_Report.docx": "cd840012cf5eb6cec1fb9b4aea7734dd75e1204bd6bb08263b216b8a924fe31a"
   },
   "training_or_evaluation_rerun": false,
   "authors": "Bilal Malik; Aun Anis",

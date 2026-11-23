@@ -32,6 +32,7 @@ WIDTH, HEIGHT, MARGIN = 595.28, 841.89, 60
 BODY_WIDTH = WIDTH - 2 * MARGIN
 DATE = '23 November 2026'
 AUTHORS = 'Bilal Malik; Aun Anis'
+ACADEMIC = json.loads((OUT/'academic_details.json').read_text())
 FIGURES, TABLES = [], []
 plt.rcParams.update({'font.family': 'DejaVu Sans', 'pdf.fonttype': 42, 'font.size': 10})
 
@@ -165,13 +166,13 @@ COVER = [
     ('& Defect Risk Analyzer',16,'28252A',False),
     ('Bilal Malik — 24P-3061',17,'28252A',True),
     ('Aun Anis — 24P-3017',17,'28252A',True),
-    ('FAST-NUCES, Peshawar',12,'28252A',False),
-    ('Software Engineering (SE) · Class 5A',12,'28252A',False),
-    ('Institution/department/class: previous report record; confirm.',9,'655D63',False),
-    ('Course: [CONFIRM COURSE TITLE AND CODE]',11,'28252A',False),
-    ('Instructor: [CONFIRM INSTRUCTOR NAME]',11,'28252A',False),
-    ('Semester: [CONFIRM SEMESTER]',11,'28252A',False),
-    ('Submission: [CONFIRM SUBMISSION DATE]',11,'28252A',False),
+    (ACADEMIC['institution'],12,'28252A',False),
+    ('Department: '+ACADEMIC['department'],12,'28252A',False),
+    ('Academic details explicitly confirmed by the project team.',9,'655D63',False),
+    ('Course: '+ACADEMIC['course'],11,'28252A',False),
+    ('Instructor: '+ACADEMIC['instructor'],11,'28252A',False),
+    ('Semester: '+ACADEMIC['semester'],11,'28252A',False),
+    ('Submission: '+ACADEMIC['submission_date'],11,'28252A',False),
     ('Two-member group permitted, as confirmed by the team.',10,'655D63',False),
     ('Evidence-driven final revision · built 23 November 2026',10,'655D63',False),
 ]
@@ -360,7 +361,7 @@ def evidence_files():
     files=[ROOT/'app/config.py',ROOT/'app/static/product/motion.js',ROOT/'app/static/risk.js',ROOT/'app/static/structural.js']
     for root in roots:files.extend(p for p in (ROOT/root).rglob('*') if p.suffix in ('.py','.js','.css','.html','.cjs') and '__pycache__' not in p.parts)
     files.extend(p for p in ML.rglob('*') if p.suffix in ('.json','.png','.txt'))
-    files.extend(ROOT/name for name in ['tools/generate_report.py','tools/report_content.py','tools/report_charts.py','tools/validate_report.py','tools/check_report_links.py','submission/references.json','submission/screenshots.json','submission/test_evidence.json'])
+    files.extend(ROOT/name for name in ['tools/generate_report.py','tools/report_content.py','tools/report_charts.py','tools/validate_report.py','tools/check_report_links.py','submission/references.json','submission/screenshots.json','submission/test_evidence.json','submission/academic_details.json','models/devign-v1/manifest.json','tools/install_model.py','tools/release_smoke.py','tools/build_submission.py','requirements-runtime.lock'])
     files.extend(p for p in (ROOT/'docs').glob('task7*.md'))
     return sorted(set(files))
 

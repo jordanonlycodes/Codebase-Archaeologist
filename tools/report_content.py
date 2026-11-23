@@ -15,6 +15,7 @@ def read(path):return json.loads(path.read_text())
 def build(g,assets):
     page,para,sub,table=g.page,g.para,g.sub,g.table
     comparison,test,meta,schema=g.COMPARISON,g.TEST,g.META,g.SCHEMA
+    academic=g.ACADEMIC
     results=read(OPT/'results.json'); protocol=read(OPT/'protocol.json')
     def p(b,*items):
         for item in items:para(b,item)
@@ -26,17 +27,17 @@ def build(g,assets):
         g.figure(b,path,f'Figure {number}. {caption}',height)
     def metrics_rows(source):
         return [[name]+[f'{m[k]:.6f}' for k in g.METRICS] for name,m in source]
-    b=page('FM','Authorship and Declaration','Two-member university project · editable academic details')
+    b=page('FM','Authorship and Declaration','Two-member university project · team-confirmed academic details')
     p(b,AUTHORS,
       'This report describes the implemented Codebase Archaeologist application and its recorded research experiments. Both named students are the project authors. No individual responsibilities or contribution percentages are assigned. The project team confirms that the instructor permits two members; this is not a claim that an institutional approval certificate was independently inspected.',
       'Scientific declaration. Reported scores come from saved evaluation artifacts. Experimental models are separated from the deployed Random Forest. No new model fitting or test evaluation is performed during document generation. The previously evaluated official test split is exposed historical evidence. No fabricated application screenshot, defect finding or performance gain is included.')
-    t(b,'Academic details and confirmation status',['Field','Recorded value / action'],[
-      ['Institution','FAST-NUCES, Peshawar — recorded in the previous report; confirm current submission wording.'],
-      ['Department / class','Software Engineering (SE) / Class 5A — previous report record; confirm for both authors.'],
-      ['Course','[CONFIRM COURSE TITLE AND CODE]'],['Instructor','[CONFIRM INSTRUCTOR NAME]'],
-      ['Semester','[CONFIRM SEMESTER]'],['Submission date','[CONFIRM SUBMISSION DATE]'],
+    t(b,'Confirmed academic details',['Field','Recorded value / action'],[
+      ['Institution',academic['institution']],
+      ['Department',academic['department']],
+      ['Course',academic['course']],['Instructor',academic['instructor']],
+      ['Semester',academic['semester']],['Submission date',academic['submission_date']],
       ['Build date','23 November 2026; document-generation date, not an invented submission deadline.']],[.25,.75])
-    p(b,'Authorship acknowledgement/signatures: ____________________    ____________________ . These are editable signature spaces, not signed declarations. Academic details above must be confirmed by the team before submission.')
+    p(b,'Authorship acknowledgement/signatures: ____________________    ____________________ . These are editable signature spaces, not signed declarations. Academic details above were explicitly confirmed by the project team in Task7D; signatures are not fabricated.')
 
     b=page('FM','Abstract','Repository intelligence with measured scientific limits')
     p(b,'Understanding an unfamiliar repository requires an integrated view of files, functions, dependencies and change history. Codebase Archaeologist combines secure ZIP/public-GitHub ingestion, C and Python structural analysis, evidence-preserving visualizations and C-only machine-learning-assisted defect-risk estimation. FastAPI returns bounded source-free analysis records to a Jinja2/vanilla-JavaScript multi-page workspace. Knowledge Graph, directory-based Architecture, six Heatmap metrics, Blast Radius paths, Jordan Local and Codebase Time Machine support technical investigation without claiming runtime completeness.',
@@ -199,7 +200,7 @@ def build(g,assets):
       'The dataset concentrates on two projects and inherits historical labeling/sampling noise. Exact duplicate removal does not establish project/commit/time independence. Token-shape and bounded shingle audits identify related data without proving semantic clones; missed matches remain. Grouped CV and the794-row diagnostic improve transparency but do not create independent external validation. The official test was already viewed, and validation supports multiple historical/optimization decisions.',
       'Only C functions receive supervised predictions. Python has structural metrics, and other languages may receive inventory-only analysis. Parser errors, incomplete snippets, macro-heavy C, dynamic relationships and bounded traversal limit coverage. NaN imputation is honest missingness handling, but cannot restore absent semantics. Neither graph reachability nor architecture cycles guarantee runtime propagation or build-system behavior.',
       'Time Machine depends on genuine Git history, GitHub availability and a bounded pinned-revision window. ZIP metadata is not history. Comparisons use bounded text/tree evidence with conservative identical-blob rename detection; current model scores are not historical predictions. Limits can truncate ancestry, file lists or patches, and activity/churn is not productivity or code quality.',
-      'Current browser screenshots and full mobile/GPU/accessibility acceptance remain incomplete in this environment. Automated DOM tests do not certify visual smoothness or real3D rendering. DOCX editable content can repaginate in Word/LibreOffice; PDF is the fixed-layout copy produced from the same evidence model. Academic placeholders, authentic captures and clean-checkout model/vendor packaging require final team review.')
+      'Current browser screenshots and full mobile/GPU/accessibility acceptance remain incomplete in this environment. Automated DOM tests do not certify visual smoothness or real3D rendering. DOCX editable content can repaginate in Word/LibreOffice; PDF is the fixed-layout copy produced from the same evidence model. Academic fields are now user-confirmed, and the approved model is packaged. Authentic captures, Office layout and portable3D vendor notices still require final review.')
 
     b=page('16','Future Work','Clearly unimplemented research and engineering extensions')
     p(b,'The most important scientific next step is independent evaluation: new appropriately licensed projects, time-separated records and stronger clone-aware grouping established before development. Curated label audits could distinguish labeling uncertainty from model failure. Such work should preserve official benchmarks for comparison while defining a new untouched evaluation protocol; repeatedly selecting on the exposed test would not solve generalization.',
@@ -232,8 +233,8 @@ def build(g,assets):
       ['POST /api/history/load','Pinned public history window.'],['POST /api/history/compare','Validated exact revision-pair comparison.'],['POST /api/history/tree','Bounded pinned revision tree.'],
       ['GET /api/jordan/capabilities','Sanitized optional-provider status.'],['POST /api/jordan/explain','Consent-gated enhanced explanation; Local mode runs in browser.']],[.43,.57])
     p(b,'Verify current OpenAPI /docs when demonstrating. JSON export is frontend-generated from the analysis snapshot rather than a fictional export endpoint. History/assistant requests use validated bounded evidence, not an arbitrary server filesystem path. Academic report generation uses saved metrics only, not these APIs.',
-      'Startup: create/activate the documented virtual environment, install requirements.txt and requirements-ml-frozen.txt for the recorded environment, then run python -m uvicorn app.main:app --host 127.0.0.1 --port 8000. Open http://127.0.0.1:8000. No cloud key is required for Local mode.',
-      'Model reproduction uses app.ml.acquire, prepare, train and report with the pinned download plan, as documented in docs/ml_pipeline.md. Do not load a model from a user ZIP. The local trusted production pipeline is ignored by Git and requires deliberate packaging/reproduction on a clean checkout. Use the exact recorded numerical/parser versions for checksum-compatible loading; do not fabricate availability when absent.',
+      'Startup: create/activate the documented virtual environment, install requirements-runtime.lock for the recorded inference/web environment, then run python tools/install_model.py, then run python -m uvicorn app.main:app --host 127.0.0.1 --port 8000. Open http://127.0.0.1:8000. No cloud key is required for Local mode.',
+      'Model reproduction uses app.ml.acquire, prepare, train and report with the pinned download plan, as documented in docs/ml_pipeline.md. Do not load a model from a user ZIP. The exact approved pipeline and schema/metadata are distributed under models/devign-v1 with a manifest; tools/install_model.py verifies/copies them to the unchanged runtime default. No dataset or retraining is required for inference. Use the exact recorded numerical/parser versions for checksum-compatible loading; do not fabricate availability when absent.',
       'Generate documents: .venv/bin/python tools/generate_report.py; validate: .venv/bin/python tools/validate_report.py. Poppler provides pdfinfo/pdftotext/pdftoppm. Saved figures and report content are reused; no fitting or held-out prediction occurs. A LibreOffice conversion can be attempted locally for office-layout acceptance; report page references follow the fixed PDF.')
 
     b=page('C','Appendix C — Optimization Configurations','Fixed budget, source identity and complete result trail')

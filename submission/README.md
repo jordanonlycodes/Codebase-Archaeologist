@@ -1,4 +1,4 @@
-# Codebase Archaeologist — final academic report (Task 7C)
+# Codebase Archaeologist — academic report / Task7D submission candidate
 
 **Bilal Malik —24P-3061 · Aun Anis —24P-3017**
 
@@ -30,15 +30,16 @@ Use the existing .venv with requirements-ml.txt (Matplotlib/Pillow) and Poppler 
 Single editable content source:tools/report_content.py; existing shared PDF/OOXML renderer:
 tools/generate_report.py. No benchmark fitting/inference or raw data loading occurs.
 Build sources, evidence and outputs are hashed together; edit content/current paths first,
-then regenerate. Do not merely change hashes to bypass stale evidence. Future academic
-field changes should update COVER/declaration text; genuine screenshots are registered
+then regenerate. Do not merely change hashes to bypass stale evidence. Academic fields now come from academic_details.json; future confirmed changes should
+update that record and regenerate; genuine screenshots are registered
 in screenshots.json with provenance. Generated documents may differ in timestamps.
 
 ## Remaining submission acceptance
 
 **Report status:PARTIALLY COMPLETED pending real screenshots and local office acceptance.**
-Three explicit missing-screenshot paragraphs remain. Confirm editable course/instructor/
-semester/submission-date fields and previously recorded institution/department/class.
+Three explicit missing-screenshot paragraphs remain. All required academic fields are
+now user-confirmed:FAST NUCES Peshawar,SE,AI-lab,M. Saad Khan,semester5,23November2026.
+Old unconfirmed Class5A is removed; no individual roles are assigned.
 Two-member permission is user-confirmed; no invented instructor approval document exists.
 The official requirement “test each model” still needs instructor interpretation because
 all original candidates have validation evaluation but only RF has final-test evaluation.

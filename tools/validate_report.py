@@ -99,8 +99,9 @@ def main():
                 if float(a['xMin'])<0 or float(a['yMin'])<0 or float(a['xMax'])>width or float(a['yMax'])>height:outside.append((pi,word.text))
         assert not outside,outside
     for text in [word_text,pdf_text]:
-        for value in ['Bilal Malik','24P-3061','Aun Anis','24P-3017','[CONFIRM COURSE TITLE AND CODE]','[CONFIRM INSTRUCTOR NAME]']:
+        for value in ['Bilal Malik','24P-3061','Aun Anis','24P-3017'] + [json.loads((OUT/'academic_details.json').read_text())[k] for k in ['institution','department','course','instructor','semester','submission_date']]:
             assert compact(value) in compact(text),value
+        assert '[CONFIRM ' not in text
         for forbidden in ['Individual AI project','instructor-approved solo participation','Tasks 1, 2 and 3A at implementation']:
             assert forbidden.lower() not in text.lower(),forbidden
     metric_checks(word_text,pdf_text)
@@ -120,7 +121,7 @@ def main():
       'docx_xml_relationships_and_editable_tables_valid':True,'automatic_word_page_fields':True,
       'pdf_text_outside_page':outside,'empty_pdf_pages':0,'references_traceable':True,
       'verified_application_screenshots':manifest['screenshots_verified'],
-      'remaining_academic_placeholders':['course','instructor','semester','submission date','confirm previously recorded institution/department/class'],
+      'remaining_academic_placeholders':[],
       'visual_review':'Separate Poppler rendering review; not asserted by this structural validator.',
       'docx_pagination':'Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination.'}
     (OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

@@ -13,8 +13,11 @@ def demo_bytes():
 def smoke():
     sys.path.insert(0,str(ROOT))
     from fastapi.testclient import TestClient
+    import app as package
+    assert Path(package.__file__).resolve().is_relative_to(ROOT)
     from app.main import app
     from app.ml.repository import SERVICE
+    assert SERVICE.directory.resolve().is_relative_to(ROOT),'Model must come from this checkout for release smoke'
     assert SERVICE.load() is not None,'Approved compatible model unavailable; install it and restart.'
     assert SERVICE.metadata['model_version']=='devign-v1-4a23cc304ca8'
     with TestClient(app) as client:
@@ -31,7 +34,7 @@ def smoke():
         py=client.post('/api/analyze',files={'file':('python.zip',stream.getvalue())}).json()
         assert py['defect_risk']['analyzed_functions']==0 and py['defect_risk']['functions']==[]
     return {'model_version':risk['model_version'],'files':2,'c_predictions':[{k:f[k] for k in ['name','model_probability','predicted_class']} for f in risk['functions']],
-            'python_ml_predictions':0,'workspaces':9,'model_loaded':True,'source_body_execution':False,'dataset_required':False,'scope':'In-process API smoke, not a browser/GPU or live GitHub test.'}
+            'python_ml_predictions':0,'workspaces':9,'model_loaded':True,'source_body_execution':False,'dataset_required':False,'source_and_model_under_checkout':True,'training_data_present':(ROOT/'data').exists(),'scope':'In-process API smoke, not a browser/GPU or live GitHub test.'}
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--sandbox-polling',action='store_true');parser.add_argument('--write-demo',type=Path);args=parser.parse_args()
     if args.sandbox_polling:

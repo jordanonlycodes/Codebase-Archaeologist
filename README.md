@@ -1,318 +1,242 @@
 <p align="center"><img src="docs/assets/hero.svg" width="100%" alt="Codebase Archaeologist. Uncover the unseen. Original editorial brand artwork." /></p>
 
-<p align="center"><strong>Built like an engineering platform. Designed for discovery.</strong><br />
-A local repository intelligence instrument for understanding source structure, relationships and potential change impact.</p>
+<p align="center"><strong>Codebase Archaeologist — AI-Powered Repository Intelligence & Defect Risk Analyzer</strong><br />
+Inspect source structure, trace dependencies, investigate potential impact and explore real history.</p>
 
-<p align="center"><a href="#open-the-workspace">Open the workspace</a> · <a href="#the-instruments">The instruments</a> · <a href="#research-with-the-caveats-in-view">Research evidence</a> · <a href="docs/frontend.md">Engineering documentation</a></p>
+**Bilal Malik · 24P-3061**
+**Aun Anis · 24P-3017**
+FAST NUCES Peshawar · SE · AI-lab · M. Saad Khan · Semester 5 · 23 November, 2026
 
----
+An instructor-permitted two-member university project. No individual roles are assigned.
 
-## Beyond the source.
+## What the instrument does
 
-A codebase is a system of decisions and dependencies—not just files in a folder.
-Codebase Archaeologist transforms a secure ZIP or public GitHub snapshot into a coherent,
-inspectable workspace. Analyze once. Move between structure, graphs, architecture,
-heatmaps and potential impact with the same repository and stable entity identities.
+Analyze a ZIP or public GitHub snapshot once, then move between dedicated workspaces
+with the same repository and stable entity identifiers. Inventory, static structure,
+rule-based hotspots, historical change and C-only research-model estimates stay distinct.
+No imported repository program is executed. Missing evidence remains missing.
 
-**Evidence comes first.** No invented dependencies. No artificial quality percentage.
-No repository code execution. Structural measurements, rule-based hotspots and C-only
-research-model scores remain distinct, with explicit coverage and limitations.
+| Workspace | Implemented capability |
+|---|---|
+| Overview | Provenance, inventory, language/line composition and coverage. |
+| Structure | C/Python function metrics, nesting, decisions, loops and hotspot reasons. |
+| Risk | Genuine approved Random Forest estimates for eligible C functions only. |
+| Knowledge Graph | Hierarchy, resolved calls/imports/includes; search, evidence and2D/optional3D. |
+| Architecture | Actual directory components, directed aggregates and dependency-cycle groups. |
+| Heatmaps | Six metrics, nested drill-down and explicit unscored/unavailable distinctions. |
+| Blast Radius | Bounded1–3hop upstream/downstream potential impact with real paths. |
+| Jordan Local | Deterministic, intent-aware repository questions and traceable evidence. |
+| Time Machine | Real pinned Git history, activity, churn, revision comparison and evolution. |
 
-## The instruments
+Source-free IndexedDB snapshots expire after two hours (three snapshots,24MiB each).
+This is browser-profile persistence, not an account system or encrypted private storage.
+Exports reuse actual analysis. Cinematic motion respects reduced-motion preferences.
 
-| Workspace | What you can actually inspect |
-| :-- | :-- |
-| **Repository overview** | Provenance, language composition, physical/source lines, directories and searchable file inventory. |
-| **Structural intelligence** | C/Python AST functions, complexity, nesting, span, parameters, decisions, loops and explained hotspots. |
-| **Defect risk** | Real optional Random Forest C-function estimates, review priorities, filters, features and coverage. |
-| **Knowledge explorer** | One extracted graph in interactive 2D/3D: hierarchy, calls and dependencies; search, filtering, overlays and evidence. |
-| **Architecture atlas** | Real directory components, directed call/import/include aggregates and observed dependency-cycle groups. |
-| **Repository heatmaps** | Nested source landscapes colored by six verified metrics, with drill-down, breadcrumbs and honest unscored states. |
-| **Jordan** | Offline, deterministic engineering investigations with source references; optional consent-gated AI explanations of selected evidence. |
-| **Time Machine** | Authentic pinned Git history: interactive timeline, UTC activity, nested churn, exact revision comparison and tracked-tree evolution. |
-| **Blast radius** | Bounded 1–3 hop potential upstream dependents and downstream dependencies, with actual representative paths. |
+## Get started — recorded Linux runtime
 
-The public homepage has an original procedural light composition and editorial typography.
-Dedicated workspaces use a refined graphite/ivory instrument shell with restrained garnet
-accents. Licensed fonts and visualization assets are locally served; analyzed data is
-never sent to a visualization service.
+The exact tested runtime is **Python3.14.10, Linux x86_64**. A separate29-package venv
+and clean Git archive passed real model/API smoke checks. This is not certification of
+all Ubuntu/Python versions. Ensure `python3.14 --version` identifies the intended interpreter.
 
-## A real product, with real evidence
-
-**Authentic application screenshots are still pending.** Neither Chromium nor Firefox reached
-application rendering in this environment. The hero above is original brand artwork, not an application
-preview. No fake screenshots or analytics are presented.
-
-[Local screenshot and visual-verification checklist →](docs/screenshots/README.md)
-
-## One analysis. A continuous workspace.
-
-```text
-/                              Cinematic public experience
-/explore                       ZIP / public GitHub import
-/workspace/overview            Repository context and inventory
-/workspace/risk                C-only research-model intelligence
-/workspace/structure           Function structure and hotspots
-/workspace/graph               Hybrid 2D / 3D graph explorer
-/workspace/architecture        Directory-component architecture
-/workspace/heatmaps            Nested metric exploration
-/workspace/blast-radius        Evidence-based potential impact
-/workspace/jordan              Evidence-grounded engineering companion
-/workspace/time-machine        Authentic Git history and revision exploration
+```bash
+git clone https://github.com/jordanonlycodes/Codebase-Archaeologist.git
+cd Codebase-Archaeologist
+python3.14 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-runtime.lock
+python tools/install_model.py
+python tools/release_smoke.py --write-demo /tmp/university-demo.zip
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-These are separate Jinja documents with page-specific initialization—not one giant
-dashboard hidden behind route names. A source-free snapshot lives in IndexedDB with a
-per-tab active pointer. Refresh, deep links and normal back/forward navigation restore
-that context without reuploading or reparsing.
+Open **http://127.0.0.1:8000** → Explore a repository. Upload the generated demo ZIP or
+submit a supported public GitHub URL. Model installation verifies/copies the exact local
+artifact; it never downloads data or trains. No cloud key or research dataset is required.
+If GitHub publication/networking is pending, use the release source archive instead of
+cloning; follow the same commands inside its extracted directory.
 
-Retention is bounded: **two hours, 24 MiB per snapshot, three snapshots per browser
-origin**. A fourth tab context can evict an older snapshot. Expired records are pruned
-on application storage operations; active pages also schedule expiry. Forget a snapshot
-from the workspace. Browser data is not encrypted; avoid sensitive repositories on a
-shared profile. No global server repository/session store or authentication is introduced.
-See [workspace lifecycle and isolation](docs/frontend.md).
+The release venv was installed using byte-preserved cached wheels because terminal DNS
+is restricted. Public-index installation and a fresh Ubuntu OS were not verified here.
+See [isolated installation evidence](docs/task7d_clean_install_validation.md).
 
-## Jordan. Questions with a source.
+## Supported inputs and boundaries
 
-An engineering companion built on the repository's actual intelligence. Ask for complex
-functions, callers, dependencies, component cycles or potential change impact. Inspect
-stable-ID evidence and follow it into the existing workspaces. Ambiguous names produce
-choices; missing information stays missing. Local mode needs no model download, API key
-or internet connection and does not pretend to have retained source bodies.
+- ZIP:25MiB upload,100MiB expanded,2MiB/file,5,000entries and bounded paths/depth/ratio.
+  Unsafe traversal/links are rejected. Text/source exclusions and coverage are explicit.
+- GitHub:validated public repository HTTPS URLs, bounded snapshot downloads, pinned SHA.
+  This is not arbitrary URL fetching or an unrestricted private-repository service.
+- C:structural parsing plus genuine function-model inference when the approved model loads.
+- Python:AST structural analysis; **no C-model prediction**. Other languages have inventory
+  coverage where recognized, not invented parser/model support.
 
-Optional **AI-enhanced mode** uses an explicitly configured server-side OpenAI Responses
-provider. Each request first shows its exact selected fact package; a separate consent
-and send action is required. Questions, names, paths and metrics may be sensitive. No
-archive, full analysis, full source or conversation history is disclosed. Cloud answers
-are labeled interpretations, not verified facts, and are not persisted to conversation
-storage. `store:false` is not a guarantee of zero provider retention. Local answers remain
-available when the provider fails. Keys never enter browser assets or snapshots.
+[Ingestion](docs/github_ingestion.md) · [Structure](docs/structural_intelligence.md) ·
+[API contract](docs/inference_api.md)
 
-[Supported investigations, configuration, privacy and verification →](docs/jordan.md)
+## The approved model — portable, with caveats
 
-## Time Machine. Follow the changes.
+`models/devign-v1/` ships the exact4.3MiB production Random Forest with metadata/schema/
+manifest. The installer populates the unchanged `artifacts/devign-v1` runtime path and
+refuses a different existing artifact. `ARCHAEOLOGIST_MODEL_DIR` is an optional operator
+path to trusted compatible artifacts; it is never controlled by repository uploads.
 
-A dedicated historical workspace retrieves real public GitHub history anchored to the
-analyzed snapshot. Explore a zoomable commit timeline, UTC activity, nested file-churn
-landscape, exact base-to-head revision comparisons and actual tracked-tree evolution.
-Inspect parent evidence, reported renames, bounded literal patches and historical paths;
-playback visits only loaded real revisions. Current-file links preserve exact identity
-and keep current metrics separate from historical evidence.
+- Version:`devign-v1-4a23cc304ca8`;schema:`c-function-v1`;11numeric source-only features.
+- Decision threshold:**score >=0.5**, including exact ties.
+- SHA-256:`9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6`.
+- Joblib can execute code. Load only reviewed/trusted project artifacts. Digests detect
+  changes but are not signatures. No endpoint accepts uploaded serialized models.
 
-Retrieval is explicit and bounded to **24 commits**, the first **100 changed files per
-commit**, and **5,000 tree entries**. It uses fixed-host public GitHub REST requests,
-not cloning; unauthenticated quotas and partial coverage are visible. ZIP imports have
-an informative no-history state. No fabricated history, historical ML scores or provider
-requests are introduced. Metadata shares the existing two-hour snapshot lifecycle;
-comparison source patches remain transient and are never saved in browser snapshots.
+| Model | Validation accuracy | Precision | Recall | F1 | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression |.545354|.470652|.365709|.411597|.537246|
+| Random Forest |.568491|.503546|.539696|.520995|.606784|
+| Histogram Gradient Boosting |.548660|.482014|.509291|.495277|.574578|
 
-Validated server evidence caching and request coalescing avoid repeated GitHub calls.
-Loaded trees and short-lived comparisons are reused; quota/cooldown status and explicit
-retry preserve the existing view on failure. Optional server-only `CODEBASE_GITHUB_TOKEN`
-supports public-read authentication; no credential enters the browser. Anonymous operation
-remains available, subject to GitHub's quotas.
+RF was selected on validation F1. Its historical **previously exposed** test F1 is
+**.526316**,ROC-AUC **.587354**. Only RF has that final-test evaluation. Scores are modest,
+uncalibrated research estimates, **not confirmed bugs, vulnerabilities or safety guarantees**.
 
-[Methodology, limits, local browser acceptance and API →](docs/time_machine.md)
+Task7C.0 evaluated11configurations/three grouped training folds/seven finalists. Enhanced
+RF fixed-.5 F1 .534692 had lower AUC and failed the predefined gate. No replacement was
+deployed. Always-positive validation F1 .606092 exceeds RF F1 but has zero specificity;
+F1-only superiority/generalization claims would be misleading. Shared-origin/lexical
+similarities and lack of independent confirmation remain limitations.
 
-## Inside the instrument
+[Model portability](docs/task7d_model_portability.md) ·
+[Complete optimization evidence](docs/task7c0_model_comparison.md)
+
+## Dataset and research reproduction
+
+CodeXGLUE/Devign C-function classification data:
+https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection
+
+Pinned revision`69bd48c03223c2104342acd9a807caf61ac3efb8`. Official splits:
+21,854/2,732/2,732. Cleaning retains21,750training/2,723validation;test unchanged.
+113development removals and54conflicting-label groups are distinct quantities. The
+later794-row overlap-filtered diagnostic is not an independent test. No raw dataset or
+experimental candidate model binaries are shipped in the release.
+
+Full acquisition/training/EDA instructions and license boundaries:
+[research pipeline](docs/ml_pipeline.md). This is optional scientific reproduction,
+**not required for inference**. Do not rerun test-based selection or claim a newly blind
+holdout. The provider agreement is preserved with the model; see notices for rights limits.
+
+## Architecture
 
 ```mermaid
 flowchart LR
-    ZIP[Repository ZIP] --> SAFE[Secure bounded extraction]
-    GH[Validated public GitHub URL] --> DL[Trusted GitHub snapshot download]
-    DL --> SAFE
-    SAFE --> INV[Inventory and line metrics]
-    INV --> AST[C / Python structural parsing]
-    AST --> GRAPH[Resolved static knowledge graph]
-    AST --> RF[Optional trusted C-function Random Forest]
-    GRAPH --> ARC[Directory components and heatmap metrics]
-    INV --> API[FastAPI analysis response]
-    RF --> GRAPH
-    RF --> API
-    ARC --> API
-    GRAPH --> API
-    API --> STORE[Expiring source-free browser workspace]
-    STORE --> PAGES[Dedicated intelligence workspaces]
-    PAGES --> IMPACT[Bounded local impact queries]
-    PAGES --> EXPORT[JSON evidence export]
+  ZIP[ZIP] --> IN[Validated temporary intake]
+  GH[Public GitHub snapshot] --> IN
+  IN --> ST[Inventory and C/Python structure]
+  ST --> RF[Approved C-only Random Forest]
+  ST --> KG[Resolved static graph]
+  RF --> KG
+  KG --> ARC[Directory architecture / six heatmap metrics]
+  ARC --> API[FastAPI source-free response]
+  API --> STORE[Bounded per-tab browser snapshot]
+  STORE --> VIEWS[Nine scoped workspaces / JSON export]
+  VIEWS --> LOCAL[Local impact / Jordan evidence]
+  VIEWS --> HIST[Pinned bounded GitHub history API]
 ```
 
-Imported code is never executed or installed. ZIP traversal, symlinks, archive expansion,
-file counts, source sizes and parsing work are bounded. GitHub URLs are validated and
-requests use approved HTTPS endpoints with streaming limits, redirect controls and
-explicit upstream errors. Temporary extraction resources are cleaned after requests.
-Unresolved references never become confirmed graph edges.
+FastAPI/Jinja2 templates, vanilla JavaScript/CSS, Tree-sitter C, Python AST and sklearn.
+There is no React/Next.js, database, account system or required external AI provider.
+[Frontend lifecycle](docs/frontend.md) · [Graph](docs/knowledge_graph.md) ·
+[Architecture/heatmaps](docs/architecture_heatmaps.md) · [Impact](docs/blast_radius.md)
 
-## Open the workspace
+## 3D graph and third-party assets
 
-**Ubuntu · Python 3.10+**. Node.js 18+ is used for frontend tests, not the application.
-For the complete C parser and optional ML runtime, install the existing ML requirements:
+2D works from the tracked source. Optional3D lazily uses a locally installed
+3d-force-graph1.73.3 bundle. The developer-local copy is preserved, but complete archive/
+transitive-notice provenance is unresolved, so it is **not redistributed** in this release.
+An offline clean checkout is not claimed to have3D ready. No runtime CDN fallback exists.
 
 ```bash
-sudo apt update
-sudo apt install python3 python3-venv python3-pip git nodejs
-
-git clone https://github.com/jordanonlycodes/Codebase-Archaeologist.git
-cd Codebase-Archaeologist
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements-ml.txt
-
-# Once, with internet access: install the pinned local 3D bundle and license.
-# Existing local assets need not be downloaded again.
+python tools/verify_vendor_assets.py
+# Explicit network installation, only after reviewing the provenance/notice boundary:
 python tools/install_graph_assets.py
-
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-Open **http://127.0.0.1:8000**. Enter the workspace, select a ZIP, then explicitly choose
-**Analyze repository**. Or submit `https://github.com/owner/repository` for a public
-repository's default-branch snapshot. The existing API also accepts trailing `/` and
-`.git`; unsupported paths, credentials, schemes, hosts and query parameters are rejected.
+[Vendor decision and exact next steps](docs/task7d_vendor_provenance.md) ·
+[Third-party notices](THIRD_PARTY_NOTICES.md)
 
-Upload percentages represent actual transferred bytes. Processing is indeterminate;
-there is no fabricated server progress. Errors preserve the previous active snapshot.
-After success, explore all nine workspaces and export the current analysis as JSON.
-Impact export additionally includes the selected bounded query.
+## Jordan and historical exploration
 
-A minimal static-analysis installation can use `requirements.txt`; missing optional
-parser/model support is reported through coverage. Full C/Python/graph tests require
-`requirements-ml.txt`. No GPU, React, Docker, database or cloud setup is required.
+Jordan Local uses retained metadata/metrics/paths, not full source-body understanding.
+Ambiguous entities are disambiguated. Its existing optional cloud adapter remains
+unconfigured/deferred for submission; configuration alone never grants transmission consent.
+Do not paste API keys into repository questions. [Jordan boundaries](docs/jordan.md).
 
-### Model artifact and offline operation
+Time Machine requires genuine GitHub history; ordinary ZIPs show a no-history state.
+Default scope is24commits,100files/commit and5,000tree entries with explicit truncation.
+Immutable evidence uses bounded server caching/single-flight, client deduplication and
+primary/secondary-limit handling. Comparison patches are transient; current ML estimates
+are not historical scores. Optional server-only `CODEBASE_GITHUB_TOKEN` improves public
+API authentication allowances but never guarantees unlimited quota. [History](docs/time_machine.md).
 
-The trusted selected model belongs in **`artifacts/devign-v1/`**, intentionally ignored
-by Git. A clone does not include model binaries or raw datasets. Restore the existing
-trusted `pipeline.joblib`, `metadata.json` and `feature_schema.json` together; use a
-compatible environment recorded in the model metadata. Optional operator setting:
+## Screenshots and academic report
 
-```bash
-export ARCHAEOLOGIST_MODEL_DIR=/absolute/path/to/trusted/devign-v1
-```
+**Authentic application screenshots are still pending.** No missing-image links or AI
+mockups are presented as captures. Chromium cannot render in this sandbox; the report
+keeps explicit placeholders and supports provenance-checked insertion.
 
-Never point this at user-uploaded content. Joblib loading requires trusted local artifacts;
-metadata checks are not a safety boundary for malicious serialized objects. If artifacts
-are missing or incompatible, the application reports **model unavailable** and preserves
-static analysis, structural intelligence, graphs, architecture, heatmaps and impact.
-No training occurs at startup or during analysis requests.
+- [Editable Word report](submission/Codebase_Archaeologist_Report.docx)
+- [Matching-content PDF](submission/Codebase_Archaeologist_Report.pdf)
+- [Capture/regeneration guide](docs/task7c_screenshot_capture_guide.md)
+- [Current report acceptance](docs/task7d_report_acceptance.md)
 
-The graph uses a locally installed **3d-force-graph 1.73.3** bundle (MIT; receipt/license
-preserved by the installer). No CDN fallback is used. If the bundle or WebGL is unavailable,
-the working 2D SVG adapter remains available. Fullscreen, quality controls, bounded
-labels, deterministic perspective layouts, idle pause and renderer disposal support
-integrated graphics. Performance mode leaves MSAA unrequested, caps pixel ratio at one
-and disables the optional material emission. No measured FPS is claimed.
+Academic fields above are explicitly user-confirmed. Word pagination/browser/GPU/mobile
+acceptance remain local checks; PDF/OOXML structural validation is not Office rendering.
 
-## Research, with the caveats in view
-
-The recorded experiment uses the legitimate [CodeXGLUE/Devign dataset](https://huggingface.co/datasets/google/code_x_glue_cc_defect_detection),
-revision `69bd48c03223c2104342acd9a807caf61ac3efb8`. Official splits are **21,854 / 2,732 /
-2,732** train/validation/test functions. Audited cleaning yields **21,750 / 2,723**
-development rows; all **2,732 test rows remain untouched**. Exact normalized overlaps and
-conflicting development labels are handled by the documented leakage-safe policy.
-The provider declares **C-UDA** for data; this is not a blanket license for every original
-source project. [Manifest](reports/ml/source_manifest.json) · [Cleaning audit](reports/ml/cleaning_audit.json)
-
-Eleven deterministic Tree-sitter C features are shared between training and inference.
-Model selection uses validation F1. Recorded validation results:
-
-| Model | Accuracy | Precision | Recall | F1 | ROC-AUC |
-| :-- | --: | --: | --: | --: | --: |
-| Logistic Regression | 0.545354 | 0.470652 | 0.365709 | 0.411597 | 0.537246 |
-| **Random Forest** | 0.568491 | 0.503546 | 0.539696 | 0.520995 | 0.606784 |
-| HistGradientBoosting | 0.548660 | 0.482014 | 0.509291 | 0.495277 | 0.574578 |
-
-The selected Random Forest was evaluated once on the held-out test set:
-**accuracy 0.555271 · precision 0.515267 · recall 0.537849 · F1 0.526316 · ROC-AUC 0.587354**.
-Confusion matrix: **TN 842, FP 635, FN 580, TP 675**. These saved results are not rerun
-for a website redesign. [Exact comparison](reports/ml/model_comparison.json) ·
-[Held-out evaluation](reports/ml/test_evaluation.json) · [ML methodology](docs/ml_pipeline.md)
-
-Performance is modest. Scores are **uncalibrated research estimates**, not confirmed
-bugs, vulnerabilities or calibrated certainty. Prediction is C-only; Python and other
-languages remain unscored. Structural hotspots are separate heuristics. Component and
-heatmap model colors use the maximum actual function score, not an invented file or
-repository defect probability. Static impact reachability does not establish breakage.
-
-## Engineering and verification
-
-FastAPI · Jinja2 · vanilla JavaScript · custom CSS · IndexedDB · SVG / Canvas ·
-Tree-sitter C · Python AST · scikit-learn · pytest · pinned local WebGL graph bundle.
+## Tests and demonstration
 
 ```bash
-source .venv/bin/activate
+# Full research/development environment; genuine local data prerequisites in ml_pipeline.md:
+python -m pip install -r requirements-ml-frozen.txt
 python -m pytest -q
-python -m pip check
 node tests/frontend/graph.test.cjs
-node tests/frontend/architecture.test.cjs
-node tests/frontend/impact.test.cjs
-node tests/frontend/workspace.test.cjs
-# Real HTML + real mixed-language response integration:
-python -m pytest tests/test_product.py -q -s
+python tools/validate_report.py
+python tools/check_report_links.py
+python -m pip check
 ```
 
-Baseline before Task 5: **385 passing Python tests**. The dedicated-page migration
-passed **399**, and subsequent focused visualization checks passed **27**. **Final Task 5 verification: 402 passed, 0 failed, 0 skipped.** The browser-free
-frontend checks include 29 real-document cases, 14 store/IndexedDB API-harness cases,
-24 graph cases, 10 architecture cases and 32 impact cases, plus real-response smoke
-checks. These are exercised through Python runners, not added to the Python total. Tests cover malicious ZIPs,
-GitHub SSRF/streaming limits, metrics, model compatibility, graph resolution, evidence,
-impact bounds, page initialization, snapshot isolation/expiry, cross-page identity,
-import feedback and renderer/history cleanup. No security tests were removed.
+Node26.13.1 was used for frontend harnesses; it is not required to run the web app.
+Runtime-only installs use `tools/release_smoke.py` rather than pretending all dataset-
+dependent research tests can run without their prerequisites. Task7D baseline:**530passed**,
+zero failed/skipped; final:**540passed**,zero failed/skipped. Results are in [release verification](docs/task7d_final_verification.md).
+The216Node harness cases are invoked through Python tests and are not added to Python totals.
+Existing Starlette/httpx deprecation warning is recorded. Restricted-sandbox selector
+workaround is documented separately; normal local installations should use standard pytest.
 
-**Task 6A verification: 435 Python tests passed, 0 failed, 0 skipped** (one existing
-Starlette/httpx deprecation warning). Current browser-free checks include 44 real-document
-journeys, 30 Jordan intelligence/retrieval cases and 15 snapshot-store cases, alongside
-the preserved graph/architecture/impact suites. A real mixed ZIP smoke test analyzed
-3 files / 4 functions, produced 2 genuine C-model scores and verified Jordan caller and
-potential-impact evidence. All cloud provider tests used mocked responses; no live
-provider success is claimed. [Jordan implementation and recovery record](docs/task6a_progress.md).
+[Short demonstration guide](docs/task7d_demo_guide.md) ·
+[Submission package and checksums](docs/task7d_submission_manifest.md) ·
+[University mapping](docs/task7d_university_compliance.md)
 
-**Task 6B verification: 475 Python tests passed, 0 failed, 0 skipped**, with the same
-existing deprecation warning. Genuine Git fixtures exercise seven commits, two author
-display names, a merge, rename, deletion, binary data, shallow ancestry and exact revision
-comparisons. Browser-free checks include 67 real-document journeys, eight Time Machine
-view-model cases and 16 snapshot cases, alongside the preserved feature suites. No
-live GitHub history or browser rendering is claimed in the socket/DNS-restricted sandbox.
-[History methodology and acceptance](docs/time_machine.md) · [Task 6B progress](docs/task6b_progress.md).
+## Project structure
 
-**Task 6B.1 reliability verification: 502 Python tests passed, 0 failed, 0 skipped**.
-The added cache, coalescing, credential-isolation and cooldown tests use deterministic
-mocked HTTP over genuine Git fixture evidence. Browser-free journeys now include 77
-cases. [Request-flow diagnosis, cache lifetimes and local verification](docs/task6b_rate_limit_fix.md).
-Live GitHub/authentication and rendered visual acceptance remain unverified here.
+```text
+app/                 FastAPI routes, analysis, ingestion, ML runtime, history, Jordan
+app/templates/       Dedicated Jinja2 pages and shared workspace shell
+app/static/          Scoped vanilla JS/CSS, fonts and Dependency Relic assets
+models/devign-v1/    Approved exact model, schema, metadata and checksums
+reports/ml/          Saved original/optimization scientific evidence
+submission/          DOCX/PDF, report sources' manifests and candidate packaging
+tools/              Model install/smoke, report generation and release builders
+tests/               Backend, security, real Git fixtures and frontend harnesses
+docs/                Architecture, scientific limitations and acceptance records
+```
 
-Real browser verification is **outstanding**: Chromium exited 133 with a sandbox socket
-error; Firefox exited 139 before rendering. No visual, responsive, genuine-WebGL or FPS
-measurements are fabricated. [Frontend design and verification](docs/frontend.md) ·
-[Task 5 implementation progress](docs/task5_progress.md)
+## Security, licensing and remaining work
 
-## Field notes
+Imported code is never executed. Bounded archive extraction, approved GitHub destinations,
+source/work budgets, safe text rendering, trusted model loading and request cleanup remain.
+Browser snapshots are not encrypted/authenticated private storage. No security/accessibility
+certification or measured GPU FPS is claimed.
 
-- [Time Machine: authentic history, churn, comparison, evolution and coverage](docs/time_machine.md)
-- [Jordan: local investigations, optional AI provider, explicit consent and limits](docs/jordan.md)
-- [Secure GitHub ingestion](docs/github_ingestion.md)
-- [Structural metrics and limitations](docs/structural_intelligence.md)
-- [Knowledge graph extraction, perspectives and graphics controls](docs/knowledge_graph.md)
-- [Architecture reconstruction and heatmap definitions](docs/architecture_heatmaps.md)
-- [Blast Radius methodology, bounds and evidence](docs/blast_radius.md)
-- [Inference/API contracts and artifact recovery](docs/inference_api.md)
-- [Editable academic report](submission/Codebase_Archaeologist_Report.docx) · [Submission PDF](submission/Codebase_Archaeologist_Report.pdf)
+There is **no selected project-wide software license**. Dependency font/model/provider
+notices are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md); GitHub visibility
+does not imply blanket reuse permission. No secrets, raw datasets or unsupported models
+belong in the submission archive.
 
-The academic report covers its recorded Tasks 1–3A evidence; it was **not regenerated**
-for this redesign. A comprehensive final report update is planned for Task 7.
-
-Academic team: **Bilal Malik · 24P-3061** and **Aun Anis · 24P-3017**,
-Software Engineering (SE), Class 5A · FAST-NUCES, Peshawar · 2026.
-Two-member participation is instructor-permitted, as confirmed by the team.
-The earlier report cover will be updated during Task 7C; no individual roles are inferred.
-
-Future work includes Repository DNA. They are **not
-implemented** or shown as working navigation. Existing static-analysis limitations and
-research caveats remain part of the product.
-
----
-
-*Uncover the unseen. Keep the evidence in view.*
+Future work:independent project/time evaluation, stronger label/clone audits, calibration,
+separately validated language-specific models and broader usability testing. These are
+future possibilities, not current ML coverage or submission claims.

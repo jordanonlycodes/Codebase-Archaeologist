@@ -4,7 +4,7 @@ from pathlib import Path
 import re,json
 ROOT=Path(__file__).resolve().parents[1]
 def main():
-    files=list((ROOT/'docs').glob('task7c*.md'))+[ROOT/'submission/README.md']
+    files=list((ROOT/'docs').glob('task7c*.md'))+list((ROOT/'docs').glob('task7d*.md'))+[ROOT/'README.md',ROOT/'submission/README.md']
     checked=0;failures=[]
     for file in files:
         for target in re.findall(r'\]\(([^)]+)\)',file.read_text()):
