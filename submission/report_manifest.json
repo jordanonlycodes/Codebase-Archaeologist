@@ -1,5 +1,5 @@
 {
-  "implementation_commit": "4f9127a26f8980d5400038b1d2b912b49cb53a64",
+  "implementation_commit": "644b5d5f1a69862a1e8660029bac77cc93ef3761",
   "build_tree": "Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.",
   "report_date": "23 November 2026",
   "pdf_pages": 46,
@@ -488,7 +488,7 @@
     "docs/task7c_screenshot_capture_guide.md": "6b493bbfcbb51f3cf0643c5c4f0c53ef9fc958dd4ab1f7470ba13685d02c9fb8",
     "docs/task7d_clean_install_validation.md": "b5942f368891616ed2d4e74088319fd8673192a1c33b6dccb03dcec4a36e4a5f",
     "docs/task7d_demo_guide.md": "59dbc9e197bb849c10c51ec112636e85984c77e759e420a56af5f557eb3ac952",
-    "docs/task7d_final_verification.md": "92fb5a54c9a580a08147aa3e1988e9b05ef0341534c47e34a35b36daeeb414c9",
+    "docs/task7d_final_verification.md": "75babbb5d9957bd2a78c0f5d2091a05c6a4f1fae29037c661544722500620967",
     "docs/task7d_handoff_to_viva.md": "ba4a798f02cb7265e5dabcd6dcfa56ef8bd13549d6a32b1015349f046f9d2425",
     "docs/task7d_model_portability.md": "c0963c9fd31400e2f48f21366af5aa33d23725d1938b06e4da1609f809bba6d0",
     "docs/task7d_release_baseline.md": "d80ff9731092ddecb8533477b2ce3017c38e7bf30e49575531162bfab744138f",
@@ -593,12 +593,12 @@
     "tools/install_model.py": "f8dc4a18e278d988580654d3fbd8c8b82299e9dad870a019b4af5091510a6b1f",
     "tools/release_smoke.py": "e1aac0418f4d30b6cdce96925f1accf0ebe9997085b0be0c7aeae7616122d17b",
     "tools/report_charts.py": "8e512d5a28d287bee61020760c59e006791cedc9423989e6fb3d37ffb87f38e6",
-    "tools/report_content.py": "30beadd89b389eab0bc268b7f4cc10e1ca425d1177759bcb9436c10271ef27fd",
+    "tools/report_content.py": "9f872d892cf7b79f76ff830f35c931cca4593ec5afbc412b5bd4a5214a0430be",
     "tools/validate_report.py": "42bdd76afc5c19ea6e63a42e2e5d33515379e158b3bf93300471cb1ae00184a6"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "bb9a6c6d7bd79d6139ab67bb2fb553a86d6342724972bd115e93e193ad3c0e9b",
-    "Codebase_Archaeologist_Report.docx": "cd840012cf5eb6cec1fb9b4aea7734dd75e1204bd6bb08263b216b8a924fe31a"
+    "Codebase_Archaeologist_Report.pdf": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48",
+    "Codebase_Archaeologist_Report.docx": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
   },
   "training_or_evaluation_rerun": false,
   "authors": "Bilal Malik; Aun Anis",

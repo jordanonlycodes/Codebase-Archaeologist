@@ -1,9 +1,10 @@
 # Task7D — final release verification
 
 Entry baseline:530Python passed,0failed/skipped,104.29s;existing Starlette/httpx warning.
-Final full suite:540passed,0failed/skipped,103.62s, same warning. Initial release run
+Final full suite:540passed,0failed/skipped,103.62s; repeat540passed/103.93s, same warning. Initial release run
 had539passed/1failure from README author separator formatting; restored established
-name · roll format and reran all540 successfully. No assertion was weakened.
+name · roll format and reran all540 successfully. No assertion was weakened. PDF inspection also caught the old Task7C table labels
+alongside new Task7D results; those labels were corrected before final packaging.
 Model/install/package focused tests:10passed before final full suite; no original tests
 removed,weakened or skipped. Current exact final results are recorded in
 submission/release_checks.json and submission/final/manifest.json after execution.

@@ -77,7 +77,7 @@
     "appendices": 5,
     "figures": 11,
     "tables": 13,
-    "docx_words": 8293,
+    "docx_words": 8294,
     "source_manifest_current_and_valid": true,
     "source_output_checksums_valid": true,
     "rounded_saved_metrics_consistent": true,
@@ -97,7 +97,7 @@
     "checked": 45,
     "missing": []
   },
-  "pdf_visual_review": "Updated cover and declaration actually rendered and viewed; historical Task7C all-page review is separate.",
+  "pdf_visual_review": "Updated cover, declaration, testing and limitations pages rendered and viewed; historical all-page Task7C review is separate. Release-result table labels corrected.",
   "word_visual_rendering": "Fresh isolated LibreOffice exit1, no output; local Office acceptance pending.",
   "browser": "Chromium signal5 before rendering; setsockopt Operation not permitted.",
   "server": "Fresh isolated Uvicorn startup completed; localhost bind failed, exit3.",
@@ -137,15 +137,66 @@
     }
   },
   "vendor_redistribution": "Unresolved; three original untracked files preserved and excluded.",
-  "publication": "Pending normal push/remote verification",
+  "publication": {
+    "attempt": "git push origin main",
+    "exit": 128,
+    "error": "Could not resolve host: github.com",
+    "remote_release_verified": false,
+    "manual_command": "git push origin main"
+  },
   "outputs": {
     "Codebase_Archaeologist_Report.docx": {
-      "bytes": 848803,
-      "sha256": "cd840012cf5eb6cec1fb9b4aea7734dd75e1204bd6bb08263b216b8a924fe31a"
+      "bytes": 848823,
+      "sha256": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
     },
     "Codebase_Archaeologist_Report.pdf": {
-      "bytes": 1678998,
-      "sha256": "bb9a6c6d7bd79d6139ab67bb2fb553a86d6342724972bd115e93e193ad3c0e9b"
+      "bytes": 1679121,
+      "sha256": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48"
     }
-  }
+  },
+  "delivered_source_reproduction": {
+    "source_commit": "644b5d5f1a69862a1e8660029bac77cc93ef3761",
+    "source_zip_sha256": "b494fa4d30b3569792797af98b35471b694efe29bca2c5f39e0b7c0fd70f498d",
+    "source_files": 323,
+    "runtime": "Fresh separate 29-package venv, pip check successful",
+    "smoke": {
+      "model_version": "devign-v1-4a23cc304ca8",
+      "files": 2,
+      "c_predictions": [
+        {
+          "name": "clamp_index",
+          "model_probability": 0.6446299251115485,
+          "predicted_class": 1
+        },
+        {
+          "name": "sum_values",
+          "model_probability": 0.4640631119969904,
+          "predicted_class": 0
+        },
+        {
+          "name": "entry",
+          "model_probability": 0.44115041436869545,
+          "predicted_class": 0
+        }
+      ],
+      "python_ml_predictions": 0,
+      "workspaces": 9,
+      "model_loaded": true,
+      "source_body_execution": false,
+      "dataset_required": false,
+      "source_and_model_under_checkout": true,
+      "training_data_present": false,
+      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
+    },
+    "archive_crc_and_extracted_payload_verified": true,
+    "credential_pattern_findings": 0,
+    "scope": "Same Linux host/interpreter and cached wheels; not fresh Ubuntu/public index/browser/GPU verification."
+  },
+  "final_release_repeat": {
+    "passed": 540,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 103.93
+  },
+  "pdf_fonts_embedded": true
 }
