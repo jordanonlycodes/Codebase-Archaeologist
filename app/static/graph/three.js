@@ -2,6 +2,8 @@
 (function(root){
   'use strict';
   const ASSET='/static/vendor/3d-force-graph-1.73.3.min.js';
+  // Version1.73.3 expects HTML strings, not DOM elements. Escape its tooltip sink.
+  const escapeLabel=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   let pending=null;
   function webgl() {
     try {
@@ -22,13 +24,13 @@
     }).catch(error=>{pending=null;throw error;});return pending;
   }
   class ThreeGraph {
-    constructor(host,onSelect,reducedMotion=false,onQualityChange=()=>{}){
+    constructor(host,onSelect,reducedMotion=false,onQualityChange=()=>{},onManual=()=>{},onFailure=()=>{}){
       this.host=host;this.reduced=reducedMotion;this.onQualityChange=onQualityChange;this.quality=new root.ArchaeologistQuality.Policy();this.destroyed=false;this.visible=true;this.frame=null;this.sleep=null;this.positions=new Map();this.labels=new Map();this.clean=[];this.layoutRuns=0;this.dataUpdates=0;this.curves=new Map();
       try{
         this.graph=root.ForceGraph3D({controlType:'orbit',rendererConfig:{antialias:false,powerPreference:'low-power'}})(host);
         this.graph.backgroundColor('#0b0c0e').showNavInfo(false).nodeId('id')
-          .nodeLabel(n=>{const el=document.createElement('span');el.textContent=`${n.record.name} · ${n.record.path||n.record.type}`;return el;})
-          .linkLabel(e=>{const el=document.createElement('span');el.textContent=`${e.type}: ${e.reference||''} · ${e.occurrences} occurrence(s)`;return el;})
+          .nodeLabel(n=>escapeLabel(`${n.record.name} · ${n.record.path||n.record.type}`))
+          .linkLabel(e=>escapeLabel(`${e.type}: ${e.reference||''} · ${e.occurrences} occurrence(s)`))
           .linkWidth(0).linkDirectionalArrowLength(3).linkDirectionalArrowRelPos(1).linkOpacity(1)
           .linkCurvature(e=>this.curves.get(e.id)||.12)
           .enableNodeDrag(true).onNodeClick(n=>onSelect(n.id)).onBackgroundClick(()=>onSelect(null))
@@ -43,30 +45,36 @@
         controls.listenToKeyEvents?.(host);
         this.clean.push(()=>controls.stopListenToKeyEvents?.());
         for(const event of ['start','change','end']){
-          const listener=()=>{if(event==='start'){this.autoFit=false;this.cancelCamera();}this.wake();};
+          const listener=()=>{if(event==='start'){this.autoFit=false;this.cancelCamera();onManual();}this.wake();};
           controls.addEventListener?.(event,listener);
           this.clean.push(()=>controls.removeEventListener?.(event,listener));
         }
         this.contextAntialias=this.graph.renderer().getContext?.()?.getContextAttributes?.()?.antialias;
+        const canvas=this.graph.renderer().domElement;
+        if(canvas){const lost=event=>{if(this.destroyed)return;event.preventDefault();this.pause();onFailure('WebGL context lost; the same evidence is available in 2D.');};canvas.addEventListener('webglcontextlost',lost);this.clean.push(()=>canvas.removeEventListener('webglcontextlost',lost));}
         this.graph.linkDirectionalArrowResolution?.(3);
         this.labelLayer=document.createElement('div');this.labelLayer.className='graph-spatial-labels';host.append(this.labelLayer);
+        this.groupLayer=document.createElement('div');this.groupLayer.className='universe-constellations';this.groupLayer.setAttribute('aria-hidden','true');host.append(this.groupLayer);this.groupLabels=new Map();this.halos=new Map();
         this.applyQuality();this.resize();
-        for(const event of ['pointerdown','pointermove','pointerup','wheel','keydown']){const listener=()=>this.wake();host.addEventListener(event,listener,{capture:true,passive:true});this.clean.push(()=>host.removeEventListener(event,listener,{capture:true}));}
-        this.observer=new IntersectionObserver(entries=>{this.visible=entries[0].isIntersecting;if(this.visible)this.wake();else this.pause();});this.observer.observe(host);
+        for(const event of ['pointerdown','pointermove','pointerup','wheel','keydown']){const listener=()=>{if(['pointerdown','wheel','keydown'].includes(event)){this.autoFit=false;this.cancelCamera();onManual();}this.wake();};host.addEventListener(event,listener,{capture:true,passive:true});this.clean.push(()=>host.removeEventListener(event,listener,{capture:true}));}
+        this.observer=new IntersectionObserver(entries=>{this.visible=entries[0].isIntersecting;if(this.visible){if(this.autoFit&&this.data?.nodes.length)this.fit();else this.wake();}else this.pause();});this.observer.observe(host);
       }catch(error){this.destroy();throw error;}
     }
     set(view,ix,state){
-      const D=root.ArchaeologistGraph,L=root.ArchaeologistLayouts,signature=L.signature(view,state),strategy=`${state.view}:${L.strategy(state)}`;
+      const D=root.ArchaeologistGraph,L=root.ArchaeologistLayouts,U=root.ArchaeologistUniverse,universe=U&&state.view==='knowledge'&&state.layout==='auto',signature=(universe?'universe:':'')+L.signature(view,state),strategy=`${state.view}:${universe?'universe':L.strategy(state)}`;
       const changed=signature!==this.signature;
       this.ix=ix;this.state={...state};this.view=view;this.em=L.emphasis(view,state);
+      this.constellations=U?.grouping(view,ix);this.illumination=U?.illumination(view,state.selected,state.direction);
+      this.universe=!!universe;if(universe)this.em=this.illumination.nodes;
       if(this.quality.setMode(state.quality||'auto'))this.applyQuality();
       const parallel=new Map();this.curves.clear();
       for(const edge of view.edges){const key=[edge.source,edge.target].sort().join('|'),slot=parallel.get(key)||0;parallel.set(key,slot+1);this.curves.set(edge.id,edge.source===edge.target ? .5+slot*.12 : .10+slot*.07);}
       this.visuals=new Map(view.nodes.map(n=>[n.id,D.overlay(n,state.overlay)]));
       this.edgeVisuals=new Map(view.edges.map(e=>[e.id,L.edgeStyle(e,state,this.em)]));
       if(signature!==this.signature){
-        if(strategy!==this.strategy||!this.positions.size){this.positions=L.layout(view,ix,state);this.layoutRuns++;}
-        else if(view.nodes.some(n=>!this.positions.has(n.id))){const positions=L.layout(view,ix,state);this.layoutRuns++;for(const n of view.nodes)if(!this.positions.has(n.id))this.positions.set(n.id,positions.get(n.id));L.separate(this.positions,view.nodes);}
+        const layout=()=>universe?new Map([...U.constellation(view,ix).positions].map(([id,p])=>[id,{x:p.x/.45,y:-p.y/.45,z:0,spatialZ:p.z}])):L.layout(view,ix,state);
+        if(strategy!==this.strategy||!this.positions.size){this.positions=layout();this.layoutRuns++;}
+        else if(view.nodes.some(n=>!this.positions.has(n.id))){const positions=layout();this.layoutRuns++;for(const n of view.nodes)if(!this.positions.has(n.id))this.positions.set(n.id,positions.get(n.id));if(!universe)L.separate(this.positions,view.nodes);}
         const previous=new Map((this.data?.nodes||[]).map(n=>[n.id,n]));
         this.data=D.forceData(view);
         this.data.nodes=this.data.nodes.map(n=>{
@@ -78,11 +86,11 @@
         });
         this.graph.graphData(this.data);this.dataUpdates++;this.signature=signature;this.strategy=strategy;
       }
-      if(changed)this.graph.nodeVal(n=>{const v=this.visuals.get(n.id);return (v.size/5)**3*(v.hotspot?1.4:1);});
-      this.graph.nodeColor(n=>this.em.get(n.id)==='selected'?'#F8E8EA':this.em.get(n.id)==='dim'?'#30232d':this.visuals.get(n.id).color)
+      this.graph.nodeVal(n=>{const v=this.visuals.get(n.id),role=this.em.get(n.id);return (v.size/5)**3*(v.hotspot?1.4:1)*(role==='selected'?1.6:['incoming','outgoing','both'].includes(role)?1.15:1);});
+      this.graph.nodeColor(n=>this.em.get(n.id)==='selected'?'#F8E8EA':this.em.get(n.id)==='dim'?'#30232d':state.overlay==='entity'&&this.universe?({incoming:'#e6d1b0',outgoing:'#c47681',both:'#f2d6cc'}[this.em.get(n.id)]||{repository:'#e6ddd1',directory:'#b98d85',file:'#c7bdb1',function:'#a75260'}[n.record.type]):this.visuals.get(n.id).color)
         .linkColor(e=>{const v=this.edgeVisuals.get(e.id);return v.color+Math.round(v.opacity*255).toString(16).padStart(2,'0');});
       this.styleMaterials();
-      this.updateArrows();this.syncLabels();this.wake();
+      this.updateArrows();this.syncLabels();this.syncGroups();this.wake();
     }
     styleMaterials(){
       // Reuse existing materials: no new geometry, lights or postprocessing passes.
@@ -102,7 +110,7 @@
       this.profile=profile;
       this.graph.renderer().setPixelRatio?.(Math.min(root.devicePixelRatio||1,profile.pixelRatio));
       this.graph.nodeResolution(profile.resolution);this.styleMaterials();
-      this.updateArrows();this.syncLabels();this.labelDirty=true;this.onQualityChange();
+      this.updateArrows();this.syncLabels();this.syncGroups();this.labelDirty=true;this.onQualityChange();
     }
     qualityDescription(){
       const actual=this.contextAntialias===undefined?'unavailable':this.contextAntialias?'on':'off';
@@ -112,8 +120,16 @@
       if(!this.data)return;
       const priority=[...this.data.nodes].sort((a,b)=>a.id===this.state.selected?-1:b.id===this.state.selected?1:a.id===this.hover?-1:b.id===this.hover?1:(this.em.get(a.id)==='dim')-(this.em.get(b.id)==='dim')).slice(0,this.quality.profile.candidates),ids=new Set(priority.map(n=>n.id));
       for(const [id,label]of this.labels)if(!ids.has(id)){label.remove();this.labels.delete(id);}
-      for(const n of priority)if(!this.labels.has(n.id)){const label=document.createElement('span');label.textContent=n.record.name;label.title=n.record.name;this.labelLayer.append(label);this.labels.set(n.id,label);}
+      for(const n of priority){if(!this.labels.has(n.id)){const label=document.createElement('span');label.textContent=n.record.name;label.title=n.record.name;this.labelLayer.append(label);this.labels.set(n.id,label);}this.labels.get(n.id).setAttribute('data-emphasis',this.em.get(n.id));}
+      const bright=priority.filter(n=>['selected','incoming','outgoing','both'].includes(this.em.get(n.id))).slice(0,this.quality.profile.labels);
+      for(const [id,halo]of this.halos)if(!bright.some(n=>n.id===id)){halo.remove();this.halos.delete(id);}
+      for(const n of bright){if(!this.halos.has(n.id)){const halo=document.createElement('i');halo.className='universe-node-halo';halo.setAttribute('aria-hidden','true');this.labelLayer.append(halo);this.halos.set(n.id,halo);}this.halos.get(n.id).setAttribute('data-emphasis',this.em.get(n.id));}
       this.labelDirty=true;
+    }
+    syncGroups(){
+      const groups=this.universe?(this.constellations?.groups||[]).slice(0,this.quality.profile.labels===12?6:12):[];
+      for(const [key,label]of this.groupLabels)if(!groups.some(g=>g.key===key)){label.remove();this.groupLabels.delete(key);}
+      for(const group of groups)if(!this.groupLabels.has(group.key)){const label=document.createElement('div');label.className='universe-constellation';label.textContent=group.label;this.groupLayer.append(label);this.groupLabels.set(group.key,label);}
     }
     placeLabels(){
       if(!this.data)return;const camera=this.graph.camera(),cameraKey=[camera.position.x,camera.position.y,camera.position.z,camera.quaternion?.x,camera.quaternion?.y,camera.quaternion?.z,camera.quaternion?.w,this.host.clientWidth,this.host.clientHeight].join('|');
@@ -127,6 +143,9 @@
       }
       const visible=root.ArchaeologistLayouts.labels(this.view.nodes,projected,this.state.selected,this.hover,this.em,1,this.quality.profile.labels);
       for(const [id,label]of this.labels){const p=projected.get(id);label.hidden=!visible.has(id);if(!label.hidden){label.style.left=`${p.x}px`;label.style.top=`${p.y}px`;}}
+      for(const [id,halo]of this.halos){const p=projected.get(id);halo.hidden=!p||p.hidden;if(p){halo.style.left=`${p.x}px`;halo.style.top=`${p.y}px`;}}
+      for(const group of this.constellations?.groups||[]){const label=this.groupLabels.get(group.key);if(!label)continue;const nodes=this.data.nodes.filter(n=>group.ids.includes(n.id));if(!nodes.length){label.hidden=true;continue;}const x=nodes.reduce((a,n)=>a+n.x,0)/nodes.length,y=Math.max(...nodes.map(n=>n.y))+42,z=nodes.reduce((a,n)=>a+n.z,0)/nodes.length;
+       const p=this.vector.set(x,y,z);p.project(camera);label.hidden=p.z< -1||p.z>1||Math.abs(p.x)>.9||Math.abs(p.y)>.9;label.style.left=`${(p.x+1)*width/2}px`;label.style.top=`${(1-p.y)*height/2}px`;}
     }
     wake(duration=220){
       if(this.destroyed||!this.visible||document.hidden)return;
@@ -139,30 +158,40 @@
     duration(ms){return (root.matchMedia?root.matchMedia('(prefers-reduced-motion: reduce)').matches:this.reduced)?0:ms;}
     cancelCamera(){cancelAnimationFrame(this.cameraFrame);this.cameraFrame=null;this.cameraGeneration=(this.cameraGeneration||0)+1;}
     cameraMove(position,target,ms){
+      const valid=p=>p&&['x','y','z'].every(k=>Number.isFinite(p[k]));
+      if(this.destroyed||document.hidden||!this.graph||!valid(position)||!valid(target)||!Number.isFinite(ms))return false;
       this.cancelCamera();
-      const duration=this.duration(ms),generation=this.cameraGeneration;
+      const duration=this.visible===false?0:this.duration(Math.max(0,Math.min(1200,ms))),generation=this.cameraGeneration;
+      const positionCamera=(p,t)=>{this.graph.cameraPosition(p,t,0);this.graph.controls().update?.();this.graph.camera().updateMatrixWorld?.();};
       // A single owned transition prevents overlapping library tweens: a later Fit
       // must win over an earlier Focus, and pointer interaction must always win.
-      if(!duration){this.graph.cameraPosition(position,target,0);return;}
+      if(!duration){positionCamera(position,target);this.labelDirty=true;this.placeLabels();return;}
       const from=this.graph.camera().position,startTarget=this.graph.controls().target;
       const a={x:from.x,y:from.y,z:from.z},b={x:startTarget.x,y:startTarget.y,z:startTarget.z};
+      if(!valid(a)||!valid(b)){positionCamera(position,target);return;}
       const started=root.performance?.now?.()??Date.now();
       const tick=now=>{
-        if(this.destroyed||generation!==this.cameraGeneration)return;
+        if(this.destroyed||generation!==this.cameraGeneration)return;if(document.hidden){this.cancelCamera();return;}
         const t=this.duration(1)?Math.min(1,Math.max(0,(now-started)/duration)):1,ease=1-(1-t)**3;
         const mix=(first,last)=>Object.fromEntries(['x','y','z'].map(k=>[k,first[k]+(last[k]-first[k])*ease]));
-        this.graph.cameraPosition(mix(a,position),mix(b,target),0);
+        positionCamera(mix(a,position),mix(b,target));
         this.cameraFrame=t<1?requestAnimationFrame(tick):null;
+        if(t===1){this.labelDirty=true;this.placeLabels();}
       };
       this.cameraFrame=requestAnimationFrame(tick);
     }
-    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;this.autoFit=false;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.cameraMove({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,450);this.wake(650);}
+    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n||this.destroyed)return;this.autoFit=false;
+      if(root.ArchaeologistUniverse){const near=new Set([id]);for(const e of this.view.edges){if(e.source===id)near.add(e.target);if(e.target===id)near.add(e.source);}return this.frameNodes([n,...this.data.nodes.filter(node=>node.id!==id&&near.has(node.id)).slice(0,19)],650,90);}
+      const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target);if(delta.lengthSq()===0)delta.set(0,0,1);delta.normalize().multiplyScalar(150);this.cameraMove({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,450);this.wake(650);}
+    frameNodes(nodes,ms=650,minRadius=24){if(this.destroyed)return;const camera=this.graph.camera(),frame=root.ArchaeologistUniverse?.framing(nodes,camera.position,this.graph.controls().target,this.width,this.height,{fov:camera.fov,minRadius});if(!frame)return;this.cameraMove(frame.position,frame.target,ms);this.wake(Math.max(0,Math.min(1200,ms))+220);}
+    focusCluster(key){const group=this.constellations?.groups.find(g=>g.key===key);if(!group)return;this.autoFit=false;this.frameNodes(this.data.nodes.filter(n=>group.ids.includes(n.id)),780);}
     fit(){
       this.autoFit=true;
       // Use retained coordinates, not scene meshes: graphData updates meshes on a
       // later library tick, so immediate zoomToFit could see empty/stale bounds.
       const nodes=(this.data?.nodes||[]).filter(n=>[n.x,n.y,n.z].every(Number.isFinite));
       if(!nodes.length||!this.width||!this.height)return;
+      if(root.ArchaeologistUniverse){this.frameNodes(nodes,620);return;}
       const bounds=['x','y','z'].map(axis=>{
         const values=nodes.map(n=>n[axis]);return [Math.min(...values),Math.max(...values)];
       }),target=Object.fromEntries(bounds.map(([lo,hi],i)=>[['x','y','z'][i],(lo+hi)/2]));
@@ -173,13 +202,14 @@
       const delta=camera.position.clone().sub(this.graph.controls().target);
       if(delta.lengthSq()===0)delta.set(0,0,1);
       delta.normalize().multiplyScalar(distance);
-      this.cameraMove({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,340);
-      this.wake(500);
+      this.cameraMove({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,620);
+      this.wake(850);
     }
     panMode(enabled){const controls=this.graph.controls();if(controls.mouseButtons)controls.mouseButtons.LEFT=enabled?controls.mouseButtons.RIGHT:this.rotateButton;this.host.style.cursor=enabled?'move':'';}
-    zoom(factor){this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.cameraMove(next,target,0);this.wake();}
+    zoom(factor){if(this.destroyed||!Number.isFinite(factor)||factor<=0)return;this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.cameraMove(next,target,0);this.wake();}
     reset(){if(!this.data?.nodes.length)return;const center=this.graph.controls().target;this.cameraMove({x:center.x,y:center.y,z:center.z+650},center,0);this.fit();}
     resize(){
+      if(this.destroyed)return;
       const width=this.host.clientWidth,height=this.host.clientHeight;
       // Hidden documents/containers have no useful viewport; defer to ResizeObserver.
       if(!width||!height||width===this.width&&height===this.height)return;
@@ -195,7 +225,7 @@
       g.controls()?.dispose();g.graphData({nodes:[],links:[]});if(typeof g._destructor==='function')g._destructor();
       for(const texture of textures)texture.dispose();for(const material of materials)material.dispose?.();for(const geometry of geometries)geometry.dispose();
       g.renderer().renderLists?.dispose();g.renderer().dispose();g.renderer().forceContextLoss();
-      this.labels.clear();this.positions.clear();this.data=null;this.host.replaceChildren();this.graph=null;
+      this.labels.clear();this.groupLabels?.clear();this.halos?.clear();this.positions.clear();this.data=null;this.host.replaceChildren();this.graph=null;
     }
   }
   root.ArchaeologistThree={webgl,load,Adapter:ThreeGraph};

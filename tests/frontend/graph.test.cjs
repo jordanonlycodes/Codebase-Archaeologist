@@ -140,7 +140,8 @@ test('real 3D adapter uses isolated data, safe labels, bounded simulation and re
  const ix=D.index(fixtureGraph),s=D.initial();s.selected='a';adapter.set(D.subset(ix,s),ix,s);
  assert.equal(options[0].rendererConfig.antialias,false);assert.equal(material.emissiveIntensity,.12);
  assert.equal(calls.cooldownTicks[0],0);assert.equal(calls.warmupTicks[0],0);assert.equal(controls.enableDamping,false);
- assert.equal(calls.nodeLabel[0]({record:fixtureGraph.nodes[2]}).textContent,'<img onerror=alert(1)> · src/a.c');
+ assert.equal(calls.nodeLabel[0]({record:fixtureGraph.nodes[2]}),'&lt;img onerror=alert(1)&gt; · src/a.c');
+ assert.equal(calls.linkLabel[0]({type:'IMPORTS',reference:'<svg onload="alert(1)">&',occurrences:1}),'IMPORTS: &lt;svg onload=&quot;alert(1)&quot;&gt;&amp; · 1 occurrence(s)');
  assert.equal(calls.graphData.nodes[0].record.id,D.subset(ix,s).nodes[0].id);
  for(const view of ['knowledge','calls','dependencies']){
   s.view=view;s.selected=null;const subset=D.subset(ix,s);adapter.set(subset,ix,s);

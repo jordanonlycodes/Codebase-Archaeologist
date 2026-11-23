@@ -18,3 +18,35 @@
 @media(max-width:650px){.graph-toolbar,.graph-filter-row{padding:12px;gap:10px}.graph-toolbar label{flex:1 1 40%}.graph-filter-row label{flex-basis:100%}.graph-canvas{height:390px}.graph-node-browser #graph-search-results{grid-template-columns:1fr}.graph-camera-controls button{min-height:36px}.graph-inspection{display:block}.graph-gestures{font-size:9px}}
 @media(prefers-reduced-motion:no-preference){.graph-node> :first-child{transition:fill .13s,stroke .13s}}
 @media(prefers-reduced-motion:reduce){.graph-workspace *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Repository Universe: a directory atlas in space, using only real graph entities. */
+.universe-heading{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:10px 0 20px}
+.universe-heading h2{font:400 clamp(28px,3.5vw,43px)/1.1 var(--serif);letter-spacing:-.035em;margin:8px 0 12px}.universe-heading h2 em{color:#c09b91}
+.universe-heading>div>p:last-child{font-size:11px;color:#afa69c;margin:0}.universe-orbit-mark{font:400 64px var(--serif);color:#98736c;padding-right:12px}
+.graph-workspace{border-radius:var(--radius-lg,16px);border-color:#514348}
+.graph-canvas{background-image:radial-gradient(ellipse at 50% 35%,#7a1e2b16,transparent 70%)}
+.universe-navigation{padding:16px;display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;background:linear-gradient(110deg,#21181c,#111214);border-top:1px solid #423137}
+.universe-framing,.universe-tour-controls{display:flex;align-items:end;gap:8px;flex-wrap:wrap}.universe-framing{flex:1 1 330px}.universe-framing label{font-size:9px;flex:1 1 190px}.universe-navigation>p{flex-basis:100%;font-size:9px;color:#b5aaa3;line-height:1.8;margin:3px 0 0}
+.universe-tour-controls button{min-height:38px}.universe-tour-controls #universe-start{background:#48232b;border-color:#95606a;color:#f0dfd8}
+.universe-tour{margin:0 16px 14px;padding:18px 20px;border-left:2px solid #a55e6a;background:#21191d;border-radius:var(--radius-md,12px)}
+.universe-tour>span{display:block;margin-bottom:7px}.universe-tour>strong{display:block;font:400 24px var(--serif);color:#e6ddd1}.universe-tour>p{font-size:11px;color:#c1b4ac;line-height:1.8;max-width:700px;margin:8px 0 0}
+.universe-constellations{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.universe-constellation{position:absolute;transform:translate(-50%,-100%);font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;max-width:185px;text-overflow:ellipsis;overflow:hidden;padding:6px 9px;border-top:1px solid #a66f7755;color:#c6aaa1;background:#0b0c0eaa}
+.universe-node-halo{position:absolute;width:18px;height:18px;border:1px solid #c58e8990;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 12px #7a1e2b20;pointer-events:none}
+.universe-node-halo[data-emphasis=selected]{width:30px;height:30px;border-color:#e6ddd1;box-shadow:0 0 18px #7a1e2b66}
+.universe-node-halo[data-emphasis=incoming]{border-style:dashed;border-color:#dfc49c}.universe-node-halo[data-emphasis=both]{border-style:double;border-width:3px}
+.graph-spatial-labels span{border-radius:var(--radius-xs,6px)}.graph-spatial-labels span[data-emphasis=selected]{color:#fff0df;border-color:#b17e79;background:#281b20}
+/* The verified bundle injects these CSS rules inline; style-src 'self' blocks that.
+   Explicit host integration keeps hover content out of layout without relaxing CSP. */
+.graph-canvas .scene-tooltip{position:absolute;top:0;z-index:5;pointer-events:none;user-select:none;font:10px/1.6 var(--sans);color:#e6ddd1;background:#20181c;border:1px solid #78535a;border-radius:var(--radius-sm,9px);padding:7px 10px;max-width:min(270px,75vw);overflow-wrap:anywhere;box-shadow:0 5px 18px #0005}
+.graph-canvas .scene-tooltip:empty{display:none}
+.graph-canvas .scene-nav-info{display:none;position:absolute;pointer-events:none}
+.graph-canvas .graph-info-msg{position:absolute;top:45%;left:10%;right:10%;text-align:center;font:12px var(--sans);color:#c5aaa2;pointer-events:none}
+.graph-inspection{background:linear-gradient(160deg,#211b1e,#121315);border-left-color:#514348}.graph-inspection>.kicker{font-size:9px;color:#b69890;margin:0 0 14px}
+.graph-inspection .section-tag{font-size:8px;letter-spacing:.14em;color:#c8a6a1}.graph-inspection h3{font:400 25px/1.4 var(--serif);margin:8px 0 14px;max-height:none;overflow:visible;overflow-wrap:anywhere}
+.graph-inspection .universe-identity-path{overflow-wrap:anywhere;color:#d1bcb1;margin:0 0 14px}.universe-connection-summary{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.universe-connection-summary span{border:1px solid #5c4147;border-radius:var(--radius-sm,9px);padding:6px 9px;font-size:10px;white-space:nowrap}
+.graph-details dd{overflow-wrap:anywhere}.universe-inspector-actions{grid-column:1/-1}.graph-inspection .graph-related{white-space:normal;line-height:1.6}
+@media(min-width:1151px){.graph-main{grid-template-columns:minmax(0,1fr) 292px}.graph-inspection{max-height:850px}}
+@media(max-width:1150px){.graph-inspection{display:block}.universe-heading{padding-top:0}}
+@media(max-width:650px){.universe-heading h2{font-size:31px}.universe-orbit-mark{display:none}.universe-navigation{padding:12px}.universe-framing{flex-basis:100%;align-items:stretch}.universe-framing>button{width:100%}.universe-tour-controls{width:100%}.universe-tour-controls button{flex:1 1 auto}.universe-tour{padding:15px;margin-inline:12px}.universe-constellation{font-size:8px;max-width:130px}}
+@media(prefers-reduced-motion:no-preference){.universe-tour:not([hidden]){animation:motion-evidence 260ms var(--motion-ease)}}

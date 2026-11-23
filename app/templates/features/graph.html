@@ -2,6 +2,7 @@
           <h2 id="graph-title" class="sr-only">Knowledge Graph Explorer</h2>
           <p id="graph-state" role="status">Analyze a repository to explore its extracted graph.</p>
           <div id="graph-content" hidden>
+            <header class="universe-heading"><div><p class="kicker">SOURCE / SPACE / CONNECTION</p><h2>Repository <em>Universe.</em></h2><p>Real entities. Directory constellations. Every connection has evidence.</p></div><span aria-hidden="true" class="universe-orbit-mark">◌</span></header>
             <div class="stats-grid risk-stats">
               <article class="stat-card"><span>Retained entities</span><strong id="graph-stat-nodes">—</strong></article>
               <article class="stat-card"><span>Relationships</span><strong id="graph-stat-edges">—</strong></article>
@@ -10,7 +11,7 @@
             </div>
             <div class="graph-workspace" id="graph-workspace">
               <div class="graph-toolbar">
-                <div class="source-modes" role="group" aria-label="Graph rendering mode"><button id="graph-2d" type="button" aria-pressed="true">2D Graph</button><button id="graph-3d" type="button" aria-pressed="false">3D Graph</button></div>
+                <div class="source-modes" role="group" aria-label="Graph rendering mode"><button id="graph-2d" type="button" aria-pressed="true">2D Graph</button><button id="graph-3d" type="button" aria-pressed="false">3D Universe</button></div>
                 <label>Perspective<select id="graph-view"><option value="knowledge">Knowledge graph</option><option value="calls">Function calls</option><option value="dependencies">Dependencies</option></select></label>
                 <label>Layout<select id="graph-layout"><option value="auto">Automatic · perspective default</option><option value="hierarchy">Hierarchical</option><option value="radial">Radial</option></select></label>
                 <label>3D quality<select id="graph-quality" aria-describedby="graph-quality-status"><option value="auto">Auto · adaptive</option><option value="performance">Performance</option><option value="balanced">Balanced</option></select></label>
@@ -27,17 +28,24 @@
               <details class="graph-filter-details"><summary>Entity and relationship filters</summary><fieldset id="graph-types"><legend>Entity types</legend></fieldset><fieldset id="graph-relations"><legend>Relationship types</legend></fieldset></details>
 
               <p id="graph-counts" class="graph-counts" role="status" aria-live="polite"></p>
+              <div class="universe-navigation">
+                <div class="universe-framing"><label>Directory constellation<select id="universe-cluster" aria-describedby="universe-grouping"><option value="">Choose a visible directory</option></select></label><button type="button" id="universe-frame">Frame constellation</button></div>
+                <div class="universe-tour-controls" role="group" aria-label="Guided universe tour"><button type="button" id="universe-start" class="button garnet">Explore Universe ↗</button><button type="button" id="universe-pause" hidden>Pause tour</button><button type="button" id="universe-next" hidden>Skip scene →</button><button type="button" id="universe-exit" hidden>Exit tour</button></div>
+                <p id="universe-grouping">Directory grouping uses retained ownership and relative paths; these are not inferred runtime modules.</p>
+              </div>
+              <div class="universe-tour" id="universe-tour" hidden><span id="universe-tour-step" class="kicker"></span><strong id="universe-tour-title"></strong><p id="universe-tour-description"></p></div>
+              <p id="universe-tour-status" class="graph-counts" role="status" aria-live="polite"></p>
 
               <div class="graph-main">
                 <div class="graph-stage">
                   <div class="graph-camera-controls" role="group" aria-label="Graph camera and neighborhood controls">
                     <button type="button" id="graph-in" aria-label="Zoom in">+</button><button type="button" id="graph-out" aria-label="Zoom out">−</button>
-                    <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset View</button><button type="button" id="graph-pan" aria-pressed="false" hidden>Pan with left drag</button>
+                    <button type="button" id="graph-fit">Fit</button><button type="button" id="graph-reset">Reset Universe</button><button type="button" id="graph-pan" aria-pressed="false" hidden>Pan with left drag</button>
                     <button type="button" id="graph-focus" disabled>Focus selected</button><button type="button" id="graph-hop-1" disabled>1 hop</button><button type="button" id="graph-hop-2" disabled>2 hops</button><button type="button" id="graph-group" disabled>Collapse group</button><button type="button" id="graph-branch" disabled>Focus branch</button>
                   </div>
                   <div id="graph-canvas" class="graph-canvas" aria-label="Repository graph viewport" aria-describedby="graph-gestures"></div>
                   <p id="graph-empty" class="graph-empty" hidden>No retained entities match this view. Clear filters or choose a different perspective.</p>
-                  <p class="graph-gestures" id="graph-gestures">2D: drag canvas to pan, drag nodes to arrange, scroll to zoom; Tab + Enter to select. 3D: drag empty space to orbit; right-drag, Ctrl + drag or enable Pan with left drag to translate. Scroll to zoom; two fingers pan on touch. Focus the viewport and use arrow keys to pan. Drag nodes to arrange. Fit recenters; Reset View restores the viewing direction without moving nodes. Search and related-node buttons provide keyboard selection in both modes.</p>
+                  <p class="graph-gestures" id="graph-gestures">2D: drag canvas to pan, drag nodes to arrange, scroll to zoom; Tab + Enter to select. 3D: drag empty space to orbit; right-drag, Ctrl + drag or enable Pan with left drag to translate. Scroll to zoom; two fingers pan on touch. Focus the viewport and use arrow keys to pan. Drag nodes to arrange. Fit preserves filters; Reset Universe restores the complete bounded view and default viewing direction. Search and related-node buttons provide keyboard selection in both modes.</p>
                 </div>
                 <aside id="graph-inspection" class="graph-inspection" aria-label="Selected graph entity details"></aside>
               </div>
