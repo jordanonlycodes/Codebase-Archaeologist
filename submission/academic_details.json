@@ -1,10 +1,20 @@
 {
-  "institution":"FAST NUCES Peshawar",
-  "department":"SE",
-  "course":"AI-lab",
-  "instructor":"M. Saad Khan",
-  "semester":"5",
-  "submission_date":"23 November, 2026",
-  "authors":[{"name":"Bilal Malik","roll":"24P-3061"},{"name":"Aun Anis","roll":"24P-3017"}],
-  "provenance":"Explicit user confirmation in Task7D; two-member instructor permission confirmed by user. No section or individual responsibilities assigned."
+  "institution": "FAST NUCES Peshawar",
+  "department": "SE",
+  "course": "AI-lab",
+  "instructor": "M. Saad Khan",
+  "semester": "5",
+  "submission_date": "23 November, 2026",
+  "authors": [
+    {
+      "name": "Bilal Malik",
+      "roll": "24P-3061"
+    },
+    {
+      "name": "Aun Anis",
+      "roll": "24P-3017"
+    }
+  ],
+  "provenance": "Explicit user confirmation in Task7D; two-member instructor permission confirmed by user. No section or individual responsibilities assigned.",
+  "evaluation_protocol_confirmation": "User explicitly confirmed in Task7E that instructor accepts validation evaluation of all three candidates and historical final-test evaluation of selected RF only; no additional test tuning."
 }

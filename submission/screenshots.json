@@ -1,5 +1,38 @@
 [
-  {"path":"docs/screenshots/overview.png","caption":"Repository Overview with genuine mixed-language analysis","verified":false},
-  {"path":"docs/screenshots/graph-3d.png","caption":"Knowledge Graph with a selected entity and camera controls","verified":false},
-  {"path":"docs/screenshots/time-machine.png","caption":"Time Machine displaying authentic pinned Git history","verified":false}
+  {
+    "path": "docs/screenshots/overview.png",
+    "caption": "Repository Overview with genuine mixed-language analysis",
+    "verified": true,
+    "captured_at": "23 November 2026 (Asia/Karachi)",
+    "repository": "Original university_demo mixed C/Python fixture",
+    "revision_or_fixture": "tests/fixtures/university_demo/review.c + helpers.py; ZIP imported through actual UI",
+    "browser": "Chromium157.0.8103.79; sandboxed headless",
+    "viewport": "1440×1200",
+    "captured_by": "Codex using native Chromium DevTools screenshot capture; images visually inspected",
+    "sha256": "587f39057736d90a9e1b83dff2b378283e70f22b4e0da685fdb6917971b7882c"
+  },
+  {
+    "path": "docs/screenshots/graph-3d.png",
+    "caption": "Knowledge Graph with a selected entity and camera controls",
+    "verified": true,
+    "captured_at": "23 November 2026 (Asia/Karachi)",
+    "repository": "Original university_demo mixed C/Python fixture",
+    "revision_or_fixture": "tests/fixtures/university_demo/review.c + helpers.py; ZIP imported through actual UI",
+    "browser": "Chromium157.0.8103.79; sandboxed headless",
+    "viewport": "1440×1200",
+    "captured_by": "Codex using native Chromium DevTools screenshot capture; images visually inspected",
+    "sha256": "e87bc42bf74e7e98fc3ec1bf136bfde2cd879706d08405862ade0811bd40efe2"
+  },
+  {
+    "path": "docs/screenshots/time-machine.png",
+    "caption": "Time Machine displaying authentic pinned Git history",
+    "verified": true,
+    "captured_at": "23 November 2026 (Asia/Karachi)",
+    "repository": "octocat/Hello-World",
+    "revision_or_fixture": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+    "browser": "Chromium157.0.8103.79; sandboxed headless",
+    "viewport": "1440×1000",
+    "captured_by": "Codex using native Chromium DevTools screenshot capture; images visually inspected",
+    "sha256": "767af318f25468d544755c58400aaaa2993fbe06a6b1fdebff8c980da05b2362"
+  }
 ]

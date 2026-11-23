@@ -152,7 +152,8 @@ def test_readme_brand_svg_is_local_and_github_safe():
     assert 'not an application screenshot' in source
     readme=(ROOT/'README.md').read_text()
     assert 'docs/assets/hero.svg' in readme
-    assert 'Authentic application screenshots are still pending' in readme
+    assert 'Authentic application screenshots are verified' in readme
+    assert all((ROOT/'docs/screenshots'/name).is_file() for name in ['overview.png','graph-3d.png','time-machine.png'])
     for target in re.findall(r'\]\(([^)]+)\)',readme):
         if '://' not in target and not target.startswith('#'):
             assert (ROOT/target.split('#')[0]).exists(),target

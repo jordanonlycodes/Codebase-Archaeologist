@@ -41,7 +41,14 @@ def install():
                'package_sha256': hashlib.sha256(data).hexdigest(),
                'bundle_sha256': hashlib.sha256(bundle).hexdigest(),
                'bundled_dependencies': package.get('dependencies', {})}
-    (DESTINATION / 'graph-assets.json').write_text(json.dumps(receipt, indent=2) + '\n')
+    previous=DESTINATION/'graph-assets.json'
+    # Retain independently reviewed closure only for the identical published bytes.
+    if previous.is_file():
+        old=json.loads(previous.read_text())
+        if old.get('bundle_sha256')==receipt['bundle_sha256'] and old.get('package_sha256')==receipt['package_sha256']:
+            for key in ['upstream_commit','provenance','evidence','license_sha256']:
+                if key in old:receipt[key]=old[key]
+    previous.write_text(json.dumps(receipt, indent=2) + '\n')
     print(f'Installed local 3D bundle {VERSION}; reload the dashboard. Receipt: {DESTINATION / "graph-assets.json"}')
 
 

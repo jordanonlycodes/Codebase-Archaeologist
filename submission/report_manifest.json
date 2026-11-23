@@ -1,11 +1,11 @@
 {
-  "implementation_commit": "644b5d5f1a69862a1e8660029bac77cc93ef3761",
+  "implementation_commit": "e4ece2383ec792339106319bc60d3d4c46ac64a5",
   "build_tree": "Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.",
   "report_date": "23 November 2026",
-  "pdf_pages": 46,
+  "pdf_pages": 49,
   "chapters": 17,
   "appendices": 5,
-  "figures": 11,
+  "figures": 14,
   "tables": 13,
   "figure_index": [
     {
@@ -62,6 +62,21 @@
       "number": 11,
       "title": "Validation confusion matrices: original RF and the strongest new operating-threshold finalist; candidate not deployed.",
       "path": "reports/ml/optimization/task7c0-v1/validation_confusions.png"
+    },
+    {
+      "number": 12,
+      "title": "Repository Overview with genuine mixed-language analysis Provenance: Original university_demo mixed C/Python fixture; tests/fixtures/university_demo/review.c + helpers.py; ZIP imported through actual UI; Chromium157.0.8103.79; sandboxed headless; 1440\u00d71200; 23 November 2026 (Asia/Karachi)",
+      "path": "docs/screenshots/overview.png"
+    },
+    {
+      "number": 13,
+      "title": "Knowledge Graph with a selected entity and camera controls Provenance: Original university_demo mixed C/Python fixture; tests/fixtures/university_demo/review.c + helpers.py; ZIP imported through actual UI; Chromium157.0.8103.79; sandboxed headless; 1440\u00d71200; 23 November 2026 (Asia/Karachi)",
+      "path": "docs/screenshots/graph-3d.png"
+    },
+    {
+      "number": 14,
+      "title": "Time Machine displaying authentic pinned Git history Provenance: octocat/Hello-World; 7fd1a60b01f91b314f59955a4e4d4e80d8edf11d; Chromium157.0.8103.79; sandboxed headless; 1440\u00d71000; 23 November 2026 (Asia/Karachi)",
+      "path": "docs/screenshots/time-machine.png"
     }
   ],
   "table_index": [
@@ -142,52 +157,52 @@
     {
       "page": 6,
       "chapter": "FM",
-      "title": "List of Tables"
+      "title": "List of Figures (continued)"
     },
     {
       "page": 7,
+      "chapter": "FM",
+      "title": "List of Tables"
+    },
+    {
+      "page": 8,
       "chapter": "01",
       "title": "Introduction"
     },
     {
-      "page": 8,
+      "page": 9,
       "chapter": "02",
       "title": "Problem Statement and Objectives"
     },
     {
-      "page": 9,
+      "page": 10,
       "chapter": "03",
       "title": "Background and Related Work"
     },
     {
-      "page": 10,
+      "page": 11,
       "chapter": "04",
       "title": "Dataset and Data Description"
     },
     {
-      "page": 11,
+      "page": 12,
       "chapter": "04",
       "title": "Dataset and Data Description (continued)"
     },
     {
-      "page": 12,
+      "page": 13,
       "chapter": "05",
       "title": "Data Preprocessing"
     },
     {
-      "page": 13,
+      "page": 14,
       "chapter": "05",
       "title": "Data Preprocessing (continued)"
     },
     {
-      "page": 14,
-      "chapter": "06",
-      "title": "Exploratory Data Analysis"
-    },
-    {
       "page": 15,
       "chapter": "06",
-      "title": "Exploratory Data Analysis (continued)"
+      "title": "Exploratory Data Analysis"
     },
     {
       "page": 16,
@@ -196,33 +211,33 @@
     },
     {
       "page": 17,
-      "chapter": "07",
-      "title": "System Architecture"
+      "chapter": "06",
+      "title": "Exploratory Data Analysis (continued)"
     },
     {
       "page": 18,
       "chapter": "07",
-      "title": "System Architecture (continued)"
+      "title": "System Architecture"
     },
     {
       "page": 19,
-      "chapter": "08",
-      "title": "ML Methodology"
+      "chapter": "07",
+      "title": "System Architecture (continued)"
     },
     {
       "page": 20,
       "chapter": "08",
-      "title": "ML Methodology (continued)"
+      "title": "ML Methodology"
     },
     {
       "page": 21,
-      "chapter": "09",
-      "title": "ML Optimization Investigation"
+      "chapter": "08",
+      "title": "ML Methodology (continued)"
     },
     {
       "page": 22,
       "chapter": "09",
-      "title": "ML Optimization Investigation (continued)"
+      "title": "ML Optimization Investigation"
     },
     {
       "page": 23,
@@ -236,13 +251,13 @@
     },
     {
       "page": 25,
-      "chapter": "10",
-      "title": "Evaluation and Results"
+      "chapter": "09",
+      "title": "ML Optimization Investigation (continued)"
     },
     {
       "page": 26,
       "chapter": "10",
-      "title": "Evaluation and Results (continued)"
+      "title": "Evaluation and Results"
     },
     {
       "page": 27,
@@ -256,13 +271,13 @@
     },
     {
       "page": 29,
-      "chapter": "11",
-      "title": "Application Implementation"
+      "chapter": "10",
+      "title": "Evaluation and Results (continued)"
     },
     {
       "page": 30,
       "chapter": "11",
-      "title": "Application Implementation (continued)"
+      "title": "Application Implementation"
     },
     {
       "page": 31,
@@ -271,76 +286,91 @@
     },
     {
       "page": 32,
+      "chapter": "11",
+      "title": "Application Implementation (continued)"
+    },
+    {
+      "page": 33,
+      "chapter": "11",
+      "title": "Application Implementation (continued)"
+    },
+    {
+      "page": 34,
+      "chapter": "11",
+      "title": "Application Implementation (continued)"
+    },
+    {
+      "page": 35,
       "chapter": "12",
       "title": "Interface Design and User Experience"
     },
     {
-      "page": 33,
+      "page": 36,
       "chapter": "13",
       "title": "Testing and Verification"
     },
     {
-      "page": 34,
+      "page": 37,
       "chapter": "13",
       "title": "Testing and Verification (continued)"
     },
     {
-      "page": 35,
+      "page": 38,
       "chapter": "14",
       "title": "Security and Reliability"
     },
     {
-      "page": 36,
+      "page": 39,
       "chapter": "15",
       "title": "Limitations"
     },
     {
-      "page": 37,
+      "page": 40,
       "chapter": "16",
       "title": "Future Work"
     },
     {
-      "page": 38,
+      "page": 41,
       "chapter": "17",
       "title": "Conclusion"
     },
     {
-      "page": 39,
+      "page": 42,
       "chapter": "RF",
       "title": "References"
     },
     {
-      "page": 40,
+      "page": 43,
       "chapter": "A",
       "title": "Appendix A \u2014 Feature Schemas"
     },
     {
-      "page": 41,
+      "page": 44,
       "chapter": "A",
       "title": "Appendix A \u2014 Feature Schemas (continued)"
     },
     {
-      "page": 42,
+      "page": 45,
       "chapter": "B",
       "title": "Appendix B \u2014 API and Reproduction"
     },
     {
-      "page": 43,
+      "page": 46,
       "chapter": "B",
       "title": "Appendix B \u2014 API and Reproduction (continued)"
     },
     {
-      "page": 44,
+      "page": 47,
       "chapter": "C",
       "title": "Appendix C \u2014 Optimization Configurations"
     },
     {
-      "page": 45,
+      "page": 48,
       "chapter": "D",
       "title": "Appendix D \u2014 University Compliance Mapping"
     },
     {
-      "page": 46,
+      "page": 49,
       "chapter": "E",
       "title": "Appendix E \u2014 Demonstration and Evidence Capture"
     }
@@ -414,7 +444,7 @@
     "app/static/graph/layouts.js": "e3f8ad70b52dfa5e356028c9eb6dd44ea9c9771219f03cf16fc06e8695a65ec7",
     "app/static/graph/quality.js": "49bc84df0fb0bc19fc3b53086d74d76a2abaee272c479ada4ed9bfa16758cd0a",
     "app/static/graph/svg.js": "0aaa93101135fadcb01699e31446c4367925f9a048b864437d9c3049710f383a",
-    "app/static/graph/three.js": "abb3d1276d664f6c6f8ef8859db71c35ba50a469c50ab81f18905b2944f1d932",
+    "app/static/graph/three.js": "3c179f0f31352d53adf025009697aa179617f1f10d7e57e8318b3ed649ff5cde",
     "app/static/impact/engine.js": "d1e16b15339520f66359aea4fc32376f80eb681c6291f0a865f65bbbb2c9a331",
     "app/static/impact/explorer.css": "cacfa917ff11b209d6fd27a43494b3561e689cf65d28b121203d22d009efe94b",
     "app/static/impact/explorer.js": "a8c21bb6306c895c8969e1dab13dffdffa41030db385d622370aef67f5752a84",
@@ -441,7 +471,7 @@
     "app/static/time_machine/studio.js": "5bc1028567badf14c8639a48d63cad976d9a592021a53e7c1344fa5633c5ec60",
     "app/static/time_machine/timeline.js": "a8371c7f566248aa08c99a9cdeb0711114b2e75b75cd4bda49b0efebd53bde0f",
     "app/static/time_machine/workspace.css": "c50813141700d3d0c45e8854f0939f92f57faada2e797f608f220c4c24ba6c45",
-    "app/static/time_machine/workspace.js": "4bc91b5ec96214afc58b3ad20f38676b021f4462dab433ee3c36da8b975561ee",
+    "app/static/time_machine/workspace.js": "a86edeeb89b69cb8faa444e82ba111fb3bf1f14bd79effc32d655522cdde9f3f",
     "app/templates/explore.html": "43d62af18a6b96ee7306f4170979e933bc14ae5155cf7dce21944edd28e222c9",
     "app/templates/features/architecture.html": "601eaa149d8209d2608bca6a90ee67b9914bed17156045b647b92f92ebba7d04",
     "app/templates/features/blast-radius.html": "cd0262b06fb145e8ff184f934d6fee3d32391fd901ec7d892f1ea8e58d02e4a0",
@@ -488,14 +518,23 @@
     "docs/task7c_screenshot_capture_guide.md": "6b493bbfcbb51f3cf0643c5c4f0c53ef9fc958dd4ab1f7470ba13685d02c9fb8",
     "docs/task7d_clean_install_validation.md": "b5942f368891616ed2d4e74088319fd8673192a1c33b6dccb03dcec4a36e4a5f",
     "docs/task7d_demo_guide.md": "59dbc9e197bb849c10c51ec112636e85984c77e759e420a56af5f557eb3ac952",
-    "docs/task7d_final_verification.md": "75babbb5d9957bd2a78c0f5d2091a05c6a4f1fae29037c661544722500620967",
-    "docs/task7d_handoff_to_viva.md": "ba4a798f02cb7265e5dabcd6dcfa56ef8bd13549d6a32b1015349f046f9d2425",
+    "docs/task7d_final_verification.md": "a7b8aa7502ed97095cdeb00f630db280b0b263310c2c7160ed1f0c82f71ef3f6",
+    "docs/task7d_handoff_to_viva.md": "f794e08bdb936ffddd153ebfae2f575f83066a6ea511877c0d3e3269ea099000",
     "docs/task7d_model_portability.md": "c0963c9fd31400e2f48f21366af5aa33d23725d1938b06e4da1609f809bba6d0",
     "docs/task7d_release_baseline.md": "d80ff9731092ddecb8533477b2ce3017c38e7bf30e49575531162bfab744138f",
-    "docs/task7d_report_acceptance.md": "55068e8c63655c824205edf71451f086ed8fabc3abd888f6cb324f98975fe72f",
-    "docs/task7d_submission_manifest.md": "8b02da275e1d6be199e98b3fa46e1397328c04b55cd6f5884a0dcbae2632c001",
-    "docs/task7d_university_compliance.md": "2420e9e7454724037f7839cbd57aea153f7b4e92164683f3c91413291ee8793a",
-    "docs/task7d_vendor_provenance.md": "034284dea9a9e976a01e5bdcfb52083fc2b9a9826df08d44fd4d12b8e9b87737",
+    "docs/task7d_report_acceptance.md": "2f99072fc9c9eefd5e77014f5532278832ec2aca2c02eaadc14343d54637fedb",
+    "docs/task7d_submission_manifest.md": "976cf449c0c8588ec251b014586b6b49a17b12fd0e463daad98751cbfe7bf8bf",
+    "docs/task7d_university_compliance.md": "b97af199faa36e48815ec11396da4bd7edf34fe0c6ca19212f079632183920e7",
+    "docs/task7d_vendor_provenance.md": "39e0d1aaf24e1f9d9084a3f794733c3e671a4b498eb4627d36feae19fe6f4b4f",
+    "docs/task7e_3d_asset_resolution.md": "a63fbaa6c606d328a90b1bb9f4b4ab4d593164393bfbf783b65c9474738fcf39",
+    "docs/task7e_browser_acceptance.md": "09007e74538c44e34629db9ea6fa1d26f8d33da393b77a0809eb888bae909fb7",
+    "docs/task7e_document_layout_acceptance.md": "b311cbe3ada7668f6a6ede56efe328e6668af0f4bb4f03221670b1d6bc5ecec9",
+    "docs/task7e_environment_diagnostics.md": "edf7b9336a16cbf0e74799041cd3ec50dd3166ff2999a58a4d7c8815ff012118",
+    "docs/task7e_final_submission_manifest.md": "fdd956955cb94624f6153ae97a92f1c3f52df95ec6970c0cee0d25108a63b87e",
+    "docs/task7e_handoff_to_viva.md": "2005937d527dd18dd3c719b5799e0eb75313639e756b237534e80e030dfd9743",
+    "docs/task7e_progress.md": "12a6ca88e76c5203ac713deefa7e0308ba727c1fb35c8e5d8f248c199db3dc04",
+    "docs/task7e_release_validation.md": "16af13c607f2eb091aef951242e8340977fa349213e6828a1bb0e6908d0a4228",
+    "docs/task7e_screenshot_provenance.md": "4114102152a3c608c642210596e247798bef8cb1d1fdf391b784ca5c556f3052",
     "models/devign-v1/manifest.json": "9fb9560356bfdbbc873cdebf1c70c3af8feaed58ba0819a89ba1cc5d347b1fdb",
     "reports/ml/cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
     "reports/ml/confusion_matrices.png": "24e46f62904d05ca91ad2f5e9aa9253cbe60eb0d4cb36634c11c83de090de2a4",
@@ -544,19 +583,20 @@
     "reports/ml/source_manifest.json": "65b47e59998e1c1726ada04916f612a92ac21cc72a49fb9ce1b059c2f49b28ab",
     "reports/ml/split_and_label_counts.png": "c5ef939ef53c725905a6ca02ff677c030a7e09f368685e8c1e422277ada1932e",
     "reports/ml/test_evaluation.json": "bca167f228321c400e8617856bac86eaee2e81b26feedafe0f89924dad7c050c",
+    "reports/release/task7e/browser.json": "9824dee8e8df5801dd5fb988973e0009c59407be6ecfdd8cb5fee3d93fcf0789",
     "requirements-runtime.lock": "29c57b13fa169ca823423b1b6c6fc7ebd6d3c39831248830e0ace30fd6476477",
-    "submission/academic_details.json": "341ebc008b023219ca2f0afc9ae2fd2f86f40f69c1d8fcd1c69ea5c947999089",
+    "submission/academic_details.json": "0b2e95eace592afacec0886d01386f05a6c90c0ee3232dc2eb33599c17a4d210",
     "submission/references.json": "638d92792222668f69800949c2a773cb7858a687cc6da74912caf6da69879132",
-    "submission/screenshots.json": "f200fed0d105053cb16228f26423478306ef20e4ba888726ce6655030001864d",
+    "submission/screenshots.json": "c418777e2aee213b1b83679d2bc14d17d2b68460ceae5d26542085cde822806a",
     "submission/test_evidence.json": "dfdcd85672c29d899e1be76d222c638c28ff2ab087be28f806677e2bbe08c008",
     "tests/conftest.py": "8784ab602b5d1f49038f711aee395030d3c48562ef54da0e4dc081be6a3638dc",
     "tests/fixtures/university_demo/helpers.py": "13d850b8ac1a54eb64477514c8645de92a709523172ce6976bb7ef2096a81fd4",
     "tests/frontend/architecture.test.cjs": "00418008fb5fe2c7f33c2fccac79f4000b6a508543289df78266a168611847a5",
-    "tests/frontend/graph.test.cjs": "90653940f7010ac315071a2cbca8a8ebb8ad432f20fb555d7351ed53c459fc52",
+    "tests/frontend/graph.test.cjs": "d875f0d32a25d0fcbd4c70417f34271d1b42c5bdb7aa4edd7ad5f59d47c77fae",
     "tests/frontend/impact.test.cjs": "7a32cff48b2a3cb3980d6e9a8294babe4665cbc5ee8b9548105d48aec68b0178",
     "tests/frontend/jordan.test.cjs": "657c1c1b288b83701f4a203137eebf388e3db868d2d6fc403617c27957929f14",
     "tests/frontend/motion.test.cjs": "bd8a4ec71642a272b0fe16277fceb2c44ca6de4d8de0df716bc5f728b7636bca",
-    "tests/frontend/product.test.cjs": "d32bb79bf1864a5ed58ac11c978d0c24c2b8326faa958bc5b47c24ca41a6fa65",
+    "tests/frontend/product.test.cjs": "08a33df6dc06be3b0a3bc131d3c21a67cb739da8b8d9ca45c6846de38038d875",
     "tests/frontend/time_machine.test.cjs": "872a88a245152078eb913f1bdaa4c87a4c15541cd796c5c3c1b388cb05a40aa8",
     "tests/frontend/workspace.test.cjs": "2ab20cd8864287367ac25f957046468c4217f179ea664c9a64374953c7399854",
     "tests/ml/test_acquire.py": "06e1812f594373bd56080c2360bba2f320dc7c03292be46909c5faaa5dd55d88",
@@ -582,26 +622,27 @@
     "tests/test_jordan_frontend.py": "fa521620e927c36f881183376f1884dee5aa43bdf116f0a07f472ac47b5c7273",
     "tests/test_middleware.py": "2dcaa139fe4e5f65cf0e49658a8df02a2e01ca101c250ac90214eb2c75cdbbfa",
     "tests/test_motion.py": "2c343a366868baab2c32c0f78bd80caba65f6cd77c11f85fd59aac6beffb62be",
-    "tests/test_product.py": "9b4b10cf291a4f63b1248559fef05c52196fdda0faa9fa87ec010efd4a6d7441",
+    "tests/test_product.py": "048adcfa2c8ac20319061063c4dbd04f0abe4dff026ad719b1191b59abd5635b",
     "tests/test_release_packaging.py": "d0568eca7a419da857a60d06ee9923cf22cbbc2dd07c25a662e932f1c51735c1",
     "tests/test_report_pipeline.py": "fe1e0a2d9810c03ec448c155c0a4375eb161a8e4e209acae0be21961bd874c32",
     "tests/test_scanner.py": "d125b8c124d230e2adcce5ec0885cfa4da6e3fd9a6dd7adde51c0f2f024552bf",
     "tests/test_structural.py": "d0526355242595db1fd55236ba1144bd41add5d1b2ae1cab724ddd6c44dfe912",
-    "tools/build_submission.py": "c04d025bcaba3f6fe2806016802e3346b7da1cf1e5c9c7c32e1fbf17cd0edc76",
-    "tools/check_report_links.py": "6a74feb9a0cc517463c9b45c65bf129470442b41b0340a299e542db2a67a3eda",
-    "tools/generate_report.py": "65041bd064b65ab5d2d6860d83620eef60e8def3144b15b4556b99fe21c4a0cf",
+    "tests/test_task7e_release.py": "58f7ac04f5d66e2cb31f0fda18dfce11c79cedae109a96535f3dcaa3b967049b",
+    "tools/build_submission.py": "41e2c699d8c408ce3c1539782cfed9f95059c65c76a33449e67e7653b7284b98",
+    "tools/check_report_links.py": "041f274d90ff961ddbf707d30ab1c783e4c2b060d915e5959df2654cb9c04f5f",
+    "tools/generate_report.py": "f19cf381071652140b906e92e983ccd051051cd1c899976dd212cf6349e6acca",
     "tools/install_model.py": "f8dc4a18e278d988580654d3fbd8c8b82299e9dad870a019b4af5091510a6b1f",
     "tools/release_smoke.py": "e1aac0418f4d30b6cdce96925f1accf0ebe9997085b0be0c7aeae7616122d17b",
     "tools/report_charts.py": "8e512d5a28d287bee61020760c59e006791cedc9423989e6fb3d37ffb87f38e6",
-    "tools/report_content.py": "9f872d892cf7b79f76ff830f35c931cca4593ec5afbc412b5bd4a5214a0430be",
-    "tools/validate_report.py": "42bdd76afc5c19ea6e63a42e2e5d33515379e158b3bf93300471cb1ae00184a6"
+    "tools/report_content.py": "b8f75b8f817f6278d172fc13c977944707f683424cf70bc813fe96e84123510d",
+    "tools/validate_report.py": "0b5a63c137ad5c17f33323178933962f3514567c284b76527c44ab58846fe06d"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48",
-    "Codebase_Archaeologist_Report.docx": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
+    "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088",
+    "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102"
   },
   "training_or_evaluation_rerun": false,
   "authors": "Bilal Malik; Aun Anis",
-  "screenshots_verified": 0,
+  "screenshots_verified": 3,
   "docx_rendering": "Editable OOXML with shared substantive content; office-suite pagination not visually verified. LibreOffice attempt exit1."
 }

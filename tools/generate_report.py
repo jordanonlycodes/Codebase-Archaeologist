@@ -363,6 +363,7 @@ def evidence_files():
     files.extend(p for p in ML.rglob('*') if p.suffix in ('.json','.png','.txt'))
     files.extend(ROOT/name for name in ['tools/generate_report.py','tools/report_content.py','tools/report_charts.py','tools/validate_report.py','tools/check_report_links.py','submission/references.json','submission/screenshots.json','submission/test_evidence.json','submission/academic_details.json','models/devign-v1/manifest.json','tools/install_model.py','tools/release_smoke.py','tools/build_submission.py','requirements-runtime.lock'])
     files.extend(p for p in (ROOT/'docs').glob('task7*.md'))
+    files.append(ROOT/'reports/release/task7e/browser.json')
     return sorted(set(files))
 
 

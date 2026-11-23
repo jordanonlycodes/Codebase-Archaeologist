@@ -1,5 +1,6 @@
 # Task7D — final release verification
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_release_validation.md). Original findings below are retained as dated evidence.
 Entry baseline:530Python passed,0failed/skipped,104.29s;existing Starlette/httpx warning.
 Final full suite:540passed,0failed/skipped,103.62s; repeat540passed/103.93s, same warning. Initial release run
 had539passed/1failure from README author separator formatting; restored established

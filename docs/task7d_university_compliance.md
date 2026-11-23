@@ -1,5 +1,6 @@
 # Task7D — final university compliance matrix
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_release_validation.md). Original findings below are retained as dated evidence.
 Original AI Project Requirements.pdf was read in Task7C; its hash/source are in the
 report evidence matrix. Statuses below do not substitute extra product features for
 academic criteria. Group permission and new academic fields are explicit user confirmations.

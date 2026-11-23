@@ -1,10 +1,10 @@
 {
-  "pdf_pages": 46,
+  "pdf_pages": 49,
   "chapters": 17,
   "appendices": 5,
-  "figures": 11,
+  "figures": 14,
   "tables": 13,
-  "docx_words": 8294,
+  "docx_words": 8452,
   "source_manifest_current_and_valid": true,
   "source_output_checksums_valid": true,
   "rounded_saved_metrics_consistent": true,
@@ -15,8 +15,8 @@
   "pdf_text_outside_page": [],
   "empty_pdf_pages": 0,
   "references_traceable": true,
-  "verified_application_screenshots": 0,
+  "verified_application_screenshots": 3,
   "remaining_academic_placeholders": [],
   "visual_review": "Separate Poppler rendering review; not asserted by this structural validator.",
-  "docx_pagination": "Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination."
+  "docx_pagination": "Isolated LibreOffice26.8 rendering and sampled visual layout accepted; Microsoft Word not tested."
 }

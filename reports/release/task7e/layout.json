@@ -1,0 +1,17 @@
+{
+  "engine": "LibreOffice26.8.3.1",
+  "libreoffice_exit": 0,
+  "visual_reviewed": true,
+  "review": "All49pages of both engines inspected through contact sheets; full-size cover/metric tables/screenshot pages/references/appendix samples reviewed. Final screenshot pages viewed separately.",
+  "canonical_pages": 49,
+  "libreoffice_pages": 49,
+  "canonical_outputs": {
+    "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102",
+    "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
+  },
+  "libreoffice_pdf_sha256": "445a469a64c404207bea1eb9a561196dff41f625d694561bd34651ee1373b53d",
+  "substantive_paragraphs_checked": 267,
+  "missing_substantive_paragraphs": 0,
+  "microsoft_word_used": false,
+  "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found."
+}

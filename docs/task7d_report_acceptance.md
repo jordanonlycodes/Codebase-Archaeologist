@@ -1,5 +1,6 @@
 # Task7D — report acceptance
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_document_layout_acceptance.md). Original findings below are retained as dated evidence.
 Academic metadata is now explicitly confirmed by user:FAST NUCES Peshawar;SE;AI-lab;
 M. Saad Khan;semester5;23November,2026. Exact two authors/rolls remain unchanged. New
 submission/academic_details.json is the single report metadata source. Unconfirmed old

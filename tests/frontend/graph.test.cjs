@@ -297,3 +297,17 @@ test('camera transitions use the current reduced-motion preference without chang
  context.matchMedia=()=>({matches:false});assert.equal(duration.call({reduced:true},450),450);
  context.matchMedia=()=>({matches:true});assert.equal(duration.call({reduced:false},450),0);
 });
+
+test('a later camera request wins; canceled callbacks cannot overwrite Fit and controls remain immediate',()=>{
+ const queue=new Map();let next=0,last=null;
+ const context={document:{},performance:{now:()=>0},requestAnimationFrame:fn=>{queue.set(++next,fn);return next;},cancelAnimationFrame:id=>queue.delete(id),matchMedia:()=>({matches:false})};
+ vm.createContext(context);vm.runInContext(fs.readFileSync(path.join(__dirname,'../../app/static/graph/three.js'),'utf8'),context);
+ const proto=context.ArchaeologistThree.Adapter.prototype;
+ const adapter=Object.create(proto);adapter.graph={camera:()=>({position:{x:0,y:0,z:100}}),controls:()=>({target:{x:0,y:0,z:0}}),cameraPosition:(p,t,ms)=>{last={p,t,ms};}};
+ adapter.cameraMove({x:1,y:2,z:3},{x:4,y:5,z:6},450);const stale=[...queue.values()][0];
+ adapter.cameraMove({x:100,y:200,z:300},{x:10,y:20,z:30},340);const current=[...queue.values()][0];
+ current(340);assert.equal(last.p.x,100);assert.equal(last.t.x,10);assert.equal(last.ms,0);
+ stale(450);assert.equal(last.p.x,100,'old focus cannot overwrite fit');
+ adapter.cameraMove({x:1,y:2,z:3},{x:0,y:0,z:0},450);const before=last;adapter.cancelCamera();[...queue.values()].forEach(fn=>fn(500));assert.equal(last,before);
+ context.matchMedia=()=>({matches:true});adapter.cameraMove({x:8,y:9,z:10},{x:0,y:0,z:0},450);assert.equal(last.p.x,8);assert.equal(adapter.cameraFrame,null);
+});

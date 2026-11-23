@@ -1,5 +1,6 @@
 # Task7D — graph vendor provenance decision
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_3d_asset_resolution.md). Original findings below are retained as dated evidence.
 Observed local file:app/static/vendor/3d-force-graph-1.73.3.min.js,691294bytes,
 SHA19b3be27040fc894e56d684d53c5f62526c25e5d27f37e8fe91fafff605e4ef4.
 The existing unsigned receipt names the fixed npm tarball and archive SHA

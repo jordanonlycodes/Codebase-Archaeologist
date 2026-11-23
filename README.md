@@ -145,19 +145,10 @@ There is no React/Next.js, database, account system or required external AI prov
 
 ## 3D graph and third-party assets
 
-2D works from the tracked source. Optional3D lazily uses a locally installed
-3d-force-graph1.73.3 bundle. The developer-local copy is preserved, but complete archive/
-transitive-notice provenance is unresolved, so it is **not redistributed** in this release.
-An offline clean checkout is not claimed to have3D ready. No runtime CDN fallback exists.
-
-```bash
-python tools/verify_vendor_assets.py
-# Explicit network installation, only after reviewing the provenance/notice boundary:
-python tools/install_graph_assets.py
-```
-
-[Vendor decision and exact next steps](docs/task7d_vendor_provenance.md) ·
-[Third-party notices](THIRD_PARTY_NOTICES.md)
+2D and offline3D are included in the tracked source. The pinned npm1.73.3 distribution
+is byte-verified, with its MIT license and conservative runtime dependency notices.
+Run `python tools/verify_vendor_assets.py` to check the bundle and evidence. No runtime
+CDN is used. See [3D provenance](docs/task7e_3d_asset_resolution.md).
 
 ## Jordan and historical exploration
 
@@ -175,17 +166,17 @@ API authentication allowances but never guarantees unlimited quota. [History](do
 
 ## Screenshots and academic report
 
-**Authentic application screenshots are still pending.** No missing-image links or AI
-mockups are presented as captures. Chromium cannot render in this sandbox; the report
-keeps explicit placeholders and supports provenance-checked insertion.
+**Authentic application screenshots are verified.** See the real Chromium captures below. No AI
+mockups are presented as captures. Real Chromium rendering was verified in Task7E; the report
+contains three provenance-checked Chromium screenshots.
 
 - [Editable Word report](submission/Codebase_Archaeologist_Report.docx)
 - [Matching-content PDF](submission/Codebase_Archaeologist_Report.pdf)
 - [Capture/regeneration guide](docs/task7c_screenshot_capture_guide.md)
 - [Current report acceptance](docs/task7d_report_acceptance.md)
 
-Academic fields above are explicitly user-confirmed. Word pagination/browser/GPU/mobile
-acceptance remain local checks; PDF/OOXML structural validation is not Office rendering.
+Academic fields above are explicitly user-confirmed. Task7E adds actual Chromium interaction/viewport checks and isolated LibreOffice rendering.
+Microsoft Word and physical GPU/FPS certification remain outside the verified scope.
 
 ## Tests and demonstration
 
@@ -203,7 +194,7 @@ Node26.13.1 was used for frontend harnesses; it is not required to run the web a
 Runtime-only installs use `tools/release_smoke.py` rather than pretending all dataset-
 dependent research tests can run without their prerequisites. Task7D baseline:**530passed**,
 zero failed/skipped; final:**540passed**,zero failed/skipped. Results are in [release verification](docs/task7d_final_verification.md).
-The216Node harness cases are invoked through Python tests and are not added to Python totals.
+The217Node harness cases are invoked through Python tests and are not added to Python totals.
 Existing Starlette/httpx deprecation warning is recorded. Restricted-sandbox selector
 workaround is documented separately; normal local installations should use standard pytest.
 
@@ -240,3 +231,17 @@ belong in the submission archive.
 Future work:independent project/time evaluation, stronger label/clone audits, calibration,
 separately validated language-specific models and broader usability testing. These are
 future possibilities, not current ML coverage or submission claims.
+
+## Task7E acceptance evidence
+
+![Real repository overview](docs/screenshots/overview.png)
+
+![Real 3D graph and source inspector](docs/screenshots/graph-3d.png)
+
+![Real pinned Git history](docs/screenshots/time-machine.png)
+
+These are genuine sandboxed Chromium157 captures: original mixed C/Python fixture and
+octocat/Hello-World at7fd1a60b01f91b314f59955a4e4d4e80d8edf11d.
+[Browser acceptance](docs/task7e_browser_acceptance.md) · [Release verification](docs/task7e_release_validation.md).
+
+Task7E regression: **547 Python tests passed**, zero failed/skipped; **217 frontend harness cases**.

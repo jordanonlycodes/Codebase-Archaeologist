@@ -61,6 +61,25 @@ def metric_checks(word_text,pdf_text):
         assert 'zero specificity' in text and 'exposed' in text
         assert 'devign-v1-4a23cc304ca8' in text
 
+def listing_rows(children,title):
+    index=next(i for i,node in enumerate(children) if node.tag.endswith('}p') and ''.join(t.text or '' for t in node.findall('.//w:t',NS))==title)
+    rows=[]
+    for node in children[index+1:]:
+        if node.tag.endswith('}p'):
+            style=node.find('w:pPr/w:pStyle',NS)
+            text=''.join(t.text or '' for t in node.findall('.//w:t',NS))
+            if style is not None and style.attrib.get('{'+NS['w']+'}val')=='Heading1' and not text.startswith(title):break
+        if node.tag.endswith('}tbl'):rows.extend(node.findall('w:tr',NS)[1:])
+    return rows
+
+def office_layout_status():
+    path=ROOT/'reports/release/task7e/layout.json'
+    if path.is_file():
+        proof=json.loads(path.read_text())
+        if proof.get('visual_reviewed') and proof.get('libreoffice_exit')==0 and all(sha(OUT/name)==digest for name,digest in proof.get('canonical_outputs',{}).items()):
+            return 'Isolated LibreOffice26.8 rendering and sampled visual layout accepted; Microsoft Word not tested.'
+    return 'Current Office render/visual review pending; structural checks alone do not certify pagination.'
+
 def main():
     manifest=json.loads((OUT/'report_manifest.json').read_text());checked_sources(manifest)
     for name,digest in manifest['outputs_sha256'].items():assert sha(OUT/name)==digest,name
@@ -70,9 +89,7 @@ def main():
         body=ET.fromstring(z.read('word/document.xml')).find('w:body',NS)
         children=list(body)
         for title,key,prefix in [('List of Tables','tables','Table'),('List of Figures','figures','Figure')]:
-            index=next(i for i,node in enumerate(children) if node.tag.endswith('}p') and ''.join(t.text or '' for t in node.findall('.//w:t',NS))==title)
-            listing=next(node for node in children[index+1:] if node.tag.endswith('}tbl'))
-            entries=listing.findall('w:tr',NS)[1:]
+            entries=listing_rows(children,title)
             assert len(entries)==manifest[key],title
             for number,row in enumerate(entries,1):
                 label=''.join(t.text or '' for t in row.find('w:tc',NS).findall('.//w:t',NS))
@@ -123,6 +140,6 @@ def main():
       'verified_application_screenshots':manifest['screenshots_verified'],
       'remaining_academic_placeholders':[],
       'visual_review':'Separate Poppler rendering review; not asserted by this structural validator.',
-      'docx_pagination':'Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination.'}
+      'docx_pagination':office_layout_status()}
     (OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 if __name__=='__main__':main()

@@ -1,5 +1,6 @@
 # Task7D → Task8 viva/demo handoff
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_handoff_to_viva.md). Original findings below are retained as dated evidence.
 Team:Bilal Malik24P-3061 and Aun Anis24P-3017. Confirmed FAST NUCES Peshawar,SE,
 AI-lab,M. Saad Khan,semester5,23November2026. No individual responsibilities assigned.
 

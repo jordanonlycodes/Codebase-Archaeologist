@@ -1,0 +1,426 @@
+{
+  "browser": "Chromium157.0.8103.79",
+  "date": "23 November 2026",
+  "environment": "Wayland host, isolated sandboxed headless Chromium via native CDP; no unsafe browser flags",
+  "checks": [
+    {
+      "name": "orbit",
+      "pass": true,
+      "before": "{\"p\":[88.875,-28.124999999999986,250.9738685705969],\"t\":[88.875,-28.124999999999996,55]}",
+      "after": "{\"p\":[-61.66776673261904,80.75224782751943,-7.356855697819995],\"t\":[88.875,-28.124999999999996,55]}"
+    },
+    {
+      "name": "pan",
+      "pass": true,
+      "before": "{\"p\":[-61.66776673261904,80.75224782751943,-7.356855697819995],\"t\":[88.875,-28.124999999999996,55]}",
+      "after": "{\"p\":[-31.015968083762274,94.99908193919599,-56.4813737851324],\"t\":[119.52679864885677,-13.878165888323437,5.875481912687598]}"
+    },
+    {
+      "name": "zoom",
+      "pass": true
+    },
+    {
+      "name": "reset",
+      "pass": true,
+      "camera": "{\"p\":[88.875,-28.124999999999986,250.9738685705969],\"t\":[88.875,-28.124999999999996,55]}"
+    },
+    {
+      "name": "3D renderer",
+      "pass": true,
+      "selected": "function_8d43b37f96db73c5dee51b05693e05cdd035e3baac62e34a31a8a4e062f9676b"
+    },
+    {
+      "name": "architecture",
+      "pass": true,
+      "svg": 1,
+      "text": "ction complexity 3. Inspect members and retained source evidence; this is not a quality score.\n\nNo multi-component import/include cycle was retained. Incomplete graph coverage can hide cycles.\n\nEvidence, coverage & interpretation\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "heatmaps",
+      "pass": true,
+      "svg": 1,
+      "text": "ction complexity 3. Inspect members and retained source evidence; this is not a quality score.\n\nNo multi-component import/include cycle was retained. Incomplete graph coverage can hide cycles.\n\nEvidence, coverage & interpretation\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "blast-radius",
+      "pass": true,
+      "svg": 1,
+      "text": "ntity to see its representative chain. All retained results remain searchable here, even outside the canvas.\n\nFilter reached entities\n\u2192 sum_values \u00b7 1 hop \u00b7 review.c\nPrevious\n1 results \u00b7 1/1\nNext\nCoverage, bounds & interpretation\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "risk",
+      "pass": true,
+      "svg": 0,
+      "text": "ed class\tModel score\tStatus\nclamp_index\treview.c\t2\u20136\tDefect-related\t64.5%\tanalyzed\nsum_values\treview.c\t8\u201314\tNon-defect-related\t46.4%\tanalyzed\nentry\treview.c\t16\u201319\tNon-defect-related\t44.1%\tanalyzed\n1\u20133 of 3 functions\nPrevious\nNext\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "structure",
+      "pass": true,
+      "svg": 0,
+      "text": "hon\thelpers.py:4\u20135\t2\t1\t2\t1\tanalyzed\tUnavailable (C-only)\nsum_values \u00b7 C\treview.c:8\u201314\t2\t1\t7\t2\tanalyzed\tanalyzed\nentry \u00b7 C\treview.c:16\u201319\t1\t0\t4\t0\tanalyzed\tanalyzed\n1\u20134 of 4 functions\nPrevious\nNext\nMetric definitions and thresholds\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "jordan",
+      "pass": true,
+      "svg": 0,
+      "text": "ndicators.\nE1 \u00b7 task7d-university-demo.zip\nScope & limitations\n\nReady for an investigation.\n\nAsk Jordan about this snapshot\nSupported investigations \u00b7 1,600 character limit \u00b7 no source execution\nInvestigate \u2197\nEVIDENCE INSPECTOR 1\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "Jordan grounded reply",
+      "pass": true,
+      "text": "YOUR QUESTION\n\nSummarize this repository.\n\nJORDAN / LOCAL EVIDENCE\n\ntask7d-university-demo.zip contains 2 inventoried files in 0 directories, with 24 physical lines.\n4 C/Python functions were structurally analyzed. 0 retained structural hotspots are rule-based review indicators.\nE1 \u00b7 task7d-university-demo.zip\nScope & limitations\n\nYOUR QUESTION\n\nWhich functions are most complex?\n\nJORDAN / LOCAL EVIDENCE\n\n4 retained functions match this investigation. Showing at most 6.\nclamp_index \u2014 review.c: complexity 3\ndescribe_count \u2014 helpers.py: complexity 2\nsum_values \u2014 review.c: complexity 2\nentry \u2014 review.c: complexity 1\nE1 \u00b7 clamp_index\nE2 \u00b7 describe_count\nE3 \u00b7 sum_values\nE4 \u00b7 entry\nclamp_index \u00b7 review.cdescribe_count \u00b7 helpers.pysum_values \u00b7 review.centry \u00b7 review.c\nScope & limitations\nWho calls it?\nPotential impact"
+    },
+    {
+      "name": "time-machine",
+      "pass": true,
+      "svg": 0,
+      "text": "tic history.\n\nTHE PAST IS NOT IN A ZIP\n\nEvery change leaves\na trace.\n\nOrdinary ZIP archives contain files, not genuine Git ancestry. Time Machine never invents commits from archive timestamps.\n\nImport a public GitHub repository \u2197\nLocal source-free snapshot \u00b7 expires two hours after analysis\nStatic relationships are evidence, not runtime guarantees."
+    },
+    {
+      "name": "uncaught exceptions",
+      "pass": true,
+      "errors": []
+    },
+    {
+      "name": "live revision tree",
+      "pass": true,
+      "text": " Color/area = files; scale 0\u20131, one-unit area floor; hatched = unavailable, neutral = zero. Changed entries use this commit\u2019s reported file records; removed paths do not exist in this tree.\n\nHISTORICAL EVIDENCE\n\nMERGE / OBSERVED PARENTS\n\nMerge pull request #6 from Spaceghost/patch-1\n7fd1a60b01f91b314f59955a4e4d4e80d8edf11d\nAuthor\nThe Octocat\nAuthor date\n2012-03-06T23:06:50+00:00\nCommitter date\n2012-03-06T23:06:50+00:00\nParents\n553c2077f0edc3d5dc5d17262f6aa498e69d6f8e 762941318ee16e59dabbacb1b4049eec22f0d303\nChanged files\n1\nInspect this exact revision treeUse as comparison basemodified \u00b7 README"
+    },
+    {
+      "name": "live churn",
+      "pass": true
+    },
+    {
+      "name": "keyboard focus",
+      "element": "A",
+      "pass": true
+    },
+    {
+      "name": "responsive",
+      "page": "overview",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "graph",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "architecture",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "heatmaps",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "blast-radius",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "jordan",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "time-machine",
+      "width": 1440,
+      "pass": true,
+      "scrollWidth": 1425,
+      "viewport": 1440
+    },
+    {
+      "name": "responsive",
+      "page": "overview",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "graph",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "architecture",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "heatmaps",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "blast-radius",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "jordan",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "time-machine",
+      "width": 1024,
+      "pass": true,
+      "scrollWidth": 1009,
+      "viewport": 1024
+    },
+    {
+      "name": "responsive",
+      "page": "overview",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "graph",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "architecture",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "heatmaps",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "blast-radius",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "jordan",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "time-machine",
+      "width": 768,
+      "pass": true,
+      "scrollWidth": 753,
+      "viewport": 768
+    },
+    {
+      "name": "responsive",
+      "page": "overview",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "graph",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "architecture",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "heatmaps",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "blast-radius",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "jordan",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "responsive",
+      "page": "time-machine",
+      "width": 390,
+      "pass": true,
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    {
+      "name": "reduced motion",
+      "pass": true,
+      "animations": 0
+    },
+    {
+      "name": "blast origin",
+      "pass": true,
+      "summary": "0\ndirect upstream\n\n0\ntransitive upstream\n\n1\ndownstream\n\n1\ndistinct files reached\n\n1\ncomponents represented\n\n0\nhotspot functions"
+    },
+    {
+      "name": "Jordan local answer works with network emulated offline",
+      "pass": true,
+      "note": "No cloud request; deterministic local question handling needs no HTTP."
+    },
+    {
+      "name": "live timeline zoom",
+      "pass": true
+    },
+    {
+      "name": "live timeline pan",
+      "pass": true
+    },
+    {
+      "name": "live timeline fit",
+      "pass": true
+    },
+    {
+      "name": "live commit selection",
+      "pass": true
+    },
+    {
+      "name": "multi-directory architecture dependency",
+      "pass": true,
+      "summary": "{\"components\":3,\"aggregate_edges\":2,\"cross_component_graph_edges\":2,\"cross_component_occurrences\":2,\"intra_component_graph_edges\":1,\"dependency_cycle_groups\":0,\"unresolved_references\":0}"
+    },
+    {
+      "name": "real heatmap pointer hover and selection",
+      "pass": true,
+      "inspector": "FILE\n\nreview.c\n\nsrc/review.c\n\nFiles\n1\nObserved functions\n3\nPhysical lines\n19\nBytes\n455\nMaximum function complexity\n3\nObserved hotspot functions\n0\nFunction-measured files\n1/1\nMax C-function score\n0.645\nScored C functions\n3\n\nMax complexity and max C-fu"
+    },
+    {
+      "name": "browser JSON export",
+      "pass": true
+    },
+    {
+      "name": "3D actual node pointer selection",
+      "pass": true,
+      "selected": "function_081f41ab10c8fc1cfa716a4c9a1eda9a52bc35b2d0aad9b63e14ff203b996ef4",
+      "note": "Stable1440viewport and visible canvas; real CDP mouse move/press/release; hover and selected inspector matched actual projected node."
+    },
+    {
+      "name": "live Git comparison",
+      "pass": true,
+      "base": "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
+      "head": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+      "changed_files": 1,
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "name": "live tree and churn",
+      "pass": true,
+      "tracked_path": "README"
+    },
+    {
+      "name": "Cached history status remains accurate after navigation",
+      "pass": true,
+      "status": "Restored cached historical evidence. Coverage and measurement gaps remain explicit."
+    }
+  ],
+  "live_history": {
+    "source": {
+      "type": "github",
+      "filename": null,
+      "owner": "octocat",
+      "name": "Hello-World",
+      "url": "https://github.com/octocat/Hello-World",
+      "default_branch": "master",
+      "snapshot_commit": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d"
+    },
+    "commits": [
+      "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+      "762941318ee16e59dabbacb1b4049eec22f0d303",
+      "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e"
+    ],
+    "coverage": {
+      "complete_ancestry": true,
+      "scope": "Ancestors of the pinned snapshot; bounded retained window, not all repository branches.",
+      "ordering": "GitHub list-commits order, pinned at anchor; not assumed chronological or complete branch topology",
+      "issues": [],
+      "missing_parents": []
+    }
+  },
+  "claims": {
+    "physical_gpu_fps_measured": false,
+    "full_wcag_audit": false,
+    "microsoft_word_used": false,
+    "chromium_rendered": true
+  },
+  "known_browser_warnings": [
+    "Automatic software WebGL fallback deprecated; no unsafe SwiftShader flag enabled.",
+    "ReadPixels GPU-stall warnings during screenshot capture."
+  ]
+}

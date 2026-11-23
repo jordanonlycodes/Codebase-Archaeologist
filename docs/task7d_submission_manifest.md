@@ -1,5 +1,6 @@
 # Task7D — submission candidate manifest
 
+> Historical Task7D record. Current resolution: [Task7E](task7e_final_submission_manifest.md). Original findings below are retained as dated evidence.
 Generator:`python tools/build_submission.py`. Output directory:submission/final/.
 Status is explicitly **PARTIAL — SUBMISSION CANDIDATE**, never unconditional FINAL.
 

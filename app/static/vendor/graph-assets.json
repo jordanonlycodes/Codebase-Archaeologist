@@ -1,0 +1,22 @@
+{
+  "package": "3d-force-graph",
+  "version": "1.73.3",
+  "source": "https://registry.npmjs.org/3d-force-graph/-/3d-force-graph-1.73.3.tgz",
+  "package_sha256": "520998cc26902fa8c74496adcc314b19a50cfb267174ab313407642958e7ecef",
+  "bundle_sha256": "19b3be27040fc894e56d684d53c5f62526c25e5d27f37e8fe91fafff605e4ef4",
+  "bundled_dependencies": {
+    "accessor-fn": "1",
+    "kapsule": "1",
+    "three": ">=0.118 <1",
+    "three-forcegraph": "1",
+    "three-render-objects": "^1.29"
+  },
+  "upstream_commit": "9806444ee2af34a0a45ecc8ea035ec9efa929d54",
+  "provenance": "Published npm tarball bytes independently matched; release gitHead Yarn runtime closure plus emitted Babel helper notices reviewed. Not a bit-for-bit source rebuild or legal certification.",
+  "evidence": {
+    "third_party/graph/LICENSES.txt": "891bcef724b7178c7cb1db476e414e96e0365d82406d50976b82a63c94c03ef5",
+    "third_party/graph/provenance.json": "8ab800b525908f14206bb777b7be3a6952ab5c0b44993ca3d0893aa8293f8ef4",
+    "third_party/graph/upstream-yarn.lock": "27cacfcd6475eea96350f5423e14b49626192db2ca497876511d41f015017773"
+  },
+  "license_sha256": "7262e566e874d1ce8cfadace01d4f635f8d704b6bdf7b4345cc028e5faeafded"
+}

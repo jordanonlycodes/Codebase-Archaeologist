@@ -23,20 +23,19 @@ no raw training functions or other candidate binaries are distributed. See the m
 portability document for the inspected basis and limits. This is not blanket clearance
 for FFmpeg/QEMU source reuse or a new license over project-authored work.
 
-## Optional 3D browser bundle — redistribution unresolved
+## Offline 3D distribution — verified Task7E
 
-3d-force-graph1.73.3 top-level MIT license is verified at the upstream version tag:
-https://raw.githubusercontent.com/vasturiano/3d-force-graph/v1.73.3/LICENSE
-Copyright(c)2017Vasco Asturiano. Existing local bundle/receipt/license remain untouched
-and UNTRACKED. The local bundle's SHA matches its receipt, but that is not independent
-verification of its upstream archive or complete bundled-license closure. The recorded
-package depends on accessor-fn,kapsule,three,three-forcegraph,three-render-objects using
-ranges; actual resolved transitive versions/notices are not recorded. No license headers
-were found in the minified bundle. npm retrieval currently fails DNS.
+3d-force-graph1.73.3 is MIT, Copyright(c)2017 Vasco Asturiano. The published npm
+archive was independently fetched and its bundle/LICENSE bytes match the local files.
+Upstream gitHead9806444ee2af34a0a45ecc8ea035ec9efa929d54 supplies the Yarn lock.
+Its33 runtime dependency packages plus2 explicit Babel build/helper packages have
+integrity-checked npm archives; all collected license declarations/texts are MIT, ISC or
+BSD-3-Clause. Conservative notices include runtime modules even if tree-shaken away.
 
-Therefore this release does NOT redistribute those three files in Git/source/submission
-archives. Existing developer-local3D remains intact, and2D fallback is preserved. Explicit
-upstream installation is available via tools/install_graph_assets.py; that command is a
-network operation and does not itself constitute transitive-license approval. An offline
-clean checkout is NOT claimed to include working3D until provenance/notices are resolved.
-Do not silently pull scripts from a public CDN at application runtime.
+Retain app/static/vendor/3d-force-graph-1.73.3.LICENSE and third_party/graph/LICENSES.txt.
+third_party/graph/provenance.json records exact versions, source URLs and digests;
+upstream-yarn.lock preserves the primary source lock. This verifies redistribution
+notices and published artifact identity, not a bit-for-bit rebuild or trademark clearance.
+The running app serves local assets only; no runtime CDN or package scripts are involved.
+Recovery: tools/resolve_graph_provenance.py; integrity: tools/verify_vendor_assets.py.
+See docs/task7e_3d_asset_resolution.md for the complete evidence and limitations.

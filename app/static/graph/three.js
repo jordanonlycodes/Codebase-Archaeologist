@@ -43,7 +43,7 @@
         controls.listenToKeyEvents?.(host);
         this.clean.push(()=>controls.stopListenToKeyEvents?.());
         for(const event of ['start','change','end']){
-          const listener=()=>{if(event==='start')this.autoFit=false;this.wake();};
+          const listener=()=>{if(event==='start'){this.autoFit=false;this.cancelCamera();}this.wake();};
           controls.addEventListener?.(event,listener);
           this.clean.push(()=>controls.removeEventListener?.(event,listener));
         }
@@ -135,9 +135,28 @@
       if(this.frame!==null)return;
       const tick=time=>{this.frame=null;if(this.destroyed||!this.visible)return;if(document.hidden){this.pause();return;}if(this.quality.frame(time))this.applyQuality();if(!this.lastLabelTime||time-this.lastLabelTime>=this.quality.profile.labelMs){this.placeLabels();this.lastLabelTime=time;}this.frame=requestAnimationFrame(tick);};this.frame=requestAnimationFrame(tick);
     }
-    pause(){clearTimeout(this.sleep);cancelAnimationFrame(this.frame);this.frame=null;this.awake=false;this.quality?.pause();this.graph?.pauseAnimation();}
+    pause(){this.cancelCamera();clearTimeout(this.sleep);cancelAnimationFrame(this.frame);this.frame=null;this.awake=false;this.quality?.pause();this.graph?.pauseAnimation();}
     duration(ms){return (root.matchMedia?root.matchMedia('(prefers-reduced-motion: reduce)').matches:this.reduced)?0:ms;}
-    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;this.autoFit=false;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.graph.cameraPosition({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,this.duration(450));this.wake(650);}
+    cancelCamera(){cancelAnimationFrame(this.cameraFrame);this.cameraFrame=null;this.cameraGeneration=(this.cameraGeneration||0)+1;}
+    cameraMove(position,target,ms){
+      this.cancelCamera();
+      const duration=this.duration(ms),generation=this.cameraGeneration;
+      // A single owned transition prevents overlapping library tweens: a later Fit
+      // must win over an earlier Focus, and pointer interaction must always win.
+      if(!duration){this.graph.cameraPosition(position,target,0);return;}
+      const from=this.graph.camera().position,startTarget=this.graph.controls().target;
+      const a={x:from.x,y:from.y,z:from.z},b={x:startTarget.x,y:startTarget.y,z:startTarget.z};
+      const started=root.performance?.now?.()??Date.now();
+      const tick=now=>{
+        if(this.destroyed||generation!==this.cameraGeneration)return;
+        const t=this.duration(1)?Math.min(1,Math.max(0,(now-started)/duration)):1,ease=1-(1-t)**3;
+        const mix=(first,last)=>Object.fromEntries(['x','y','z'].map(k=>[k,first[k]+(last[k]-first[k])*ease]));
+        this.graph.cameraPosition(mix(a,position),mix(b,target),0);
+        this.cameraFrame=t<1?requestAnimationFrame(tick):null;
+      };
+      this.cameraFrame=requestAnimationFrame(tick);
+    }
+    focus(id){const n=this.data?.nodes.find(n=>n.id===id);if(!n)return;this.autoFit=false;const camera=this.graph.camera(),delta=camera.position.clone().sub(this.graph.controls().target).normalize().multiplyScalar(150);this.cameraMove({x:n.x+delta.x,y:n.y+delta.y,z:n.z+delta.z},n,450);this.wake(650);}
     fit(){
       this.autoFit=true;
       // Use retained coordinates, not scene meshes: graphData updates meshes on a
@@ -154,12 +173,12 @@
       const delta=camera.position.clone().sub(this.graph.controls().target);
       if(delta.lengthSq()===0)delta.set(0,0,1);
       delta.normalize().multiplyScalar(distance);
-      this.graph.cameraPosition({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,this.duration(340));
+      this.cameraMove({x:target.x+delta.x,y:target.y+delta.y,z:target.z+delta.z},target,340);
       this.wake(500);
     }
     panMode(enabled){const controls=this.graph.controls();if(controls.mouseButtons)controls.mouseButtons.LEFT=enabled?controls.mouseButtons.RIGHT:this.rotateButton;this.host.style.cursor=enabled?'move':'';}
-    zoom(factor){this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.graph.cameraPosition(next,target,0);this.wake();}
-    reset(){if(!this.data?.nodes.length)return;const center=this.graph.controls().target;this.graph.cameraPosition({x:center.x,y:center.y,z:center.z+650},center,0);this.fit();}
+    zoom(factor){this.autoFit=false;const target=this.graph.controls().target,next=this.graph.camera().position.clone().sub(target).multiplyScalar(1/factor).add(target);this.cameraMove(next,target,0);this.wake();}
+    reset(){if(!this.data?.nodes.length)return;const center=this.graph.controls().target;this.cameraMove({x:center.x,y:center.y,z:center.z+650},center,0);this.fit();}
     resize(){
       const width=this.host.clientWidth,height=this.host.clientHeight;
       // Hidden documents/containers have no useful viewport; defer to ResizeObserver.

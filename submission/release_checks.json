@@ -1,11 +1,11 @@
 {
-  "stage": "Task7D",
-  "status": "PARTIAL \u2014 submission candidate",
+  "stage": "Task7E",
+  "status": "Local acceptance verified; clean-source final promotion pending",
   "baseline": {
-    "passed": 530,
+    "passed": 540,
     "failed": 0,
     "skipped": 0,
-    "seconds": 104.29
+    "seconds": 15.35
   },
   "initial_release_regression": {
     "passed": 539,
@@ -13,10 +13,10 @@
     "cause": "README author separator formatting; corrected without weakening test"
   },
   "full_regression": {
-    "passed": 540,
+    "passed": 547,
     "failed": 0,
     "skipped": 0,
-    "seconds": 103.62
+    "seconds": 14.78
   },
   "focused_release_and_report_tests": {
     "passed": 14,
@@ -27,57 +27,50 @@
   "warnings": "One existing Starlette/httpx deprecation warning in full suite.",
   "frontend": {
     "javascript_syntax_files": 29,
-    "frontend": [
+    "tool_mjs_syntax": 2,
+    "frontend_cases": 217,
+    "harnesses": [
       {
         "harness": "architecture.test.cjs",
-        "tests": 10,
-        "exit": 0
+        "passed": 10
       },
       {
         "harness": "graph.test.cjs",
-        "tests": 26,
-        "exit": 0
+        "passed": 27
       },
       {
         "harness": "impact.test.cjs",
-        "tests": 32,
-        "exit": 0
+        "passed": 32
       },
       {
         "harness": "jordan.test.cjs",
-        "tests": 30,
-        "exit": 0
+        "passed": 30
       },
       {
         "harness": "motion.test.cjs",
-        "tests": 14,
-        "exit": 0
+        "passed": 14
       },
       {
         "harness": "product.test.cjs",
-        "tests": 80,
-        "exit": 0
+        "passed": 80
       },
       {
         "harness": "time_machine.test.cjs",
-        "tests": 8,
-        "exit": 0
+        "passed": 8
       },
       {
         "harness": "workspace.test.cjs",
-        "tests": 16,
-        "exit": 0
+        "passed": 16
       }
-    ],
-    "total_cases": 216
+    ]
   },
   "report": {
-    "pdf_pages": 46,
+    "pdf_pages": 49,
     "chapters": 17,
     "appendices": 5,
-    "figures": 11,
+    "figures": 14,
     "tables": 13,
-    "docx_words": 8294,
+    "docx_words": 8452,
     "source_manifest_current_and_valid": true,
     "source_output_checksums_valid": true,
     "rounded_saved_metrics_consistent": true,
@@ -88,10 +81,10 @@
     "pdf_text_outside_page": [],
     "empty_pdf_pages": 0,
     "references_traceable": true,
-    "verified_application_screenshots": 0,
+    "verified_application_screenshots": 3,
     "remaining_academic_placeholders": [],
     "visual_review": "Separate Poppler rendering review; not asserted by this structural validator.",
-    "docx_pagination": "Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination."
+    "docx_pagination": "Isolated LibreOffice26.8 rendering and sampled visual layout accepted; Microsoft Word not tested."
   },
   "report_links_and_figures": {
     "checked": 45,
@@ -99,7 +92,7 @@
   },
   "pdf_visual_review": "Updated cover, declaration, testing and limitations pages rendered and viewed; historical all-page Task7C review is separate. Release-result table labels corrected.",
   "word_visual_rendering": "Fresh isolated LibreOffice exit1, no output; local Office acceptance pending.",
-  "browser": "Chromium signal5 before rendering; setsockopt Operation not permitted.",
+  "browser": "Real sandboxed Chromium157.0.8103.79;59measured positive checks; see reports/release/task7e/browser.json",
   "server": "Fresh isolated Uvicorn startup completed; localhost bind failed, exit3.",
   "model_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
   "isolated_install": {
@@ -136,22 +129,20 @@
       "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
     }
   },
-  "vendor_redistribution": "Unresolved; three original untracked files preserved and excluded.",
+  "vendor_redistribution": "Resolved:fixed published npm bytes/source-lock closure/notices verified;approved offline assets packaged.",
   "publication": {
-    "attempt": "git push origin main",
-    "exit": 128,
-    "error": "Could not resolve host: github.com",
-    "remote_release_verified": false,
-    "manual_command": "git push origin main"
+    "entry_remote_head": "e4ece2383ec792339106319bc60d3d4c46ac64a5",
+    "entry_match_verified": true,
+    "task7e_push": "pending"
   },
   "outputs": {
     "Codebase_Archaeologist_Report.docx": {
-      "bytes": 848823,
-      "sha256": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
+      "bytes": 1281156,
+      "sha256": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102"
     },
     "Codebase_Archaeologist_Report.pdf": {
-      "bytes": 1679121,
-      "sha256": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48"
+      "bytes": 2281101,
+      "sha256": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
     }
   },
   "delivered_source_reproduction": {
@@ -198,5 +189,34 @@
     "skipped": 0,
     "seconds": 103.93
   },
-  "pdf_fonts_embedded": true
+  "pdf_fonts_embedded": true,
+  "task7e_first_full_regression": {
+    "passed": 547,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 16.67
+  },
+  "office_layout": {
+    "engine": "LibreOffice26.8.3.1",
+    "libreoffice_exit": 0,
+    "visual_reviewed": true,
+    "review": "All49pages of both engines inspected through contact sheets; full-size cover/metric tables/screenshot pages/references/appendix samples reviewed. Final screenshot pages viewed separately.",
+    "canonical_pages": 49,
+    "libreoffice_pages": 49,
+    "canonical_outputs": {
+      "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102",
+      "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
+    },
+    "libreoffice_pdf_sha256": "445a469a64c404207bea1eb9a561196dff41f625d694561bd34651ee1373b53d",
+    "substantive_paragraphs_checked": 267,
+    "missing_substantive_paragraphs": 0,
+    "microsoft_word_used": false,
+    "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found."
+  },
+  "task7e_acceptance": {
+    "clean_source_commit": null,
+    "clean_source_smoke": false,
+    "offline_3d_browser": false,
+    "published_source_commit": null
+  }
 }
