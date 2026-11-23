@@ -1,0 +1,14 @@
+{
+  "version": "task7c0-v1",
+  "decision": "retain_original_random_forest",
+  "production_model_version": "devign-v1-4a23cc304ca8",
+  "threshold": 0.5,
+  "feature_schema": "c-function-v1",
+  "feature_count": 11,
+  "production_artifact_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+  "numerical_gate_passers": [],
+  "test_predictions": 0,
+  "application_changed": false,
+  "results_sha256": "114e3e053feb6e5c9c6b08a74999a0562bdd428aaabba1a8b5a140c26cfc37df",
+  "reason": "No finalist passes predeclared scientific gate; enhanced RF fixed-.5 F1 gain 0.013698 is below .02 and AUC declines. Retain original version and inclusive .5 threshold."
+}

@@ -1,0 +1,29 @@
+{
+  "checksums": {
+    "dataset_quality.json": "4e5d8c8bd06d8628190c8a24006dca65b59193c3a85a12709a1434afa7f5dfa9",
+    "feature_schema.json": "576c880a86989f9040ddc20adcdd1a766962a36b660bed1351d4a00ca809d960",
+    "folds.json": "56988846270a20252242fbcc03ec26f4d75dabbb0153f94433c1418314da960c",
+    "protocol.json": "d03e1f04d80b6f2ac2a283500e32094964258a6943771cc1c9c761cd4d9ac432",
+    "results.json": "114e3e053feb6e5c9c6b08a74999a0562bdd428aaabba1a8b5a140c26cfc37df",
+    "shortlist.json": "cf157140af4ea3cd929123e872d333ac443f15842399fdfc457f1e4ee8a71d28",
+    "v1_hgb_baseline-validation.json": "36089d733e6fba2246fcb8967e336eccc7b10b9f9a5c775cbbb109b515a03fdd",
+    "v1_hgb_baseline.json": "a2238b41bb960da3185e5acac875c07bad5f52b062d730b0d134d918a53c80ca",
+    "v1_hgb_regularized.json": "1f153928ce007228b794e137c08ab83c19e4f5d7b8032a28a3d6049d8dc36b2c",
+    "v1_lr_balanced_c10-validation.json": "47fe9fb4acff1e0969de37491af57160cf2eb68112d2326843d2cbdb607caf55",
+    "v1_lr_balanced_c10.json": "a1fb7aa3f8a1509a8870c30a77ca87787a436bb88f4743490ece39afe02ad83b",
+    "v1_lr_unweighted_c01.json": "5ac73d4ecd9931f9a6d66da65f14d6d7f0007c22aca9eabf554dac439155fdc6",
+    "v1_rf_baseline-validation.json": "749021f92cff03e00b3c8e7a62d0968e2ed63a449c6a8c006fe24a1fa57712e3",
+    "v1_rf_baseline.json": "d53368907fe404b6ccff15f75d9d24260bf033b74704660d1859a46a14a5ff77",
+    "v1_rf_deeper_unweighted.json": "325424147ff971598faa6e803751da8943511ac9669708eaa3ee32bb299e0d4e",
+    "v2_extra_trees-validation.json": "13c5ad83d9f5764da59c900ad5a664a1fbe077c66f0c07c8d1e4b75a8f281199",
+    "v2_extra_trees.json": "f3781f44f03fcdce16bae764bf0e1e7bb1a06b429b8c5a99779ff5b5294e742e",
+    "v2_hgb_regularized-validation.json": "c049d3d4089652f0fc14e2900933ef5e86b1041a294cb2b0c4f8aa94d70b427c",
+    "v2_hgb_regularized.json": "b9aa76d5bf5788b22d8b4d19266c9302310bcb028c56db7ed1e0ed9849d0c1ff",
+    "v2_lr_balanced-validation.json": "2962ef20d6676c4547d1d0420e15267332e15d5ab10396fabb09550bd20fe9a9",
+    "v2_lr_balanced.json": "d3af162e88388537ffc3098bf6676545b875b71293442b6a312330af3b0bb96a",
+    "v2_rf_baseline_shape-validation.json": "d96ae513e711821b51daadf926c11f5ac60391154bcf5f183f0d3a0b8273f47c",
+    "v2_rf_baseline_shape.json": "22d88c0512411682b84ffd4a9a602154ff28ac5d4a5bae5ca8ce613bca0c7971",
+    "v2_rf_deeper_unweighted.json": "626f95c4f2ac7ae8e42a80dfec6c65325d422b508573f765ea19f927b6f26afe"
+  },
+  "completed": true
+}

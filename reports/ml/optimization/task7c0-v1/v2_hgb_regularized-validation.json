@@ -1,0 +1,126 @@
+{
+  "artifact_bytes": 363225,
+  "artifact_path": "artifacts/devign-optimization/task7c0-v1/v2_hgb_regularized.joblib",
+  "artifact_sha256": "2f5c535a0be95ba6e1c150170b91c86a54528573396db782346e075118aa77a3",
+  "baseline_inference_seconds": 0.06633764499565586,
+  "f1_delta_interval": {
+    "lower": -0.24545758083982308,
+    "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+    "upper": -0.17931851387381448
+  },
+  "family": "hgb",
+  "feature_names": [
+    "physical_lines",
+    "nonblank_lines",
+    "function_bytes",
+    "parameter_count",
+    "conditional_count",
+    "loop_count",
+    "return_count",
+    "max_nesting_depth",
+    "decision_complexity",
+    "pointer_syntax_count",
+    "call_count",
+    "ast_leaf_tokens",
+    "identifier_occurrences",
+    "unique_identifiers",
+    "array_subscripts",
+    "assignments",
+    "comparisons",
+    "arithmetic_operators",
+    "local_declarations",
+    "comment_fraction",
+    "tokens_per_nonblank_line",
+    "decisions_per_nonblank_line"
+  ],
+  "fit_seconds": 1.2926449929946102,
+  "gate": {
+    "checks": {
+      "accuracy_within_01": true,
+      "artifact_le_16mib": true,
+      "auc_not_worse": false,
+      "balanced_accuracy_not_worse": false,
+      "f1_gain_ge_02": false,
+      "latency_le_25ms_per_function": true,
+      "latency_le_2x_baseline": true,
+      "positive_bootstrap_lower": false,
+      "precision_ge_50": true,
+      "purged_f1_not_worse": false,
+      "purged_support_ge_300": true
+    },
+    "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+    "numerical_gate_passed": false
+  },
+  "inference_seconds": 0.03341983800055459,
+  "name": "v2_hgb_regularized",
+  "purged_validation": {
+    "accuracy": 0.491183879093199,
+    "average_precision": 0.6443659467526459,
+    "balanced_accuracy": 0.5300466123822603,
+    "confusion_matrix": [
+      [
+        291,
+        56
+      ],
+      [
+        348,
+        99
+      ]
+    ],
+    "f1": 0.3289036544850498,
+    "positive_prediction_fraction": 0.1952141057934509,
+    "precision": 0.6387096774193548,
+    "recall": 0.2214765100671141,
+    "roc_auc": 0.5448362119541742,
+    "rows": 794,
+    "threshold": 0.55
+  },
+  "schema": "v2",
+  "serialization_roundtrip_equal": true,
+  "test_predictions": 0,
+  "threshold": 0.55,
+  "validation": {
+    "accuracy": 0.5919941241278002,
+    "average_precision": 0.56547663562396,
+    "balanced_accuracy": 0.5483616840524735,
+    "confusion_matrix": [
+      [
+        1359,
+        180
+      ],
+      [
+        931,
+        253
+      ]
+    ],
+    "f1": 0.3129251700680272,
+    "positive_prediction_fraction": 0.1590157914065369,
+    "precision": 0.5842956120092379,
+    "recall": 0.21368243243243243,
+    "roc_auc": 0.6029702948562597,
+    "rows": 2723,
+    "threshold": 0.55
+  },
+  "validation_at_half": {
+    "accuracy": 0.5846492838780757,
+    "average_precision": 0.56547663562396,
+    "balanced_accuracy": 0.5601772276662628,
+    "confusion_matrix": [
+      [
+        1151,
+        388
+      ],
+      [
+        743,
+        441
+      ]
+    ],
+    "f1": 0.43815201192250375,
+    "positive_prediction_fraction": 0.30444362835108335,
+    "precision": 0.5319662243667069,
+    "recall": 0.37246621621621623,
+    "roc_auc": 0.6029702948562597,
+    "rows": 2723,
+    "threshold": 0.5
+  }
+}

@@ -1,0 +1,948 @@
+{
+  "always_positive_validation": {
+    "accuracy": 0.43481454278369447,
+    "average_precision": 0.43481454278369447,
+    "balanced_accuracy": 0.5,
+    "confusion_matrix": [
+      [
+        0,
+        1539
+      ],
+      [
+        0,
+        1184
+      ]
+    ],
+    "f1": 0.6060916304069619,
+    "positive_prediction_fraction": 1.0,
+    "precision": 0.43481454278369447,
+    "recall": 1.0,
+    "roc_auc": 0.5,
+    "rows": 2723,
+    "threshold": 0.5
+  },
+  "baseline_purged_validation": {
+    "accuracy": 0.5188916876574308,
+    "average_precision": 0.6243149748795664,
+    "balanced_accuracy": 0.510492621317912,
+    "confusion_matrix": [
+      [
+        154,
+        193
+      ],
+      [
+        189,
+        258
+      ]
+    ],
+    "f1": 0.5746102449888641,
+    "positive_prediction_fraction": 0.5680100755667506,
+    "precision": 0.5720620842572062,
+    "recall": 0.5771812080536913,
+    "roc_auc": 0.5261783648917858,
+    "rows": 794,
+    "threshold": 0.5
+  },
+  "baseline_validation": {
+    "accuracy": 0.5684906353286816,
+    "average_precision": 0.5578273301033114,
+    "balanced_accuracy": 0.5651696103998736,
+    "confusion_matrix": [
+      [
+        909,
+        630
+      ],
+      [
+        545,
+        639
+      ]
+    ],
+    "f1": 0.5209947003668977,
+    "positive_prediction_fraction": 0.46603011384502385,
+    "precision": 0.5035460992907801,
+    "recall": 0.5396959459459459,
+    "roc_auc": 0.6067844159949423,
+    "rows": 2723,
+    "threshold": 0.5
+  },
+  "features_extraction_seconds": 53.89680197300186,
+  "finalists": {
+    "v1_hgb_baseline": {
+      "artifact_bytes": 110072,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v1_hgb_baseline.joblib",
+      "artifact_sha256": "bbce722bdc7e35fd3676f7fd7623320be196f11c2c37bcf15e303b7e38da0c10",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.23111608749168674,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.1605325064464295
+      },
+      "family": "hgb",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count"
+      ],
+      "fit_seconds": 1.0273423260005075,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": true,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": true,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.018200701000750996,
+      "name": "v1_hgb_baseline",
+      "purged_validation": {
+        "accuracy": 0.4987405541561713,
+        "average_precision": 0.6327616104347591,
+        "balanced_accuracy": 0.5306332965849822,
+        "confusion_matrix": [
+          [
+            272,
+            75
+          ],
+          [
+            323,
+            124
+          ]
+        ],
+        "f1": 0.38390092879256965,
+        "positive_prediction_fraction": 0.2506297229219144,
+        "precision": 0.6231155778894473,
+        "recall": 0.27740492170022374,
+        "roc_auc": 0.5283961601196578,
+        "rows": 794,
+        "threshold": 0.55
+      },
+      "schema": "v1",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.55,
+      "validation": {
+        "accuracy": 0.5850165258905619,
+        "average_precision": 0.5380056478392568,
+        "balanced_accuracy": 0.5439422426812778,
+        "confusion_matrix": [
+          [
+            1322,
+            217
+          ],
+          [
+            913,
+            271
+          ]
+        ],
+        "f1": 0.3241626794258373,
+        "positive_prediction_fraction": 0.17921410209327948,
+        "precision": 0.555327868852459,
+        "recall": 0.22888513513513514,
+        "roc_auc": 0.574577592943821,
+        "rows": 2723,
+        "threshold": 0.55
+      },
+      "validation_at_half": {
+        "accuracy": 0.5486595666544253,
+        "average_precision": 0.5380056478392568,
+        "balanced_accuracy": 0.5441189544807966,
+        "confusion_matrix": [
+          [
+            891,
+            648
+          ],
+          [
+            581,
+            603
+          ]
+        ],
+        "f1": 0.4952772073921971,
+        "positive_prediction_fraction": 0.45941975762027176,
+        "precision": 0.48201438848920863,
+        "recall": 0.5092905405405406,
+        "roc_auc": 0.574577592943821,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v1_lr_balanced_c10": {
+      "artifact_bytes": 1351,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v1_lr_balanced_c10.joblib",
+      "artifact_sha256": "fc61064b8cc50387a8d768881124076dca26f76fe8cf150e0644b20592243ccb",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.142808428843339,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.0813012834377839
+      },
+      "family": "lr",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count"
+      ],
+      "fit_seconds": 0.08120772000256693,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": false,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": false,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.0017636039992794394,
+      "name": "v1_lr_balanced_c10",
+      "purged_validation": {
+        "accuracy": 0.48740554156171284,
+        "average_precision": 0.5968351999636463,
+        "balanced_accuracy": 0.49510021984539904,
+        "confusion_matrix": [
+          [
+            193,
+            154
+          ],
+          [
+            253,
+            194
+          ]
+        ],
+        "f1": 0.4880503144654088,
+        "positive_prediction_fraction": 0.43828715365239296,
+        "precision": 0.5574712643678161,
+        "recall": 0.43400447427293065,
+        "roc_auc": 0.5030978215319549,
+        "rows": 794,
+        "threshold": 0.5
+      },
+      "schema": "v1",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.5,
+      "validation": {
+        "accuracy": 0.5457216305545355,
+        "average_precision": 0.48973095477606665,
+        "balanced_accuracy": 0.5250574038951232,
+        "confusion_matrix": [
+          [
+            1052,
+            487
+          ],
+          [
+            750,
+            434
+          ]
+        ],
+        "f1": 0.4123515439429929,
+        "positive_prediction_fraction": 0.33822989349981636,
+        "precision": 0.47122692725298587,
+        "recall": 0.36655405405405406,
+        "roc_auc": 0.5369958774564038,
+        "rows": 2723,
+        "threshold": 0.5
+      },
+      "validation_at_half": {
+        "accuracy": 0.5457216305545355,
+        "average_precision": 0.48973095477606665,
+        "balanced_accuracy": 0.5250574038951232,
+        "confusion_matrix": [
+          [
+            1052,
+            487
+          ],
+          [
+            750,
+            434
+          ]
+        ],
+        "f1": 0.4123515439429929,
+        "positive_prediction_fraction": 0.33822989349981636,
+        "precision": 0.47122692725298587,
+        "recall": 0.36655405405405406,
+        "roc_auc": 0.5369958774564038,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v1_rf_baseline": {
+      "artifact_bytes": 4490519,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v1_rf_baseline.joblib",
+      "artifact_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.21616398374365223,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.15474688305562295
+      },
+      "family": "rf",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count"
+      ],
+      "fit_seconds": 4.314088859995536,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": true,
+          "artifact_le_16mib": true,
+          "auc_not_worse": true,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": true,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.06510316400090232,
+      "name": "v1_rf_baseline",
+      "purged_validation": {
+        "accuracy": 0.4836272040302267,
+        "average_precision": 0.6243149748795664,
+        "balanced_accuracy": 0.5152763540477987,
+        "confusion_matrix": [
+          [
+            266,
+            81
+          ],
+          [
+            329,
+            118
+          ]
+        ],
+        "f1": 0.3653250773993808,
+        "positive_prediction_fraction": 0.2506297229219144,
+        "precision": 0.592964824120603,
+        "recall": 0.2639821029082774,
+        "roc_auc": 0.5261783648917858,
+        "rows": 794,
+        "threshold": 0.55
+      },
+      "schema": "v1",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.55,
+      "validation": {
+        "accuracy": 0.5846492838780757,
+        "average_precision": 0.5578273301033114,
+        "balanced_accuracy": 0.5448836994889626,
+        "confusion_matrix": [
+          [
+            1308,
+            231
+          ],
+          [
+            900,
+            284
+          ]
+        ],
+        "f1": 0.33431430253090055,
+        "positive_prediction_fraction": 0.18912963643040764,
+        "precision": 0.5514563106796116,
+        "recall": 0.23986486486486486,
+        "roc_auc": 0.6067844159949423,
+        "rows": 2723,
+        "threshold": 0.55
+      },
+      "validation_at_half": {
+        "accuracy": 0.5684906353286816,
+        "average_precision": 0.5578273301033114,
+        "balanced_accuracy": 0.5651696103998736,
+        "confusion_matrix": [
+          [
+            909,
+            630
+          ],
+          [
+            545,
+            639
+          ]
+        ],
+        "f1": 0.5209947003668977,
+        "positive_prediction_fraction": 0.46603011384502385,
+        "precision": 0.5035460992907801,
+        "recall": 0.5396959459459459,
+        "roc_auc": 0.6067844159949423,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v2_extra_trees": {
+      "artifact_bytes": 5721552,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v2_extra_trees.joblib",
+      "artifact_sha256": "01ff24ea7d525d6591e3fe3f8bb6fd95e044da55362bec7a6f1f461597ee57d4",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.03626099936510972,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": 0.006064569431316368
+      },
+      "family": "extra_trees",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count",
+        "ast_leaf_tokens",
+        "identifier_occurrences",
+        "unique_identifiers",
+        "array_subscripts",
+        "assignments",
+        "comparisons",
+        "arithmetic_operators",
+        "local_declarations",
+        "comment_fraction",
+        "tokens_per_nonblank_line",
+        "decisions_per_nonblank_line"
+      ],
+      "fit_seconds": 1.9368640560060157,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": false,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": false,
+          "purged_f1_not_worse": true,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.05433163300040178,
+      "name": "v2_extra_trees",
+      "purged_validation": {
+        "accuracy": 0.5264483627204031,
+        "average_precision": 0.5742400032665899,
+        "balanced_accuracy": 0.5126910753083316,
+        "confusion_matrix": [
+          [
+            140,
+            207
+          ],
+          [
+            169,
+            278
+          ]
+        ],
+        "f1": 0.5965665236051502,
+        "positive_prediction_fraction": 0.610831234256927,
+        "precision": 0.5731958762886598,
+        "recall": 0.6219239373601789,
+        "roc_auc": 0.5187867886454042,
+        "rows": 794,
+        "threshold": 0.5
+      },
+      "schema": "v2",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.5,
+      "validation": {
+        "accuracy": 0.5519647447668014,
+        "average_precision": 0.4914749350402583,
+        "balanced_accuracy": 0.5491859732539557,
+        "confusion_matrix": [
+          [
+            878,
+            661
+          ],
+          [
+            559,
+            625
+          ]
+        ],
+        "f1": 0.5060728744939271,
+        "positive_prediction_fraction": 0.4722732280572898,
+        "precision": 0.4860031104199067,
+        "recall": 0.5278716216216216,
+        "roc_auc": 0.5789597162952426,
+        "rows": 2723,
+        "threshold": 0.5
+      },
+      "validation_at_half": {
+        "accuracy": 0.5519647447668014,
+        "average_precision": 0.4914749350402583,
+        "balanced_accuracy": 0.5491859732539557,
+        "confusion_matrix": [
+          [
+            878,
+            661
+          ],
+          [
+            559,
+            625
+          ]
+        ],
+        "f1": 0.5060728744939271,
+        "positive_prediction_fraction": 0.4722732280572898,
+        "precision": 0.4860031104199067,
+        "recall": 0.5278716216216216,
+        "roc_auc": 0.5789597162952426,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v2_hgb_regularized": {
+      "artifact_bytes": 363225,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v2_hgb_regularized.joblib",
+      "artifact_sha256": "2f5c535a0be95ba6e1c150170b91c86a54528573396db782346e075118aa77a3",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.24545758083982308,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.17931851387381448
+      },
+      "family": "hgb",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count",
+        "ast_leaf_tokens",
+        "identifier_occurrences",
+        "unique_identifiers",
+        "array_subscripts",
+        "assignments",
+        "comparisons",
+        "arithmetic_operators",
+        "local_declarations",
+        "comment_fraction",
+        "tokens_per_nonblank_line",
+        "decisions_per_nonblank_line"
+      ],
+      "fit_seconds": 1.2926449929946102,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": true,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": true,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.03341983800055459,
+      "name": "v2_hgb_regularized",
+      "purged_validation": {
+        "accuracy": 0.491183879093199,
+        "average_precision": 0.6443659467526459,
+        "balanced_accuracy": 0.5300466123822603,
+        "confusion_matrix": [
+          [
+            291,
+            56
+          ],
+          [
+            348,
+            99
+          ]
+        ],
+        "f1": 0.3289036544850498,
+        "positive_prediction_fraction": 0.1952141057934509,
+        "precision": 0.6387096774193548,
+        "recall": 0.2214765100671141,
+        "roc_auc": 0.5448362119541742,
+        "rows": 794,
+        "threshold": 0.55
+      },
+      "schema": "v2",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.55,
+      "validation": {
+        "accuracy": 0.5919941241278002,
+        "average_precision": 0.56547663562396,
+        "balanced_accuracy": 0.5483616840524735,
+        "confusion_matrix": [
+          [
+            1359,
+            180
+          ],
+          [
+            931,
+            253
+          ]
+        ],
+        "f1": 0.3129251700680272,
+        "positive_prediction_fraction": 0.1590157914065369,
+        "precision": 0.5842956120092379,
+        "recall": 0.21368243243243243,
+        "roc_auc": 0.6029702948562597,
+        "rows": 2723,
+        "threshold": 0.55
+      },
+      "validation_at_half": {
+        "accuracy": 0.5846492838780757,
+        "average_precision": 0.56547663562396,
+        "balanced_accuracy": 0.5601772276662628,
+        "confusion_matrix": [
+          [
+            1151,
+            388
+          ],
+          [
+            743,
+            441
+          ]
+        ],
+        "f1": 0.43815201192250375,
+        "positive_prediction_fraction": 0.30444362835108335,
+        "precision": 0.5319662243667069,
+        "recall": 0.37246621621621623,
+        "roc_auc": 0.6029702948562597,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v2_lr_balanced": {
+      "artifact_bytes": 1761,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v2_lr_balanced.joblib",
+      "artifact_sha256": "af23011252b09d186d86b1b02b0c9c0b17308cf520e6f7964086946dbdbc2c0e",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.08859410095425505,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.029518040172821045
+      },
+      "family": "lr",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count",
+        "ast_leaf_tokens",
+        "identifier_occurrences",
+        "unique_identifiers",
+        "array_subscripts",
+        "assignments",
+        "comparisons",
+        "arithmetic_operators",
+        "local_declarations",
+        "comment_fraction",
+        "tokens_per_nonblank_line",
+        "decisions_per_nonblank_line"
+      ],
+      "fit_seconds": 0.1981415280024521,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": false,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": false,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.0021285879993229173,
+      "name": "v2_lr_balanced",
+      "purged_validation": {
+        "accuracy": 0.4899244332493703,
+        "average_precision": 0.593933247290757,
+        "balanced_accuracy": 0.4899232152873141,
+        "confusion_matrix": [
+          [
+            170,
+            177
+          ],
+          [
+            228,
+            219
+          ]
+        ],
+        "f1": 0.5195729537366548,
+        "positive_prediction_fraction": 0.4987405541561713,
+        "precision": 0.553030303030303,
+        "recall": 0.4899328859060403,
+        "roc_auc": 0.509963960827547,
+        "rows": 794,
+        "threshold": 0.5
+      },
+      "schema": "v2",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.5,
+      "validation": {
+        "accuracy": 0.5376423062798384,
+        "average_precision": 0.490152577258799,
+        "balanced_accuracy": 0.5285277053369158,
+        "confusion_matrix": [
+          [
+            921,
+            618
+          ],
+          [
+            641,
+            543
+          ]
+        ],
+        "f1": 0.4631130063965885,
+        "positive_prediction_fraction": 0.4263679764965112,
+        "precision": 0.46770025839793283,
+        "recall": 0.45861486486486486,
+        "roc_auc": 0.5448760163672445,
+        "rows": 2723,
+        "threshold": 0.5
+      },
+      "validation_at_half": {
+        "accuracy": 0.5376423062798384,
+        "average_precision": 0.490152577258799,
+        "balanced_accuracy": 0.5285277053369158,
+        "confusion_matrix": [
+          [
+            921,
+            618
+          ],
+          [
+            641,
+            543
+          ]
+        ],
+        "f1": 0.4631130063965885,
+        "positive_prediction_fraction": 0.4263679764965112,
+        "precision": 0.46770025839793283,
+        "recall": 0.45861486486486486,
+        "roc_auc": 0.5448760163672445,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    },
+    "v2_rf_baseline_shape": {
+      "artifact_bytes": 4734635,
+      "artifact_path": "artifacts/devign-optimization/task7c0-v1/v2_rf_baseline_shape.joblib",
+      "artifact_sha256": "8e7ac847b06216107eb4bb71d7d557115ace8f17b44033ec7cb0391cb001991c",
+      "baseline_inference_seconds": 0.06633764499565586,
+      "f1_delta_interval": {
+        "lower": -0.18117817383566953,
+        "method": "200 paired validation-cluster bootstrap resamples, seed42; development uncertainty, not blind confirmation.",
+        "upper": -0.12608894562040227
+      },
+      "family": "rf",
+      "feature_names": [
+        "physical_lines",
+        "nonblank_lines",
+        "function_bytes",
+        "parameter_count",
+        "conditional_count",
+        "loop_count",
+        "return_count",
+        "max_nesting_depth",
+        "decision_complexity",
+        "pointer_syntax_count",
+        "call_count",
+        "ast_leaf_tokens",
+        "identifier_occurrences",
+        "unique_identifiers",
+        "array_subscripts",
+        "assignments",
+        "comparisons",
+        "arithmetic_operators",
+        "local_declarations",
+        "comment_fraction",
+        "tokens_per_nonblank_line",
+        "decisions_per_nonblank_line"
+      ],
+      "fit_seconds": 5.93694046499877,
+      "gate": {
+        "checks": {
+          "accuracy_within_01": true,
+          "artifact_le_16mib": true,
+          "auc_not_worse": false,
+          "balanced_accuracy_not_worse": false,
+          "f1_gain_ge_02": false,
+          "latency_le_25ms_per_function": true,
+          "latency_le_2x_baseline": true,
+          "positive_bootstrap_lower": false,
+          "precision_ge_50": true,
+          "purged_f1_not_worse": false,
+          "purged_support_ge_300": true
+        },
+        "deployment_requires": "Separate strict runtime schema/loader/C-only/parity/rollback acceptance; numerical pass is not automatic deployment.",
+        "numerical_gate_passed": false
+      },
+      "inference_seconds": 0.06398340700252447,
+      "name": "v2_rf_baseline_shape",
+      "purged_validation": {
+        "accuracy": 0.4899244332493703,
+        "average_precision": 0.6295445636329393,
+        "balanced_accuracy": 0.5150668239753979,
+        "confusion_matrix": [
+          [
+            248,
+            99
+          ],
+          [
+            306,
+            141
+          ]
+        ],
+        "f1": 0.4104803493449782,
+        "positive_prediction_fraction": 0.3022670025188917,
+        "precision": 0.5875,
+        "recall": 0.31543624161073824,
+        "roc_auc": 0.5362970556189518,
+        "rows": 794,
+        "threshold": 0.55
+      },
+      "schema": "v2",
+      "serialization_roundtrip_equal": true,
+      "test_predictions": 0,
+      "threshold": 0.55,
+      "validation": {
+        "accuracy": 0.5806096217407272,
+        "average_precision": 0.5577357423890673,
+        "balanced_accuracy": 0.5463753226911121,
+        "confusion_matrix": [
+          [
+            1245,
+            294
+          ],
+          [
+            848,
+            336
+          ]
+        ],
+        "f1": 0.37045203969129,
+        "positive_prediction_fraction": 0.23136246786632392,
+        "precision": 0.5333333333333333,
+        "recall": 0.28378378378378377,
+        "roc_auc": 0.6011329311767908,
+        "rows": 2723,
+        "threshold": 0.55
+      },
+      "validation_at_half": {
+        "accuracy": 0.5640837311788469,
+        "average_precision": 0.5577357423890673,
+        "balanced_accuracy": 0.5654596482447359,
+        "confusion_matrix": [
+          [
+            854,
+            685
+          ],
+          [
+            502,
+            682
+          ]
+        ],
+        "f1": 0.5346922775382204,
+        "positive_prediction_fraction": 0.5020198310686742,
+        "precision": 0.49890270665691294,
+        "recall": 0.5760135135135135,
+        "roc_auc": 0.6011329311767908,
+        "rows": 2723,
+        "threshold": 0.5
+      }
+    }
+  },
+  "fitting_and_gate_seconds": 132.02028131500265,
+  "highest_validation_f1": "v2_extra_trees",
+  "majority_negative_validation": {
+    "accuracy": 0.5651854572163055,
+    "average_precision": 0.43481454278369447,
+    "balanced_accuracy": 0.5,
+    "confusion_matrix": [
+      [
+        1539,
+        0
+      ],
+      [
+        1184,
+        0
+      ]
+    ],
+    "f1": 0.0,
+    "positive_prediction_fraction": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "roc_auc": 0.5,
+    "rows": 2723,
+    "threshold": 0.5
+  },
+  "note": "Repeated development validation is not an independent test; no new official test evaluation.",
+  "numerical_gate_passers": [],
+  "test_predictions": 0,
+  "total_seconds": 186.52170241899876
+}

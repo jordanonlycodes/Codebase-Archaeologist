@@ -1,0 +1,30 @@
+{
+  "base_version": "c-function-v1",
+  "missing": "Unavailable AST additions are NaN; training-fold-only median imputation.",
+  "names": [
+    "physical_lines",
+    "nonblank_lines",
+    "function_bytes",
+    "parameter_count",
+    "conditional_count",
+    "loop_count",
+    "return_count",
+    "max_nesting_depth",
+    "decision_complexity",
+    "pointer_syntax_count",
+    "call_count",
+    "ast_leaf_tokens",
+    "identifier_occurrences",
+    "unique_identifiers",
+    "array_subscripts",
+    "assignments",
+    "comparisons",
+    "arithmetic_operators",
+    "local_declarations",
+    "comment_fraction",
+    "tokens_per_nonblank_line",
+    "decisions_per_nonblank_line"
+  ],
+  "scope": "C functions only. Source-only AST counts/densities, not semantic defect indicators.",
+  "version": "c-function-v2-experimental"
+}

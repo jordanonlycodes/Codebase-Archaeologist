@@ -1,0 +1,12 @@
+{
+  "finalists": {
+    "extra_trees:v2": "v2_extra_trees",
+    "hgb:v1": "v1_hgb_baseline",
+    "hgb:v2": "v2_hgb_regularized",
+    "lr:v1": "v1_lr_balanced_c10",
+    "lr:v2": "v2_lr_balanced",
+    "rf:v1": "v1_rf_baseline",
+    "rf:v2": "v2_rf_baseline_shape"
+  },
+  "rule": "Max training grouped-CV mean F1 at .5 per family/schema; alphabetical ties; before validation."
+}

@@ -1,0 +1,24 @@
+{
+  "folds": [
+    {
+      "evaluation": 7251,
+      "evaluation_indices_sha256": "ef9b85386725956fcf9bcddaae82e07dd84972414ddc1121eb681d380df1f98e",
+      "positive_fraction": 0.45814370431664597,
+      "train": 14499
+    },
+    {
+      "evaluation": 7248,
+      "evaluation_indices_sha256": "b5a85490af37d38f11efe4b3dbdef52141d588481e8772f5919a9c801e7c93a6",
+      "positive_fraction": 0.45805739514348787,
+      "train": 14502
+    },
+    {
+      "evaluation": 7251,
+      "evaluation_indices_sha256": "df62d8d448f6b346372a61fc22064e0d580f72844749d5d0e9bc6abc0d5e001f",
+      "positive_fraction": 0.45814370431664597,
+      "train": 14499
+    }
+  ],
+  "rows": 21750,
+  "unique_groups": 10177
+}

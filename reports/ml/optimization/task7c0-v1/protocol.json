@@ -1,0 +1,434 @@
+{
+  "audit_sha256": "24ab497fb5fe4026312330d84d74445e22bd4234be0da93aa56fba08f7d60a37",
+  "configurations": {
+    "v1_hgb_baseline": {
+      "family": "hgb",
+      "parameters": {
+        "classifier": {
+          "categorical_features": "from_dtype",
+          "class_weight": "balanced",
+          "early_stopping": false,
+          "interaction_cst": null,
+          "l2_regularization": 1.0,
+          "learning_rate": 0.08,
+          "loss": "log_loss",
+          "max_bins": 255,
+          "max_depth": null,
+          "max_features": 1.0,
+          "max_iter": 160,
+          "max_leaf_nodes": 15,
+          "min_samples_leaf": 20,
+          "monotonic_cst": null,
+          "n_iter_no_change": 10,
+          "random_state": 42,
+          "scoring": "loss",
+          "tol": 1e-07,
+          "validation_fraction": 0.1,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v1"
+    },
+    "v1_hgb_regularized": {
+      "family": "hgb",
+      "parameters": {
+        "classifier": {
+          "categorical_features": "from_dtype",
+          "class_weight": null,
+          "early_stopping": false,
+          "interaction_cst": null,
+          "l2_regularization": 5.0,
+          "learning_rate": 0.08,
+          "loss": "log_loss",
+          "max_bins": 255,
+          "max_depth": null,
+          "max_features": 1.0,
+          "max_iter": 240,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20,
+          "monotonic_cst": null,
+          "n_iter_no_change": 10,
+          "random_state": 42,
+          "scoring": "loss",
+          "tol": 1e-07,
+          "validation_fraction": 0.1,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v1"
+    },
+    "v1_lr_balanced_c10": {
+      "family": "lr",
+      "parameters": {
+        "classifier": {
+          "C": 10.0,
+          "class_weight": "balanced",
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scale": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        }
+      },
+      "schema": "v1"
+    },
+    "v1_lr_unweighted_c01": {
+      "family": "lr",
+      "parameters": {
+        "classifier": {
+          "C": 0.1,
+          "class_weight": null,
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scale": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        }
+      },
+      "schema": "v1"
+    },
+    "v1_rf_baseline": {
+      "family": "rf",
+      "parameters": {
+        "classifier": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": "balanced",
+          "criterion": "gini",
+          "max_depth": 12,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 3,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v1"
+    },
+    "v1_rf_deeper_unweighted": {
+      "family": "rf",
+      "parameters": {
+        "classifier": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 18,
+          "max_features": 0.7,
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v1"
+    },
+    "v2_extra_trees": {
+      "family": "extra_trees",
+      "parameters": {
+        "classifier": {
+          "bootstrap": false,
+          "ccp_alpha": 0.0,
+          "class_weight": "balanced",
+          "criterion": "gini",
+          "max_depth": 16,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 4,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 160,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v2"
+    },
+    "v2_hgb_regularized": {
+      "family": "hgb",
+      "parameters": {
+        "classifier": {
+          "categorical_features": "from_dtype",
+          "class_weight": null,
+          "early_stopping": false,
+          "interaction_cst": null,
+          "l2_regularization": 5.0,
+          "learning_rate": 0.08,
+          "loss": "log_loss",
+          "max_bins": 255,
+          "max_depth": null,
+          "max_features": 1.0,
+          "max_iter": 240,
+          "max_leaf_nodes": 31,
+          "min_samples_leaf": 20,
+          "monotonic_cst": null,
+          "n_iter_no_change": 10,
+          "random_state": 42,
+          "scoring": "loss",
+          "tol": 1e-07,
+          "validation_fraction": 0.1,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v2"
+    },
+    "v2_lr_balanced": {
+      "family": "lr",
+      "parameters": {
+        "classifier": {
+          "C": 1.0,
+          "class_weight": "balanced",
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "lbfgs",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        },
+        "scale": {
+          "copy": true,
+          "with_mean": true,
+          "with_std": true
+        }
+      },
+      "schema": "v2"
+    },
+    "v2_rf_baseline_shape": {
+      "family": "rf",
+      "parameters": {
+        "classifier": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": "balanced",
+          "criterion": "gini",
+          "max_depth": 12,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 3,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v2"
+    },
+    "v2_rf_deeper_unweighted": {
+      "family": "rf",
+      "parameters": {
+        "classifier": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": null,
+          "criterion": "gini",
+          "max_depth": 18,
+          "max_features": 0.7,
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 5,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        },
+        "impute": {
+          "add_indicator": false,
+          "copy": true,
+          "fill_value": null,
+          "keep_empty_features": true,
+          "missing_values": "NaN",
+          "strategy": "median"
+        }
+      },
+      "schema": "v2"
+    }
+  },
+  "dataset_quality_sha256": "4e5d8c8bd06d8628190c8a24006dca65b59193c3a85a12709a1434afa7f5dfa9",
+  "environment": {
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.5",
+    "pyarrow": "23.0.1",
+    "python": "3.14.10",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0",
+    "tree-sitter": "0.25.2",
+    "tree-sitter-c": "0.24.2"
+  },
+  "folds": 3,
+  "max_fit_seconds": 900,
+  "prepared_sha256": "97eeaaf6fe790cf31349e192b59b9ed70e481b7d88f03d4272f72a824cb206b9",
+  "protocol": "task7c0-v1",
+  "seed": 42,
+  "source_sha256": {
+    "__init__.py": "b9a72ee7b5d178294edde97bb3c021b4b850d46d41869393d177083524d2dd7f",
+    "audit.py": "7dbcfbb3d1c3879021c8c718880281d8f3d942a7c377398d98b1fcc884a58412",
+    "experiment.py": "b35af686067d313fbd21324613c2f2d3c45c7dd86388597dbc85ec8ef2d5df66",
+    "features.py": "a174fa99071c9b869704f331d70a646fd5502ce58feec2b30c1ca84e148385ac"
+  },
+  "test_labels_loaded": false,
+  "test_predictions": 0,
+  "threads": 1,
+  "threshold_grid": [
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7
+  ]
+}

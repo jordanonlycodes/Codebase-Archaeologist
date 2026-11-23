@@ -1,0 +1,12 @@
+{
+  "source_results_sha256": "114e3e053feb6e5c9c6b08a74999a0562bdd428aaabba1a8b5a140c26cfc37df",
+  "files": {
+    "validation_confusions.png": "8a594c1e528ea59e9268a1bff9493eb9c5ccc24478a7cece58d25d575c8f1c0e",
+    "validation_curves.png": "7d116750bea4b4f29516d83ec5bb2852d52007a245570eb7585a86c5fc293e85",
+    "development_classes.png": "0af6142411e0e865ba7df22781cf758c2481891cba1ed4b78a47996d4a65522c",
+    "cv_comparison.png": "fb3dbcada75a2b9fbc2206dfd05e921a520e272736e472d63f5f03d9c36332a3",
+    "oof_thresholds.png": "870c7fc87bf2360c7e4246d9cfa5048c2c0f5a5a24a88f16aaa93dcd4be1faff",
+    "validation_comparison.png": "d54c360df0e788f865b7b2a9bb3885f36c04034e999cde3ed72742f5a9344009"
+  },
+  "test_predictions": 0
+}
