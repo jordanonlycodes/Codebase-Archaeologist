@@ -1,52 +1,76 @@
 {
-  "status": "PARTIAL \u2014 submission candidate",
-  "source_commit": "a95b1c676bec11ccb71f893f5babdca7bccb2873",
+  "status": "FINAL \u2014 verified submission",
+  "source_commit": "87e40c61c620260ab35a4a08a7294548f853769b",
   "files": {
     "source.zip": {
-      "bytes": 9571333,
-      "sha256": "b6cce9bcf0b2adf80b77eee1940acf2a9faf46e3c15e9fc49c57f10da3ea5dd3"
+      "bytes": 11291932,
+      "sha256": "567bece1e111c21da24865a37f9eca46082876f58e7f23d08da389f7c457b000"
     },
-    "Codebase_Archaeologist_Submission_Candidate.zip": {
-      "bytes": 6890853,
-      "sha256": "b5c3ddaa751140668f01101b97d56e3bd950e189733041c6af03983fe03d85ad"
+    "Codebase_Archaeologist_Submission.zip": {
+      "bytes": 8581451,
+      "sha256": "04da4cc23f8983e5069194110b7f9cbea97d90a9ba1b325c6e40207b5b66477c"
     }
   },
   "payload": {
     "Codebase_Archaeologist_Report.docx": {
-      "bytes": 848823,
-      "sha256": "97044be9ed0a75e573d06f93e00019b1061deacff1d832aab5f1b71bc12820c9"
+      "bytes": 1281156,
+      "sha256": "fcd8a093cdd8c1c1852f3bc54c94128321550133422063a84a1d3307885e5114"
     },
     "Codebase_Archaeologist_Report.pdf": {
-      "bytes": 1679121,
-      "sha256": "8698f15bc3aa0498aac891cd32081d7e575ae6116e60e2b4e298579ee9271a48"
+      "bytes": 2281101,
+      "sha256": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1"
     },
     "DEMO.md": {
       "bytes": 3842,
       "sha256": "59dbc9e197bb849c10c51ec112636e85984c77e759e420a56af5f557eb3ac952"
     },
     "SETUP.md": {
-      "bytes": 13150,
-      "sha256": "531a6aab32f9937f1cf1032ad62e837163683b93ed6a451efe6219aa2c46de05"
+      "bytes": 13485,
+      "sha256": "b8eb5fd16ed82c8c23bb2c056fdfa8ac1e01378c070160d3522c60544705793f"
     },
     "SOURCE.txt": {
-      "bytes": 223,
-      "sha256": "ff5f28fde082fc688b426aa478a77a47129c7e69792c56d2ff7c0a54a5894646"
+      "bytes": 237,
+      "sha256": "1ffb537c8bc9c183e0b865f72db56de7adaff818a14321a905468bfb49b0c165"
     },
     "STATUS.md": {
-      "bytes": 457,
-      "sha256": "664d812e6389d0ffaf76107544e1ceb1abed9c395aceae47361f70a916953798"
+      "bytes": 171,
+      "sha256": "c61eaa9edae0438949062aefd14748ea3ca342f53c3ed693414b780e28b6c88a"
     },
     "THIRD_PARTY_NOTICES.md": {
-      "bytes": 2693,
-      "sha256": "686de5b88d56867a2b887a7a8897fb48eb499d264c9c899ad6842d83bb2cdb8e"
+      "bytes": 2604,
+      "sha256": "241f97b837a12f6bd0455313d230bc13c7d09d027f43a26920dee0dcf982ef8f"
     },
     "academic_details.json": {
-      "bytes": 428,
-      "sha256": "341ebc008b023219ca2f0afc9ae2fd2f86f40f69c1d8fcd1c69ea5c947999089"
+      "bytes": 723,
+      "sha256": "0b2e95eace592afacec0886d01386f05a6c90c0ee3232dc2eb33599c17a4d210"
     },
     "app/static/product/fonts/OFL.txt": {
       "bytes": 4162,
       "sha256": "ca97f00dff53d546e43a596136773220014c1f2c6ba2eb77e870e28d3e3c56db"
+    },
+    "app/static/vendor/3d-force-graph-1.73.3.LICENSE": {
+      "bytes": 1072,
+      "sha256": "7262e566e874d1ce8cfadace01d4f635f8d704b6bdf7b4345cc028e5faeafded"
+    },
+    "app/static/vendor/3d-force-graph-1.73.3.min.js": {
+      "bytes": 691294,
+      "sha256": "19b3be27040fc894e56d684d53c5f62526c25e5d27f37e8fe91fafff605e4ef4"
+    },
+    "app/static/vendor/graph-assets.json": {
+      "bytes": 1194,
+      "sha256": "791fad40a4b91da83a9239de1cc33137e167431dec5c837992800458b59bf0bf"
+    },
+    "docs/screenshots/graph-3d.png": {
+      "bytes": 127426,
+      "sha256": "e87bc42bf74e7e98fc3ec1bf136bfde2cd879706d08405862ade0811bd40efe2"
+    },
+    "docs/screenshots/overview.png": {
+      "bytes": 171627,
+      "sha256": "587f39057736d90a9e1b83dff2b378283e70f22b4e0da685fdb6917971b7882c"
+    },
+    "docs/screenshots/time-machine.png": {
+      "bytes": 153915,
+      "sha256": "767af318f25468d544755c58400aaaa2993fbe06a6b1fdebff8c980da05b2362"
     },
     "models/devign-v1/C-UDA-1.0.md": {
       "bytes": 3545,
@@ -76,18 +100,24 @@
       "bytes": 4816,
       "sha256": "d75938dec098f06f0ac3c00853065d94f020be1c3c62ef1dc2975ba15b4d9b0e"
     },
+    "third_party/graph/LICENSES.txt": {
+      "bytes": 42941,
+      "sha256": "891bcef724b7178c7cb1db476e414e96e0365d82406d50976b82a63c94c03ef5"
+    },
+    "third_party/graph/provenance.json": {
+      "bytes": 15590,
+      "sha256": "8ab800b525908f14206bb777b7be3a6952ab5c0b44993ca3d0893aa8293f8ef4"
+    },
+    "third_party/graph/upstream-yarn.lock": {
+      "bytes": 139062,
+      "sha256": "27cacfcd6475eea96350f5423e14b49626192db2ca497876511d41f015017773"
+    },
     "verification.json": {
-      "bytes": 6195,
-      "sha256": "66e72c7ef8d250a20b1464d3b7d131a9c2d9b9a3a500e5933159c65d7c11b7f0"
+      "bytes": 10448,
+      "sha256": "2206f2e4565c3731886cec222af760e97c3e2989798d384f08859b39527b9d41"
     }
   },
-  "remaining_actions": [
-    "Genuine application screenshots not captured/integrated",
-    "Local Office layout and physical browser/demo acceptance pending",
-    "Portable offline3D redistribution provenance unresolved",
-    "GitHub publication pending verification",
-    "Instructor interpretation of final-test-for-every-candidate wording needs clarification"
-  ],
+  "remaining_actions": [],
   "generation_date": "23 November 2026",
   "archive_crc_and_extracted_payload_verified": true
 }

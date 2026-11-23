@@ -72,3 +72,35 @@ Final source/report checkpoint and package promotion follow this journal update.
 operational journal is no longer a report input,so final proof/receipt updates do not
 force circular document regeneration. Final exact code/payload commits,archive hashes,
 remote equality and clean-source proof are in manifest.json/release_checks.json.
+
+
+## Final acceptance and delivery closure — 23 November 2026
+
+Published and independently verified source checkpoint:
+87e40c61c620260ab35a4a08a7294548f853769b. Final source.zip was extracted again into
+/tmp/task7e-final-source-gmn17pjx. The separate29-package runtime produced3genuine C
+predictions,zero Python ML predictions and nine workspace routes without training data.
+`node tools/browser_offline_smoke.mjs` rendered7nodes/onecanvas/Three r162 from this exact
+extraction with HTTPS blocked,all scripts loopback and zero uncaught exceptions. Durable
+proof:reports/release/task7e/clean_source.json. No user browser/profile/server was altered.
+
+`python tools/build_submission.py --final` passed explicit acceptance gates. Two builds
+at the same source revision produced identical manifests and archive hashes. Independent
+ZIP CRC,SHA256,extraction and excluded-directory checks passed:source350files,payload27.
+Deliver the two ZIPs named in submission/final/manifest.json plus that manifest:
+- source.zip:11291932bytes,SHA256567bece1e111c21da24865a37f9eca46082876f58e7f23d08da389f7c457b000.
+- Codebase_Archaeologist_Submission.zip:8581451bytes,
+  SHA25604da4cc23f8983e5069194110b7f9cbea97d90a9ba1b325c6e40207b5b66477c.
+Older ignored candidate archives are historical and must not be submitted instead.
+
+Final source-manifest/report validation passed:49pages,17chapters,5appendices,14figures,
+13tables,3verified screenshots,no academic placeholders;61local links/figures passed;
+reviewed vendor integrity passed. Full regression547passed,zero failed/skipped;217Node
+cases,29applicationJS+3QAtool syntax checks. One pre-existing Starlette/httpx warning.
+No ML/model/schema/threshold changes. LibreOffice layout accepted;MicrosoftWord,physical
+GPUFPS,fullWCAG/screenreader/touch certification and a new Ubuntu OS install are not claimed.
+
+Task7E acceptance is complete. Closing commit contains only release receipts/proof/journal
+and normalized receipt README;source archive intentionally pins the preceding tested code
+checkpoint above. Commit/push/remote equality are verified after saving these receipts;
+use Git HEAD/remote refs for the closing receipt identity rather than inventing a self-hash.

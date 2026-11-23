@@ -1,6 +1,6 @@
 {
   "stage": "Task7E",
-  "status": "Local acceptance verified; clean-source final promotion pending",
+  "status": "COMPLETED \u2014 Task7E local acceptance and published clean source verified",
   "baseline": {
     "passed": 540,
     "failed": 0,
@@ -87,54 +87,20 @@
     "docx_pagination": "Isolated LibreOffice26.8 rendering and sampled visual layout accepted; Microsoft Word not tested."
   },
   "report_links_and_figures": {
-    "checked": 45,
+    "checked": 61,
     "missing": []
   },
-  "pdf_visual_review": "Updated cover, declaration, testing and limitations pages rendered and viewed; historical all-page Task7C review is separate. Release-result table labels corrected.",
-  "word_visual_rendering": "Fresh isolated LibreOffice exit1, no output; local Office acceptance pending.",
+  "pdf_visual_review": "All49pages of both engines inspected through contact sheets; full-size cover/metric tables/screenshot pages/references/appendix samples reviewed. Final screenshot pages viewed separately.",
+  "word_visual_rendering": "Isolated LibreOffice26.8.3.1 exit0,49pages;all-page contact sheets and detailed samples inspected. Microsoft Word not used.",
   "browser": "Real sandboxed Chromium157.0.8103.79;59measured positive checks; see reports/release/task7e/browser.json",
-  "server": "Fresh isolated Uvicorn startup completed; localhost bind failed, exit3.",
+  "server": "Clean extracted source served successfully on isolated localhost8012;user8000server untouched.",
   "model_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
-  "isolated_install": {
-    "runtime_packages": 29,
-    "source_commit": "4f9127a",
-    "method": "Fresh standard venv, cached wheels, no system site packages; clean git archive API smoke succeeds.",
-    "public_index_download": false,
-    "fresh_ubuntu_os": false,
-    "smoke": {
-      "model_version": "devign-v1-4a23cc304ca8",
-      "files": 2,
-      "c_predictions": [
-        {
-          "name": "clamp_index",
-          "model_probability": 0.6446299251115485,
-          "predicted_class": 1
-        },
-        {
-          "name": "sum_values",
-          "model_probability": 0.4640631119969904,
-          "predicted_class": 0
-        },
-        {
-          "name": "entry",
-          "model_probability": 0.44115041436869545,
-          "predicted_class": 0
-        }
-      ],
-      "python_ml_predictions": 0,
-      "workspaces": 9,
-      "model_loaded": true,
-      "source_body_execution": false,
-      "dataset_required": false,
-      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
-    }
-  },
   "vendor_redistribution": "Resolved:fixed published npm bytes/source-lock closure/notices verified;approved offline assets packaged.",
   "publication": {
     "entry_remote_head": "e4ece2383ec792339106319bc60d3d4c46ac64a5",
     "entry_match_verified": true,
-    "task7e_push": "pending",
-    "verified_task7e_checkpoint": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f"
+    "task7e_push": "Source checkpoint pushed and independently matched remote HEAD;closing receipt commit follows.",
+    "verified_task7e_checkpoint": "87e40c61c620260ab35a4a08a7294548f853769b"
   },
   "outputs": {
     "Codebase_Archaeologist_Report.docx": {
@@ -145,50 +111,6 @@
       "bytes": 2281101,
       "sha256": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1"
     }
-  },
-  "delivered_source_reproduction": {
-    "source_commit": "a95b1c676bec11ccb71f893f5babdca7bccb2873",
-    "source_zip_sha256": "b6cce9bcf0b2adf80b77eee1940acf2a9faf46e3c15e9fc49c57f10da3ea5dd3",
-    "source_files": 323,
-    "runtime": "Fresh separate 29-package venv, pip check successful",
-    "smoke": {
-      "model_version": "devign-v1-4a23cc304ca8",
-      "files": 2,
-      "c_predictions": [
-        {
-          "name": "clamp_index",
-          "model_probability": 0.6446299251115485,
-          "predicted_class": 1
-        },
-        {
-          "name": "sum_values",
-          "model_probability": 0.4640631119969904,
-          "predicted_class": 0
-        },
-        {
-          "name": "entry",
-          "model_probability": 0.44115041436869545,
-          "predicted_class": 0
-        }
-      ],
-      "python_ml_predictions": 0,
-      "workspaces": 9,
-      "model_loaded": true,
-      "source_body_execution": false,
-      "dataset_required": false,
-      "source_and_model_under_checkout": true,
-      "training_data_present": false,
-      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
-    },
-    "archive_crc_and_extracted_payload_verified": true,
-    "credential_pattern_findings": 0,
-    "scope": "Same Linux host/interpreter and cached wheels; not fresh Ubuntu/public index/browser/GPU verification."
-  },
-  "final_release_repeat": {
-    "passed": 540,
-    "failed": 0,
-    "skipped": 0,
-    "seconds": 103.93
   },
   "pdf_fonts_embedded": true,
   "task7e_first_full_regression": {
@@ -216,13 +138,13 @@
     "review_reuse": "Final document.xml/styles.xml are byte-identical to reviewed f9fb2af document; fresh isolated Office conversion again49pages."
   },
   "task7e_acceptance": {
-    "clean_source_commit": null,
-    "clean_source_smoke": false,
-    "offline_3d_browser": false,
-    "published_source_commit": null
+    "clean_source_commit": "87e40c61c620260ab35a4a08a7294548f853769b",
+    "clean_source_smoke": true,
+    "offline_3d_browser": true,
+    "published_source_commit": "87e40c61c620260ab35a4a08a7294548f853769b"
   },
   "task7e_clean_source_checkpoint": {
-    "source_commit": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f",
+    "source_commit": "87e40c61c620260ab35a4a08a7294548f853769b",
     "smoke": {
       "model_version": "devign-v1-4a23cc304ca8",
       "files": 2,
@@ -286,5 +208,83 @@
       "uncaught_exceptions": 0
     },
     "runtime_environment": "Separate29-package venv,Python3.14.10;no system site packages/training data;same Linux host,not new Ubuntu OS."
+  },
+  "historical_task7d_isolated_install": {
+    "runtime_packages": 29,
+    "source_commit": "4f9127a",
+    "method": "Fresh standard venv, cached wheels, no system site packages; clean git archive API smoke succeeds.",
+    "public_index_download": false,
+    "fresh_ubuntu_os": false,
+    "smoke": {
+      "model_version": "devign-v1-4a23cc304ca8",
+      "files": 2,
+      "c_predictions": [
+        {
+          "name": "clamp_index",
+          "model_probability": 0.6446299251115485,
+          "predicted_class": 1
+        },
+        {
+          "name": "sum_values",
+          "model_probability": 0.4640631119969904,
+          "predicted_class": 0
+        },
+        {
+          "name": "entry",
+          "model_probability": 0.44115041436869545,
+          "predicted_class": 0
+        }
+      ],
+      "python_ml_predictions": 0,
+      "workspaces": 9,
+      "model_loaded": true,
+      "source_body_execution": false,
+      "dataset_required": false,
+      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
+    }
+  },
+  "historical_task7d_delivered_source_reproduction": {
+    "source_commit": "a95b1c676bec11ccb71f893f5babdca7bccb2873",
+    "source_zip_sha256": "b6cce9bcf0b2adf80b77eee1940acf2a9faf46e3c15e9fc49c57f10da3ea5dd3",
+    "source_files": 323,
+    "runtime": "Fresh separate 29-package venv, pip check successful",
+    "smoke": {
+      "model_version": "devign-v1-4a23cc304ca8",
+      "files": 2,
+      "c_predictions": [
+        {
+          "name": "clamp_index",
+          "model_probability": 0.6446299251115485,
+          "predicted_class": 1
+        },
+        {
+          "name": "sum_values",
+          "model_probability": 0.4640631119969904,
+          "predicted_class": 0
+        },
+        {
+          "name": "entry",
+          "model_probability": 0.44115041436869545,
+          "predicted_class": 0
+        }
+      ],
+      "python_ml_predictions": 0,
+      "workspaces": 9,
+      "model_loaded": true,
+      "source_body_execution": false,
+      "dataset_required": false,
+      "source_and_model_under_checkout": true,
+      "training_data_present": false,
+      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
+    },
+    "archive_crc_and_extracted_payload_verified": true,
+    "credential_pattern_findings": 0,
+    "scope": "Same Linux host/interpreter and cached wheels; not fresh Ubuntu/public index/browser/GPU verification."
+  },
+  "historical_task7d_final_release_repeat": {
+    "passed": 540,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 103.93
   }
 }
