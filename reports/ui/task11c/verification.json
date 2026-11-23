@@ -1,0 +1,96 @@
+{
+  "captured_at": "2026-11-23T17:25:13.369313+00:00",
+  "implementation_commit": "728d4fc37ce53a8543f9028323ae9f7e672a269f",
+  "branch": "feature/cinematic-experience",
+  "python": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 556,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 1,
+    "seconds": 18.01
+  },
+  "frontend": {
+    "passed": 276,
+    "failed": 0,
+    "skipped": 0
+  },
+  "application_js_syntax": 32,
+  "chromium": {
+    "browser": "Chrome/157.0.8103.79",
+    "xray_checks": 52,
+    "universe_regression_checks": 83,
+    "uncaught_exceptions": 0,
+    "viewports": [
+      1440,
+      1024,
+      768,
+      390
+    ]
+  },
+  "screenshots": [
+    {
+      "path": "reports/ui/task11c/dependency-trace.png",
+      "bytes": 233793,
+      "sha256": "cabb68561676f04db939a439bf412b0327c3f309bc9560e02875b27d715e7d06",
+      "width": 1440,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/directory.png",
+      "bytes": 390817,
+      "sha256": "78ad2a23b9030f2b8ef8bddafc98c17405a2aae6e527447fc2d48e5d7643d397",
+      "width": 1440,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/file.png",
+      "bytes": 420226,
+      "sha256": "a38358a3d4ccc59a4383c1721228b7c9cdb0b427d78c62e16afccfcce68c9633",
+      "width": 1440,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/function.png",
+      "bytes": 393095,
+      "sha256": "2a2e89887f9a5e67b0e8245016a2c414d469d70cc005b3a2f21f42854a62a93f",
+      "width": 1440,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/mobile-investigation.png",
+      "bytes": 74259,
+      "sha256": "ff3bc31cfe9bd6eaa2aaf85d36e37e30e2c97114bbac26ab98595a91d6b47cea",
+      "width": 390,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/mobile.png",
+      "bytes": 150798,
+      "sha256": "bb6e19c3531892658bba6287ecd310f260207e5dc6fea133cbe3d4259a299436",
+      "width": 390,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    },
+    {
+      "path": "reports/ui/task11c/overview.png",
+      "bytes": 384082,
+      "sha256": "9bfc466c0228c8bd8181f1290f3ddb5efcb4da9a2493c0a9089610c0154e04aa",
+      "width": 1440,
+      "height": 1100,
+      "provenance": "Actual Chromium Page.captureScreenshot; original API-analyzed project fixture; no image editing"
+    }
+  ],
+  "protected_release": "09f6b6df29b6b3e8e81c48c7f8f929a6e638dce5",
+  "limitations": [
+    "Headless Chromium WebGL, not hardware FPS or physical touch certification.",
+    "No full screen-reader/WCAG audit.",
+    "Existing vendor stylesheet CSP policy warnings retained; script exceptions not accepted.",
+    "University reports and archives intentionally frozen."
+  ]
+}

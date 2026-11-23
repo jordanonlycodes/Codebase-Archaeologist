@@ -303,3 +303,11 @@ before the expandable measurements. No tests or assertions were removed.
 
 There are no known critical application defects from these checks. Physical
 device/GPU and full screen-reader acceptance retain the limitations above.
+
+Implementation checkpoint: `728d4fc` — Build Relic X-Ray architecture
+investigation on canonical graph evidence. The acceptance checkpoint adds
+browser tooling and receipts separately. `reports/ui/task11c/verification.json`
+records the tested implementation commit, counts and SHA-256/provenance for all
+seven X-Ray captures. Browser receipts also bind the tests to application source
+hashes. The final Git commit is obtained with `git rev-parse HEAD` rather than
+embedding a self-referential commit ID in this document.

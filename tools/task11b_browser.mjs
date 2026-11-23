@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {connect} from './chromium_cdp.mjs';
 process.env.CHROME_DEBUG_URL??='http://127.0.0.1:9227';process.env.BASE_URL??='http://127.0.0.1:8014';
-const c=await connect(),checks=[],dir='reports/ui/task11b';fs.mkdirSync(dir,{recursive:true});
+const c=await connect(),checks=[],dir=process.env.ACCEPTANCE_OUTPUT||'reports/ui/task11b';fs.mkdirSync(dir,{recursive:true});
 const record=(name,details={})=>{checks.push({name,pass:true,...details});console.log('PASS',name);};
 const click=async selector=>{
  await c.evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);

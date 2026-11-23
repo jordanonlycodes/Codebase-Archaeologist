@@ -1,0 +1,290 @@
+{
+  "browser": "Chrome/157.0.8103.79",
+  "captured_at": "2026-11-23T17:21:31.823Z",
+  "fixture": "tools/create_xray_acceptance_fixture.py",
+  "input_sha256": "7e23455b2f37af48136d57e7e9540c6eae01e95f95dab32263dff2a0d7501798",
+  "viewports": [
+    1440,
+    1024,
+    768,
+    390
+  ],
+  "source_sha256": {
+    "app/static/graph/xray.js": "e1450ab9fb88ef390802c7ce2022c9dcfe5e5ce4036e63c8b6305ac90ae8922d",
+    "app/static/graph/xray.css": "6e2fbf91cdd2c8c4751dc0311b475481ce6b5b3900d5608911b98b1119b96936",
+    "app/static/graph/explorer.js": "01ac9e9866b174d520a724a594513348ea85377c25d2fd48fb94aafe2d59035c",
+    "app/templates/features/graph.html": "583903e757e45401d037074039c37eeb1210eb81da747cc0ca26015c04bf12d9",
+    "app/routes/dashboard.py": "6f4caaefb36bd8662000bc24b9f8f04c041a81b5343e906453619636b3e37dfc"
+  },
+  "checks": [
+    {
+      "name": "genuine mixed-language five-file ZIP analysis and three C predictions",
+      "pass": true,
+      "files": 5,
+      "c_predictions": 3
+    },
+    {
+      "name": "visible enabled X-Ray entry",
+      "pass": true
+    },
+    {
+      "name": "existing offline WebGL Universe initializes",
+      "pass": true
+    },
+    {
+      "name": "cinematic activation reveals workspace and moves focus",
+      "pass": true
+    },
+    {
+      "name": "hidden Universe pauses rendering and camera",
+      "pass": true
+    },
+    {
+      "name": "overview shows real directory nodes and root files",
+      "pass": true
+    },
+    {
+      "name": "directory drill-down displays direct files and child directories",
+      "pass": true
+    },
+    {
+      "name": "directory inspector counts match retained ownership descendants",
+      "pass": true
+    },
+    {
+      "name": "file drill-down reveals three actual C definitions",
+      "pass": true
+    },
+    {
+      "name": "function inspector uses genuine saved C-model output",
+      "pass": true,
+      "score": 0.6446299251115485
+    },
+    {
+      "name": "function locations and research caveat visible",
+      "pass": true
+    },
+    {
+      "name": "breadcrumbs preserve actual ownership path",
+      "pass": true
+    },
+    {
+      "name": "back and forward restore exact selection",
+      "pass": true
+    },
+    {
+      "name": "traces correspond only to direct canonical edges",
+      "pass": true,
+      "trace": [
+        {
+          "id": "file_cd2ca5c5a59eab2e6135ca1316d80860ab435559561e043d99b5b96f1eac0248",
+          "type": "DEFINES",
+          "direction": "incoming"
+        }
+      ]
+    },
+    {
+      "name": "incoming filter preserves edge direction",
+      "pass": true
+    },
+    {
+      "name": "outgoing filter works even when no evidence is present",
+      "pass": true
+    },
+    {
+      "name": "real C call relationship is visible separately from ownership",
+      "pass": true
+    },
+    {
+      "name": "connected entity navigation follows actual CALLS target",
+      "pass": true
+    },
+    {
+      "name": "Escape clears tracing before exiting",
+      "pass": true
+    },
+    {
+      "name": "Escape exits with focus restoration",
+      "pass": true
+    },
+    {
+      "name": "exiting reuses original Universe renderer",
+      "pass": true
+    },
+    {
+      "name": "Universe to X-Ray preserves selected function",
+      "pass": true
+    },
+    {
+      "name": "Locate in Universe restores graph and focuses same entity",
+      "pass": true
+    },
+    {
+      "name": "Python gets structural evidence without C-model score",
+      "pass": true
+    },
+    {
+      "name": "real functionless Python file has meaningful empty state",
+      "pass": true
+    },
+    {
+      "name": "unsupported Markdown file has no fabricated functions or ML",
+      "pass": true
+    },
+    {
+      "name": "Return to Structure returns to repository overview",
+      "pass": true
+    },
+    {
+      "name": "rapid navigation cancels stale transitions and retains last real entity",
+      "pass": true
+    },
+    {
+      "name": "invalid entity preserves successful selection with explanation",
+      "pass": true
+    },
+    {
+      "name": "native keyboard Enter activates Structure control",
+      "pass": true
+    },
+    {
+      "name": "keyboard focus indicator remains visible",
+      "pass": true
+    },
+    {
+      "name": "reduced motion has immediate content and no depth transforms",
+      "pass": true
+    },
+    {
+      "name": "changing motion preference cancels in-flight transitions",
+      "pass": true
+    },
+    {
+      "name": "responsive planes, rounded controls and active step",
+      "pass": true,
+      "width": 1440,
+      "viewport": 1440,
+      "documentWidth": 1425,
+      "sharp": 0,
+      "small": [
+        "xray-exit",
+        "REPOSITORY",
+        "src",
+        "review.c",
+        "clamp_index",
+        "xray-trace"
+      ],
+      "plates": 3,
+      "active": 1
+    },
+    {
+      "name": "responsive trace controls",
+      "pass": true,
+      "width": 1440
+    },
+    {
+      "name": "long genuine source path wraps without document overflow",
+      "pass": true,
+      "width": 1440
+    },
+    {
+      "name": "responsive planes, rounded controls and active step",
+      "pass": true,
+      "width": 1024,
+      "viewport": 1024,
+      "documentWidth": 1009,
+      "sharp": 0,
+      "small": [
+        "xray-exit",
+        "REPOSITORY",
+        "src",
+        "review.c",
+        "clamp_index",
+        "xray-trace"
+      ],
+      "plates": 3,
+      "active": 1
+    },
+    {
+      "name": "responsive trace controls",
+      "pass": true,
+      "width": 1024
+    },
+    {
+      "name": "long genuine source path wraps without document overflow",
+      "pass": true,
+      "width": 1024
+    },
+    {
+      "name": "responsive planes, rounded controls and active step",
+      "pass": true,
+      "width": 768,
+      "viewport": 768,
+      "documentWidth": 753,
+      "sharp": 0,
+      "small": [],
+      "plates": 3,
+      "active": 1
+    },
+    {
+      "name": "responsive trace controls",
+      "pass": true,
+      "width": 768
+    },
+    {
+      "name": "long genuine source path wraps without document overflow",
+      "pass": true,
+      "width": 768
+    },
+    {
+      "name": "responsive planes, rounded controls and active step",
+      "pass": true,
+      "width": 390,
+      "viewport": 390,
+      "documentWidth": 390,
+      "sharp": 0,
+      "small": [],
+      "plates": 3,
+      "active": 1
+    },
+    {
+      "name": "responsive trace controls",
+      "pass": true,
+      "width": 390
+    },
+    {
+      "name": "long genuine source path wraps without document overflow",
+      "pass": true,
+      "width": 390
+    },
+    {
+      "name": "X-Ray exploration creates no additional API requests",
+      "pass": true
+    },
+    {
+      "name": "repository replacement invalidates X-Ray selection, history and inspector",
+      "pass": true
+    },
+    {
+      "name": "explicit unavailable-analysis presentation state remains recoverable",
+      "pass": true
+    },
+    {
+      "name": "activation cancels guided Universe tour safely",
+      "pass": true
+    },
+    {
+      "name": "Universe reset remains available after repeated X-Ray navigation",
+      "pass": true
+    },
+    {
+      "name": "Task11A intro remains replayable and dismissible",
+      "pass": true
+    },
+    {
+      "name": "no uncaught JavaScript exceptions during acceptance",
+      "pass": true
+    }
+  ],
+  "limitations": "Headless Chromium using real offline ZIP analysis; no physical touch/full WCAG/GPU benchmark. Null-graph case is explicitly a presentation failure fixture. Existing policy warnings from vendor stylesheet injection do not indicate script exceptions."
+}
