@@ -1,15 +1,28 @@
 {
-  "pdf_pages": 28,
-  "required_sections_including_cover": 19,
-  "figures": 9,
-  "docx_words": 5707,
-  "exact_saved_metrics_in_both_documents": true,
+  "pdf_pages": 47,
+  "chapters": 17,
+  "appendices": 5,
+  "figures": 11,
+  "tables": 13,
+  "docx_words": 8352,
+  "source_manifest_current_and_valid": true,
+  "source_output_checksums_valid": true,
+  "rounded_saved_metrics_consistent": true,
   "shared_substantive_paragraphs_match": true,
-  "docx_xml_and_relationships_valid": true,
-  "student_identity_and_metadata_valid": true,
+  "two_author_metadata_and_identity_valid": true,
+  "docx_xml_relationships_and_editable_tables_valid": true,
+  "automatic_word_page_fields": true,
   "pdf_text_outside_page": [],
   "empty_pdf_pages": 0,
-  "evidence_and_output_checksums_valid": true,
-  "visual_checks": "Separate manual rendering review; not asserted by this script.",
-  "docx_pagination": "Not visually verified: LibreOffice conversion unavailable in sandbox."
+  "references_traceable": true,
+  "verified_application_screenshots": 0,
+  "remaining_academic_placeholders": [
+    "course",
+    "instructor",
+    "semester",
+    "submission date",
+    "confirm previously recorded institution/department/class"
+  ],
+  "visual_review": "Separate Poppler rendering review; not asserted by this structural validator.",
+  "docx_pagination": "Not visually verified; LibreOffice exited1, matching substantive content not guaranteed identical pagination."
 }

@@ -1,24 +1,495 @@
 {
-  "implementation_commit": "ce5d032216274d24800e61ca392c674426442851",
-  "report_date": "22 November 2026",
-  "pdf_pages": 28,
-  "sections": 19,
-  "figures": 9,
+  "implementation_commit": "d0b2a638a10f1a3bca7dfe30c82609ca33a5afd4",
+  "report_date": "23 November 2026",
+  "pdf_pages": 47,
+  "chapters": 17,
+  "appendices": 5,
+  "figures": 11,
+  "tables": 13,
+  "figure_index": [
+    {
+      "number": 1,
+      "title": "Actual cleaned development class distribution; official test excluded.",
+      "path": "reports/ml/optimization/task7c0-v1/development_classes.png"
+    },
+    {
+      "number": 2,
+      "title": "Saved original missingness/duplicate audit figure; development cleaning evidence.",
+      "path": "reports/ml/missing_and_duplicates.png"
+    },
+    {
+      "number": 3,
+      "title": "Selected original EDA panels: physical lines, bytes, decision complexity and calls; cropped from saved distributions.",
+      "path": "submission/figures/distributions_selected.png"
+    },
+    {
+      "number": 4,
+      "title": "Original training numerical-feature correlation matrix; association is not causation.",
+      "path": "reports/ml/feature_correlations.png"
+    },
+    {
+      "number": 5,
+      "title": "Current implementation architecture; separate source-analysis and pinned-history boundaries.",
+      "path": "submission/figures/architecture.png"
+    },
+    {
+      "number": 6,
+      "title": "Original training/selection and later optimization boundaries; no new test evaluation.",
+      "path": "submission/figures/training.png"
+    },
+    {
+      "number": 7,
+      "title": "Training-only grouped three-fold mean F1 at0.5; bars show fold SD, not confidence intervals. Label suffix11/22 denotes feature count.",
+      "path": "submission/figures/cv_print.png"
+    },
+    {
+      "number": 8,
+      "title": "Training OOF threshold/F1 tradeoffs; marked operating choices were fixed before validation.",
+      "path": "submission/figures/threshold_print.png"
+    },
+    {
+      "number": 9,
+      "title": "Reused validation: fixed0.5 and OOF-operating F1 alongside ROC-AUC; no new test results.",
+      "path": "submission/figures/validation_print.png"
+    },
+    {
+      "number": 10,
+      "title": "Actual validation precision/recall operating points; not full curves. Original ROC/PR curves remain in reports/ml/optimization/task7c0-v1/validation_curves.png.",
+      "path": "submission/figures/precision_recall_print.png"
+    },
+    {
+      "number": 11,
+      "title": "Validation confusion matrices: original RF and the strongest new operating-threshold finalist; candidate not deployed.",
+      "path": "reports/ml/optimization/task7c0-v1/validation_confusions.png"
+    }
+  ],
+  "table_index": [
+    {
+      "number": 1,
+      "title": "Academic details and confirmation status"
+    },
+    {
+      "number": 2,
+      "title": "Measurable project objectives"
+    },
+    {
+      "number": 3,
+      "title": "Official and cleaned split counts"
+    },
+    {
+      "number": 4,
+      "title": "Overlap diagnostics and interpretation"
+    },
+    {
+      "number": 5,
+      "title": "Original candidate validation metrics, threshold 0.5"
+    },
+    {
+      "number": 6,
+      "title": "Selected optimization comparisons on reused official validation"
+    },
+    {
+      "number": 7,
+      "title": "Workspace routes and implemented scopes"
+    },
+    {
+      "number": 8,
+      "title": "Verification evidence and limits"
+    },
+    {
+      "number": 9,
+      "title": "Production c-function-v1 feature definitions"
+    },
+    {
+      "number": 10,
+      "title": "Experimental-only additions (12\u201322)"
+    },
+    {
+      "number": 11,
+      "title": "API overview from implemented routers"
+    },
+    {
+      "number": 12,
+      "title": "Eleven evaluated configurations"
+    },
+    {
+      "number": 13,
+      "title": "University requirements mapping"
+    }
+  ],
+  "page_index": [
+    {
+      "page": 2,
+      "chapter": "FM",
+      "title": "Authorship and Declaration"
+    },
+    {
+      "page": 3,
+      "chapter": "FM",
+      "title": "Abstract"
+    },
+    {
+      "page": 4,
+      "chapter": "FM",
+      "title": "Contents"
+    },
+    {
+      "page": 5,
+      "chapter": "FM",
+      "title": "Contents (continued)"
+    },
+    {
+      "page": 6,
+      "chapter": "FM",
+      "title": "List of Figures"
+    },
+    {
+      "page": 7,
+      "chapter": "FM",
+      "title": "List of Tables"
+    },
+    {
+      "page": 8,
+      "chapter": "01",
+      "title": "Introduction"
+    },
+    {
+      "page": 9,
+      "chapter": "02",
+      "title": "Problem Statement and Objectives"
+    },
+    {
+      "page": 10,
+      "chapter": "03",
+      "title": "Background and Related Work"
+    },
+    {
+      "page": 11,
+      "chapter": "04",
+      "title": "Dataset and Data Description"
+    },
+    {
+      "page": 12,
+      "chapter": "04",
+      "title": "Dataset and Data Description (continued)"
+    },
+    {
+      "page": 13,
+      "chapter": "05",
+      "title": "Data Preprocessing"
+    },
+    {
+      "page": 14,
+      "chapter": "05",
+      "title": "Data Preprocessing (continued)"
+    },
+    {
+      "page": 15,
+      "chapter": "06",
+      "title": "Exploratory Data Analysis"
+    },
+    {
+      "page": 16,
+      "chapter": "06",
+      "title": "Exploratory Data Analysis (continued)"
+    },
+    {
+      "page": 17,
+      "chapter": "06",
+      "title": "Exploratory Data Analysis (continued)"
+    },
+    {
+      "page": 18,
+      "chapter": "07",
+      "title": "System Architecture"
+    },
+    {
+      "page": 19,
+      "chapter": "07",
+      "title": "System Architecture (continued)"
+    },
+    {
+      "page": 20,
+      "chapter": "08",
+      "title": "ML Methodology"
+    },
+    {
+      "page": 21,
+      "chapter": "08",
+      "title": "ML Methodology (continued)"
+    },
+    {
+      "page": 22,
+      "chapter": "09",
+      "title": "ML Optimization Investigation"
+    },
+    {
+      "page": 23,
+      "chapter": "09",
+      "title": "ML Optimization Investigation (continued)"
+    },
+    {
+      "page": 24,
+      "chapter": "09",
+      "title": "ML Optimization Investigation (continued)"
+    },
+    {
+      "page": 25,
+      "chapter": "09",
+      "title": "ML Optimization Investigation (continued)"
+    },
+    {
+      "page": 26,
+      "chapter": "10",
+      "title": "Evaluation and Results"
+    },
+    {
+      "page": 27,
+      "chapter": "10",
+      "title": "Evaluation and Results (continued)"
+    },
+    {
+      "page": 28,
+      "chapter": "10",
+      "title": "Evaluation and Results (continued)"
+    },
+    {
+      "page": 29,
+      "chapter": "10",
+      "title": "Evaluation and Results (continued)"
+    },
+    {
+      "page": 30,
+      "chapter": "11",
+      "title": "Application Implementation"
+    },
+    {
+      "page": 31,
+      "chapter": "11",
+      "title": "Application Implementation (continued)"
+    },
+    {
+      "page": 32,
+      "chapter": "11",
+      "title": "Application Implementation (continued)"
+    },
+    {
+      "page": 33,
+      "chapter": "12",
+      "title": "Interface Design and User Experience"
+    },
+    {
+      "page": 34,
+      "chapter": "13",
+      "title": "Testing and Verification"
+    },
+    {
+      "page": 35,
+      "chapter": "13",
+      "title": "Testing and Verification (continued)"
+    },
+    {
+      "page": 36,
+      "chapter": "14",
+      "title": "Security and Reliability"
+    },
+    {
+      "page": 37,
+      "chapter": "15",
+      "title": "Limitations"
+    },
+    {
+      "page": 38,
+      "chapter": "16",
+      "title": "Future Work"
+    },
+    {
+      "page": 39,
+      "chapter": "17",
+      "title": "Conclusion"
+    },
+    {
+      "page": 40,
+      "chapter": "RF",
+      "title": "References"
+    },
+    {
+      "page": 41,
+      "chapter": "A",
+      "title": "Appendix A \u2014 Feature Schemas"
+    },
+    {
+      "page": 42,
+      "chapter": "A",
+      "title": "Appendix A \u2014 Feature Schemas (continued)"
+    },
+    {
+      "page": 43,
+      "chapter": "B",
+      "title": "Appendix B \u2014 API and Reproduction"
+    },
+    {
+      "page": 44,
+      "chapter": "B",
+      "title": "Appendix B \u2014 API and Reproduction (continued)"
+    },
+    {
+      "page": 45,
+      "chapter": "C",
+      "title": "Appendix C \u2014 Optimization Configurations"
+    },
+    {
+      "page": 46,
+      "chapter": "D",
+      "title": "Appendix D \u2014 University Compliance Mapping"
+    },
+    {
+      "page": 47,
+      "chapter": "E",
+      "title": "Appendix E \u2014 Demonstration and Evidence Capture"
+    }
+  ],
   "source_sha256": {
+    "app/analysis/__init__.py": "97fd4b90e5ab7974377e8eacbbac855641662275591c6cd4c3a3140be6f4e2e9",
+    "app/analysis/architecture/__init__.py": "9b8f175b53fa1bb2e9e9374580d15be224f97777cd543c2a1d79e3bea8eeee4d",
+    "app/analysis/architecture/engine.py": "d2d9c80a25b4e3aee193402c04b5d315fa1f7c9748330d17366a91c80818e607",
+    "app/analysis/architecture/models.py": "bbfcfb61c8da6a05c6dac502e1bc12bdc96e5ed3a85f20974086478781f7df91",
+    "app/analysis/graph/__init__.py": "94f1a32019f2cdc13dae0a57a6a5f9edb2324be5bd4f500413609553aae68272",
+    "app/analysis/graph/builder.py": "ebd3e79b49e03da15b023ea96766aa870072c674bb52b747241bd020b2d57314",
+    "app/analysis/graph/engine.py": "efc0e0e8f72593d8edd3baa5bf9befa9d3e7f4beb71ab132d662e0e87b1a589f",
+    "app/analysis/graph/languages.py": "4848dbdf79d064a6e2a75e621582e3d00f540c918b2ac4dd90cf0858686d8ad0",
+    "app/analysis/graph/models.py": "67fbc2ad77ad535270df7581e6f9aa4d9caee50a4d5d5b9788df02b91600a723",
+    "app/analysis/graph/resolution.py": "2622bb67bd08dd32a0aac3bf781652038b0a88550ab2ebd08bff3aad3cbe8257",
+    "app/analysis/languages.py": "eed3dbf1f3e369f0ef7e39935fb895236f8d8c04bf2b56ec7049ac0bd26f659e",
+    "app/analysis/lines.py": "b2ee1155b8aa2b52abd343cbdab484104c9e9fcfb706550d95bc8fa43b7745e5",
+    "app/analysis/models.py": "0485677a5b6c9fd0d0f96c0881f248566cdf38352ca845df3c0dcfa693fee28a",
+    "app/analysis/policy.py": "48e9262a1c47007cc74c03636dcf31cfc1e415d4d55d8ee3b7aa48b002f29908",
     "app/analysis/scanner.py": "64ba6f9a5f27cc0ca3ed0383da8c667c48ae96afdf819b9a2bfd1929be3d34f9",
+    "app/analysis/structural.py": "98770888e3f3a1dae119dcca7a67427365547e936cb479a9b54b9c240ef888d1",
+    "app/analysis/structural_models.py": "67ddf912662ee75fd9354287cef68548d7662ec617284a6a23570a9da71f8b4d",
+    "app/analysis/structural_parsers.py": "00e0f1f138bed2ae4ae17b6e5fbb4dcab6bb0a4da9cf7c58f8328476f87af103",
+    "app/config.py": "a776df9b2eac5d73c6f1b0d60f4569df7a2680f3f17aec46d6832fe97e7a90c2",
+    "app/history/__init__.py": "3db07ef1b9fac735ae09a1139cde2e81b60608ecfbb990dbc6350c47f1328115",
+    "app/history/cache.py": "2fcbc79a03e71abd859fa64aa298ba3fde47c8ddcf7ea00b62ef1df46feed19b",
+    "app/history/core.py": "c1aa386ef5b0777fad99ea3156c2536b41983d0c962989fc3bdaff63563ad4eb",
+    "app/history/github.py": "4a42d515070d8977ae78daf24315479d61c31e51e96423631f363b6e6dedfe81",
+    "app/history/local.py": "3f620f955eeecb6ba389e84aa3aa2d8a431ddc331b56341ab226e544059bc4fa",
+    "app/history/models.py": "bb6b37f81ce63157a9ff6a0532cd8ab3d35ae3884c0afdcc36f527fa9bc5239d",
+    "app/history/status.py": "042f6fa3819cb025ac2445a5d413b50ed8df7f9216ff4a0e5f66b6e7585d4882",
+    "app/ingestion/__init__.py": "3d4f5e69d9d787297943b878df5973ae6d0af9286c2f9381df57da37c73ef63c",
+    "app/ingestion/archive.py": "b02d45903a8c3f98fbe840e73b5d5f25677f0dbaa2af1ae642eda77a567b43a9",
+    "app/ingestion/github.py": "2652ec22fdab0f978e41d0ed9d7d786db25e3a218a780e8c5de765832fb962e6",
+    "app/jordan/__init__.py": "a311c1826c40834db4b8dc0a5d543701547ce9e4915440b26d183f4de99781e3",
+    "app/jordan/boundary.py": "102608b2561da0c44384daed8919e960c922b183cb891092e86b27fc166bc475",
+    "app/jordan/provider.py": "e8e09068aff6e8a25136db5615d7bfbc9b99286260bf8860ebbb580bf0ca8743",
+    "app/jordan/schemas.py": "77a3682c43ac5e285433290439478a0a4dbd9b07eacf5aa518e43d079064650b",
+    "app/ml/__init__.py": "3c259171496824dc4e82d4fd0d616468d0c861cb53a431631c5daab77cb0b009",
+    "app/ml/acquire.py": "e41ecf7231dd54c53401fc4794d857663c6fea6c8b5a36732f0f92715aef3599",
+    "app/ml/c_model.py": "d12d71fd73a6b3d4bbcb7075eba725b66d7b87741a3680ec7467a1edb21ffb77",
     "app/ml/dataset.py": "64e18baab968852cd7dbc7a3d6ab1308ff5cdd33b1f797565622d2aeccc6c22a",
     "app/ml/eda.py": "56597330823616b6f71590bbdbb631086b2758f5409683652b844bdad662ab18",
     "app/ml/estimators.py": "cfd90b9a813bad1e343def76a57db6e316e7f60be9adc5e93b33fab36ac37000",
+    "app/ml/evaluation.py": "6189c738138d633e256f6923f5fea906310348c15214f880cf716b38a423d135",
     "app/ml/features.py": "3185f4912b83b25ee3dbb3904ab15c520211712690191124044be23c44902ca8",
+    "app/ml/inference.py": "23e3cbb0ef8a839c57e87e405f861e2f64c586cb33cb83255efac486c5871fcd",
+    "app/ml/io.py": "d2f545220362257f5317642d2535375febda7ae408f60bfc11bd8a6410cfde17",
     "app/ml/model_store.py": "15c397a74f4a77b30b2fd015b32d4b5629e9dee74992132350f942427b1db834",
+    "app/ml/optimization/__init__.py": "b9a72ee7b5d178294edde97bb3c021b4b850d46d41869393d177083524d2dd7f",
+    "app/ml/optimization/audit.py": "7dbcfbb3d1c3879021c8c718880281d8f3d942a7c377398d98b1fcc884a58412",
+    "app/ml/optimization/experiment.py": "b35af686067d313fbd21324613c2f2d3c45c7dd86388597dbc85ec8ef2d5df66",
+    "app/ml/optimization/features.py": "a174fa99071c9b869704f331d70a646fd5502ce58feec2b30c1ca84e148385ac",
     "app/ml/prepare.py": "022bb46550eb8d5dbc2cb74f586aba71f424de1558cf079998c698f5604e9435",
-    "app/ml/repository.py": "3d2d93f3b7ee845075072f2e02ae6ae00b10b537c926a86bfee3d4def834a798",
+    "app/ml/report.py": "1ad400e9b29730f35b17a81c169c0d8091c65b34dddadd631e4f1e52d928601e",
+    "app/ml/repository.py": "aa3cef0d78edcd3610b4bab62065e01231bb93442d9a6fbe4d5113c58363e82d",
     "app/ml/schemas.py": "03e9ba649094525b69b351feb3be6f2266d7f36d01d23bcd92d55a939bed8628",
     "app/ml/train.py": "d719c54acdd91c82b5395e555d293cc692b1bc4987ea865b8e90dc04855ee9e2",
-    "app/routes/analysis.py": "9c260c5b8d1dd9558ae20d8bfe95f6e97c144e36e2254496129eeb57508fc9bb",
-    "app/static/app.js": "68e6afa9157b30bd73a3ab9394c3669eadc1aece1ab0dbe71d2afefecd6fbcd3",
-    "app/static/risk.js": "bccc9a7a5c30ae4613f83ff7f3fd45d5331be57f1f0cd9aafce5f56dce7cf951",
-    "app/templates/dashboard.html": "7d07379065f4cad27c34eb8c6bfacf253535a2a04df33b69e1817bdf0426f4d2",
+    "app/routes/__init__.py": "5a9e4841101c06e2be45baa67ba4bafc28e1485fbaf7f94d00d6ea45553c7c94",
+    "app/routes/analysis.py": "a1028e29d90cc677948d96d2622f6bb0fbca9452dd040890c4f12e15d9819a50",
+    "app/routes/dashboard.py": "8cffbd152a5a37844db55ff7cd7ba276c95974903ff782688f3f8859eca3f07d",
+    "app/routes/history.py": "e6d445f2eede71fe502952147bdd879bf3d414c3f47fd0d3c2584e5db95406fd",
+    "app/routes/jordan.py": "269b43529332ca7a1c68062a364fd103804055bd45f730ac295877ae5eaf6f3a",
+    "app/static/architecture/data.js": "6c9137f1d3aa77aacf9db6cdb67bcc7bcf6b7ad6d7dde72af8dfdee57b174c8d",
+    "app/static/architecture/explorer.css": "0a00c59132a7c9fb07b0fcb295b232ba7db74c398dd4a53020cb1462fa6463c7",
+    "app/static/architecture/explorer.js": "627dc0c6e8c9b89877c30f84f1c6ac65ec84f20aa13c0beaf0de201c247471b9",
+    "app/static/architecture/scene.js": "be8fa84c549e96465e8ee092fb29d152bb91ac0895c5efba2e9090668160ee36",
+    "app/static/graph/data.js": "20c497af7d4dcaa470c0aef3e8d6470e157aef61db85080bdbe53c501c6a1fc1",
+    "app/static/graph/explorer.css": "91193a95cda62d8fdf10a9a8288333dc2069c22731e3aed258c44622b20dd24b",
+    "app/static/graph/explorer.js": "db282278faee4bdd3508792f804295478743da702b06fe803f06005f5abfeda7",
+    "app/static/graph/layouts.js": "e3f8ad70b52dfa5e356028c9eb6dd44ea9c9771219f03cf16fc06e8695a65ec7",
+    "app/static/graph/quality.js": "49bc84df0fb0bc19fc3b53086d74d76a2abaee272c479ada4ed9bfa16758cd0a",
+    "app/static/graph/svg.js": "0aaa93101135fadcb01699e31446c4367925f9a048b864437d9c3049710f383a",
+    "app/static/graph/three.js": "abb3d1276d664f6c6f8ef8859db71c35ba50a469c50ab81f18905b2944f1d932",
+    "app/static/impact/engine.js": "d1e16b15339520f66359aea4fc32376f80eb681c6291f0a865f65bbbb2c9a331",
+    "app/static/impact/explorer.css": "cacfa917ff11b209d6fd27a43494b3561e689cf65d28b121203d22d009efe94b",
+    "app/static/impact/explorer.js": "a8c21bb6306c895c8969e1dab13dffdffa41030db385d622370aef67f5752a84",
+    "app/static/jordan/local.js": "25f3e26b3d4c14ed05a0a39955723cd6e6c9a195f93ce784967dd0aac9bb6b98",
+    "app/static/jordan/retrieval.js": "b336dd1fa92df9fafded2963b86688bd81fc7623fc816364858941920e53bd10",
+    "app/static/jordan/workspace.css": "d061599a154e4915ffe7805ec172fcd121560ce1a8fdfe16ad0703ded351e397",
+    "app/static/jordan/workspace.js": "7fd6ce5de442a63b056ec20395eb3b68f3098ac401ee7dd372e6b595d162aef9",
+    "app/static/product/common.js": "776029bacdfc7feac937dfb67eaf89c8af55b8cc9a68dcaa9b1ba03b266253fa",
+    "app/static/product/design.css": "d1d9cd9ed03b578018f68e9fa454c8e34b486febc6b52ea894f388c686687084",
+    "app/static/product/import.css": "ef03a3e33a70a76c4eea36e9c9649d142743dd9ff922b1ee20a4ea8238e8c876",
+    "app/static/product/import.js": "21d63d304f68cae215032299e345e3c4597f648c92ed720b67e0246667aa739f",
+    "app/static/product/landing.css": "e172bd5d76412e14f2b39f03af3aab3de0e80b811e4fb740dcc6614e3558227c",
+    "app/static/product/landing.js": "93820508c47c7d3e97e0c8366182d3093d20218de9db74a6f4223738f76da14d",
+    "app/static/product/motion.css": "9d2c50f4d19d84324c009cb8ffb99c14fd56c8ee5edebb797bf2908dc231c3e9",
+    "app/static/product/motion.js": "338b01ea6b7f6936773123a246ea0f3f7e0745d1fe7a765b65a506765540106a",
+    "app/static/product/overview.js": "1f22ab25e65ebada9b9b22a3b73ea6377fe160c24926790f19c3757a9652be48",
+    "app/static/product/store.js": "a3d23793cb3b607e493198385a15fc000bde7954bf5acbe5629e1c89f24d6030",
+    "app/static/product/workspace.js": "2121a8f936edd06ea4a7ee2701f0da0c5c6569ec6f0a46d9309c3e974172e822",
+    "app/static/risk.js": "1c0cfe851335043a754ba41efd9995983ade7d2e15db7b8e7e9a48eba869c6ae",
+    "app/static/structural.js": "d7e418a1321add5a29ef8d89ad4bf8178bfc11163c95611e82342338423aaefe",
+    "app/static/time_machine/data.js": "dc2ecffe9acfc593829bc9f0daceba8e6af10a852bc71ffda1d0d35f2ccfa7bb",
+    "app/static/time_machine/evolution.js": "26405ac8d797765cafe3fcdd68126a13bcf9e242f901438b2eada37b2a96c23d",
+    "app/static/time_machine/landscape.js": "c82744e3a10d109425b925ae08a3c6a85dd65e5490237f94862d798a4b5267f6",
+    "app/static/time_machine/studio.js": "5bc1028567badf14c8639a48d63cad976d9a592021a53e7c1344fa5633c5ec60",
+    "app/static/time_machine/timeline.js": "a8371c7f566248aa08c99a9cdeb0711114b2e75b75cd4bda49b0efebd53bde0f",
+    "app/static/time_machine/workspace.css": "c50813141700d3d0c45e8854f0939f92f57faada2e797f608f220c4c24ba6c45",
+    "app/static/time_machine/workspace.js": "4bc91b5ec96214afc58b3ad20f38676b021f4462dab433ee3c36da8b975561ee",
+    "app/templates/explore.html": "43d62af18a6b96ee7306f4170979e933bc14ae5155cf7dce21944edd28e222c9",
+    "app/templates/features/architecture.html": "601eaa149d8209d2608bca6a90ee67b9914bed17156045b647b92f92ebba7d04",
+    "app/templates/features/blast-radius.html": "cd0262b06fb145e8ff184f934d6fee3d32391fd901ec7d892f1ea8e58d02e4a0",
+    "app/templates/features/graph.html": "0ab5b63bb6fb9c620baff815afd3d609e4a06a83358d42d405c9c349b8316b76",
+    "app/templates/features/jordan.html": "83617ce4edc0cd54f3de67214295123ab71f71ce1b4d622a45c26f7ad7de4516",
+    "app/templates/features/overview.html": "d7336b097c4086d1511c98afeda3a8dd8d8ebeb1537547aca8cca3a07656826e",
+    "app/templates/features/risk.html": "07068b93b09b040b65673a986de07fd60564dde1101f7270469145b53a630c54",
+    "app/templates/features/structure.html": "bc2911a1481ce8a06b3ff2b780d5ee8f85d060e9f12b197ec6b6b5b5d2219eb6",
+    "app/templates/features/time-machine.html": "66e831588c34da259f0a6d97a894ba4282441524166f750cb97be30f8f31ec54",
+    "app/templates/landing.html": "4f1cb88c693794b86284c4aaf46482ed754d46cc3534a82972baa5119e08ee5b",
+    "app/templates/not_found.html": "38de61ac6241c9ec9ecc47425bd2de9565d0d6ab5ca2cfcb391b70ca44ddbadb",
+    "app/templates/public_base.html": "7864f1e9ef8d6500c654ea7196a038a23f1b363f9d2d3b05b21d52591729e2b6",
+    "app/templates/workspace.html": "1c58c4c42ac0bd68c236d827e071c00468a7235912bd42fd8eda17986789990e",
+    "app/templates/workspace_base.html": "788572e360cbcabe2be1d86a9b009be9d4dc95162c5f5fd3a678b4d73e70924c",
+    "docs/task7a_demo_checklist.md": "e022c5afa574918c82e80ca6a70a4c2c4c97435c1eff7311b570f0ca725eecc4",
+    "docs/task7a_evidence_index.md": "4bade2eeff6324128d45ebfecc33b88c86b95bb5c551596f1dda7d892934b9c0",
+    "docs/task7a_progress.md": "4207b90ddb72eaa4573d2af3097311b33ea38d38eb5eb90aa3edbdb2dec4be21",
+    "docs/task7a_university_compliance_audit.md": "dc9c5939a81719ec85863350a43c335ab2aeb21a549061c4db72e94214b079bf",
+    "docs/task7b1_baseline.md": "02e29b723c9734c6b72d44db85486e2a5eaa643010e12e8042ed5f813c3e786d",
+    "docs/task7b1_handoff_to_7c.md": "b838f3a7416a1f4df6f6849682c8e0091afb933e8a31b62be5cf26f47389f54b",
+    "docs/task7b1_manual_visual_checklist.md": "545dfddc1a519ef10b9d6a53e3b1c24c53308cc1703f7bd9eb3708ec791feacb",
+    "docs/task7b1_motion_system.md": "47ec64543658a6275faddef7fa771905ccec2e4d49acad7b4c600cbaebe3e07c",
+    "docs/task7b1_page_animation_matrix.md": "2e687e084953669709e166b87bde805616358afe8d2f9d20712f5d408c4c4f26",
+    "docs/task7b1_test_report.md": "315f944d92684fce9b4b0eed58feac501ff08c5cb686b245aeeeb5762ba211c7",
+    "docs/task7b_baseline.md": "4be0f6b1b3c8e79e9b957c5a60b82f9be87677b4281a96349804916bf34b429a",
+    "docs/task7b_brand_identity.md": "b67c4eb1910b68b35039f7ef2b9988472cc734049a2bd5a4ceff92ac76c8873a",
+    "docs/task7b_handoff_to_7c.md": "17c0a632b0372643ba913273407b0f7d0ee1e3adf83bda924bd42441c22e61e7",
+    "docs/task7b_manual_demo_checklist.md": "dea6cdc485466f78c808d6284c48a753eab410f9b0050c8d059369d6391bbdcd",
+    "docs/task7b_progress.md": "af844164e68809505667ada5240ca94b435167bd867e532f307cc2f3db445a1f",
+    "docs/task7b_test_report.md": "9078c044d86721b89334a3456edae7ce8c2f8687b5aebc826ec7a210a11436c8",
+    "docs/task7c0_dataset_quality.md": "4d012f91f872662f99de809daa0b2a1603923c486a66b94966aaf76e37771e3f",
+    "docs/task7c0_experiment_log.md": "7b1d6560ca26e206771609bcc789d35adcb9b89a95e35177f75c89729a9e8e9f",
+    "docs/task7c0_feature_engineering.md": "2f91bcd7e00889b9a27c240ade506bc4982bfd7c49d69840c28685175c0919b5",
+    "docs/task7c0_handoff_to_7c.md": "8f412a2d30b8cd47f380d7a9795e31a34718a4001c35a22a4e65de4b0fd822a7",
+    "docs/task7c0_ml_baseline.md": "c22eb576e71b79409cefe15b79a149ac0d02662b3ffb8941fa9bd486e7040f5d",
+    "docs/task7c0_model_comparison.md": "59db8b33119b497f5079cefb93a20a7bbda5973d5492ed36bdf9638267000dcd",
+    "docs/task7c0_model_selection_decision.md": "e7ff60716b2edf04351345373181a5fc29a8036c3e45e96d38dfb84dea829b84",
+    "docs/task7c0_test_report.md": "002b778526cc38e2dea5474248efe48578e88a4f1768e8da662c74d2db241ffa",
+    "docs/task7c_baseline.md": "32794e2dc9b7db99c0ddf7d813fd5ce26db526d33cf0ee97b09d618a1aa9a228",
+    "docs/task7c_handoff_to_7d.md": "814940db98ec088950c90c2eba75c24a710fe7fe66032309c5e1f0734aa90e81",
+    "docs/task7c_report_evidence_matrix.md": "6283d7a47ae2e74349f97a70a46552cd402b7c6649e578773d71f0773575a9bf",
+    "docs/task7c_report_revision_log.md": "559c6aa2955c346ae019d447e7756ff8180e5a18d8e7c26cced9819e182aa568",
+    "docs/task7c_report_validation.md": "04c1e7fe13f0fc0e706994fcca42b85e2e9e7efcae904432f8b7a5f82b464716",
+    "docs/task7c_screenshot_capture_guide.md": "6b493bbfcbb51f3cf0643c5c4f0c53ef9fc958dd4ab1f7470ba13685d02c9fb8",
     "reports/ml/cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
     "reports/ml/confusion_matrices.png": "24e46f62904d05ca91ad2f5e9aa9253cbe60eb0d4cb36634c11c83de090de2a4",
     "reports/ml/eda_summary.json": "f71b6a07406502581b8d41adf2412ba40ee2e09c7006b27b1829093efde457ff",
@@ -30,15 +501,94 @@
     "reports/ml/model_comparison.json": "63f5448ee36bdc3ab115def7fc6a5fbaf18f12c9f00ea0b4b4770fd42042a70a",
     "reports/ml/model_metadata.json": "2ac89d357a51bff631c302d5f9938fb79b56544df72d5855bf80d1c3c90cad1f",
     "reports/ml/observations.txt": "3c1c42b07953a0a77d485780407565272caeeaa3ff33912f943ded29f8699eb4",
+    "reports/ml/optimization/task7c0-v1/complete.json": "2982f730b9d64819ad991d57ad4b3e1fea37fd67323a6c747050ef8c8976d0ce",
+    "reports/ml/optimization/task7c0-v1/cv_comparison.png": "fb3dbcada75a2b9fbc2206dfd05e921a520e272736e472d63f5f03d9c36332a3",
+    "reports/ml/optimization/task7c0-v1/dataset_quality.json": "4e5d8c8bd06d8628190c8a24006dca65b59193c3a85a12709a1434afa7f5dfa9",
+    "reports/ml/optimization/task7c0-v1/development_classes.png": "0af6142411e0e865ba7df22781cf758c2481891cba1ed4b78a47996d4a65522c",
+    "reports/ml/optimization/task7c0-v1/feature_schema.json": "576c880a86989f9040ddc20adcdd1a766962a36b660bed1351d4a00ca809d960",
+    "reports/ml/optimization/task7c0-v1/figures.json": "61effdcbcaa36c14e61da682a6cb3d443e6181113c97643cf2eb2d129f018cdc",
+    "reports/ml/optimization/task7c0-v1/folds.json": "56988846270a20252242fbcc03ec26f4d75dabbb0153f94433c1418314da960c",
+    "reports/ml/optimization/task7c0-v1/oof_thresholds.png": "870c7fc87bf2360c7e4246d9cfa5048c2c0f5a5a24a88f16aaa93dcd4be1faff",
+    "reports/ml/optimization/task7c0-v1/protocol.json": "d03e1f04d80b6f2ac2a283500e32094964258a6943771cc1c9c761cd4d9ac432",
+    "reports/ml/optimization/task7c0-v1/results.json": "114e3e053feb6e5c9c6b08a74999a0562bdd428aaabba1a8b5a140c26cfc37df",
+    "reports/ml/optimization/task7c0-v1/selection_decision.json": "f620b17aecb583cd4ebc28f1c0eebad61efb7ad68b315c9c0478b03d2da7434e",
+    "reports/ml/optimization/task7c0-v1/shortlist.json": "cf157140af4ea3cd929123e872d333ac443f15842399fdfc457f1e4ee8a71d28",
+    "reports/ml/optimization/task7c0-v1/v1_hgb_baseline-validation.json": "36089d733e6fba2246fcb8967e336eccc7b10b9f9a5c775cbbb109b515a03fdd",
+    "reports/ml/optimization/task7c0-v1/v1_hgb_baseline.json": "a2238b41bb960da3185e5acac875c07bad5f52b062d730b0d134d918a53c80ca",
+    "reports/ml/optimization/task7c0-v1/v1_hgb_regularized.json": "1f153928ce007228b794e137c08ab83c19e4f5d7b8032a28a3d6049d8dc36b2c",
+    "reports/ml/optimization/task7c0-v1/v1_lr_balanced_c10-validation.json": "47fe9fb4acff1e0969de37491af57160cf2eb68112d2326843d2cbdb607caf55",
+    "reports/ml/optimization/task7c0-v1/v1_lr_balanced_c10.json": "a1fb7aa3f8a1509a8870c30a77ca87787a436bb88f4743490ece39afe02ad83b",
+    "reports/ml/optimization/task7c0-v1/v1_lr_unweighted_c01.json": "5ac73d4ecd9931f9a6d66da65f14d6d7f0007c22aca9eabf554dac439155fdc6",
+    "reports/ml/optimization/task7c0-v1/v1_rf_baseline-validation.json": "749021f92cff03e00b3c8e7a62d0968e2ed63a449c6a8c006fe24a1fa57712e3",
+    "reports/ml/optimization/task7c0-v1/v1_rf_baseline.json": "d53368907fe404b6ccff15f75d9d24260bf033b74704660d1859a46a14a5ff77",
+    "reports/ml/optimization/task7c0-v1/v1_rf_deeper_unweighted.json": "325424147ff971598faa6e803751da8943511ac9669708eaa3ee32bb299e0d4e",
+    "reports/ml/optimization/task7c0-v1/v2_extra_trees-validation.json": "13c5ad83d9f5764da59c900ad5a664a1fbe077c66f0c07c8d1e4b75a8f281199",
+    "reports/ml/optimization/task7c0-v1/v2_extra_trees.json": "f3781f44f03fcdce16bae764bf0e1e7bb1a06b429b8c5a99779ff5b5294e742e",
+    "reports/ml/optimization/task7c0-v1/v2_hgb_regularized-validation.json": "c049d3d4089652f0fc14e2900933ef5e86b1041a294cb2b0c4f8aa94d70b427c",
+    "reports/ml/optimization/task7c0-v1/v2_hgb_regularized.json": "b9aa76d5bf5788b22d8b4d19266c9302310bcb028c56db7ed1e0ed9849d0c1ff",
+    "reports/ml/optimization/task7c0-v1/v2_lr_balanced-validation.json": "2962ef20d6676c4547d1d0420e15267332e15d5ab10396fabb09550bd20fe9a9",
+    "reports/ml/optimization/task7c0-v1/v2_lr_balanced.json": "d3af162e88388537ffc3098bf6676545b875b71293442b6a312330af3b0bb96a",
+    "reports/ml/optimization/task7c0-v1/v2_rf_baseline_shape-validation.json": "d96ae513e711821b51daadf926c11f5ac60391154bcf5f183f0d3a0b8273f47c",
+    "reports/ml/optimization/task7c0-v1/v2_rf_baseline_shape.json": "22d88c0512411682b84ffd4a9a602154ff28ac5d4a5bae5ca8ce613bca0c7971",
+    "reports/ml/optimization/task7c0-v1/v2_rf_deeper_unweighted.json": "626f95c4f2ac7ae8e42a80dfec6c65325d422b508573f765ea19f927b6f26afe",
+    "reports/ml/optimization/task7c0-v1/validation_comparison.png": "d54c360df0e788f865b7b2a9bb3885f36c04034e999cde3ed72742f5a9344009",
+    "reports/ml/optimization/task7c0-v1/validation_confusions.png": "8a594c1e528ea59e9268a1bff9493eb9c5ccc24478a7cece58d25d575c8f1c0e",
+    "reports/ml/optimization/task7c0-v1/validation_curves.png": "7d116750bea4b4f29516d83ec5bb2852d52007a245570eb7585a86c5fc293e85",
     "reports/ml/source_manifest.json": "65b47e59998e1c1726ada04916f612a92ac21cc72a49fb9ce1b059c2f49b28ab",
     "reports/ml/split_and_label_counts.png": "c5ef939ef53c725905a6ca02ff677c030a7e09f368685e8c1e422277ada1932e",
     "reports/ml/test_evaluation.json": "bca167f228321c400e8617856bac86eaee2e81b26feedafe0f89924dad7c050c",
-    "tests/ml/test_repository.py": "8216f3a6d1775570dbee738e02e26bdd5b45c975c9dc7d4f2d867019b67a7259"
+    "submission/references.json": "638d92792222668f69800949c2a773cb7858a687cc6da74912caf6da69879132",
+    "submission/screenshots.json": "f200fed0d105053cb16228f26423478306ef20e4ba888726ce6655030001864d",
+    "submission/test_evidence.json": "0553fe1f494a9726f44ff666457c97054af6206cc57747a0bd1d1493e747707f",
+    "tests/conftest.py": "8784ab602b5d1f49038f711aee395030d3c48562ef54da0e4dc081be6a3638dc",
+    "tests/fixtures/university_demo/helpers.py": "13d850b8ac1a54eb64477514c8645de92a709523172ce6976bb7ef2096a81fd4",
+    "tests/frontend/architecture.test.cjs": "00418008fb5fe2c7f33c2fccac79f4000b6a508543289df78266a168611847a5",
+    "tests/frontend/graph.test.cjs": "90653940f7010ac315071a2cbca8a8ebb8ad432f20fb555d7351ed53c459fc52",
+    "tests/frontend/impact.test.cjs": "7a32cff48b2a3cb3980d6e9a8294babe4665cbc5ee8b9548105d48aec68b0178",
+    "tests/frontend/jordan.test.cjs": "657c1c1b288b83701f4a203137eebf388e3db868d2d6fc403617c27957929f14",
+    "tests/frontend/motion.test.cjs": "bd8a4ec71642a272b0fe16277fceb2c44ca6de4d8de0df716bc5f728b7636bca",
+    "tests/frontend/product.test.cjs": "d32bb79bf1864a5ed58ac11c978d0c24c2b8326faa958bc5b47c24ca41a6fa65",
+    "tests/frontend/time_machine.test.cjs": "872a88a245152078eb913f1bdaa4c87a4c15541cd796c5c3c1b388cb05a40aa8",
+    "tests/frontend/workspace.test.cjs": "2ab20cd8864287367ac25f957046468c4217f179ea664c9a64374953c7399854",
+    "tests/ml/test_acquire.py": "06e1812f594373bd56080c2360bba2f320dc7c03292be46909c5faaa5dd55d88",
+    "tests/ml/test_dataset.py": "1965df45abcc33abcf2160c9e1a7c4096aee3f4d6df26d40ed396f905f8d3721",
+    "tests/ml/test_evaluation.py": "023f54f7ff8bb553190b9be9bc1ac53f94a91ef703137b15b6f7ed38ab358989",
+    "tests/ml/test_features.py": "65721fc6ff428f524965f8dc9591ef22b47615257b6a6a9d7e0453a8f2fa66fb",
+    "tests/ml/test_model.py": "e3df79072ccbff450886a84f793d75e7d4be2fb4b43c4c0e3b4c03b39d385902",
+    "tests/ml/test_optimization.py": "b68ac10922fd643cc534c2de0c9d5b10c114c803d706a20cd4ed45d48280d3f8",
+    "tests/ml/test_repository.py": "ae50d4154c89afc3f9bd10c9fe28937111c044be84c4cd0609a0a0bc8376ad05",
+    "tests/test_academic_evidence.py": "0cab407c772be90d3dbc51be86e6b10e576f072efbbf29a1e74927056d6b1e16",
+    "tests/test_api.py": "1e9c2fe7deb153af51a18a10dfc99e1f54925fed8f168297e4e77a53fb7a5cbd",
+    "tests/test_architecture.py": "0032a37c046199a54c244db1fe11e816cdc05a87bbe7f2080586d1cdd7143190",
+    "tests/test_architecture_frontend.py": "15ed394e82af1daf07825a67f689267b87ab54ef1fb48a33256082208bca5648",
+    "tests/test_archive.py": "3c6c9747d2c6ff634d6dcc0572b1b6b6dd55681129a41c91e3c34102ec3fb3d5",
+    "tests/test_brand_identity.py": "5fa01ff75a6ccd0da9bba3505cb99f8ee268561d5d09468662e4a64a9a954c82",
+    "tests/test_github.py": "2f8822e83e41746ead121f5d5a2915d4e9d9fd898e522c1be6b74d9e078bb957",
+    "tests/test_graph.py": "d874e783c542dd1f0fc6dff5e7eb7431c7c1a8d0d80f0ebc2aaf3f6fad3288f6",
+    "tests/test_graph_explorer.py": "4fdc3252c1b78a38772eea2161980366f3ee6a81e594e2f1f543de1a107af649",
+    "tests/test_history.py": "3ccbf4607f6463f2bf8754f28d12aef7b12bb422ae28095f64aabc7abbd4a235",
+    "tests/test_history_cache.py": "c66acea4d17b29630914aeca21b1ee11699ddcc9f0aa396c0facd213a5070815",
+    "tests/test_impact.py": "a65eef8f12ebf62e6445992a3052bd9d4735f37f36ff7bf44c4edbbea1c0d46c",
+    "tests/test_jordan.py": "5601d6c6d2de7635c37b96bf02f2b0f2ef7c81c0cd7ee06431e92fabe6d3d8cf",
+    "tests/test_jordan_frontend.py": "fa521620e927c36f881183376f1884dee5aa43bdf116f0a07f472ac47b5c7273",
+    "tests/test_middleware.py": "2dcaa139fe4e5f65cf0e49658a8df02a2e01ca101c250ac90214eb2c75cdbbfa",
+    "tests/test_motion.py": "2c343a366868baab2c32c0f78bd80caba65f6cd77c11f85fd59aac6beffb62be",
+    "tests/test_product.py": "9b4b10cf291a4f63b1248559fef05c52196fdda0faa9fa87ec010efd4a6d7441",
+    "tests/test_report_pipeline.py": "fe1e0a2d9810c03ec448c155c0a4375eb161a8e4e209acae0be21961bd874c32",
+    "tests/test_scanner.py": "d125b8c124d230e2adcce5ec0885cfa4da6e3fd9a6dd7adde51c0f2f024552bf",
+    "tests/test_structural.py": "d0526355242595db1fd55236ba1144bd41add5d1b2ae1cab724ddd6c44dfe912",
+    "tools/check_report_links.py": "2950115dabaa5edb3a6227685c744b97e3c0b11c4f3843e198d6eec53624d4df",
+    "tools/generate_report.py": "4fd58ef2644392b0f435d94fc897d795305c30bef91254a87d43da8cda51993d",
+    "tools/report_charts.py": "990904ab383ebb1bebd711b27b129b75ab9f3ed6bcbb09acee5da7e6554a7995",
+    "tools/report_content.py": "0957ef72e786606b42775502e073cffb04fbf47e5886c489d255cc65ec6e05dd",
+    "tools/validate_report.py": "0896fad32151ab9424b10e153051099096ccb0a28920e91243a98a61e8115913"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "65cf97ae10c80226d6c76e9a0b22f7ea07492cb74c739c975052035f82e48d16",
-    "Codebase_Archaeologist_Report.docx": "56267973a5a6490565aa4d21c763ffb98fa1becacd6bcfaf66ea7c2fb9c3fe7e"
+    "Codebase_Archaeologist_Report.pdf": "b23bf83825c2d40c0d5bb6475cdceeb69626e43809adf0c9bd5befdc6731e65c",
+    "Codebase_Archaeologist_Report.docx": "b607c860059a5e045d604e1d1e5f28080ee0d92c217c91fb1a157cb51d523d4c"
   },
   "training_or_evaluation_rerun": false,
-  "docx_rendering": "Not available in build sandbox; editable OOXML structure validated separately."
+  "authors": "Bilal Malik; Aun Anis",
+  "screenshots_verified": 0,
+  "docx_rendering": "Editable OOXML with shared substantive content; office-suite pagination not visually verified. LibreOffice attempt exit1."
 }

@@ -16,8 +16,8 @@ records FAST-NUCES, Peshawar; Software Engineering(SE); Class5A; year2026. Prese
 as previously recorded, explicitly pending team confirmation. Course/instructor/semester/
 submission date receive editable placeholders, not inferred current academic details.
 
-Fresh full application baseline is being run using the previously documented process-local
-polling selector workaround. Exact outcome will be recorded in report_validation.md.
+Fresh full application baseline: **526 passed,0 failed/skipped in102.66s**, one existing
+Starlette/httpx warning, using the documented process-local polling selector workaround.
 Historical7C.0 result526passes is not substituted for this execution.
 
 Current source-manifest failure: six obsolete hashes/paths, including deleted

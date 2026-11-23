@@ -1,39 +1,55 @@
-# Academic report — Task 3B
+# Codebase Archaeologist — final academic report (Task 7C)
 
-- [Submission PDF](Codebase_Archaeologist_Report.pdf): **28 A4 pages**.
-- [Editable DOCX](Codebase_Archaeologist_Report.docx): the same substantive text, tables and nine figures. Its designed pagination follows the PDF, but Word/LibreOffice may repaginate.
-- [Evidence manifest](report_manifest.json): source and output SHA-256 hashes.
-- [Automated document validation](validation.json): structure, text, metrics, completeness and bounds checks.
+**Bilal Malik —24P-3061 · Aun Anis —24P-3017**
 
-The report is prepared for Bilal Malik, 24P-3061, Software Engineering (SE), Class 5A, FAST-NUCES, Peshawar, 2026. Individual/instructor-approved participation details were supplied by the student. It documents the actual Task 1–3A implementation at `ce5d032216274d24800e61ca392c674426442851`. It does not certify independent institutional approval or claim future features are implemented.
+- [Editable Word report](Codebase_Archaeologist_Report.docx)
+- [Matching substantive-content PDF](Codebase_Archaeologist_Report.pdf)
+- [Evidence/output manifest](report_manifest.json)
+- [Executed structural validation](validation.json)
+- [Source/evidence matrix](../docs/task7c_report_evidence_matrix.md)
+- [Screenshot capture and regeneration](../docs/task7c_screenshot_capture_guide.md)
+- [Task 7D handoff](../docs/task7c_handoff_to_7d.md)
 
-All 19 requested academic sections are present. Nine captioned figures comprise five EDA presentations (two using selected panels of saved plots), the saved validation/test confusion matrices, and three original implementation diagrams: architecture, training/selection, and inference. Original experimental plots retain their source colors; report framing and original diagrams use Black & Crimson. There are no fabricated UI screenshots. The normal browser capture remained blocked by sandbox socket restrictions.
+The revised report includes17chapters, authentic EDA/optimization plots, current architecture,
+model comparison, controlled optimization and five appendices. Original Random Forest
+remains deployed,11features,score>=0.5,C-only. No experimental model or improved production
+performance is claimed. Existing exposed-test results and always-positive F1 limitation
+are explicit. Figures are data plots/implementation diagrams, not fabricated screenshots.
 
-## Reproduce
+## Regenerate and validate
 
-From the project root with the existing ML plotting dependencies installed:
+Use the existing .venv with requirements-ml.txt (Matplotlib/Pillow) and Poppler utilities:
 
 ```bash
 .venv/bin/python tools/generate_report.py
 .venv/bin/python tools/validate_report.py
+.venv/bin/python tools/check_report_links.py
 ```
 
-Generation uses only saved JSON/PNG evidence, Matplotlib, Pillow and standard-library DOCX/ZIP XML packaging. It does not import an estimator, deserialize a model, load raw datasets, train, or rerun held-out evaluation. Local artifact metadata is checked against tracked reports when available. Document binaries may differ across runs because of container timestamps and library versions; content is evidence-driven and shared between formats.
+Single editable content source:tools/report_content.py; existing shared PDF/OOXML renderer:
+tools/generate_report.py. No benchmark fitting/inference or raw data loading occurs.
+Build sources, evidence and outputs are hashed together; edit content/current paths first,
+then regenerate. Do not merely change hashes to bypass stale evidence. Future academic
+field changes should update COVER/declaration text; genuine screenshots are registered
+in screenshots.json with provenance. Generated documents may differ in timestamps.
 
-Validation additionally requires Poppler's `pdftotext` (Ubuntu package `poppler-utils`). It checks all saved validation/test metrics, section presence, shared substantive paragraphs, DOCX XML and relationships, nine embedded figures, 28 nonempty PDF pages, source/output hashes and PDF text bounds.
+## Remaining submission acceptance
 
-## Layout review and limits
+**Report status:PARTIALLY COMPLETED pending real screenshots and local office acceptance.**
+Three explicit missing-screenshot paragraphs remain. Confirm editable course/instructor/
+semester/submission-date fields and previously recorded institution/department/class.
+Two-member permission is user-confirmed; no invented instructor approval document exists.
+The official requirement “test each model” still needs instructor interpretation because
+all original candidates have validation evaluation but only RF has final-test evaluation.
 
-All 28 PDF pages were rendered with Poppler and reviewed in contact sheets; figure/table pages were additionally inspected at higher resolution. No blank pages, overlapping text, broken tables or clipped text were found in the inspected PDF. The final layout uses an A4 grid, a dark bespoke cover, light body pages, crimson accents, captions, headers/footers and page numbers.
+The PDF is fixed A4 layout. Word contains editable paragraphs, headings, tables, figures
+and automatic PAGE fields. Contents/figure/table lists refer to PDF pagination; editing
+or opening Word can repaginate. Fresh isolated LibreOffice conversion exited1 without
+output here, so DOCX visual pagination is unverified. Shared substantive text, not identical
+Office-suite rendering, is validated. The PDF is not PDF/UA certified/tagged; no claim of
+accessible-document certification is made.
 
-DOCX ZIP/XML/image relationships and editable text were validated. LibreOffice is present but its headless conversion exited unsuccessfully in this sandbox; therefore **DOCX visual rendering and actual Word pagination were not verified**. Its contents page intentionally states that page references follow the submission PDF. Open the DOCX in Word/LibreOffice before editing or submitting that format, and check repagination after edits. The PDF is the fixed-layout submission copy.
-
-Previously verified application outcomes (73 / 120 / 140 tests by task) are cited as historical implementation evidence, not a newly executed test run. No application files or training artifacts were changed for Task 3B. The report explicitly states uncertainty, noisy labels, remaining shared commits, C-only inference, parser abstention, uncalibrated probabilities and missing-model behavior.
-
-## Current team correction — Task7B
-
-The project is a permitted two-member group: **Bilal Malik — 24P-3061** and
-**Aun Anis — 24P-3017**, as confirmed by the team. The individual-participation
-wording above describes the old report snapshot, not current project identity.
-Update cover/body/metadata and regenerate honestly in Task7C; no binary report
-was regenerated for Task7B. No individual roles or contribution percentages are assigned.
+The current report's exact page/figure/table counts and validation status are in manifests
+and Task7C docs. Team should inspect both files locally, complete screenshots/demo and
+clean-machine model/vendor packaging during Task7D. Do not claim live browser/GitHub/GPU
+acceptance based on automated suites. Prior report versions remain recoverable in Git.
