@@ -362,7 +362,8 @@ def evidence_files():
     for root in roots:files.extend(p for p in (ROOT/root).rglob('*') if p.suffix in ('.py','.js','.css','.html','.cjs') and '__pycache__' not in p.parts)
     files.extend(p for p in ML.rglob('*') if p.suffix in ('.json','.png','.txt'))
     files.extend(ROOT/name for name in ['tools/generate_report.py','tools/report_content.py','tools/report_charts.py','tools/validate_report.py','tools/check_report_links.py','submission/references.json','submission/screenshots.json','submission/test_evidence.json','submission/academic_details.json','models/devign-v1/manifest.json','tools/install_model.py','tools/release_smoke.py','tools/build_submission.py','requirements-runtime.lock'])
-    files.extend(p for p in (ROOT/'docs').glob('task7*.md'))
+    # Mutable release journal is operational, not a report input; avoid receipt cycles.
+    files.extend(p for p in (ROOT/'docs').glob('task7*.md') if p.name!='task7e_progress.md')
     files.append(ROOT/'reports/release/task7e/browser.json')
     return sorted(set(files))
 

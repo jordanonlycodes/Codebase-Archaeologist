@@ -16,7 +16,7 @@
     "passed": 547,
     "failed": 0,
     "skipped": 0,
-    "seconds": 14.78
+    "seconds": 15.04
   },
   "focused_release_and_report_tests": {
     "passed": 14,
@@ -27,7 +27,7 @@
   "warnings": "One existing Starlette/httpx deprecation warning in full suite.",
   "frontend": {
     "javascript_syntax_files": 29,
-    "tool_mjs_syntax": 2,
+    "tool_mjs_syntax": 3,
     "frontend_cases": 217,
     "harnesses": [
       {
@@ -133,16 +133,17 @@
   "publication": {
     "entry_remote_head": "e4ece2383ec792339106319bc60d3d4c46ac64a5",
     "entry_match_verified": true,
-    "task7e_push": "pending"
+    "task7e_push": "pending",
+    "verified_task7e_checkpoint": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f"
   },
   "outputs": {
     "Codebase_Archaeologist_Report.docx": {
       "bytes": 1281156,
-      "sha256": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102"
+      "sha256": "fcd8a093cdd8c1c1852f3bc54c94128321550133422063a84a1d3307885e5114"
     },
     "Codebase_Archaeologist_Report.pdf": {
       "bytes": 2281101,
-      "sha256": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
+      "sha256": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1"
     }
   },
   "delivered_source_reproduction": {
@@ -204,19 +205,86 @@
     "canonical_pages": 49,
     "libreoffice_pages": 49,
     "canonical_outputs": {
-      "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102",
-      "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
+      "Codebase_Archaeologist_Report.docx": "fcd8a093cdd8c1c1852f3bc54c94128321550133422063a84a1d3307885e5114",
+      "Codebase_Archaeologist_Report.pdf": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1"
     },
-    "libreoffice_pdf_sha256": "445a469a64c404207bea1eb9a561196dff41f625d694561bd34651ee1373b53d",
+    "libreoffice_pdf_sha256": "7a925e36a856b64c5050fd4e2418e64412c9acdaea8d2dd9ceef18f3ebead712",
     "substantive_paragraphs_checked": 267,
     "missing_substantive_paragraphs": 0,
     "microsoft_word_used": false,
-    "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found."
+    "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found.",
+    "review_reuse": "Final document.xml/styles.xml are byte-identical to reviewed f9fb2af document; fresh isolated Office conversion again49pages."
   },
   "task7e_acceptance": {
     "clean_source_commit": null,
     "clean_source_smoke": false,
     "offline_3d_browser": false,
     "published_source_commit": null
+  },
+  "task7e_clean_source_checkpoint": {
+    "source_commit": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f",
+    "smoke": {
+      "model_version": "devign-v1-4a23cc304ca8",
+      "files": 2,
+      "c_predictions": [
+        {
+          "name": "clamp_index",
+          "model_probability": 0.6446299251115485,
+          "predicted_class": 1
+        },
+        {
+          "name": "sum_values",
+          "model_probability": 0.4640631119969904,
+          "predicted_class": 0
+        },
+        {
+          "name": "entry",
+          "model_probability": 0.44115041436869545,
+          "predicted_class": 0
+        }
+      ],
+      "python_ml_predictions": 0,
+      "workspaces": 9,
+      "model_loaded": true,
+      "source_body_execution": false,
+      "dataset_required": false,
+      "source_and_model_under_checkout": true,
+      "training_data_present": false,
+      "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
+    },
+    "offline_browser": {
+      "passed": true,
+      "graph": {
+        "mode": "3d",
+        "nodes": 7,
+        "canvases": 1,
+        "engine": "three.js r162"
+      },
+      "predictions": 3,
+      "https_blocked": true,
+      "script_urls": [
+        "http://127.0.0.1:8012/static/product/store.js",
+        "http://127.0.0.1:8012/static/product/common.js",
+        "http://127.0.0.1:8012/static/product/import.js",
+        "http://127.0.0.1:8012/static/product/motion.js",
+        "http://127.0.0.1:8012/static/product/store.js",
+        "http://127.0.0.1:8012/static/product/common.js",
+        "http://127.0.0.1:8012/static/product/overview.js",
+        "http://127.0.0.1:8012/static/product/workspace.js",
+        "http://127.0.0.1:8012/static/product/motion.js",
+        "http://127.0.0.1:8012/static/product/store.js",
+        "http://127.0.0.1:8012/static/product/common.js",
+        "http://127.0.0.1:8012/static/graph/data.js",
+        "http://127.0.0.1:8012/static/graph/layouts.js",
+        "http://127.0.0.1:8012/static/graph/svg.js",
+        "http://127.0.0.1:8012/static/graph/quality.js",
+        "http://127.0.0.1:8012/static/graph/three.js",
+        "http://127.0.0.1:8012/static/graph/explorer.js",
+        "http://127.0.0.1:8012/static/product/workspace.js",
+        "http://127.0.0.1:8012/static/vendor/3d-force-graph-1.73.3.min.js"
+      ],
+      "uncaught_exceptions": 0
+    },
+    "runtime_environment": "Separate29-package venv,Python3.14.10;no system site packages/training data;same Linux host,not new Ubuntu OS."
   }
 }

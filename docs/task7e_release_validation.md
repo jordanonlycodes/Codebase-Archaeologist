@@ -23,3 +23,8 @@ User answered yes to instructor acceptance of validation evaluation for3models a
 test evaluation for selectedRF only. Report states actual protocol; no additional final-
 test evaluation is invented. Physical hardware FPS,full WCAG,Microsoft Word and a separate
 fresh Ubuntu OS remain outside scope,not silently marked passed.
+
+The mutable task7e_progress.md operational journal is excluded from report-source hashes
+to prevent a release-receipt/journal regeneration cycle. Scientific artifacts,application
+code,report code and substantive acceptance documents remain hashed; no source validator
+assertion is relaxed. Layout/output receipts are likewise derived evidence,not report inputs.

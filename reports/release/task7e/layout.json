@@ -6,12 +6,13 @@
   "canonical_pages": 49,
   "libreoffice_pages": 49,
   "canonical_outputs": {
-    "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102",
-    "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088"
+    "Codebase_Archaeologist_Report.docx": "fcd8a093cdd8c1c1852f3bc54c94128321550133422063a84a1d3307885e5114",
+    "Codebase_Archaeologist_Report.pdf": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1"
   },
-  "libreoffice_pdf_sha256": "445a469a64c404207bea1eb9a561196dff41f625d694561bd34651ee1373b53d",
+  "libreoffice_pdf_sha256": "7a925e36a856b64c5050fd4e2418e64412c9acdaea8d2dd9ceef18f3ebead712",
   "substantive_paragraphs_checked": 267,
   "missing_substantive_paragraphs": 0,
   "microsoft_word_used": false,
-  "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found."
+  "known_differences": "Font rendering, line wrapping and footer styling differ between engines;49pages in both, no meaningful clipped/missing content found.",
+  "review_reuse": "Final document.xml/styles.xml are byte-identical to reviewed f9fb2af document; fresh isolated Office conversion again49pages."
 }

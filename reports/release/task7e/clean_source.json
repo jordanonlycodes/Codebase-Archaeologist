@@ -1,0 +1,66 @@
+{
+  "source_commit": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f",
+  "smoke": {
+    "model_version": "devign-v1-4a23cc304ca8",
+    "files": 2,
+    "c_predictions": [
+      {
+        "name": "clamp_index",
+        "model_probability": 0.6446299251115485,
+        "predicted_class": 1
+      },
+      {
+        "name": "sum_values",
+        "model_probability": 0.4640631119969904,
+        "predicted_class": 0
+      },
+      {
+        "name": "entry",
+        "model_probability": 0.44115041436869545,
+        "predicted_class": 0
+      }
+    ],
+    "python_ml_predictions": 0,
+    "workspaces": 9,
+    "model_loaded": true,
+    "source_body_execution": false,
+    "dataset_required": false,
+    "source_and_model_under_checkout": true,
+    "training_data_present": false,
+    "scope": "In-process API smoke, not a browser/GPU or live GitHub test."
+  },
+  "offline_browser": {
+    "passed": true,
+    "graph": {
+      "mode": "3d",
+      "nodes": 7,
+      "canvases": 1,
+      "engine": "three.js r162"
+    },
+    "predictions": 3,
+    "https_blocked": true,
+    "script_urls": [
+      "http://127.0.0.1:8012/static/product/store.js",
+      "http://127.0.0.1:8012/static/product/common.js",
+      "http://127.0.0.1:8012/static/product/import.js",
+      "http://127.0.0.1:8012/static/product/motion.js",
+      "http://127.0.0.1:8012/static/product/store.js",
+      "http://127.0.0.1:8012/static/product/common.js",
+      "http://127.0.0.1:8012/static/product/overview.js",
+      "http://127.0.0.1:8012/static/product/workspace.js",
+      "http://127.0.0.1:8012/static/product/motion.js",
+      "http://127.0.0.1:8012/static/product/store.js",
+      "http://127.0.0.1:8012/static/product/common.js",
+      "http://127.0.0.1:8012/static/graph/data.js",
+      "http://127.0.0.1:8012/static/graph/layouts.js",
+      "http://127.0.0.1:8012/static/graph/svg.js",
+      "http://127.0.0.1:8012/static/graph/quality.js",
+      "http://127.0.0.1:8012/static/graph/three.js",
+      "http://127.0.0.1:8012/static/graph/explorer.js",
+      "http://127.0.0.1:8012/static/product/workspace.js",
+      "http://127.0.0.1:8012/static/vendor/3d-force-graph-1.73.3.min.js"
+    ],
+    "uncaught_exceptions": 0
+  },
+  "runtime_environment": "Separate29-package venv,Python3.14.10;no system site packages/training data;same Linux host,not new Ubuntu OS."
+}

@@ -1,5 +1,5 @@
 {
-  "implementation_commit": "e4ece2383ec792339106319bc60d3d4c46ac64a5",
+  "implementation_commit": "f9fb2af0e051e8d16f9a8d04e813f60c07afe23f",
   "build_tree": "Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.",
   "report_date": "23 November 2026",
   "pdf_pages": 49,
@@ -532,8 +532,7 @@
     "docs/task7e_environment_diagnostics.md": "edf7b9336a16cbf0e74799041cd3ec50dd3166ff2999a58a4d7c8815ff012118",
     "docs/task7e_final_submission_manifest.md": "fdd956955cb94624f6153ae97a92f1c3f52df95ec6970c0cee0d25108a63b87e",
     "docs/task7e_handoff_to_viva.md": "2005937d527dd18dd3c719b5799e0eb75313639e756b237534e80e030dfd9743",
-    "docs/task7e_progress.md": "12a6ca88e76c5203ac713deefa7e0308ba727c1fb35c8e5d8f248c199db3dc04",
-    "docs/task7e_release_validation.md": "16af13c607f2eb091aef951242e8340977fa349213e6828a1bb0e6908d0a4228",
+    "docs/task7e_release_validation.md": "b7783524c90ddd0cf2c6f6b1e550d47e66fcc53600abd58124d3581a451ec993",
     "docs/task7e_screenshot_provenance.md": "4114102152a3c608c642210596e247798bef8cb1d1fdf391b784ca5c556f3052",
     "models/devign-v1/manifest.json": "9fb9560356bfdbbc873cdebf1c70c3af8feaed58ba0819a89ba1cc5d347b1fdb",
     "reports/ml/cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
@@ -630,7 +629,7 @@
     "tests/test_task7e_release.py": "58f7ac04f5d66e2cb31f0fda18dfce11c79cedae109a96535f3dcaa3b967049b",
     "tools/build_submission.py": "41e2c699d8c408ce3c1539782cfed9f95059c65c76a33449e67e7653b7284b98",
     "tools/check_report_links.py": "041f274d90ff961ddbf707d30ab1c783e4c2b060d915e5959df2654cb9c04f5f",
-    "tools/generate_report.py": "f19cf381071652140b906e92e983ccd051051cd1c899976dd212cf6349e6acca",
+    "tools/generate_report.py": "4b736203dfd3e23052d02fc47de36308ae7a8c3b5bf98e04a91c8a0109482bd8",
     "tools/install_model.py": "f8dc4a18e278d988580654d3fbd8c8b82299e9dad870a019b4af5091510a6b1f",
     "tools/release_smoke.py": "e1aac0418f4d30b6cdce96925f1accf0ebe9997085b0be0c7aeae7616122d17b",
     "tools/report_charts.py": "8e512d5a28d287bee61020760c59e006791cedc9423989e6fb3d37ffb87f38e6",
@@ -638,8 +637,8 @@
     "tools/validate_report.py": "0b5a63c137ad5c17f33323178933962f3514567c284b76527c44ab58846fe06d"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "bf57e1eb24a1607356e06a6d7dd5d76c5e7dcc469493384b3d45b52a66966088",
-    "Codebase_Archaeologist_Report.docx": "7753c0dc836d8782342b11b060729789e91f2e182b256c977b54ce198dcbb102"
+    "Codebase_Archaeologist_Report.pdf": "27dccaf38b454df4594f9571e651a084005f7fbf60316495742a649b350b21d1",
+    "Codebase_Archaeologist_Report.docx": "fcd8a093cdd8c1c1852f3bc54c94128321550133422063a84a1d3307885e5114"
   },
   "training_or_evaluation_rerun": false,
   "authors": "Bilal Malik; Aun Anis",

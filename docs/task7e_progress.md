@@ -52,3 +52,23 @@ and offline3D browser check;final promotion gates;normalpush/remote verification
 Cached Time Machine restoration had a stale import instruction despite visible history;
 status now explicitly describes restored evidence. Existing cache/no-request test gained
 an exact status assertion; real Chromium navigation and capture verified the correction.
+
+## Clean-delivery checkpoint
+
+Committed/published f9fb2af;git ls-remote independently matched. Committed-source archive
+extraction used separate29-package venv,no dataset/model cache. Installer,checksum/schema,
+nine API routes,3genuine C estimates and zero Python predictions passed. Own8012server
+served that extraction. Real Chromium rendered7nodes/1canvas/Three r162 with HTTPS
+blocked and only loopback scripts;zero uncaught exceptions. An initial audit saw a
+host-injected browser extension; repeated with a separate --disable-extensions profile
+passed. No unsafe browser/sandbox flags or system changes. User8000server untouched.
+
+Reports now49pages/14figures;isolatedLibreOffice matches49pages,all267substantive long
+paragraphs present using raw/layout extraction;all-page contact sheets and detailed
+cover/results/screenshots/references/appendix pages inspected. Full547tests pass again
+in14.78s;217Node cases,29appJS+2QAtool syntax checks pass.61local links/figures pass.
+
+Final source/report checkpoint and package promotion follow this journal update. Mutable
+operational journal is no longer a report input,so final proof/receipt updates do not
+force circular document regeneration. Final exact code/payload commits,archive hashes,
+remote equality and clean-source proof are in manifest.json/release_checks.json.
