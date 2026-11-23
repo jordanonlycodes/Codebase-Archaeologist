@@ -1,0 +1,1072 @@
+{
+  "browser": "Chrome/157.0.8103.79",
+  "captured_at": "2026-11-23T18:29:41.798Z",
+  "fixture": "tools/create_acceptance_fixture.py",
+  "base_url": "http://127.0.0.1:8016",
+  "source_sha256": {
+    "app/static/graph/universe.js": "90b2e5a6b2b2e255ac74fcb31e435915347b84ad9fd111bb63f2b3eea59cc251",
+    "app/static/graph/three.js": "b8edd06d016026a776d322dd663d895802001c162ee3d3a9c26c1b3e7073f10a",
+    "app/static/graph/explorer.js": "01ac9e9866b174d520a724a594513348ea85377c25d2fd48fb94aafe2d59035c",
+    "app/static/graph/explorer.css": "f1eff2b6af451f48ac630ca187b601996e69a5b3566e335d791083060681e986",
+    "app/static/product/controls.css": "f54aadfa959febe3a85fd60bb17217d566aacc63cce42d0b8ea771fb9b1d5055",
+    "app/templates/features/graph.html": "583903e757e45401d037074039c37eeb1210eb81da747cc0ca26015c04bf12d9"
+  },
+  "checks": [
+    {
+      "name": "real multi-directory ZIP and genuine C-only inference",
+      "pass": true,
+      "files": 3,
+      "functions": 5,
+      "c_predictions": 3
+    },
+    {
+      "name": "offline local WebGL initializes with exactly one canvas",
+      "pass": true
+    },
+    {
+      "name": "actual directory constellations preserve every visible entity",
+      "pass": true,
+      "groups": [
+        {
+          "label": "core",
+          "ids": [
+            "file_a6eb30d9b187e4218b5beba1decd55c71cbc6ac85d556fefb981df1f76f9782f",
+            "function_65b2d59612fe100635b29496d220f8a92100e2a714cf0ecf14512965afa9b54a",
+            "graph_directory_80a611577b355a78daed2e10a09d04f67559abfb455ce01bbdaacb00a12a4cc0"
+          ],
+          "basis": "Retained directory ownership"
+        },
+        {
+          "label": "src",
+          "ids": [
+            "file_cd2ca5c5a59eab2e6135ca1316d80860ab435559561e043d99b5b96f1eac0248",
+            "function_081f41ab10c8fc1cfa716a4c9a1eda9a52bc35b2d0aad9b63e14ff203b996ef4",
+            "function_3fbbfde9ac78f4c4643ab30c7b4921ec6734695f59924d136b134e1d0584df35",
+            "function_62557b91e7460d33f536e5afc941bd4bb16bc4ecd23490de99d2bf6d49b931f9",
+            "graph_directory_ef361df4b126957584c1a43c776dd85c1f0a4284d33e49c814339c4b235f3723"
+          ],
+          "basis": "Retained directory ownership"
+        },
+        {
+          "label": "ui",
+          "ids": [
+            "file_00f97d08ca4973fe1089b8ab97ba46707640d0abdb17726b05ac1b2a462218c0",
+            "function_2a1ebfda2725fc6fb7f01449d88e37ee9aaa818e955a9e03e6134c045e4071c1",
+            "graph_directory_0f6c67a3c301c60cffa6dbcaae0c7b04a3eb2b73d30133cd3ea6eb73172c476b"
+          ],
+          "basis": "Retained directory ownership"
+        }
+      ]
+    },
+    {
+      "name": "harmless refresh preserves stable positions",
+      "pass": true
+    },
+    {
+      "name": "hidden viewport frames without animation and refits on visibility",
+      "pass": true
+    },
+    {
+      "name": "hover tooltip preserves canvas origin and overlay alignment",
+      "pass": true,
+      "position": "absolute",
+      "canvasOffset": 0,
+      "radius": "9px"
+    },
+    {
+      "name": "actual pointer selection and cinematic node focus",
+      "pass": true
+    },
+    {
+      "name": "illumination and forensic inspector match actual directed edges",
+      "pass": true,
+      "incoming": [
+        "file_cd2ca5c5a59eab2e6135ca1316d80860ab435559561e043d99b5b96f1eac0248"
+      ],
+      "outgoing": [],
+      "expectedIncoming": [
+        "file_cd2ca5c5a59eab2e6135ca1316d80860ab435559561e043d99b5b96f1eac0248"
+      ],
+      "expectedOutgoing": [],
+      "roles": [
+        [
+          "graph_repository_af540e00ccf55d6540adea03b45fc34ee4058dc95e845390140fd51fad75fd16",
+          "dim"
+        ],
+        [
+          "graph_directory_80a611577b355a78daed2e10a09d04f67559abfb455ce01bbdaacb00a12a4cc0",
+          "dim"
+        ],
+        [
+          "graph_directory_ef361df4b126957584c1a43c776dd85c1f0a4284d33e49c814339c4b235f3723",
+          "dim"
+        ],
+        [
+          "graph_directory_0f6c67a3c301c60cffa6dbcaae0c7b04a3eb2b73d30133cd3ea6eb73172c476b",
+          "dim"
+        ],
+        [
+          "file_a6eb30d9b187e4218b5beba1decd55c71cbc6ac85d556fefb981df1f76f9782f",
+          "dim"
+        ],
+        [
+          "file_cd2ca5c5a59eab2e6135ca1316d80860ab435559561e043d99b5b96f1eac0248",
+          "incoming"
+        ],
+        [
+          "file_00f97d08ca4973fe1089b8ab97ba46707640d0abdb17726b05ac1b2a462218c0",
+          "dim"
+        ],
+        [
+          "function_65b2d59612fe100635b29496d220f8a92100e2a714cf0ecf14512965afa9b54a",
+          "dim"
+        ],
+        [
+          "function_3fbbfde9ac78f4c4643ab30c7b4921ec6734695f59924d136b134e1d0584df35",
+          "selected"
+        ],
+        [
+          "function_081f41ab10c8fc1cfa716a4c9a1eda9a52bc35b2d0aad9b63e14ff203b996ef4",
+          "dim"
+        ],
+        [
+          "function_62557b91e7460d33f536e5afc941bd4bb16bc4ecd23490de99d2bf6d49b931f9",
+          "dim"
+        ],
+        [
+          "function_2a1ebfda2725fc6fb7f01449d88e37ee9aaa818e955a9e03e6134c045e4071c1",
+          "dim"
+        ]
+      ],
+      "text": "ENTITY INSPECTIONFUNCTIONclamp_indexsrc/review.c← 1 incoming0 outgoing →Counts cover retained relationships; illumination follows the current filters.Entity identityNameclamp_indexNode IDfunction_3fbbfde9ac78f4c4643ab30c7b4921ec6734695f59924d136b134e1d0584df35Source informationRelative pathsrc/review.cLanguageCSource lines2–6Structural metricsStatusanalyzedCyclomatic complexity3Maximum nesting1Function span5Parameters2ML defect riskPredicted defect-related · Estimated model probability: 64.5%Structural indicators and uncalibrated research estimates do not establish confirmed defects or vulnerabilities.Continue the investigationInspect in X-RayAsk Jordan about these relationshipsExplore potential change impactInspect component architectureExplore file heatmapIncoming relationships · 1DEFINES ← review.c · 1 occurrence(s)Outgoing relationships · 0Dependency / callable references · 0"
+    },
+    {
+      "name": "rapid selection cancels stale camera work without relayout",
+      "pass": true
+    },
+    {
+      "name": "frame actual directory constellation",
+      "pass": true
+    },
+    {
+      "name": "Reset Universe restores complete bounded view and camera",
+      "pass": true
+    },
+    {
+      "name": "manual pointer orbit",
+      "pass": true
+    },
+    {
+      "name": "manual pointer pan",
+      "pass": true
+    },
+    {
+      "name": "manual wheel zoom",
+      "pass": true
+    },
+    {
+      "name": "fit current graph",
+      "pass": true
+    },
+    {
+      "name": "tour starts and moves keyboard focus to its controls",
+      "pass": true
+    },
+    {
+      "name": "tour pauses camera and timer",
+      "pass": true
+    },
+    {
+      "name": "tour resumes",
+      "pass": true
+    },
+    {
+      "name": "tour skips to genuine prominent directory",
+      "pass": true
+    },
+    {
+      "name": "tour dependency scene selects a real connected entity",
+      "pass": true
+    },
+    {
+      "name": "tour exits with focus restoration",
+      "pass": true
+    },
+    {
+      "name": "manual navigation overrides and cancels tour",
+      "pass": true
+    },
+    {
+      "name": "Escape safely ends tour",
+      "pass": true
+    },
+    {
+      "name": "keyboard viewport navigation also overrides tour and camera",
+      "pass": true
+    },
+    {
+      "name": "real timed playback advances automatically",
+      "pass": true
+    },
+    {
+      "name": "tour Return scene restores whole view and completes without a timer",
+      "pass": true
+    },
+    {
+      "name": "reduced motion provides manual tour scenes and immediate framing",
+      "pass": true
+    },
+    {
+      "name": "explicit empty-graph presentation fixture creates no universe or tour",
+      "pass": true
+    },
+    {
+      "name": "real WebGL context loss falls back to same evidence in2D",
+      "pass": true
+    },
+    {
+      "name": "Python inspector remains outside C-model prediction scope",
+      "pass": true
+    },
+    {
+      "name": "visible native keyboard focus",
+      "pass": true
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 4,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "Replay Intro"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/explore",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 9,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "mode-zip",
+        "mode-github",
+        "Replay Intro"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/overview",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 12,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "core/helpers.py",
+        "src/review.c",
+        "ui/main.py",
+        "previous-page",
+        "next-page"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/risk",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 15,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "clamp_index · src/review.c:2 · 64.5%",
+        "sum_values · src/review.c:8 · 46.4%",
+        "entry · src/review.c:16 · 44.1%",
+        "clamp_index",
+        "sum_values",
+        "entry",
+        "risk-prev",
+        "risk-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/structure",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 14,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "clamp_index · C",
+        "describe_count · Python",
+        "sum_values · C",
+        "entry · C",
+        "render_count · Python",
+        "structure-prev",
+        "structure-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/graph",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 53,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "graph-2d",
+        "graph-3d",
+        "graph-fullscreen",
+        "graph-clear",
+        "universe-frame",
+        "universe-start",
+        "graph-in",
+        "graph-out",
+        "graph-fit",
+        "graph-reset",
+        "graph-pan",
+        "graph-focus",
+        "graph-hop-1",
+        "graph-hop-2",
+        "graph-group",
+        "graph-branch",
+        "Inspect in X-Ray",
+        "Ask Jordan about these relationships",
+        "Explore potential change impact",
+        "Inspect component architecture",
+        "Explore file heatmap",
+        "CALLS ← render_count · 1 occurrence(s)",
+        "DEFINES ← helpers.py · 1 occurrence(s)",
+        "core · core",
+        "src · src",
+        "ui · ui",
+        "helpers.py · core/helpers.py",
+        "review.c · src/review.c",
+        "main.py · ui/main.py",
+        "describe_count · core/helpers.py",
+        "clamp_index · src/review.c",
+        "entry · src/review.c",
+        "sum_values · src/review.c",
+        "render_count · ui/main.py"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/architecture",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "ai-architecture",
+        "ai-heatmap",
+        "ai-focus",
+        "ai-reset",
+        "Repository",
+        "ai-zoom-in",
+        "ai-zoom-out",
+        "ai-fit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/heatmaps",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "ai-architecture",
+        "ai-heatmap",
+        "ai-up",
+        "ai-reset",
+        "Repository",
+        "ai-zoom-in",
+        "ai-zoom-out",
+        "ai-fit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/blast-radius",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 27,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "impact-clear",
+        "component · core — core",
+        "directory · core — core",
+        "file · helpers.py — core/helpers.py",
+        "function · describe_count — core/helpers",
+        "component · src — src",
+        "directory · src — src",
+        "file · review.c — src/review.c",
+        "function · entry — src/review.c",
+        "function · clamp_index — src/review.c",
+        "function · sum_values — src/review.c",
+        "component · ui — ui",
+        "directory · ui — ui",
+        "file · main.py — ui/main.py",
+        "function · render_count — ui/main.py",
+        "impact-in",
+        "impact-out",
+        "impact-fit",
+        "impact-previous",
+        "impact-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/jordan",
+      "width": 1425,
+      "viewport": 1440,
+      "buttons": 18,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "jordan-new",
+        "jordan-mode-recheck",
+        "Summarize this repository.",
+        "Which functions are most complex?",
+        "Show structural hotspots.",
+        "What information is unavailable?",
+        "jordan-submit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/time-machine",
+      "width": 1440,
+      "viewport": 1440,
+      "buttons": 16,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "tm-load"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 4,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "Replay Intro"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/explore",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 9,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "mode-zip",
+        "mode-github",
+        "Replay Intro"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/overview",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 12,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "core/helpers.py",
+        "src/review.c",
+        "ui/main.py",
+        "previous-page",
+        "next-page"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/risk",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 15,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "clamp_index · src/review.c:2 · 64.5%",
+        "sum_values · src/review.c:8 · 46.4%",
+        "entry · src/review.c:16 · 44.1%",
+        "clamp_index",
+        "sum_values",
+        "entry",
+        "risk-prev",
+        "risk-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/structure",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 14,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "clamp_index · C",
+        "describe_count · Python",
+        "sum_values · C",
+        "entry · C",
+        "render_count · Python",
+        "structure-prev",
+        "structure-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/graph",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 53,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "graph-2d",
+        "graph-3d",
+        "graph-fullscreen",
+        "graph-clear",
+        "universe-frame",
+        "universe-start",
+        "graph-in",
+        "graph-out",
+        "graph-fit",
+        "graph-reset",
+        "graph-pan",
+        "graph-focus",
+        "graph-hop-1",
+        "graph-hop-2",
+        "graph-group",
+        "graph-branch",
+        "Inspect in X-Ray",
+        "Ask Jordan about these relationships",
+        "Explore potential change impact",
+        "Inspect component architecture",
+        "Explore file heatmap",
+        "CALLS ← render_count · 1 occurrence(s)",
+        "DEFINES ← helpers.py · 1 occurrence(s)",
+        "core · core",
+        "src · src",
+        "ui · ui",
+        "helpers.py · core/helpers.py",
+        "review.c · src/review.c",
+        "main.py · ui/main.py",
+        "describe_count · core/helpers.py",
+        "clamp_index · src/review.c",
+        "entry · src/review.c",
+        "sum_values · src/review.c",
+        "render_count · ui/main.py"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/architecture",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "ai-architecture",
+        "ai-heatmap",
+        "ai-focus",
+        "ai-reset",
+        "Repository",
+        "ai-zoom-in",
+        "ai-zoom-out",
+        "ai-fit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/heatmaps",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "ai-architecture",
+        "ai-heatmap",
+        "ai-up",
+        "ai-reset",
+        "Repository",
+        "ai-zoom-in",
+        "ai-zoom-out",
+        "ai-fit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/blast-radius",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 27,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "impact-clear",
+        "component · core — core",
+        "directory · core — core",
+        "file · helpers.py — core/helpers.py",
+        "function · describe_count — core/helpers",
+        "component · src — src",
+        "directory · src — src",
+        "file · review.c — src/review.c",
+        "function · entry — src/review.c",
+        "function · clamp_index — src/review.c",
+        "function · sum_values — src/review.c",
+        "component · ui — ui",
+        "directory · ui — ui",
+        "file · main.py — ui/main.py",
+        "function · render_count — ui/main.py",
+        "impact-in",
+        "impact-out",
+        "impact-fit",
+        "impact-previous",
+        "impact-next"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/jordan",
+      "width": 1009,
+      "viewport": 1024,
+      "buttons": 18,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "jordan-new",
+        "jordan-mode-recheck",
+        "Summarize this repository.",
+        "Which functions are most complex?",
+        "Show structural hotspots.",
+        "What information is unavailable?",
+        "jordan-submit"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/time-machine",
+      "width": 1024,
+      "viewport": 1024,
+      "buttons": 16,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": [
+        "RELIC // LIVE ↗",
+        "Replay Intro",
+        "download-json",
+        "forget-repository",
+        "New analysis ＋",
+        "tm-load"
+      ]
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 4,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/explore",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 9,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/overview",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 12,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/risk",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 15,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/structure",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 14,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/graph",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 53,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/architecture",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/heatmaps",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/blast-radius",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 27,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/jordan",
+      "width": 753,
+      "viewport": 768,
+      "buttons": 18,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/time-machine",
+      "width": 768,
+      "viewport": 768,
+      "buttons": 16,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 4,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/explore",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 9,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/overview",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 12,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/risk",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 15,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/structure",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 14,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/graph",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 53,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/architecture",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/heatmaps",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 20,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/blast-radius",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 27,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/jordan",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 18,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "global controls and responsive page",
+      "pass": true,
+      "page": "/workspace/time-machine",
+      "width": 390,
+      "viewport": 390,
+      "buttons": 16,
+      "sharp": [],
+      "sharpForms": [],
+      "smallTargets": []
+    },
+    {
+      "name": "primary action uses16px radius",
+      "pass": true
+    },
+    {
+      "name": "enabled controls show restrained actual pointer hover feedback",
+      "pass": true
+    },
+    {
+      "name": "disabled primary action remains rounded and visibly unavailable",
+      "pass": true,
+      "disabled": true,
+      "opacity": 0.45,
+      "radius": "16px"
+    },
+    {
+      "name": "existing consent surface shares the16px radius without enabling cloud use",
+      "pass": true
+    },
+    {
+      "name": "dynamically generated inspector actions use shared rounded controls",
+      "pass": true
+    },
+    {
+      "name": "icon zoom controls use circular shape",
+      "pass": true
+    },
+    {
+      "name": "no uncaught JavaScript exceptions",
+      "pass": true
+    },
+    {
+      "name": "all scripts local while external HTTPS blocked",
+      "pass": true
+    }
+  ],
+  "limitations": "Sandboxed headless Chromium; no physical GPU FPS/full WCAG certification. Empty-graph case explicitly uses a presentation fixture."
+}

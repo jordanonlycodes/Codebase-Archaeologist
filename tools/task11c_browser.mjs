@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {connect} from './chromium_cdp.mjs';
 process.env.BASE_URL??='http://127.0.0.1:8015';process.env.CHROME_DEBUG_URL??='http://127.0.0.1:9228';
-const c=await connect(),dir='reports/ui/task11c',checks=[],exceptions=[];fs.mkdirSync(dir,{recursive:true});
+const c=await connect(),dir=process.env.ACCEPTANCE_OUTPUT||'reports/ui/task11c',checks=[],exceptions=[];fs.mkdirSync(dir,{recursive:true});
 const record=(name,details={})=>{exceptions.push(...c.events.filter(e=>e.method==='Runtime.exceptionThrown'));c.events.splice(0,c.events.length);checks.push({name,pass:true,...details});console.log('PASS',name);};
 const click=async selector=>{await c.evaluate(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);const p=await c.evaluate(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await c.call('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...p});await c.call('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...p});};
 const key=async value=>{const code=value==='Escape'?27:value==='Enter'?13:9;await c.call('Input.dispatchKeyEvent',{type:'keyDown',key:value,code:value,windowsVirtualKeyCode:code,...(value==='Enter'?{text:'\r',unmodifiedText:'\r'}:{})});await c.call('Input.dispatchKeyEvent',{type:'keyUp',key:value,code:value,windowsVirtualKeyCode:code});};

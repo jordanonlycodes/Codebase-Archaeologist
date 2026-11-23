@@ -1,0 +1,61 @@
+{
+  "captured_at": "2026-11-23T18:30:19.740Z",
+  "browser": "Chrome/157.0.8103.79",
+  "implementation_base_commit": "8d1e5cc",
+  "tested_source_sha256": {
+    "app/static/product/live.js": "8ab26f514430975ecb654f9585eb92e707ddf9cd785ed07055b9c3f93bf08837",
+    "app/static/product/live.css": "2163b962a26255a990934505cf8d7cad2717b8888b3dd84e8292cb45f99d1018",
+    "app/templates/live.html": "737c55c8d6d5ca0107c363bd1d4a94c38d718d2c52826ad94d832a1ba6b94343"
+  },
+  "files": {
+    "local-git-history.png": {
+      "sha256": "8b23fa337fcfba82fd24a0e943bd0da9cece327468b02206e48feb40e37daffd",
+      "bytes": 327882,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; local Git pytest fixture; intentionally hostile commit subject rendered as text"
+    },
+    "scene-1.png": {
+      "sha256": "2e02e1650ae76900c1414b32c93718b29fa2b3ae2f550139512164a7ce515b2c",
+      "bytes": 492181,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    },
+    "scene-2.png": {
+      "sha256": "ee06a3ebeb0424e2800855875bb2e0441297ababfe767a42f9f7ecc4e13691cd",
+      "bytes": 207269,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    },
+    "scene-3.png": {
+      "sha256": "e0dc8941ccc6db1c1198adc05e899aabf284cf30acc6289642e6cf1fff4f930e",
+      "bytes": 282343,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    },
+    "scene-4.png": {
+      "sha256": "3f9b99fbc04f36668bbd9fc6023c85c590f9cade7ec60452a1caa78907643d39",
+      "bytes": 426831,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    },
+    "scene-5.png": {
+      "sha256": "a9bd07ed5e1513ac8d50a5c01afdb691f3df9d657a05a263d5cec21f55563b76",
+      "bytes": 430449,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    },
+    "scene-6.png": {
+      "sha256": "dbe939efd2f67d462e7630ef48e114ff627a73152de14f9d31fd6c3b643248df",
+      "bytes": 358379,
+      "width": 1920,
+      "height": 1080,
+      "source": "actual Chromium rendering; real API analysis of original five-file mixed-language ZIP"
+    }
+  }
+}

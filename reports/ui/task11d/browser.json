@@ -1,0 +1,212 @@
+{
+  "browser": "Chrome/157.0.8103.79",
+  "date": "2026-11-23T18:30:19.740Z",
+  "checks": [
+    {
+      "name": "genuine ZIP analysis and three approved C predictions",
+      "pass": true
+    },
+    {
+      "name": "discoverable workspace launch",
+      "pass": true
+    },
+    {
+      "name": "accurate ZIP readiness without replaying boot",
+      "pass": true
+    },
+    {
+      "name": "launch and initial scene",
+      "pass": true
+    },
+    {
+      "name": "real overview metrics and resolved dependency count",
+      "pass": true
+    },
+    {
+      "name": "offline existing 3D Universe loads",
+      "pass": true
+    },
+    {
+      "name": "deterministic real structure focus",
+      "pass": true
+    },
+    {
+      "name": "reset camera",
+      "pass": true
+    },
+    {
+      "name": "live manual pointer orbit",
+      "pass": true
+    },
+    {
+      "name": "live manual pointer pan",
+      "pass": true
+    },
+    {
+      "name": "live manual zoom",
+      "pass": true
+    },
+    {
+      "name": "existing guided tour starts pauses resumes skips and exits",
+      "pass": true
+    },
+    {
+      "name": "X-Ray scene opens and hidden renderer sleeps",
+      "pass": true
+    },
+    {
+      "name": "X-Ray real drill-down src",
+      "pass": true
+    },
+    {
+      "name": "X-Ray real drill-down review.c",
+      "pass": true
+    },
+    {
+      "name": "X-Ray real drill-down clamp_index",
+      "pass": true
+    },
+    {
+      "name": "actual direct dependency tracing",
+      "pass": true
+    },
+    {
+      "name": "X-Ray to Universe preserves entity and renderer",
+      "pass": true
+    },
+    {
+      "name": "Python inspection has no C-model risk",
+      "pass": true
+    },
+    {
+      "name": "risk cards use actual retained C scores",
+      "pass": true,
+      "scores": [
+        0.44115041436869545,
+        0.6446299251115485,
+        0.4640631119969904
+      ]
+    },
+    {
+      "name": "ZIP history unavailable state",
+      "pass": true
+    },
+    {
+      "name": "honest closing summary",
+      "pass": true
+    },
+    {
+      "name": "restart",
+      "pass": true
+    },
+    {
+      "name": "recording layout hides notes and creates no recording",
+      "pass": true
+    },
+    {
+      "name": "fullscreen works and survives X-Ray activation",
+      "pass": true
+    },
+    {
+      "name": "simulated fullscreen denial recovers in viewport",
+      "pass": true
+    },
+    {
+      "name": "scene keyboard navigation",
+      "pass": true
+    },
+    {
+      "name": "text input does not hijack navigation",
+      "pass": true
+    },
+    {
+      "name": "rapid transitions keep only latest scene",
+      "pass": true
+    },
+    {
+      "name": "four-times CPU throttle remains navigable, not an FPS benchmark",
+      "pass": true
+    },
+    {
+      "name": "reduced motion immediate scenes and metrics",
+      "pass": true
+    },
+    {
+      "name": "all six scene layouts and controls",
+      "pass": true,
+      "w": 1920,
+      "h": 1080
+    },
+    {
+      "name": "all six scene layouts and controls",
+      "pass": true,
+      "w": 1440,
+      "h": 900
+    },
+    {
+      "name": "all six scene layouts and controls",
+      "pass": true,
+      "w": 1366,
+      "h": 768
+    },
+    {
+      "name": "all six scene layouts and controls",
+      "pass": true,
+      "w": 1024,
+      "h": 768
+    },
+    {
+      "name": "all six scene layouts and controls",
+      "pass": true,
+      "w": 390,
+      "h": 844
+    },
+    {
+      "name": "six genuine 1920x1080 screenshots captured",
+      "pass": true
+    },
+    {
+      "name": "real WebGL context loss falls back to 2D",
+      "pass": true
+    },
+    {
+      "name": "exit restores launch context and focus",
+      "pass": true
+    },
+    {
+      "name": "actual seven-commit local Git fixture restored and inspected; no live GitHub claim",
+      "pass": true
+    },
+    {
+      "name": "explicit missing-graph diagnostic has honest recoverable scenes",
+      "pass": true
+    },
+    {
+      "name": "Return to Workspace restores real snapshot",
+      "pass": true
+    },
+    {
+      "name": "simulated scene error leaves navigation and exit usable",
+      "pass": true
+    },
+    {
+      "name": "repository invalidation prevents stale presentation",
+      "pass": true
+    },
+    {
+      "name": "no-repository preflight remains recoverable",
+      "pass": true
+    },
+    {
+      "name": "no uncaught JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "sources": {
+    "app/static/product/live.js": "8ab26f514430975ecb654f9585eb92e707ddf9cd785ed07055b9c3f93bf08837",
+    "app/static/product/live.css": "2163b962a26255a990934505cf8d7cad2717b8888b3dd84e8292cb45f99d1018",
+    "app/templates/live.html": "737c55c8d6d5ca0107c363bd1d4a94c38d718d2c52826ad94d832a1ba6b94343"
+  },
+  "screenshots": "scene-1 through scene-6: actual mixed-language ZIP, 1920x1080. local-git-history: existing pytest actual Git fixture, test URL identity only, no live GitHub request.",
+  "limitations": "Headless Chromium; no physical projector, microphone, recording or formal accessibility/FPS certification. Fullscreen denial explicitly simulated."
+}
