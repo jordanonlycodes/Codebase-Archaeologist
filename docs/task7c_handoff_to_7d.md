@@ -44,3 +44,8 @@ verification. Actual API/algorithm bounds are in source and report, not marketin
 Task7C exact tests/document checks/render review and remaining limits are recorded in
 [report validation](task7c_report_validation.md). No app behavior, dataset, trained artifact,
 threshold or analytical model has changed during report production.
+
+Verified Task7C runs:baseline526passes/102.66s; final530passes/103.79s, zero failures/
+skips and one existing Starlette/httpx warning. Four new report tests are included.
+Final generated output counts/checksums are in submission/report_manifest.json and
+validation.json; all automated passes do not remove the manual acceptance limits above.

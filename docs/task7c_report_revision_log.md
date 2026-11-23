@@ -37,3 +37,7 @@ Second visual pass: condensed contents to one page, kept captions with table sta
 balanced short continuations, enlarged class/correlation plots and generated print-sized
 CV/threshold/validation/precision–recall-point charts from genuine saved JSON. No ML
 artifact or optimization result changed; full original curves remain linked evidence.
+
+Final release contact-sheet review also caught an introductory “Table below” paragraph
+being mistaken for a numbered caption in the table list. Caption detection now requires
+a number; validator checks exact ordered table/figure list lengths against manifests.

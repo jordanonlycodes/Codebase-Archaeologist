@@ -6,6 +6,7 @@
 - [Matching substantive-content PDF](Codebase_Archaeologist_Report.pdf)
 - [Evidence/output manifest](report_manifest.json)
 - [Executed structural validation](validation.json)
+- [Final release test and integrity record](release_checks.json)
 - [Source/evidence matrix](../docs/task7c_report_evidence_matrix.md)
 - [Screenshot capture and regeneration](../docs/task7c_screenshot_capture_guide.md)
 - [Task 7D handoff](../docs/task7c_handoff_to_7d.md)

@@ -14,11 +14,11 @@ def charts(out):
     with plt.rc_context({'font.size':8.5,'axes.spines.top':False,'axes.spines.right':False}):
         names=list(protocol['configurations']);rows=[json.loads((OPT/(n+'.json')).read_text()) for n in names]
         fig,ax=plt.subplots(figsize=(6.6,4.4));ax.barh([short[n] for n in names],[r['cv_mean_f1'] for r in rows],xerr=[r['cv_std_f1'] for r in rows],color='#7A1E2B')
-        ax.set(xlabel='Mean fold F1 at0.5; error bars = fold SD',title='Training-only grouped CV (3 folds, seed42)');save(fig,'cv_print.png')
+        ax.set(xlabel='Mean fold F1 at 0.5; error bars = fold SD',title='Training-only grouped CV (3 folds, seed42)');save(fig,'cv_print.png')
         names=list(result['finalists']);labels=['Original RF11']+[short[n] for n in names]+['Always positive']
         values=[result['baseline_validation']]+[result['finalists'][n]['validation'] for n in names]+[result['always_positive_validation']]
         half=[result['baseline_validation']]+[result['finalists'][n]['validation_at_half'] for n in names]+[result['always_positive_validation']]
-        fig,ax=plt.subplots(figsize=(6.6,4.6));y=np.arange(len(labels));ax.barh(y-.23,[r['f1'] for r in values],height=.22,label='F1: OOF operating threshold',color='#7A1E2B');ax.barh(y,[r['f1'] for r in half],height=.22,label='F1: fixed0.5',color='#b8969d');ax.barh(y+.23,[r['roc_auc'] for r in values],height=.22,label='ROC-AUC',color='#526d70')
+        fig,ax=plt.subplots(figsize=(6.6,4.6));y=np.arange(len(labels));ax.barh(y-.23,[r['f1'] for r in values],height=.22,label='F1: OOF operating threshold',color='#7A1E2B');ax.barh(y,[r['f1'] for r in half],height=.22,label='F1: fixed 0.5',color='#b8969d');ax.barh(y+.23,[r['roc_auc'] for r in values],height=.22,label='ROC-AUC',color='#526d70')
         ax.set_yticks(y,labels);ax.set_ylim(-.5,len(labels)+2);ax.set(xlabel='Observed metric',title='Reused official validation (n=2,723), not blind test');ax.legend(loc='upper right',fontsize=7.5);save(fig,'validation_print.png')
         fig,ax=plt.subplots(figsize=(6.6,4.6))
         for name in names:

@@ -66,6 +66,17 @@ def main():
     for name,digest in manifest['outputs_sha256'].items():assert sha(OUT/name)==digest,name
     paras,media=document_text(OUT/'Codebase_Archaeologist_Report.docx');word_text=' '.join(paras)
     assert len(media)==manifest['figures']
+    with zipfile.ZipFile(OUT/'Codebase_Archaeologist_Report.docx') as z:
+        body=ET.fromstring(z.read('word/document.xml')).find('w:body',NS)
+        children=list(body)
+        for title,key,prefix in [('List of Tables','tables','Table'),('List of Figures','figures','Figure')]:
+            index=next(i for i,node in enumerate(children) if node.tag.endswith('}p') and ''.join(t.text or '' for t in node.findall('.//w:t',NS))==title)
+            listing=next(node for node in children[index+1:] if node.tag.endswith('}tbl'))
+            entries=listing.findall('w:tr',NS)[1:]
+            assert len(entries)==manifest[key],title
+            for number,row in enumerate(entries,1):
+                label=''.join(t.text or '' for t in row.find('w:tc',NS).findall('.//w:t',NS))
+                assert label.startswith(f'{prefix} {number}.'),label
     assert len(word_text.split())>6000
     with TemporaryDirectory(prefix='task7c-pdf-qa-') as directory:
         text=Path(directory)/'report.txt';bbox=Path(directory)/'bbox.html'

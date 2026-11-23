@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "passed": 526,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 102.66
+  },
+  "full_regression": {
+    "passed": 530,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 103.79
+  },
+  "final_release_repeat": {
+    "passed": 530,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 103.39
+  },
+  "warnings": "One existing Starlette/httpx deprecation warning per full run.",
+  "frontend_cases": 216,
+  "frontend_scope": "Existing real-document/model/Git fixtures through Python wrappers; not added to Python totals.",
+  "focused_report_tests": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 1.17
+  },
+  "pdf_pages": 46,
+  "pdf_review": "All46pages in contact sheets; metric/comparison/table-list detail renders inspected. No app screenshot is fabricated.",
+  "word_visual_rendering": "Unverified; isolated LibreOffice attempts exit1, no output.",
+  "browser": "Chromium exited signal5 before rendering: setsockopt Operation not permitted.",
+  "model_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+  "preparation_code_hash_drift": [],
+  "source_manifest_mismatches": [],
+  "outputs": {
+    "Codebase_Archaeologist_Report.pdf": {
+      "bytes": 1679226,
+      "sha256": "011159ac97e4e022e3951b419dfaa64d6d1ddd6f9ad666911ac09f7c050a358b"
+    },
+    "Codebase_Archaeologist_Report.docx": {
+      "bytes": 848854,
+      "sha256": "9880cc7d72e015d7dd26598729490d89b41892bf81e6a3994239e28ebd0f666b"
+    }
+  }
+}

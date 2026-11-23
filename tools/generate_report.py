@@ -9,6 +9,7 @@ DOCX uses standard Office Open XML; PDF uses Matplotlib's text/vector backend.
 from pathlib import Path
 import json
 import hashlib
+import re
 import zipfile
 from xml.sax.saxutils import escape
 import tempfile
@@ -165,14 +166,14 @@ COVER = [
     ('Bilal Malik — 24P-3061',17,'28252A',True),
     ('Aun Anis — 24P-3017',17,'28252A',True),
     ('FAST-NUCES, Peshawar',12,'28252A',False),
-    ('Software Engineering (SE) · Class5A',12,'28252A',False),
+    ('Software Engineering (SE) · Class 5A',12,'28252A',False),
     ('Institution/department/class: previous report record; confirm.',9,'655D63',False),
     ('Course: [CONFIRM COURSE TITLE AND CODE]',11,'28252A',False),
     ('Instructor: [CONFIRM INSTRUCTOR NAME]',11,'28252A',False),
     ('Semester: [CONFIRM SEMESTER]',11,'28252A',False),
     ('Submission: [CONFIRM SUBMISSION DATE]',11,'28252A',False),
     ('Two-member group permitted, as confirmed by the team.',10,'655D63',False),
-    ('Evidence-driven final revision · built23 November2026',10,'655D63',False),
+    ('Evidence-driven final revision · built 23 November 2026',10,'655D63',False),
 ]
 
 def pdf_cover(pdf):
@@ -187,7 +188,7 @@ def pdf_cover(pdf):
     pdf.savefig(fig,dpi=220);plt.close(fig)
 
 def build_pdf(path):
-    with PdfPages(path,metadata={'Title':'CODEBASE ARCHAEOLOGIST','Author':AUTHORS,'Subject':'AI-Powered Repository Intelligence & Defect Risk Analyzer'}) as pdf:
+    with PdfPages(path,metadata={'Title':'Codebase Archaeologist — AI-Powered Repository Intelligence & Defect Risk Analyzer','Author':AUTHORS,'Subject':'AI-Powered Repository Intelligence & Defect Risk Analyzer'}) as pdf:
         pdf_cover(pdf)
         for index,p in enumerate(PAGES,start=2):
             plan,height=layout(p['blocks'])
@@ -286,7 +287,7 @@ def build_docx(path):
     styles=XML+f'<w:styles xmlns:w="{W}"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="DejaVu Sans" w:hAnsi="DejaVu Sans"/><w:sz w:val="20"/></w:rPr></w:rPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>'+''.join(f'<w:style w:type="paragraph" w:styleId="Heading{i}"><w:name w:val="heading {i}"/><w:basedOn w:val="Normal"/><w:pPr><w:keepNext/><w:outlineLvl w:val="{i-1}"/></w:pPr></w:style>' for i in (1,2))+'</w:styles>'
     header=XML+f'<w:hdr xmlns:w="{W}">'+paragraph('CODEBASE ARCHAEOLOGIST                                      RESEARCH / 2026',16,'655D63',after=0)+'</w:hdr>'
     footer=XML+f'<w:ftr xmlns:w="{W}"><w:p>'+run('BILAL MALIK ·24P-3061 / AUN ANIS ·24P-3017          ',13,'655D63')+'<w:fldSimple w:instr="PAGE">'+run('1',16,'E54859')+'</w:fldSimple></w:p></w:ftr>'
-    core=XML+'<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>CODEBASE ARCHAEOLOGIST</dc:title><dc:creator>Bilal Malik; Aun Anis</dc:creator><cp:lastModifiedBy>Bilal Malik; Aun Anis</cp:lastModifiedBy><dc:subject>AI-Powered Repository Intelligence &amp; Defect Risk Analyzer</dc:subject></cp:coreProperties>'
+    core=XML+'<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>Codebase Archaeologist — AI-Powered Repository Intelligence &amp; Defect Risk Analyzer</dc:title><dc:creator>Bilal Malik; Aun Anis</dc:creator><cp:lastModifiedBy>Bilal Malik; Aun Anis</cp:lastModifiedBy><dc:subject>AI-Powered Repository Intelligence &amp; Defect Risk Analyzer</dc:subject></cp:coreProperties>'
     with zipfile.ZipFile(path,'w',zipfile.ZIP_DEFLATED) as z:
         for name,value in {'[Content_Types].xml':types,'_rels/.rels':XML+f'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="doc" Type="{R}/officeDocument" Target="word/document.xml"/><Relationship Id="core" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/></Relationships>','docProps/core.xml':core,'word/document.xml':document,'word/_rels/document.xml.rels':relationships,'word/styles.xml':styles,'word/header1.xml':header,'word/footer1.xml':footer}.items():z.writestr(name,value)
         for i,image in enumerate(media,start=1):z.write(image,f'word/media/image{i}.png')
@@ -316,7 +317,7 @@ def paginate(pages, limit=575):
                 if part:current['blocks'].append(('table',head,part,widths))
             else:
                 lookahead=[]
-                if queue and (block[0]=='h' or (block[0]=='p' and block[1].startswith('Table '))):
+                if queue and (block[0]=='h' or (block[0]=='p' and re.match(r'^Table \d+\.',block[1]))):
                     next_block=queue[0]
                     lookahead=[('table',next_block[1],next_block[2][:3],next_block[3])] if next_block[0]=='table' else [next_block]
                 if layout(current['blocks']+[block]+lookahead)[1]>limit:flush()
@@ -328,7 +329,7 @@ def paginate(pages, limit=575):
             previous,last=result[-2],result[-1]
             while len(previous['blocks'])>1 and layout(last['blocks'])[1]<240:
                 block=previous['blocks'][-1]
-                if block[0] not in ('p','callout') or block[1].startswith('Table '):break
+                if block[0] not in ('p','callout') or re.match(r'^Table \d+\.',block[1]):break
                 if layout([block]+last['blocks'])[1]>limit:break
                 previous['blocks'].pop();last['blocks'].insert(0,block)
     return result
@@ -345,10 +346,10 @@ def contents_pages(body):
                 chapters.append([p['chapter']+' '+p['title'],str(pg)]);seen.add(p['chapter'])
             for block in p['blocks']:
                 if block[0]=='figure':figs.append([block[2],str(pg)])
-                if block[0]=='p' and block[1].startswith('Table '):tables.append([block[1],str(pg)])
+                if block[0]=='p' and re.match(r'^Table \d+\.',block[1]):tables.append([block[1],str(pg)])
         for title,rows in [('Contents',chapters),('List of Figures',figs),('List of Tables',tables)]:
             item={'chapter':'FM','title':title,'subtitle':'Page references follow the fixed PDF; editable Word may repaginate.','blocks':[]}
-            table(item['blocks'],['Entry','PDF page'],rows,[.88,.12]);pages.extend(paginate([item],limit=638))
+            table(item['blocks'],['Entry','Page'],rows,[.88,.12]);pages.extend(paginate([item],limit=638))
         if len(pages)==offset:return pages
         offset=len(pages)
     raise ValueError('Contents offset did not stabilize')
@@ -381,6 +382,7 @@ def main():
         _,height=layout(p['blocks']);assert height<=638
     build_pdf(OUT/'Codebase_Archaeologist_Report.pdf');build_docx(OUT/'Codebase_Archaeologist_Report.docx')
     manifest={'implementation_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+      'build_tree':'Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.',
       'report_date':DATE,'pdf_pages':len(PAGES)+1,'chapters':17,'appendices':5,'figures':len(FIGURES),'tables':len(TABLES),
       'figure_index':FIGURES,'table_index':TABLES,
       'page_index':[{'page':i,'chapter':p['chapter'],'title':p['title']} for i,p in enumerate(PAGES,2)],

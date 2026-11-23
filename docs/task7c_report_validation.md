@@ -7,8 +7,8 @@ are produced; real UI screenshots and local Office rendering remain pending. No 
 threshold, dataset or app runtime change is made. Generation uses saved evidence only.
 
 Fresh baseline:526 Python passed,0 failed/skipped,102.66s, one existing Starlette/httpx
-warning. Four focused report-validator regressions are being added; final execution
-will be recorded here before handoff. Existing216frontend cases are run by wrappers,
+warning. Final full run:**530 passed,0 failed/skipped in103.79s**, same warning. Four new
+report-validator regressions pass independently (1.15s); no removed/weakened tests. Existing216frontend cases are run by wrappers,
 not added to the Python total. No tests are removed or intentionally skipped.
 
 Checks implemented:current source and output hashes, no deleted dashboard references,
@@ -35,8 +35,13 @@ from the same shared report blocks as editable OOXML. This validates substantive
 not identical Word page layout. Contents/figure/table page references refer to PDF;
 check/update after local Word edits. PDF is not tagged/PDF-UA certified.
 
-Representative PDF pages and contact sheets will be rendered with Poppler and inspected;
-findings and final exact sizes/counts will be recorded below. No screenshot generated
+All draft PDF pages were rendered with Poppler and inspected in four contact sheets.
+Cover/contents, EDA, architecture/training, optimization, metrics tables, references and
+appendices were reviewed; metric/comparison pages were additionally opened at100dpi.
+This caught a sparse contents continuation and table splits, which were refined.
+Print-sized charts improve label readability. Final regenerated pages receive the same
+bounds checks and representative rendering review. No clipping/overlapping text was
+observed in inspected PDF samples; this is not Office-suite visual acceptance. No screenshot generated
 from a harness, brand art or invented UI is substituted.
 
 ## Commands
@@ -52,3 +57,37 @@ PYTHONPATH=. .venv/bin/python tools/audit_academic_evidence.py
 Full pytest uses the documented process-local polling selector workaround in
 [ML verification](task7c0_test_report.md), changing no application networking or metrics.
 Source/output receipts are regenerated only after reviewed content/source changes.
+
+## Verified output and evidence summary
+
+- Source-manifest repair:232 current indexed sources before final refinements; obsolete
+  app/static/app.js and app/templates/dashboard.html removed from active report evidence.
+  Read-only academic audit reports no source mismatches, no preprocessing hash drift and
+  matching generated output hashes. No dummy files or modified baseline metrics.
+- Original pipeline SHA remains9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6.
+- Both DOCX metadata/footer/body and PDF author metadata contain the exact two members.
+  Full project title is used; no obsolete solo wording remains in generated content.
+- PDF uses embedded/subset Unicode DejaVu fonts, A4, no encryption/JavaScript. Word ZIP
+  integrity/XML/relationships and actual editable table/heading structure pass. Automatic
+  PAGE fields remain; content lists refer to PDF pages rather than claiming Word pagination.
+- All displayed original/selected optimization metrics match saved values to six decimals;
+  shared substantive paragraphs match raw/layout PDF extraction. No empty PDF pages or
+  text outside page boundaries. Eleven numbered figures and13numbered tables have valid
+  source paths. Eight primary-source references are traceable and printed in both formats.
+- Local Markdown/figure checker passes20references/paths; external metadata was separately
+  inspected with web retrieval. Source and output SHA-256 receipts are in report_manifest.json,
+  and exact final page/size/count details in validation.json/pdfinfo.
+- Final full-suite command used the process-local polling wrapper; all existing frontend
+  wrappers remain green (216Node cases through Python tests, not extra Python test totals).
+  Dependency check:No broken requirements. git diff --check passes for Task7C changes.
+- Final regeneration only records actual test results and print/text refinements; focused
+  report checks are rerun afterwards. No app source or ML artifact changes occurred.
+
+Remaining actions:three genuine screenshot captures, academic field confirmation, local
+Word/LibreOffice rendering, real browser/mobile/GPU/demo acceptance and Task7D clean-checkout
+model/vendor packaging. These are explicit submission gaps, not hidden automated failures.
+
+Release review:all46regenerated pages opened in four contact sheets, plus earlier100dpi
+metric/table views. A spurious table-list introductory paragraph was corrected; strict
+ordered list-count validation now prevents recurrence. Both final Office conversion
+attempts exit1/no output; editable Word layout still requires local signoff.

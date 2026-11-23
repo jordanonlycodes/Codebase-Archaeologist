@@ -1,7 +1,8 @@
 {
-  "implementation_commit": "d0b2a638a10f1a3bca7dfe30c82609ca33a5afd4",
+  "implementation_commit": "5735e4cc4f0376a60c2547a1e2d4abfa862c461d",
+  "build_tree": "Source checksums cover the reviewed build tree; implementation_commit is its base HEAD before output commit.",
   "report_date": "23 November 2026",
-  "pdf_pages": 47,
+  "pdf_pages": 46,
   "chapters": 17,
   "appendices": 5,
   "figures": 11,
@@ -39,7 +40,7 @@
     },
     {
       "number": 7,
-      "title": "Training-only grouped three-fold mean F1 at0.5; bars show fold SD, not confidence intervals. Label suffix11/22 denotes feature count.",
+      "title": "Training-only grouped three-fold mean F1 at 0.5; bars show fold SD, not confidence intervals. Label suffix11/22 denotes feature count.",
       "path": "submission/figures/cv_print.png"
     },
     {
@@ -136,57 +137,57 @@
     {
       "page": 5,
       "chapter": "FM",
-      "title": "Contents (continued)"
+      "title": "List of Figures"
     },
     {
       "page": 6,
       "chapter": "FM",
-      "title": "List of Figures"
-    },
-    {
-      "page": 7,
-      "chapter": "FM",
       "title": "List of Tables"
     },
     {
-      "page": 8,
+      "page": 7,
       "chapter": "01",
       "title": "Introduction"
     },
     {
-      "page": 9,
+      "page": 8,
       "chapter": "02",
       "title": "Problem Statement and Objectives"
     },
     {
-      "page": 10,
+      "page": 9,
       "chapter": "03",
       "title": "Background and Related Work"
     },
     {
-      "page": 11,
+      "page": 10,
       "chapter": "04",
       "title": "Dataset and Data Description"
     },
     {
-      "page": 12,
+      "page": 11,
       "chapter": "04",
       "title": "Dataset and Data Description (continued)"
     },
     {
-      "page": 13,
+      "page": 12,
       "chapter": "05",
       "title": "Data Preprocessing"
     },
     {
-      "page": 14,
+      "page": 13,
       "chapter": "05",
       "title": "Data Preprocessing (continued)"
     },
     {
-      "page": 15,
+      "page": 14,
       "chapter": "06",
       "title": "Exploratory Data Analysis"
+    },
+    {
+      "page": 15,
+      "chapter": "06",
+      "title": "Exploratory Data Analysis (continued)"
     },
     {
       "page": 16,
@@ -195,33 +196,33 @@
     },
     {
       "page": 17,
-      "chapter": "06",
-      "title": "Exploratory Data Analysis (continued)"
-    },
-    {
-      "page": 18,
       "chapter": "07",
       "title": "System Architecture"
     },
     {
-      "page": 19,
+      "page": 18,
       "chapter": "07",
       "title": "System Architecture (continued)"
     },
     {
-      "page": 20,
+      "page": 19,
       "chapter": "08",
       "title": "ML Methodology"
     },
     {
-      "page": 21,
+      "page": 20,
       "chapter": "08",
       "title": "ML Methodology (continued)"
     },
     {
-      "page": 22,
+      "page": 21,
       "chapter": "09",
       "title": "ML Optimization Investigation"
+    },
+    {
+      "page": 22,
+      "chapter": "09",
+      "title": "ML Optimization Investigation (continued)"
     },
     {
       "page": 23,
@@ -235,13 +236,13 @@
     },
     {
       "page": 25,
-      "chapter": "09",
-      "title": "ML Optimization Investigation (continued)"
+      "chapter": "10",
+      "title": "Evaluation and Results"
     },
     {
       "page": 26,
       "chapter": "10",
-      "title": "Evaluation and Results"
+      "title": "Evaluation and Results (continued)"
     },
     {
       "page": 27,
@@ -255,13 +256,13 @@
     },
     {
       "page": 29,
-      "chapter": "10",
-      "title": "Evaluation and Results (continued)"
+      "chapter": "11",
+      "title": "Application Implementation"
     },
     {
       "page": 30,
       "chapter": "11",
-      "title": "Application Implementation"
+      "title": "Application Implementation (continued)"
     },
     {
       "page": 31,
@@ -270,81 +271,76 @@
     },
     {
       "page": 32,
-      "chapter": "11",
-      "title": "Application Implementation (continued)"
-    },
-    {
-      "page": 33,
       "chapter": "12",
       "title": "Interface Design and User Experience"
     },
     {
-      "page": 34,
+      "page": 33,
       "chapter": "13",
       "title": "Testing and Verification"
     },
     {
-      "page": 35,
+      "page": 34,
       "chapter": "13",
       "title": "Testing and Verification (continued)"
     },
     {
-      "page": 36,
+      "page": 35,
       "chapter": "14",
       "title": "Security and Reliability"
     },
     {
-      "page": 37,
+      "page": 36,
       "chapter": "15",
       "title": "Limitations"
     },
     {
-      "page": 38,
+      "page": 37,
       "chapter": "16",
       "title": "Future Work"
     },
     {
-      "page": 39,
+      "page": 38,
       "chapter": "17",
       "title": "Conclusion"
     },
     {
-      "page": 40,
+      "page": 39,
       "chapter": "RF",
       "title": "References"
     },
     {
-      "page": 41,
+      "page": 40,
       "chapter": "A",
       "title": "Appendix A \u2014 Feature Schemas"
     },
     {
-      "page": 42,
+      "page": 41,
       "chapter": "A",
       "title": "Appendix A \u2014 Feature Schemas (continued)"
     },
     {
-      "page": 43,
+      "page": 42,
       "chapter": "B",
       "title": "Appendix B \u2014 API and Reproduction"
     },
     {
-      "page": 44,
+      "page": 43,
       "chapter": "B",
       "title": "Appendix B \u2014 API and Reproduction (continued)"
     },
     {
-      "page": 45,
+      "page": 44,
       "chapter": "C",
       "title": "Appendix C \u2014 Optimization Configurations"
     },
     {
-      "page": 46,
+      "page": 45,
       "chapter": "D",
       "title": "Appendix D \u2014 University Compliance Mapping"
     },
     {
-      "page": 47,
+      "page": 46,
       "chapter": "E",
       "title": "Appendix E \u2014 Demonstration and Evidence Capture"
     }
@@ -485,10 +481,10 @@
     "docs/task7c0_model_selection_decision.md": "e7ff60716b2edf04351345373181a5fc29a8036c3e45e96d38dfb84dea829b84",
     "docs/task7c0_test_report.md": "002b778526cc38e2dea5474248efe48578e88a4f1768e8da662c74d2db241ffa",
     "docs/task7c_baseline.md": "32794e2dc9b7db99c0ddf7d813fd5ce26db526d33cf0ee97b09d618a1aa9a228",
-    "docs/task7c_handoff_to_7d.md": "814940db98ec088950c90c2eba75c24a710fe7fe66032309c5e1f0734aa90e81",
+    "docs/task7c_handoff_to_7d.md": "dbfbf4cbcf937188b6785757032c9f3d857eb93f3a384714b8567d93d7dfb8c5",
     "docs/task7c_report_evidence_matrix.md": "6283d7a47ae2e74349f97a70a46552cd402b7c6649e578773d71f0773575a9bf",
-    "docs/task7c_report_revision_log.md": "559c6aa2955c346ae019d447e7756ff8180e5a18d8e7c26cced9819e182aa568",
-    "docs/task7c_report_validation.md": "04c1e7fe13f0fc0e706994fcca42b85e2e9e7efcae904432f8b7a5f82b464716",
+    "docs/task7c_report_revision_log.md": "0bf161fc026d71605184b6ea6e603f4ca49bf2373df6bcb4e24d9e0730a873f2",
+    "docs/task7c_report_validation.md": "728a0329a5910c03318c1e2ef54b5610925a65bb65de0a121b7df2801a516d6e",
     "docs/task7c_screenshot_capture_guide.md": "6b493bbfcbb51f3cf0643c5c4f0c53ef9fc958dd4ab1f7470ba13685d02c9fb8",
     "reports/ml/cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
     "reports/ml/confusion_matrices.png": "24e46f62904d05ca91ad2f5e9aa9253cbe60eb0d4cb36634c11c83de090de2a4",
@@ -539,7 +535,7 @@
     "reports/ml/test_evaluation.json": "bca167f228321c400e8617856bac86eaee2e81b26feedafe0f89924dad7c050c",
     "submission/references.json": "638d92792222668f69800949c2a773cb7858a687cc6da74912caf6da69879132",
     "submission/screenshots.json": "f200fed0d105053cb16228f26423478306ef20e4ba888726ce6655030001864d",
-    "submission/test_evidence.json": "0553fe1f494a9726f44ff666457c97054af6206cc57747a0bd1d1493e747707f",
+    "submission/test_evidence.json": "85566796e3660de30e4a9cfa4f3f8cb96d348fd5a775235a7231ce1bb5b8ecde",
     "tests/conftest.py": "8784ab602b5d1f49038f711aee395030d3c48562ef54da0e4dc081be6a3638dc",
     "tests/fixtures/university_demo/helpers.py": "13d850b8ac1a54eb64477514c8645de92a709523172ce6976bb7ef2096a81fd4",
     "tests/frontend/architecture.test.cjs": "00418008fb5fe2c7f33c2fccac79f4000b6a508543289df78266a168611847a5",
@@ -578,14 +574,14 @@
     "tests/test_scanner.py": "d125b8c124d230e2adcce5ec0885cfa4da6e3fd9a6dd7adde51c0f2f024552bf",
     "tests/test_structural.py": "d0526355242595db1fd55236ba1144bd41add5d1b2ae1cab724ddd6c44dfe912",
     "tools/check_report_links.py": "2950115dabaa5edb3a6227685c744b97e3c0b11c4f3843e198d6eec53624d4df",
-    "tools/generate_report.py": "4fd58ef2644392b0f435d94fc897d795305c30bef91254a87d43da8cda51993d",
-    "tools/report_charts.py": "990904ab383ebb1bebd711b27b129b75ab9f3ed6bcbb09acee5da7e6554a7995",
-    "tools/report_content.py": "0957ef72e786606b42775502e073cffb04fbf47e5886c489d255cc65ec6e05dd",
-    "tools/validate_report.py": "0896fad32151ab9424b10e153051099096ccb0a28920e91243a98a61e8115913"
+    "tools/generate_report.py": "648c46d07528d406f60006f41ae2ee20336819c84c2d585573b01c96932595b8",
+    "tools/report_charts.py": "8e512d5a28d287bee61020760c59e006791cedc9423989e6fb3d37ffb87f38e6",
+    "tools/report_content.py": "dac19c5f237b436399d1c3ade08729748209c83a674ccc6a6c409353d5b46af8",
+    "tools/validate_report.py": "a8dc7316f8b144b5d8db4e896ac9aebbccd88d7de9ba46cdf658569d8fc6f1a9"
   },
   "outputs_sha256": {
-    "Codebase_Archaeologist_Report.pdf": "b23bf83825c2d40c0d5bb6475cdceeb69626e43809adf0c9bd5befdc6731e65c",
-    "Codebase_Archaeologist_Report.docx": "b607c860059a5e045d604e1d1e5f28080ee0d92c217c91fb1a157cb51d523d4c"
+    "Codebase_Archaeologist_Report.pdf": "011159ac97e4e022e3951b419dfaa64d6d1ddd6f9ad666911ac09f7c050a358b",
+    "Codebase_Archaeologist_Report.docx": "9880cc7d72e015d7dd26598729490d89b41892bf81e6a3994239e28ebd0f666b"
   },
   "training_or_evaluation_rerun": false,
   "authors": "Bilal Malik; Aun Anis",
