@@ -304,3 +304,9 @@ a separate task; no report, model or release archive regeneration is part of thi
 Implementation and QA are committed separately on the cinematic development branch.
 The source checkpoint and final publication verification are recorded below; no merge
 into `main`, tag movement or archive rebuild is part of this task.
+
+Implementation checkpoint: `722a58a` — `Build repository constellations, guided universe
+tour and premium shared controls`. The following QA commit contains the native browser
+runner, navigation-settlement correction and actual acceptance captures/receipt. Final
+local/remote feature-branch equality is checked after publication; Git refs provide the
+closing commit identity without a circular self-hash in this document.

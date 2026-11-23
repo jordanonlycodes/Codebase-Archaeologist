@@ -8,7 +8,14 @@ export async function connect(){
  await call('Page.enable');await call('Runtime.enable');await call('Network.enable');await call('Network.setCacheDisabled',{cacheDisabled:true});
  const evaluate=async expression=>{const r=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(JSON.stringify(r.exceptionDetails));return r.result.value;};
  const wait=async(expression,ms=20000)=>{const end=Date.now()+ms;while(Date.now()<end){try{if(await evaluate(expression))return;}catch{}await new Promise(r=>setTimeout(r,150));}throw Error('Timed out: '+expression);};
- const go=async path=>{await call('Page.navigate',{url:(process.env.BASE_URL||'http://127.0.0.1:8000')+path});await wait('document.readyState==="complete"');};
+ const go=async path=>{
+  const url=(process.env.BASE_URL||'http://127.0.0.1:8000')+path,nav=await call('Page.navigate',{url});
+  if(nav.errorText)throw Error('Browser navigation failed: '+nav.errorText);
+  // The previous document can still report readyState=complete after navigate.
+  // Observe the actual new main-frame commit before querying the destination UI.
+  if(nav.loaderId){const end=Date.now()+20000;while(!events.some(e=>e.method==='Page.frameNavigated'&&e.params.frame.id===nav.frameId&&e.params.frame.loaderId===nav.loaderId)){if(Date.now()>end)throw Error('Main-frame navigation did not commit');await new Promise(r=>setTimeout(r,20));}}
+  await wait(`document.readyState==='complete'&&location.href===${JSON.stringify(url)}`);
+ };
  const shot=async path=>{const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path,Buffer.from(r.data,'base64'));};
  return{call,evaluate,wait,go,shot,events,close:()=>ws.close()};
 }
