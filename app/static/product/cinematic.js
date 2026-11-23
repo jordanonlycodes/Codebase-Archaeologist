@@ -87,5 +87,5 @@
   destroy(){this.stop();this.media.removeEventListener?.('change',this.stop);this.doc.removeEventListener('visibilitychange',this.visibility);this.env.removeEventListener('pagehide',this.stop);}
  }
  if(typeof module!=='undefined'&&module.exports)module.exports={Boot,Statistics,BOOT_KEY,STATS_KEY};
- if(root.document&&!root.CinematicBoot){try{root.LivingStatistics=new Statistics(root);root.CinematicBoot=new Boot(root);root.CinematicBoot.initialize();}catch{root.CinematicBoot?.destroy();}}
+ if(root.document&&!root.CinematicBoot){try{root.LivingStatistics=new Statistics(root);root.CinematicBoot=new Boot(root);if(root.document.body?.dataset.intro!=='off')root.CinematicBoot.initialize();}catch{root.CinematicBoot?.destroy();}}
 })(globalThis);

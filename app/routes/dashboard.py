@@ -39,6 +39,18 @@ ASSETS = {
 }
 
 
+@router.get('/live', include_in_schema=False)
+async def live(request: Request):
+    # Reuse the actual graph/X-Ray and Time Machine controllers in one document.
+    styles, scripts = [], []
+    for feature in ['graph', 'time-machine']:
+        css, js = ASSETS[feature]
+        styles.extend(css)
+        scripts.extend(js)
+    return templates.TemplateResponse(request=request, name='live.html',
+                                      context={'styles': styles, 'scripts': scripts})
+
+
 @router.get('/explore', include_in_schema=False)
 async def explore(request: Request):
     return templates.TemplateResponse(request=request, name='explore.html', context={'upload_limit':LIMITS.upload_bytes})

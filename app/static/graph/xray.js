@@ -58,7 +58,7 @@
     reset(){this.cancel();this.active=false;this.history.reset();this.tracing=false;this.explorer.state.selected=null;$('xray-workspace').hidden=true;$('xray-activate').disabled=false;$('xray-activate').setAttribute('aria-expanded','false');$('xray-evidence').replaceChildren();}
     open(id=null,trigger=null){
       this.trigger=trigger||$('xray-activate');this.explorer.stopTour('X-Ray investigation opened.');
-      if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+      if(document.fullscreenElement===$('graph-workspace'))document.exitFullscreen().catch(()=>{});
       if($('graph-workspace').classList.contains('is-expanded'))this.explorer.collapse();
       if(!this.explorer.adapter)this.explorer.epoch++; // Cancel only a pending renderer load, preserving an existing context-loss guard.
       this.explorer.adapter?.pause?.();this.explorer.adapter?.cancelCamera?.();
