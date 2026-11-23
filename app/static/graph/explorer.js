@@ -54,6 +54,7 @@
       this.visible=false;
     }
     setGraph(graph,preferences=null){
+      root.RelicXRay?.reset();
       this.stopTour('Repository changed.');
       this.epoch++;clearTimeout(this.timer);this.adapter?.destroy();this.adapter=null;this.notice='';
       const quality=this.state.quality;this.ix=D.index(graph);this.state=D.initial();this.state.quality=quality;this.searchKey=null;this.inspectKey=null;this.view=null;this.groups=null;this.clusterKey=null;$('universe-start').disabled=true;
@@ -77,7 +78,7 @@
     }
     modeButtons(){for(const mode of ['2d','3d'])$('graph-'+mode).setAttribute('aria-pressed',String(this.state.mode===mode));$('graph-pan').hidden=this.state.mode!=='3d';$('graph-pan').setAttribute('aria-pressed',String(!!this.panEnabled));}
     async switchMode(mode,tourLaunch=false){
-      if(this.suspended)return;
+      if(this.suspended||root.RelicXRay?.active)return;
       if(!tourLaunch)this.stopTour('Renderer changed.');
       if(mode==='3d'&&!this.supports3D){mode='2d';this.notice='WebGL unavailable; using 2D.';}
       const token=++this.epoch;
@@ -200,6 +201,7 @@
       if(!n){panel.append(text('h3','Inspect an entity'),text('p','Select a node or a search result to inspect actual relationships and source metrics.','muted'));return;}
       const m=n.metadata||{};
       const actions=text('div',undefined,'universe-inspector-actions');
+      if(root.RelicXRay&&['directory','file','function'].includes(n.type)){const xray=text('button','Inspect in X-Ray','graph-related');xray.type='button';xray.addEventListener('click',()=>root.RelicXRay.open(n.id,xray));actions.append(xray);}
       panel.append(text('p','ENTITY INSPECTION','kicker'),text('span',n.type.toUpperCase(),'section-tag'),text('h3',n.name));
       const identity=text('p',n.path||'Repository anchor','universe-identity-path');panel.append(identity);
       const connections=text('div',undefined,'universe-connection-summary');connections.append(text('span',`← ${(this.ix.incoming.get(n.id)||[]).length} incoming`),text('span',`${(this.ix.outgoing.get(n.id)||[]).length} outgoing →`));panel.append(connections,text('p','Counts cover retained relationships; illumination follows the current filters.','muted'));

@@ -1,6 +1,19 @@
 <section class="risk-section graph-section" id="knowledge-explorer" aria-labelledby="graph-title">
           <h2 id="graph-title" class="sr-only">Knowledge Graph Explorer</h2>
           <p id="graph-state" role="status">Analyze a repository to explore its extracted graph.</p>
+          <div class="xray-entry"><div><span class="kicker">RELIC // X-RAY</span><p>See beneath the structure. Follow the evidence.</p></div><button id="xray-activate" class="button garnet" type="button" disabled>Activate X-Ray ↗</button></div>
+          <section id="xray-workspace" class="xray-workspace" aria-labelledby="xray-title" hidden>
+            <header class="xray-heading"><div><p class="kicker">X-RAY MODE ACTIVE / ARCHITECTURE INVESTIGATION</p><h2 id="xray-title" tabindex="-1">RELIC <em>// X-RAY</em></h2><p>SEE BENEATH THE STRUCTURE.</p></div><button id="xray-exit" type="button">Exit X-Ray</button></header>
+            <nav class="xray-navigation" aria-label="Investigation navigation"><button id="xray-back" type="button">← Back</button><button id="xray-forward" type="button">Forward →</button><button id="xray-root" type="button">Return to Structure</button><button id="xray-clear" type="button">Clear Selection</button><button id="xray-universe" type="button">Locate in Universe ↗</button></nav>
+            <nav id="xray-breadcrumb" class="xray-breadcrumb" aria-label="Investigation breadcrumbs"></nav>
+            <p id="xray-status" role="status" aria-live="polite"></p>
+            <div class="xray-grid"><div class="xray-plates" id="xray-plates">
+              <section class="xray-plane" data-plane="directory" aria-labelledby="xray-structure-title"><header><span>01 / STRUCTURE</span><h3 id="xray-structure-title">Directory cross-section</h3></header><div id="xray-directories"></div></section>
+              <section class="xray-plane" data-plane="file" aria-labelledby="xray-file-title"><header><span>02 / FILE SYSTEM</span><h3 id="xray-file-title">Source plates</h3></header><div id="xray-files"></div></section>
+              <section class="xray-plane" data-plane="function" aria-labelledby="xray-function-title"><header><span>03 / FUNCTION INTELLIGENCE</span><h3 id="xray-function-title">Extracted definitions</h3></header><div id="xray-functions"></div></section>
+            </div><aside id="xray-evidence" class="xray-evidence" aria-label="Relic evidence inspector"></aside></div>
+            <p class="graph-caution">Retained static evidence only. Directory groups are not inferred runtime modules. Ownership is distinct from calls and imports. Research risk estimates do not establish confirmed defects.</p>
+          </section>
           <div id="graph-content" hidden>
             <header class="universe-heading"><div><p class="kicker">SOURCE / SPACE / CONNECTION</p><h2>Repository <em>Universe.</em></h2><p>Real entities. Directory constellations. Every connection has evidence.</p></div><span aria-hidden="true" class="universe-orbit-mark">◌</span></header>
             <div class="stats-grid risk-stats">

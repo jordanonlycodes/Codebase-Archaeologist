@@ -42,6 +42,42 @@ async function boot(page,{data=fixture.analysis,handoff=null,view=null,storageFa
  for(const [id,fn]of [...frames]){frames.delete(id);fn(2000);}
  return {releaseLoad,context,doc,store,requests,cloudRequests,navigation,saved,frames,timers,events,session,emit:async(type,event={})=>{for(const fn of events.get(type)||[])await fn(event);await new Promise(setImmediate);}};
 }
+test('X-Ray activation uses the real document, retains snapshot and issues no requests',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,before=h.requests.length;assert(x);h.doc.getElementById('xray-activate').click();assert(x.active);assert.equal(h.doc.getElementById('graph-content').hidden,true);assert.equal(h.doc.getElementById('xray-workspace').hidden,false);assert.equal(h.doc.activeElement.id,'xray-title');assert.equal(h.requests.length,before);assert(h.doc.getElementById('xray-directories').querySelectorAll('button').length>0);
+});
+test('X-Ray directory, file and function navigation share the Universe selection identity',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,ix=h.context.graphExplorer.ix,fn=ix.ordered.find(n=>n.type==='function'&&n.metadata.language==='C'),path=h.context.ArchaeologistXRay.lineage(ix,fn.id),dir=path.find(n=>n.type==='directory'),file=path.find(n=>n.type==='file');x.open();x.navigate(dir.id);assert(h.doc.getElementById('xray-files').textContent.includes(file.name));x.navigate(file.id);assert(h.doc.getElementById('xray-functions').textContent.includes(fn.name));x.navigate(fn.id);assert.equal(h.context.graphExplorer.state.selected,fn.id);assert(h.doc.getElementById('xray-breadcrumb').textContent.includes(fn.name));assert(h.doc.getElementById('xray-evidence').textContent.includes('C FUNCTION DEFECT-RISK ESTIMATE'));
+});
+test('X-Ray back/forward and breadcrumbs preserve canonical selection',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,ix=h.context.graphExplorer.ix,files=ix.ordered.filter(n=>n.type==='file');x.open(files[0].id);x.navigate(files[1].id);h.doc.getElementById('xray-back').click();assert.equal(h.context.graphExplorer.state.selected,files[0].id);h.doc.getElementById('xray-forward').click();assert.equal(h.context.graphExplorer.state.selected,files[1].id);h.doc.getElementById('xray-breadcrumb').querySelectorAll('button')[0].click();assert.equal(h.context.graphExplorer.state.selected,null);
+});
+test('X-Ray tracing displays actual directed edges and clears without creating evidence',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,ix=h.context.graphExplorer.ix,n=ix.ordered.find(n=>n.type==='function'&&(ix.outgoing.get(n.id)||[]).some(e=>e.type==='CALLS'));x.open(n.id);h.doc.getElementById('xray-trace').click();assert(x.tracing);assert(h.doc.getElementById('xray-evidence').textContent.includes('CALLS'));h.doc.getElementById('xray-direction-out').click();assert.equal(x.direction,'out');h.doc.getElementById('xray-trace').click();assert.equal(x.tracing,false);
+});
+test('X-Ray Python inspector explicitly excludes C risk output',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,n=h.context.graphExplorer.ix.ordered.find(n=>n.type==='function'&&n.metadata.language==='Python');x.open(n.id);assert(h.doc.getElementById('xray-evidence').textContent.includes('Defect-risk prediction is not available for Python functions.'));assert(!h.doc.getElementById('xray-evidence').querySelector('.xray-risk'));
+});
+test('Universe to X-Ray and Locate in Universe retain the exact selected entity',async()=>{
+ const h=await boot('graph'),g=h.context.graphExplorer,n=g.ix.ordered.find(n=>n.type==='function');g.select(n.id);h.doc.getElementById('graph-inspection').querySelectorAll('button').find(b=>b.textContent==='Inspect in X-Ray').click();assert(h.context.RelicXRay.active);assert.equal(g.state.selected,n.id);h.doc.getElementById('xray-universe').click();assert(!h.context.RelicXRay.active);assert.equal(g.state.selected,n.id);assert.equal(h.doc.getElementById('graph-content').hidden,false);
+});
+test('repository replacement invalidates X-Ray history and hides stale evidence',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay,g=h.context.graphExplorer;x.open(g.ix.ordered.find(n=>n.type==='function').id);g.setGraph(fixture.python_analysis.knowledge_graph);assert(!x.active);assert.equal(x.history.ids.length,1);assert.equal(g.state.selected,null);assert.equal(h.doc.getElementById('xray-evidence').textContent,'');assert.equal(h.doc.getElementById('xray-workspace').hidden,true);
+});
+test('X-Ray empty evidence and unknown IDs produce explanatory states',async()=>{
+ const h=await boot('graph'),g=h.context.graphExplorer,x=h.context.RelicXRay;g.setGraph({nodes:[],edges:[]});x.open();assert(h.doc.getElementById('xray-status').textContent.includes('No retained architecture'));x.navigate('stale-id');assert(h.doc.getElementById('xray-status').textContent.includes('not retained'));assert.equal(g.state.selected,null);assert.equal(h.doc.getElementById('xray-universe').disabled,true);
+});
+test('reduced motion keeps X-Ray evidence and controls immediate without animation',async()=>{
+ const h=await boot('graph',{reducedMotion:true}),x=h.context.RelicXRay;x.open();assert(x.active);assert.equal(x.animations.length,0);assert.equal(h.doc.getElementById('xray-back').disabled,true);h.doc.getElementById('xray-exit').click();assert(!x.active);
+});
+test('X-Ray cancels owned transitions before replacement and exit',async()=>{
+ const h=await boot('graph'),x=h.context.RelicXRay;let cancelled=0;x.animations=[{cancel:()=>cancelled++},{cancel:()=>cancelled++}];x.open();assert.equal(cancelled,2);x.animations=[{cancel:()=>cancelled++}];x.exit();assert.equal(cancelled,3);assert.equal(x.animations.length,0);
+});
+test('X-Ray activation invalidates a pending renderer load without a stale canvas',async()=>{
+ const h=await boot('graph'),g=h.context.graphExplorer,x=h.context.RelicXRay;let release;h.context.ArchaeologistThree.load=()=>new Promise(resolve=>release=resolve);g.supports3D=true;const loading=g.switchMode('3d');assert.equal(g.adapter,null);x.open();release();await loading;assert.equal(g.adapter,null);assert(x.active);g.state.mode='2d';x.exit();assert.equal(g.adapter.constructor.name,'SVGGraph');
+});
+test('BFCache restoration leaves a hidden Universe suspended until X-Ray exits',async()=>{
+ const h=await boot('graph'),g=h.context.graphExplorer,x=h.context.RelicXRay;x.open();await h.emit('pagehide');assert.equal(g.adapter,null);await h.emit('pageshow',{persisted:true});assert(x.active);assert.equal(g.adapter,null);x.exit();assert.equal(g.adapter.constructor.name,'SVGGraph');assert.equal(h.doc.getElementById('graph-content').hidden,false);
+});
 for(const page of ['overview','risk','structure','graph','architecture','heatmaps','blast-radius','jordan','time-machine'])test(`${page}: real document initializes one feature against the shared snapshot`,async()=>{
  const h=await boot(page);assert.equal(h.doc.getElementById('workspace-error').hidden,true,h.doc.getElementById('workspace-error').textContent);assert.equal(h.doc.getElementById('workspace-content').hidden,false);assert.equal(h.doc.getElementById('context-repository').textContent,fixture.analysis.repository);assert.equal(h.requests.length,0);assert.equal(h.doc.getElementById('workspace-menu').listeners.get('click').length,1);assert.deepEqual(JSON.parse(JSON.stringify(h.context.activeAnalysis.summary)),fixture.analysis.summary);
  if(page==='graph'){assert(h.context.graphExplorer.adapter);assert.equal(h.context.graphExplorer.state.mode,'2d');assert.equal(h.doc.getElementById('graph-3d').disabled,true);}if(page==='heatmaps')assert.equal(h.context.architectureExplorer.state.view,'heatmap');

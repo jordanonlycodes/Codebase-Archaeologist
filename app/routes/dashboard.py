@@ -32,7 +32,7 @@ ASSETS = {
     'overview': ([], ['product/overview.js']),
     'risk': ([], ['risk.js']),
     'structure': ([], ['structural.js']),
-    'graph': (['graph/explorer.css'], ['graph/data.js','graph/layouts.js','graph/universe.js','graph/svg.js','graph/quality.js','graph/three.js','graph/explorer.js']),
+    'graph': (['graph/explorer.css','graph/xray.css'], ['graph/data.js','graph/layouts.js','graph/universe.js','graph/svg.js','graph/quality.js','graph/three.js','graph/explorer.js','graph/xray.js']),
     'architecture': (['architecture/explorer.css'], ['graph/data.js','graph/layouts.js','architecture/data.js','architecture/scene.js','architecture/explorer.js']),
     'heatmaps': (['architecture/explorer.css'], ['graph/data.js','graph/layouts.js','architecture/data.js','architecture/scene.js','architecture/explorer.js']),
     'blast-radius': (['impact/explorer.css'], ['architecture/scene.js','impact/engine.js','impact/explorer.js']),

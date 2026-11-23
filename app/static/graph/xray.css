@@ -1,0 +1,26 @@
+/* Structural cross-sections. All evidence remains readable without animation. */
+.xray-entry{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);margin-bottom:24px}
+.xray-entry p{margin:6px 0;color:var(--muted)}
+.xray-workspace{scroll-margin-top:24px;background:radial-gradient(ellipse at 8% 0%,#7a1e2b24,transparent 55%),#0b0c0e;border:1px solid #e6ddd127;border-radius:var(--radius-xl);padding:clamp(16px,3vw,36px);position:relative;isolation:isolate}
+.xray-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid #e6ddd123;padding-bottom:24px}
+.xray-heading h2{font-family:var(--serif);font-size:clamp(28px,4vw,52px);font-weight:400;margin:12px 0;letter-spacing:-.04em}.xray-heading em{color:#c8868b;font-weight:400}.xray-heading p:last-child{letter-spacing:.17em;font-size:11px}
+.xray-navigation,.xray-breadcrumb,.xray-trace-controls,.xray-pagination{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:18px 0}.xray-breadcrumb{font-size:12px;gap:4px}.xray-breadcrumb button{max-width:100%;overflow-wrap:anywhere;text-align:left}.xray-navigation button{min-height:44px}
+#xray-status{color:var(--muted);font-size:12px;overflow-wrap:anywhere;min-height:2em}
+.xray-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:24px;align-items:start}
+.xray-plates{display:grid;gap:16px;perspective:1600px;min-width:0;padding:8px 0 22px}
+.xray-plane{position:relative;border:1px solid #e6ddd125;border-radius:var(--radius-lg);background:linear-gradient(120deg,#1b1a1d,#101114);padding:20px;transform:rotateX(2deg) scale(.985);transform-origin:50% 0;transition:transform 260ms var(--motion-ease),border-color 180ms,background 180ms;box-shadow:0 12px 28px #0003;min-width:0}
+.xray-plane::before{content:'';position:absolute;left:20px;top:-1px;height:1px;width:40%;background:linear-gradient(90deg,#e6ddd15a,transparent)}
+.xray-plane.is-active{transform:none;border-color:#c8868b80;background:linear-gradient(120deg,#291b20,#121315)}.xray-plane.is-active::before{background:linear-gradient(90deg,#c8868b,transparent)}
+.xray-plane header>span{font-size:10px;letter-spacing:.18em;color:#c8868b}.xray-plane h3{font-family:var(--serif);font-size:24px;font-weight:400;margin:9px 0 20px}
+.xray-entities{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
+.xray-entity{text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:15px;min-width:0;min-height:100px;position:relative}
+.xray-entity strong,.xray-entity small{overflow-wrap:anywhere;max-width:100%}.xray-entity strong{font-size:14px}.xray-entity small{font-size:11px;color:var(--muted)}.xray-entity .kicker{font-size:9px}
+.xray-entity[aria-pressed=true]{border-color:#c8868b;background:#7a1e2b33}.xray-entity[aria-pressed=true]::after{content:'SELECTED';font-size:9px;letter-spacing:.1em;color:#e6ddd1}
+.xray-empty{font-size:13px;line-height:1.7;color:var(--muted);margin:0;padding:12px 0}
+.xray-measurements{padding:14px 0;margin:14px 0;border-top:1px solid #e6ddd124;border-bottom:1px solid #e6ddd124;font-size:12px}.xray-measurements summary{cursor:pointer;min-height:28px;line-height:1.7}
+.xray-evidence{background:#161519;border:1px solid #e6ddd130;border-radius:var(--radius-lg);padding:22px;min-width:0;overflow-wrap:anywhere;box-shadow:0 12px 40px #0003}
+.xray-evidence h3{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.2}.xray-evidence h4{font-size:11px;letter-spacing:.12em;margin-top:26px}.xray-evidence p{font-size:13px;line-height:1.7}.xray-path{color:#c8868b}.xray-facts{font-size:12px;line-height:1.6}.xray-facts dt{color:var(--muted);margin-top:12px}.xray-facts dd{margin:3px 0;overflow-wrap:anywhere}.xray-facts dd:first-of-type{font-family:monospace;font-size:10px}.xray-risk{font-size:36px;font-family:var(--serif);font-weight:400}
+.xray-trace{padding:14px 0;border-top:1px solid #e6ddd124}.xray-trace button{width:100%;text-align:left;overflow-wrap:anywhere}.xray-trace small{display:block;margin-top:8px;font-size:11px;color:var(--muted);overflow-wrap:anywhere}.xray-trace p{margin:8px 0}.xray-trace-controls button[aria-pressed=true]{border-color:#c8868b}.xray-pagination{font-size:11px}
+@media(max-width:1100px){.xray-grid{grid-template-columns:minmax(0,1fr)}.xray-evidence{box-shadow:none}.xray-heading{align-items:flex-start}}
+@media(max-width:500px){.xray-entry{align-items:flex-start;flex-direction:column}.xray-heading{flex-direction:column}.xray-heading .kicker{line-height:1.8}.xray-plane{padding:14px;transform:none}.xray-workspace{padding:14px}.xray-navigation button{flex:1 1 42%;padding:10px}.xray-entity{min-height:100px}.xray-evidence{padding:16px}}
+@media(prefers-reduced-motion:reduce){.xray-plane{transition:none;transform:none}.xray-workspace *{scroll-behavior:auto}}
