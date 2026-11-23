@@ -1,0 +1,153 @@
+{
+  "browser": "Chrome/157.0.8103.79",
+  "captured_at": "2026-11-23T13:11:37.660Z",
+  "base_url": "http://127.0.0.1:8013",
+  "fixture": "tests/fixtures/university_demo",
+  "source_sha256": {
+    "app/static/product/cinematic.js": "3b2882e5931956b43995a4b46f281e3a04b20e0b3c4a20c665a6a2bd927fe5f2",
+    "app/static/product/cinematic.css": "348f180b3e58bc19fa2b7dc4e77761300a5629647a01821fdd5eb5fbc3510933",
+    "app/static/product/overview.js": "7ab781556caf285e02ac57a830bc37e7e013bf0ce16050156e97efa2f70e3035",
+    "app/static/product/workspace.js": "8b15121525a81086b76b314b7655cb2a56f39e24eeffd1c01ef5501f17d8a5a4",
+    "app/templates/public_base.html": "ec8b43a150ba2f0b8548d89d243f0089c7996ad44e9f6c6151eb27a247fabe55",
+    "app/templates/workspace_base.html": "aa445fa7f5ddb8e08b41ab8f7df668922b5abf42a44816ac59def7e628ad3383",
+    "app/templates/cinematic_assets.html": "1f5ac8f9b282245d96862ddf0940e1dc65c05854a74e79f85e181c3102fed974"
+  },
+  "checks": [
+    {
+      "name": "first session relic phase",
+      "pass": true
+    },
+    {
+      "name": "actual brand/title and accessible skip focus",
+      "pass": true
+    },
+    {
+      "name": "automatic finite completion and timer cleanup",
+      "pass": true
+    },
+    {
+      "name": "same session navigation does not replay",
+      "pass": true
+    },
+    {
+      "name": "reload does not replay",
+      "pass": true
+    },
+    {
+      "name": "pointer replay/skip and trigger focus restoration",
+      "pass": true
+    },
+    {
+      "name": "Escape dismissal",
+      "pass": true
+    },
+    {
+      "name": "Tab dismisses without trapping background focus",
+      "pass": true
+    },
+    {
+      "name": "real ZIP summary and genuine C predictions unchanged",
+      "pass": true,
+      "files": "2",
+      "lines": "24",
+      "summary": {
+        "files": 2,
+        "source_files": 2,
+        "directories": 0,
+        "languages": 2,
+        "bytes": 614,
+        "total_lines": 24,
+        "source_lines": 24,
+        "blank_lines": 4,
+        "known_comment_lines": 0,
+        "comment_counted_files": 1,
+        "comment_uncounted_files": 1,
+        "skipped_files": 0
+      },
+      "predictions": 3
+    },
+    {
+      "name": "analysis completion does not replay intro",
+      "pass": true
+    },
+    {
+      "name": "decimal counter accessible final value and actual intermediate frame",
+      "pass": true,
+      "accessible": "12.75%",
+      "visual": "0.00%"
+    },
+    {
+      "name": "stale decimal animation cancelled and exact percentage final value",
+      "pass": true
+    },
+    {
+      "name": "zero and missing numeric presentation",
+      "pass": true
+    },
+    {
+      "name": "restored snapshot does not count again",
+      "pass": true
+    },
+    {
+      "name": "data remains loaded during replay",
+      "pass": true
+    },
+    {
+      "name": "reduced motion on load and mid-intro displays final content",
+      "pass": true
+    },
+    {
+      "name": "responsive intro and statistics",
+      "pass": true,
+      "width": 1440,
+      "document": 1425,
+      "viewport": 1440,
+      "overlay": 1425,
+      "skip": 87.859375
+    },
+    {
+      "name": "responsive intro and statistics",
+      "pass": true,
+      "width": 1024,
+      "document": 1009,
+      "viewport": 1024,
+      "overlay": 1009,
+      "skip": 87.859375
+    },
+    {
+      "name": "responsive intro and statistics",
+      "pass": true,
+      "width": 768,
+      "document": 753,
+      "viewport": 768,
+      "overlay": 753,
+      "skip": 87.859375
+    },
+    {
+      "name": "responsive intro and statistics",
+      "pass": true,
+      "width": 390,
+      "document": 390,
+      "viewport": 390,
+      "overlay": 390,
+      "skip": 87.859375
+    },
+    {
+      "name": "independent CSS failsafe releases pointer interaction if JS timers stop",
+      "pass": true
+    },
+    {
+      "name": "finite counter completes under4x CPU throttling",
+      "pass": true
+    },
+    {
+      "name": "blocked session storage skips automatic intro and keeps manual replay usable",
+      "pass": true
+    },
+    {
+      "name": "no uncaught JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "scope": "Real sandboxed headless Chromium/CDP; no physical GPU FPS, screen-reader or full WCAG certification."
+}
