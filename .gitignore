@@ -37,3 +37,6 @@ checkpoints/
 *.pt
 *.pth
 *.safetensors
+
+# Explicitly approved immutable production model only (never candidate caches).
+!models/devign-v1/pipeline.joblib

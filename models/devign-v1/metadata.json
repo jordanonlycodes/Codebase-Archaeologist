@@ -1,0 +1,338 @@
+{
+  "dataset": "google/code_x_glue_cc_defect_detection",
+  "dataset_license": "c-uda",
+  "dataset_revision": "69bd48c03223c2104342acd9a807caf61ac3efb8",
+  "environment": {
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.5",
+    "pyarrow": "23.0.1",
+    "python": "3.14.10",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0",
+    "tree-sitter": "0.25.2",
+    "tree-sitter-c": "0.24.2"
+  },
+  "feature_names": [
+    "physical_lines",
+    "nonblank_lines",
+    "function_bytes",
+    "parameter_count",
+    "conditional_count",
+    "loop_count",
+    "return_count",
+    "max_nesting_depth",
+    "decision_complexity",
+    "pointer_syntax_count",
+    "call_count"
+  ],
+  "feature_schema": {
+    "dtype": "float64",
+    "excluded_inputs": [
+      "target",
+      "project",
+      "commit_id",
+      "id"
+    ],
+    "features": [
+      {
+        "description": "Physical lines after universal-newline normalization and outer whitespace trimming.",
+        "name": "physical_lines"
+      },
+      {
+        "description": "Physical lines containing non-whitespace characters.",
+        "name": "nonblank_lines"
+      },
+      {
+        "description": "UTF-8 byte length of the normalized function snippet.",
+        "name": "function_bytes"
+      },
+      {
+        "description": "Declared parameters of the function; void and variadic ellipsis excluded.",
+        "name": "parameter_count"
+      },
+      {
+        "description": "if statements, switch statements and ternary expressions.",
+        "name": "conditional_count"
+      },
+      {
+        "description": "for, while and do statements.",
+        "name": "loop_count"
+      },
+      {
+        "description": "return statements.",
+        "name": "return_count"
+      },
+      {
+        "description": "Maximum nested if/switch/loop/ternary nodes; else-if adds a level.",
+        "name": "max_nesting_depth"
+      },
+      {
+        "description": "1 + if + loops + non-default case labels + ternaries + logical &&/|| operators.",
+        "name": "decision_complexity"
+      },
+      {
+        "description": "Pointer declarators, unary address/dereference expressions, and -> member accesses.",
+        "name": "pointer_syntax_count"
+      },
+      {
+        "description": "Call-expression syntax nodes; macros resembling calls may be included.",
+        "name": "call_count"
+      }
+    ],
+    "missing_values": "NaN; fit median imputation on training rows only, retaining all-empty columns.",
+    "names": [
+      "physical_lines",
+      "nonblank_lines",
+      "function_bytes",
+      "parameter_count",
+      "conditional_count",
+      "loop_count",
+      "return_count",
+      "max_nesting_depth",
+      "decision_complexity",
+      "pointer_syntax_count",
+      "call_count"
+    ],
+    "parser": {
+      "tree-sitter": "0.25.2",
+      "tree-sitter-c": "0.24.2"
+    },
+    "parsing_policy": "Exactly one function definition and no Tree-sitter errors; otherwise structural values are unavailable. Lexical values remain available for nonempty text.",
+    "version": "c-function-v1"
+  },
+  "feature_version": "c-function-v1",
+  "limitations": [
+    "Syntax counts cannot establish exploitability, dataflow or semantic correctness.",
+    "Devign labels are noisy commit-derived research annotations, not vulnerability proofs.",
+    "Official splits contain the same projects; exact-function cleaning does not eliminate near duplicates or shared-commit dependence.",
+    "Test duplicates/conflicts remain in the untouched official holdout and are reported after selection.",
+    "Threshold is fixed at 0.5; probabilities are uncalibrated and not validated on new repositories.",
+    "All test rows are scored with train-fitted imputation; the offline inference adapter abstains on invalid or unparseable source."
+  ],
+  "model": "random_forest",
+  "model_version": "devign-v1-4a23cc304ca8",
+  "pipeline_sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+  "prediction_scope": "C function Devign label-1 probability; uncalibrated; dashboard disabled",
+  "seed": 42,
+  "selection": {
+    "model": "random_forest",
+    "refit_on_validation": false,
+    "rule": "Highest validation F1; exact ties: recall, fewer false positives, smaller absolute train/validation F1 gap, name.",
+    "selected_at": "2026-11-21T17:51:21.751143+00:00",
+    "test_used": false,
+    "threshold": 0.5
+  },
+  "source_manifest_sha256": "65b47e59998e1c1726ada04916f612a92ac21cc72a49fb9ce1b059c2f49b28ab",
+  "test_evaluation": {
+    "completed_at": "2026-11-21T17:51:25.990036+00:00",
+    "evaluations": 1,
+    "integrity": {
+      "test": {
+        "contradictory_groups": 1,
+        "contradictory_hashes": [
+          "0e31795ecf5f676e064887ffa4c048c1c1dd7fd8792f49544b43cd382156aa0e"
+        ],
+        "exact_duplicate_excess_rows": 1,
+        "invalid_labels": 0,
+        "labels": {
+          "0": 1477,
+          "1": 1255
+        },
+        "missing": {
+          "commit_id": 0,
+          "func": 0,
+          "id": 0,
+          "project": 0,
+          "target": 0
+        },
+        "normalized_duplicate_excess_rows": 1,
+        "normalized_duplicate_groups": 1,
+        "projects": {
+          "FFmpeg": 976,
+          "qemu": 1756
+        },
+        "rows": 2732
+      },
+      "test_rows_modified": 0,
+      "test_rows_with_development_label_disagreement": 5,
+      "used_for_model_selection": false
+    },
+    "metrics": {
+      "accuracy": 0.5552708638360175,
+      "class_counts": {
+        "0": 1477,
+        "1": 1255
+      },
+      "confusion_matrix": [
+        [
+          842,
+          635
+        ],
+        [
+          580,
+          675
+        ]
+      ],
+      "confusion_matrix_order": [
+        [
+          "TN",
+          "FP"
+        ],
+        [
+          "FN",
+          "TP"
+        ]
+      ],
+      "f1": 0.5263157894736842,
+      "false_negatives": 580,
+      "false_positive_rate": 0.4299255247122546,
+      "false_positives": 635,
+      "precision": 0.5152671755725191,
+      "recall": 0.5378486055776892,
+      "roc_auc": 0.5873540367979673,
+      "rows": 2732,
+      "threshold": 0.5
+    },
+    "model": "random_forest",
+    "parse_status": {
+      "expected_one_function": 2,
+      "ok": 2237,
+      "parse_error": 493
+    },
+    "selected_before_test": true,
+    "test_rows_modified": 0
+  },
+  "threshold": 0.5,
+  "training": {
+    "class_counts": {
+      "train": {
+        "0": 11786,
+        "1": 9964
+      },
+      "validation": {
+        "0": 1539,
+        "1": 1184
+      }
+    },
+    "dataset_revision": "69bd48c03223c2104342acd9a807caf61ac3efb8",
+    "files": {
+      "cleaning_decisions.json": "f26e951593f0cea843db9679620911730568071160cf3a51325c49926a3f700d",
+      "development.npz": "97eeaaf6fe790cf31349e192b59b9ed70e481b7d88f03d4272f72a824cb206b9",
+      "row_index.json": "ade52212902f70c2aee413432941c8a5133db644875ec5fcc74cbac6e8f0156c"
+    },
+    "identity": {
+      "implementation": {
+        "dataset.py": "64e18baab968852cd7dbc7a3d6ab1308ff5cdd33b1f797565622d2aeccc6c22a",
+        "eda.py": "56597330823616b6f71590bbdbb631086b2758f5409683652b844bdad662ab18",
+        "features.py": "3185f4912b83b25ee3dbb3904ab15c520211712690191124044be23c44902ca8",
+        "prepare.py": "022bb46550eb8d5dbc2cb74f586aba71f424de1558cf079998c698f5604e9435"
+      },
+      "policy_version": "devign-clean-v1",
+      "schema": {
+        "dtype": "float64",
+        "excluded_inputs": [
+          "target",
+          "project",
+          "commit_id",
+          "id"
+        ],
+        "features": [
+          {
+            "description": "Physical lines after universal-newline normalization and outer whitespace trimming.",
+            "name": "physical_lines"
+          },
+          {
+            "description": "Physical lines containing non-whitespace characters.",
+            "name": "nonblank_lines"
+          },
+          {
+            "description": "UTF-8 byte length of the normalized function snippet.",
+            "name": "function_bytes"
+          },
+          {
+            "description": "Declared parameters of the function; void and variadic ellipsis excluded.",
+            "name": "parameter_count"
+          },
+          {
+            "description": "if statements, switch statements and ternary expressions.",
+            "name": "conditional_count"
+          },
+          {
+            "description": "for, while and do statements.",
+            "name": "loop_count"
+          },
+          {
+            "description": "return statements.",
+            "name": "return_count"
+          },
+          {
+            "description": "Maximum nested if/switch/loop/ternary nodes; else-if adds a level.",
+            "name": "max_nesting_depth"
+          },
+          {
+            "description": "1 + if + loops + non-default case labels + ternaries + logical &&/|| operators.",
+            "name": "decision_complexity"
+          },
+          {
+            "description": "Pointer declarators, unary address/dereference expressions, and -> member accesses.",
+            "name": "pointer_syntax_count"
+          },
+          {
+            "description": "Call-expression syntax nodes; macros resembling calls may be included.",
+            "name": "call_count"
+          }
+        ],
+        "missing_values": "NaN; fit median imputation on training rows only, retaining all-empty columns.",
+        "names": [
+          "physical_lines",
+          "nonblank_lines",
+          "function_bytes",
+          "parameter_count",
+          "conditional_count",
+          "loop_count",
+          "return_count",
+          "max_nesting_depth",
+          "decision_complexity",
+          "pointer_syntax_count",
+          "call_count"
+        ],
+        "parser": {
+          "tree-sitter": "0.25.2",
+          "tree-sitter-c": "0.24.2"
+        },
+        "parsing_policy": "Exactly one function definition and no Tree-sitter errors; otherwise structural values are unavailable. Lexical values remain available for nonempty text.",
+        "version": "c-function-v1"
+      },
+      "source_manifest_sha256": "65b47e59998e1c1726ada04916f612a92ac21cc72a49fb9ce1b059c2f49b28ab"
+    },
+    "parse_status": {
+      "train": {
+        "expected_one_function": 28,
+        "ok": 17721,
+        "parse_error": 4001
+      },
+      "validation": {
+        "expected_one_function": 3,
+        "ok": 2260,
+        "parse_error": 460
+      }
+    },
+    "reports": {
+      "cleaning_audit.json": "e03d3d330f2487fbd38a714b3729c2846ebe81fe33df78c364afcec4d179bb03",
+      "eda_summary.json": "f71b6a07406502581b8d41adf2412ba40ee2e09c7006b27b1829093efde457ff",
+      "feature_correlations.png": "b598c95cde15781ff20257e58ab0628ba31e3664cbb759854dfdd4bb799f40d9",
+      "feature_distributions.png": "1e97c6f225a7f47e5cf34eec8d3e60d68629f656ceeb34c3a44bf61652bbd3f8",
+      "feature_schema.json": "1840b1d0e9a3a3c568091294c42882a44e83d237dde2e52ba4ed4efbc5a918e7",
+      "features_by_class.png": "455f5ca796c14d47151e74043ff2ee951ec4f9e429e604ae3013cd1d60085f4e",
+      "missing_and_duplicates.png": "525ecf41ccd2c42cd0fc1224c2ab0d66f892c00ef7c6986dcb7b54392351e58f",
+      "observations.txt": "3c1c42b07953a0a77d485780407565272caeeaa3ff33912f943ded29f8699eb4",
+      "split_and_label_counts.png": "c5ef939ef53c725905a6ca02ff677c030a7e09f368685e8c1e422277ada1932e"
+    },
+    "sizes": {
+      "train": 21750,
+      "validation": 2723
+    }
+  }
+}

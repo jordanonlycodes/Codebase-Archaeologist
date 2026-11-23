@@ -1,0 +1,21 @@
+{
+  "model_version": "devign-v1-4a23cc304ca8",
+  "feature_version": "c-function-v1",
+  "threshold": 0.5,
+  "language": "C",
+  "trust": "Executable joblib; only the reviewed project artifact, never an uploaded model.",
+  "files": {
+    "pipeline.joblib": {
+      "sha256": "9988945c6c851e885f3942a406a4d6c7d704547797e266d6d0aed95520db74e6",
+      "bytes": 4490519
+    },
+    "metadata.json": {
+      "sha256": "2ac89d357a51bff631c302d5f9938fb79b56544df72d5855bf80d1c3c90cad1f",
+      "bytes": 11387
+    },
+    "feature_schema.json": {
+      "sha256": "1840b1d0e9a3a3c568091294c42882a44e83d237dde2e52ba4ed4efbc5a918e7",
+      "bytes": 2213
+    }
+  }
+}
